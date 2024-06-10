@@ -1,8 +1,9 @@
 import './App.css';
+import {ResourceList} from "./components/ResourceList";
 
 function App() {
   return (
-      <div>Hello world</div>
+      <ResourceList></ResourceList>
   );
 }
 

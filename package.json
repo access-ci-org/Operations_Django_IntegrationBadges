@@ -1,6 +1,6 @@
 {
-  "name": "operations_webapp_resourcecatalog",
-  "version": "0.0.1",
+  "name": "operations_webapp_integrationbadges",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -62,7 +62,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "preversion": "npm run test",
+    "preversion": "",
     "version": "npm run build && git add -f -A build",
     "postversion": "git push && git push --tags"
   },

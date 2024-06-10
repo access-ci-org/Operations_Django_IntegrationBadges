@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('Operations_WebApp_ResourceCatalog'));
+const root = ReactDOM.createRoot(document.getElementById('Operations_WebApp_IntegrationBadges'));
 root.render(
   <React.StrictMode>
     <App />
