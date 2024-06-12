@@ -1,10 +1,13 @@
 import './App.css';
-import {ResourceList} from "./components/ResourceList";
+import './styles/style.scss';
+import ResearcherView from "./components/ResearcherView/ResearcherView";
 
 function App() {
-  return (
-      <ResourceList></ResourceList>
-  );
+    return (
+        <div className={"main"}>
+            <ResearcherView />
+        </div>
+    );
 }
 
 export default App;

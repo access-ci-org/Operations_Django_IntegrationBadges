@@ -46,6 +46,7 @@
     "react-refresh": "^0.11.0",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
+    "sass": "^1.77.5",
     "sass-loader": "^12.3.0",
     "semver": "^7.3.5",
     "source-map-loader": "^3.0.0",
@@ -70,7 +71,18 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "parserOptions": {
+      "babelOptions": {
+        "presets": [
+          [
+            "babel-preset-react-app",
+            false
+          ],
+          "babel-preset-react-app/prod"
+        ]
+      }
+    }
   },
   "browserslist": {
     "production": [
