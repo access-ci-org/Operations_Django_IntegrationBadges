@@ -8,17 +8,17 @@
     min-width: 380px;
     max-width: 380px;
     margin-top: 20px;
-    border: 1px solid var(--ui-surface-tertiary, #F2F2F2);
+    border: 1px solid $access-grey-light;
 
 
     p {
-        color: var(--grey-600, #707070);
+        color: $access-text-light;
         margin-bottom: 0;
         font-size: 14px;
     }
 
     .card-header {
-        background: #f2f2f2;
+        background: $access-grey-light;
         padding: 16px;
         display: flex;
         flex-direction: column;
@@ -32,7 +32,7 @@
             -webkit-line-clamp: 2;
             align-self: stretch;
             overflow: hidden;
-            color: var(--grey-900, #232323);
+            color: $access-text-dark;
             text-overflow: ellipsis;
             font-weight: 600;
             font-size: 16px;
@@ -44,7 +44,7 @@
             -webkit-line-clamp: 2;
             align-self: stretch;
             overflow: hidden;
-            color: var(--primary-600, #107180);
+            color: $access-text-medium;
             text-overflow: ellipsis;
             font-weight: 500;
             font-size: 14px;
@@ -71,17 +71,62 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+
+            .feature-badge {
+                display: flex;
+                padding: 4px 8px;
+                align-items: center;
+                gap: 4px;
+                border-radius: 4px;
+                background: $access-grey-light;
+                color: $access-text-medium-dark;
+                font-weight: normal;
+            }
+
+            .badge-modal-body {
+                display: flex;
+                flex-direction: row;
+                padding: 24px;
+                gap: 24px;
+                align-items: center;
+
+                .badge-modal-status {
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+
+                .badge-modal-name {
+                    color: $access-text-dark;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 24px;
+                }
+            }
+        }
+
+        .resource-type-container {
+            padding-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: center;
         }
     }
 
-    .badge-minimized {
+    .resource-badge {
         border-radius: 4px;
-        border: 1px solid var(--grey-400, #D2D2D2);
-        background: var(--ui-surface-primary, #FFF);
+        border: 1px solid $access-grey-medium;
+        background: white;
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 4px 8px;
+        color: $access-text-dark;
+
+        :focus-visible, :focus {
+            color: $access-text-dark !important;
+        }
     }
 }
 
@@ -91,17 +136,18 @@
     gap: 4px;
     margin-top: 4px;
 
-    a {
-        color: var(--primary-600, #107180);
+    p, a {
+        color: $access-text-medium;
         font-weight: 500;
         font-size: 16px;
+        text-decoration: underline;
     }
 }
 
 .link-panel {
     padding: 36px 16px;
     border-radius: 8px;
-    background: var(--ui-surface-tertiary, #F2F2F2);
+    background: $access-grey-light;
     min-height: 200px;
 
     .link-section {
@@ -109,11 +155,11 @@
         flex-direction: column;
         justify-content: space-between;
         align-self: stretch;
-        border-right: 1px solid var(--grey-400, #D2D2D2);
+        border-right: 1px solid $access-grey-medium;
         padding-left: 24px;
 
         .link-text {
-            color: var(--grey-700, #3F3F3F);
+            color: $access-text-medium-dark;
             font-size: 18px;
             line-height: 30px;
             align-self: stretch;
