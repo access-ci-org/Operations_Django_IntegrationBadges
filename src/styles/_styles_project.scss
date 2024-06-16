@@ -4,73 +4,121 @@
     flex-direction: column;
 }
 
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
+    font-stretch: normal;
+    color: $access-text-dark;
+}
+
+.resource-list {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 30px;
+    margin-bottom: 48px;
+
+    .resource-inst-section {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .resource-inst-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .resource-inst-name {
+                font-weight: 800;
+                margin-bottom: 0;
+                line-height: 28px;
+            }
+
+            .resource-inst-resource-count {
+                color: $access-text-light;
+                font-size: 16px;
+                font-weight: 500;
+                margin-bottom: 0;
+                line-height: 24px;
+            }
+
+            .resource-inst-view-all {
+                color: $access-text-medium;
+            }
+        }
+
+
+    }
+}
+
 .resource-card {
-    min-width: 380px;
-    max-width: 380px;
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 330px;
+    max-height: 330px;
     margin-top: 20px;
     border: 1px solid $access-grey-light;
-
+    border-radius: 16px;
 
     p {
-        color: $access-text-light;
         margin-bottom: 0;
         font-size: 14px;
     }
 
     .card-header {
+        max-height: 130px;
         background: $access-grey-light;
         padding: 16px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        min-height: 130px;
+        align-items: center;
+        justify-content: center;
         border: none;
 
-        .resource-title {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            align-self: stretch;
-            overflow: hidden;
-            color: $access-text-dark;
-            text-overflow: ellipsis;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .resource-inst {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            align-self: stretch;
-            overflow: hidden;
-            color: $access-text-medium;
-            text-overflow: ellipsis;
-            font-weight: 500;
-            font-size: 14px;
-            text-decoration: none;
+        img {
+            max-height: 100%;
+            max-width: 100%;
+            padding: 16px;
         }
     }
 
     .card-body {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         gap: 16px;
+        padding-top: 8px;
 
-        .card-text {
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .resource-title {
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 5;
+            -webkit-line-clamp: 1;
             align-self: stretch;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .resource-type {
+            font-size: 12px;
+            color: $access-text-light;
+        }
+
+        .card-text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            align-self: stretch;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .badge-container {
             display: flex;
             gap: 8px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            align-items: center;
 
             .feature-badge {
                 display: flex;
@@ -102,6 +150,27 @@
                     line-height: 24px;
                 }
             }
+
+            .resource-badge {
+                width: 40px;
+                height: 40px;
+                border: none;
+                border-radius: 4px;
+                background: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0;
+                padding: 0;
+
+                :focus-visible, :focus {
+                    color: $access-text-dark !important;
+                }
+            }
+
+            .badge-more p {
+                color: $access-text-light;
+            }
         }
 
         .resource-type-container {
@@ -111,21 +180,6 @@
             flex-wrap: nowrap;
             justify-content: space-between;
             align-items: center;
-        }
-    }
-
-    .resource-badge {
-        border-radius: 4px;
-        border: 1px solid $access-grey-medium;
-        background: white;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 4px 8px;
-        color: $access-text-dark;
-
-        :focus-visible, :focus {
-            color: $access-text-dark !important;
         }
     }
 }

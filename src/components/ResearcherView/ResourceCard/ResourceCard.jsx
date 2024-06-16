@@ -43,41 +43,30 @@ function BadgeContainerTitle({badgeDisplay, toggleBadgeDisplay}) {
 }
 
 export default function ResourceCard({data}) {
-    const [isExpanded, setIsExpanded] = useState(false);
     const [badgeDisplay, setBadgeDisplay] = useState(true);
-    const toggleExpansion = () => setIsExpanded(!isExpanded);
-    const toggleBadgeDisplay = () => setBadgeDisplay(!badgeDisplay);
-    const expandCardStyle = isExpanded ? {maxWidth: '100%'} : {maxWidth: '380px'};
+    const count = data.badges.length;
+
 
     return (
-        <div className="card resource-card" style={expandCardStyle}>
+        <div className="card resource-card">
             <ResourceCardHeader data={data}/>
             <div className="card-body">
+                <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <p className="resource-title">{data.name}</p>
+                    <p className="resource-type">{data.type} Resource</p>
+                </div>
                 <p className="card-text">
                     {data.description}
                 </p>
-                {isExpanded && (
-                    <ResourceCardFeatures data={data}/>
-                )}
-                <div>
-                    {isExpanded && (
-                        <BadgeContainerTitle badgeDisplay={badgeDisplay} toggleBadgeDisplay={toggleBadgeDisplay}/>
+                <div className="badge-container">
+                    {data.badges.slice(0, count > 4 ? 4 : count).map((badge, index) => (
+                        <ResourceCardBadge key={index} data={badge} index={index}/>
+                    ))}
+                    {count > 4 && (
+                        <div className="badge-more">
+                            <p>+{count - 4} more</p>
+                        </div>
                     )}
-                    <div className="badge-container">
-                        {data.badges.map((badge, index) => (
-                            <ResourceCardBadge key={index} data={badge} index={index}/>
-                        ))}
-                    </div>
-                </div>
-                <div className="expand-button">
-                    <p role="button" onClick={toggleExpansion}>
-                        {isExpanded ? "Hide Details" : "Show Resource Details"}
-                    </p>
-                    <img src={arrow} alt="Expand"
-                         style={{
-                             maxHeight: '20px', maxWidth: '20px',
-                             transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
-                         }}/>
                 </div>
             </div>
         </div>

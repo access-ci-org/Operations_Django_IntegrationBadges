@@ -49,11 +49,10 @@ export default function ResourceCardBadge({data, index}) {
     return (
         <div>
             <button type="button" className="btn btn-outline-secondary resource-badge"
-                    data-bs-toggle="modal" data-bs-target={`#badgeModal${index}`}
-                    style={{marginRight: '4px'}}>
+                    data-bs-toggle="modal" data-bs-target={`#badgeModal${index}`}>
                 <img src={placeholderBadge} alt="badge" className="badge-icon"
                      style={{width: '32px', height: '32px'}}/>
-                {data.name}
+                {/*{data.name}*/}
             </button>
             <BadgeModal data={data} index={index}/>
         </div>
