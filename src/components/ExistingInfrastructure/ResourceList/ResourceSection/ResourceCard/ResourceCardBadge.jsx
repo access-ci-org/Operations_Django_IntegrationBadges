@@ -3,9 +3,14 @@ import placeholderBadge from "../../../../../assets/img/placeholder_badge.png";
 function BadgeModal({data, index}) {
     const badgeStatusStyle = data.status === "Verified" ?
         {color: '#107180'} : {color: '#F07537'};
+
+    const handleCloseClick = (event) => {
+        event.stopPropagation();
+    };
+
     return (
         <div className="modal fade" id={`badgeModal${index}`} tabIndex="-1"
-             aria-labelledby="badgeModal" aria-hidden="true">
+             aria-labelledby="badgeModal" aria-hidden="true" onClick={handleCloseClick}>
             <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content">
                     <div className="modal-body badge-modal-body">
@@ -26,7 +31,7 @@ function BadgeModal({data, index}) {
                                     </p>
                                 </div>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"/>
+                                        aria-label="Close" onClick={handleCloseClick}/>
                             </div>
                             <p>{data.description}</p>
                             <a href={data.actionUrl} type={"button"} className={"btn btn-dark"}
@@ -46,13 +51,16 @@ function BadgeModal({data, index}) {
 
 
 export default function ResourceCardBadge({data, index}) {
+    const handleBadgeClick = (event) => {
+        event.stopPropagation();
+    };
+
     return (
         <div>
             <button type="button" className="btn btn-outline-secondary resource-badge"
-                    data-bs-toggle="modal" data-bs-target={`#badgeModal${index}`}>
+                    data-bs-toggle="modal" data-bs-target={`#badgeModal${index}`} onClick={handleBadgeClick}>
                 <img src={placeholderBadge} alt="badge" className="badge-icon"
                      style={{width: '32px', height: '32px'}}/>
-                {/*{data.name}*/}
             </button>
             <BadgeModal data={data} index={index}/>
         </div>
