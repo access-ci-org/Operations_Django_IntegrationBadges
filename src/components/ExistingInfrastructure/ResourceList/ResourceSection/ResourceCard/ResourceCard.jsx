@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import ResourceCardHeader from "./ResourceCardHeader";
 import ResourceCardBadge from "./ResourceCardBadge";
-import arrow from '../../../assets/img/arrow-forward.svg';
+import arrow from '../../../../../assets/img/arrow-forward.svg';
 import ResourceCardFeatures from "./ResourceCardFeatures";
-import { ReactComponent as ListIcon } from '../../../assets/img/icons/list.svg';
-import { ReactComponent as DashboardIcon } from '../../../assets/img/icons/dashboard.svg';
+import { ReactComponent as ListIcon } from '../../../../../assets/img/icons/list.svg';
+import { ReactComponent as DashboardIcon } from '../../../../../assets/img/icons/dashboard.svg';
+import {useNavigate} from "react-router-dom";
 
 function BadgeContainerTitleButton({children, onClick, isActive}) {
     return (
@@ -45,28 +46,34 @@ function BadgeContainerTitle({badgeDisplay, toggleBadgeDisplay}) {
 export default function ResourceCard({data}) {
     const [badgeDisplay, setBadgeDisplay] = useState(true);
     const count = data.badges.length;
+    const navigate = useNavigate();
 
+    const handleCardClick = () => {
+        navigate(`/resourceDetail/${data.id}`);
+    };
 
     return (
-        <div className="card resource-card">
+        <div className="card resource-card" onClick={handleCardClick}>
             <ResourceCardHeader data={data}/>
-            <div className="card-body">
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <p className="resource-title">{data.name}</p>
-                    <p className="resource-type">{data.type} Resource</p>
-                </div>
-                <p className="card-text">
-                    {data.description}
-                </p>
-                <div className="badge-container">
-                    {data.badges.slice(0, count > 4 ? 4 : count).map((badge, index) => (
-                        <ResourceCardBadge key={index} data={badge} index={index}/>
-                    ))}
-                    {count > 4 && (
-                        <div className="badge-more">
-                            <p>+{count - 4} more</p>
-                        </div>
-                    )}
+            <div className="card-body-wrapper">
+                <div className="card-body">
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <p className="resource-title">{data.name}</p>
+                        <p className="resource-type">{data.type} Resource</p>
+                    </div>
+                    <p className="card-text">
+                        {data.description}
+                    </p>
+                    <div className="badge-container">
+                        {data.badges.slice(0, count > 4 ? 4 : count).map((badge, index) => (
+                            <ResourceCardBadge key={index} data={badge} index={index}/>
+                        ))}
+                        {count > 4 && (
+                            <div className="badge-more">
+                                <p>+{count - 4} more</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

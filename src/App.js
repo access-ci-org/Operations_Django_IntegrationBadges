@@ -1,13 +1,18 @@
 import './App.css';
 import './styles/style.scss';
-import ResearcherView from "./components/ResearcherView/ResearcherView";
-import RPView from "./components/RPView/RPView";
+import ResourceView from "./components/ExistingInfrastructure/ResourceView";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ResourceDetail from "./components/ExistingInfrastructure/ResourceDetail/ResourceDetail";
 
 function App() {
     return (
         <div className={"main"}>
-            <ResearcherView />
-            {/*<RPView />*/}
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<ResourceView />} />
+                    <Route path="/resourceDetail/:resourceId" element={<ResourceDetail />} />
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }

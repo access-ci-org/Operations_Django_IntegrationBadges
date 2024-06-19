@@ -12,7 +12,7 @@ function TitleSection({data}) {
     );
 }
 
-export default function ResourceInstitutionSection({data}) {
+export default function ResourceSection({data}) {
     return (
         <div className="resource-inst-section">
             <TitleSection data={data}/>

@@ -1,4 +1,4 @@
-import placeholderBadge from "../../../assets/img/placeholder_badge.png";
+import placeholderBadge from "../../../../../assets/img/placeholder_badge.png";
 
 function BadgeModal({data, index}) {
     const badgeStatusStyle = data.status === "Verified" ?
