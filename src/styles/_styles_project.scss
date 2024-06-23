@@ -1,6 +1,6 @@
 .main {
     display: flex;
-    padding: 0 50px 36px 50px;
+    padding: 52px 50px 36px 50px;
     flex-direction: column;
 }
 
@@ -264,7 +264,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     }
 }
 
-.resource-detail-rp-view {
+.resource-detail {
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -339,7 +339,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
         }
     }
 
-    .resource-detail-rp-view-btn {
+    .resource-detail-btn {
         max-width: fit-content;
         font-size: 14px;
         margin: 0;
@@ -404,6 +404,38 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
         margin-top: 16px;
         gap: 20px;
 
+        .resource-badge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            > div:first-of-type {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .resource-badge-header-filter {
+                .btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    border-radius: 8px;
+                    border: 1px solid $access-grey-medium;
+                }
+
+                p {
+                    cursor: pointer;
+                    margin-bottom: 0;
+                }
+            }
+
+            .resource-badge-change-view {
+                color: $access-text-medium;
+                text-decoration: underline;
+            }
+        }
+
         .switch-btn {
             display: flex;
             align-items: center;
@@ -415,79 +447,173 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
             height: 40px;
         }
 
-        .resource-badge-container {
+        .resource-badge-container-container {
+            > div:first-of-type {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
 
-            .resource-badge {
-                position: relative;
-                width: 280px;
+            .resource-badge-container-options {
+                gap: 16px;
+                margin-bottom: 20px;
 
-                .resource-badge-required-tag {
-                    position: absolute;
-                    display: flex;
-                    padding: 2px 8px;
-                    margin: 8px;
-                    align-items: center;
-                    border-radius: 8px;
-                    background: $access-grey-light;
-                    font-size: 12px;
-                    line-height: 20px;
-                    color: $access-text-medium;
-                }
+                .nav-link {
+                    padding: 4px 4px 8px;
+                    color: $access-text-light;
+                    font-size: 16px;
+                    line-height: 24px;
 
-                .card-img-top {
-                    max-height: 120px;
-                    padding: 8px;
-                    object-fit: contain;
-                }
-
-                .card-body {
-                    padding-top: 8px;
-                    padding-bottom: 8px;
-
-                    h5 {
-                        display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 1;
-                        align-self: stretch;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-
-                        font-size: 16px;
-                        font-weight: 600;
-                        line-height: 24px;
-                        margin-bottom: 4px;
-                    }
-
-                    p {
-                        display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 3;
-                        align-self: stretch;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-
-                        font-size: 14px;
-                        font-weight: 400;
-                        line-height: 20px;
-                        color: $access-text-light;
-                        margin-bottom: 8px;
-                    }
-
-                    a {
-                        margin-left: 0;
-                        margin-top: 8px;
-                        margin-bottom: 8px;
-                        width: 100%;
-                        border-radius: 4px;
-
-                        font-size: 14px;
+                    &.active {
+                        color: $access-text-medium;
                         font-weight: 500;
+                        border-bottom: 2px solid $access-text-medium;
+                    }
+                }
+            }
+
+            .resource-badge-container {
+
+                .resource-badge {
+                    position: relative;
+                    width: 280px;
+
+                    .resource-badge-required-tag {
+                        position: absolute;
+                        display: flex;
+                        padding: 2px 8px;
+                        margin: 8px;
+                        align-items: center;
+                        border-radius: 8px;
+                        background: $access-grey-light;
+                        font-size: 12px;
                         line-height: 20px;
-                        text-transform: uppercase;
+                        color: $access-text-medium;
+                    }
+
+                    .card-img-top {
+                        max-height: 120px;
+                        padding: 8px;
+                        object-fit: contain;
+                    }
+
+                    .card-body {
+                        padding-top: 8px;
+                        padding-bottom: 8px;
+
+                        h5 {
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 1;
+                            align-self: stretch;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+
+                            font-size: 16px;
+                            font-weight: 600;
+                            line-height: 24px;
+                            margin-bottom: 4px;
+                        }
+
+                        p {
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 3;
+                            align-self: stretch;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+
+                            font-size: 14px;
+                            font-weight: 400;
+                            line-height: 20px;
+                            color: $access-text-light;
+                            margin-bottom: 8px;
+                        }
+
+                        a {
+                            margin-left: 0;
+                            margin-top: 8px;
+                            margin-bottom: 8px;
+                            width: 100%;
+                            border-radius: 4px;
+
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 20px;
+                            text-transform: uppercase;
+                        }
+
+                        .resource-badge-tag-section {
+                            min-height: 24px;
+                            margin-top: 12px;
+                            margin-bottom: 8px;
+
+                            .resource-badge-tag {
+                                display: flex;
+                                align-items: center;
+                                align-self: stretch;
+                                border-radius: 4px;
+
+                                color: #3F3F3F;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 20px;
+
+                                position: relative;
+                                padding: 2px 8px 2px 20px;
+                                width: fit-content;
+
+                                &::before {
+                                    content: '•';
+                                    position: absolute;
+                                    color: black;
+                                    font-size: 20px;
+                                    left: 0;
+                                    margin-left: 8px;
+                                }
+
+                                &.deprecated-style {
+                                    border: 1px dashed #8C8C8C;
+                                    color: #8C8C8C;
+
+                                    &::before {
+                                        color: #8C8C8C;
+                                    }
+                                }
+
+                                &.not-started-style {
+                                    background: #F2F2F2;
+
+                                    &::before {
+                                        color: #B0B0B0;
+                                    }
+                                }
+
+                                &.planned-style {
+                                    background: #E8F3FF;
+
+                                    &::before {
+                                        color: #3596FF;
+                                    }
+                                }
+
+                                &.verified-style {
+                                    background: #E3FCE9;
+
+                                    &::before {
+                                        color: #59D376;
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
             }
         }
+
+
     }
 }
 

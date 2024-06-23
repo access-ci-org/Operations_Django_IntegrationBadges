@@ -1,7 +1,7 @@
-import PageTitle from "./PageTitle";
+import PageTitle from "./ResourceList/PageTitle";
 import {ResourceList} from "./ResourceList/ResourceList";
-import LinkPanel from "./LinkPanel";
-import SearchSection from "./SearchSection";
+import LinkPanel from "./ResourceList/LinkPanel";
+import SearchSection from "./ResourceList/SearchSection";
 
 export default function ResourceView() {
     return (

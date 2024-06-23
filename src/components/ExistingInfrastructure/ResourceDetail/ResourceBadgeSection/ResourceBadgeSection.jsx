@@ -1,52 +1,59 @@
-import React from "react";
-import { ReactComponent as ListIcon } from '../../../../assets/img/icons/list.svg';
-import { ReactComponent as DashboardIcon } from '../../../../assets/img/icons/dashboard.svg';
-import ResourceBadge from "./ResourceBadge/ResourceBadge";
+import React, {useCallback, useState} from "react";
+import ResourceBadgeContainer from "./ResourceBadgeContainer";
 
-function BadgeContainerTitleButton({children, onClick, isActive}) {
+function ResourceBadgeHeader({data,
+                                  selectedRoadmap,
+                                  setSelectedRoadmap,
+                                  selectedView,
+                                  setSelectedView,
+                                  selectRoadmapOption}) {
     return (
-        <button type="button" className="btn btn-dark switch-btn" onClick={onClick}
-                style={{
-                    backgroundColor: isActive ? '#107180' : 'white',
-                    border: isActive ? '1px solid #107180' : 'none'
-                }}>
-            {children}
-        </button>
-    );
-}
-
-function BadgeContainerTitle({badgeDisplay, toggleBadgeDisplay}) {
-    return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-            <h2>Resource Badges</h2>
-            <div style={{display: 'flex', gap: '12px'}}>
-                <BadgeContainerTitleButton isActive={badgeDisplay} onClick={toggleBadgeDisplay}>
-                    <ListIcon style={{fill: badgeDisplay ? 'white' : '#107180'}}/>
-                </BadgeContainerTitleButton>
-                <BadgeContainerTitleButton isActive={!badgeDisplay} onClick={toggleBadgeDisplay}>
-                    <DashboardIcon style={{fill: !badgeDisplay ? 'white' : '#107180'}}/>
-                </BadgeContainerTitleButton>
+        <div className="resource-badge-header">
+            <div>
+                <h2>Roadmaps ({data.roadmaps.length})</h2>
+                <div className="resource-badge-header-filter">
+                    <button className="btn btn-sm dropdown-toggle"
+                            type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        {selectedRoadmap}
+                    </button>
+                    <ul className="dropdown-menu">
+                        {data.roadmaps.map((item, index) => (
+                            <li key={index} onClick={() => selectRoadmapOption(item)}>
+                                <p className="dropdown-item">{item.name}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
+            <button className="btn resource-badge-change-view"
+                    onClick={() => setSelectedView(!selectedView)}>
+                {selectedView ? 'Go to Researcher View' : 'Go to Resource Provider View'}
+            </button>
         </div>
     );
 }
 
 export default function ResourceBadgeSection({data}) {
-    const [badgeDisplay, setBadgeDisplay] = React.useState(true);
-    const toggleBadgeDisplay = () => {
-        setBadgeDisplay(current => !current); // Toggle the state
-    };
+    const [selectedRoadmap, setSelectedRoadmap] =
+        useState(data.roadmaps[0].name);
+    const [selectedBadges, setSelectedBadges] = useState(data.roadmaps[0].badges);
+    const [selectedView, setSelectedView] = useState(true);
+
+    const selectRoadmapOption = useCallback((item) => {
+        setSelectedRoadmap(item.name);
+        setSelectedBadges(item.badges);
+    }, [setSelectedRoadmap, setSelectedBadges]);
 
     return (
         <div className="resource-badge-section">
-            <BadgeContainerTitle badgeDisplay={badgeDisplay} toggleBadgeDisplay={toggleBadgeDisplay}/>
-            <div className="row row-cols-auto resource-badge-container">
-                {data.badges.map((badge, index) => (
-                    <div key={index} className="col">
-                        <ResourceBadge data={badge}/>
-                    </div>
-                ))}
-            </div>
+            <ResourceBadgeHeader data={data}
+                                 selectedRoadmap={selectedRoadmap}
+                                 setSelectedRoadmap={setSelectedRoadmap}
+                                 selectedView={selectedView}
+                                 setSelectedView={setSelectedView}
+                                 selectRoadmapOption={selectRoadmapOption}/>
+            <ResourceBadgeContainer badges={selectedBadges} selectedView={selectedView}/>
         </div>
     );
 }

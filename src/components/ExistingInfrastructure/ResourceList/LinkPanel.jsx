@@ -1,4 +1,4 @@
-import arrow from '../../assets/img/arrow-forward.svg';
+import arrow from '../../../assets/img/arrow-forward.svg';
 
 const firstLink = {
     text: "Need access to computing, data analysis, or storage resources?",
