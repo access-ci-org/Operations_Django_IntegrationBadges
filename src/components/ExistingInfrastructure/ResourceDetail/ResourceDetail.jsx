@@ -78,6 +78,24 @@ const jetStream4 = {
                     source: "Indiana Jetstream2 CPU",
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "TaskCompleted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "VerificationFailed",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
                 }
             ]
         },

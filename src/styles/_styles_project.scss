@@ -6,7 +6,7 @@
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     font-stretch: normal;
-    color: $access-text-dark;
+    color: $access-black;
 }
 
 .search-section-wrapper {
@@ -30,7 +30,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
         align-items: center;
 
         p {
-            color: $access-text-light;
+            color: $access-grey;
             font-size: 16px;
             font-weight: 500;
             margin-bottom: 0;
@@ -78,7 +78,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
             }
 
             .resource-inst-resource-count {
-                color: $access-text-light;
+                color: $access-grey;
                 font-size: 16px;
                 font-weight: 500;
                 margin-bottom: 0;
@@ -86,7 +86,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
             }
 
             .resource-inst-view-all {
-                color: $access-text-medium;
+                color: $access-medium;
             }
         }
     }
@@ -159,7 +159,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
 
         .resource-type {
             font-size: 12px;
-            color: $access-text-light;
+            color: $access-grey;
         }
 
         .card-text {
@@ -190,7 +190,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                 padding: 0;
 
                 &:focus-visible, :focus {
-                    color: $access-text-dark !important;
+                    color: $access-black !important;
                 }
 
                 &:hover {
@@ -199,7 +199,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
             }
 
             .badge-more p {
-                color: $access-text-light;
+                color: $access-grey;
             }
         }
 
@@ -227,7 +227,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     }
 
     .badge-modal-name {
-        color: $access-text-dark;
+        color: $access-black;
         font-size: 20px;
         font-weight: 600;
         line-height: 24px;
@@ -241,14 +241,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     margin: 8px 0;
 
     .nav-link {
-        color: $access-text-medium;
+        color: $access-medium;
         background: white;
         border: 1px solid $access-grey-light;
         width: 220px;
 
         &.active {
             color: white;
-            background: $access-text-medium;
+            background: $access-medium;
         }
     }
 
@@ -297,7 +297,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                     font-weight: 500;
 
                     a {
-                        color: $access-text-medium;
+                        color: $access-medium;
                         text-decoration: none;
                     }
                 }
@@ -316,7 +316,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
 
                 .resource-detail-header-subtitle-item {
                     p:first-of-type {
-                        color: $access-text-light;
+                        color: $access-grey;
                         font-size: 14px;
                         font-weight: 400;
                     }
@@ -363,7 +363,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
         margin-top: 16px;
 
         p {
-            color: $access-text-light;
+            color: $access-grey;
             max-width: 80%;
             margin-bottom: 0;
         }
@@ -389,7 +389,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                 gap: 4px;
                 border-radius: 4px;
                 background: $access-grey-light;
-                color: $access-text-medium-dark;
+                color: $access-black-medium;
                 line-height: 20px;
                 font-weight: normal;
                 font-size: 14px;
@@ -431,7 +431,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
             }
 
             .resource-badge-change-view {
-                color: $access-text-medium;
+                color: $access-medium;
                 text-decoration: underline;
             }
         }
@@ -460,14 +460,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
 
                 .nav-link {
                     padding: 4px 4px 8px;
-                    color: $access-text-light;
+                    color: $access-grey;
                     font-size: 16px;
                     line-height: 24px;
 
                     &.active {
-                        color: $access-text-medium;
+                        color: $access-medium;
                         font-weight: 500;
-                        border-bottom: 2px solid $access-text-medium;
+                        border-bottom: 2px solid $access-medium;
                     }
                 }
             }
@@ -478,7 +478,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                     position: relative;
                     width: 280px;
 
-                    .resource-badge-required-tag {
+                    .resource-badge-top-tag {
                         position: absolute;
                         display: flex;
                         padding: 2px 8px;
@@ -488,7 +488,11 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                         background: $access-grey-light;
                         font-size: 12px;
                         line-height: 20px;
-                        color: $access-text-medium;
+                        color: $access-medium;
+
+                        &.unverified-style {
+                            color: #FFA500;
+                        }
                     }
 
                     .card-img-top {
@@ -526,21 +530,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                             font-size: 14px;
                             font-weight: 400;
                             line-height: 20px;
-                            color: $access-text-light;
+                            color: $access-grey;
                             margin-bottom: 8px;
-                        }
-
-                        a {
-                            margin-left: 0;
-                            margin-top: 8px;
-                            margin-bottom: 8px;
-                            width: 100%;
-                            border-radius: 4px;
-
-                            font-size: 14px;
-                            font-weight: 500;
-                            line-height: 20px;
-                            text-transform: uppercase;
                         }
 
                         .resource-badge-tag-section {
@@ -605,9 +596,37 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                                         color: #59D376;
                                     }
                                 }
+
+                                &.task-completed-style {
+                                    background: #FFF1D8;
+
+                                    &::before {
+                                        color: #FFA500;
+                                    }
+                                }
+
+                                &.verification-failed-style {
+                                    background: #FFD7D1;
+
+                                    &::before {
+                                        color: #F83E1D;
+                                    }
+                                }
                             }
                         }
 
+                        .resource-badge-action {
+                            margin-left: 0;
+                            margin-top: 8px;
+                            margin-bottom: 8px;
+                            width: 100%;
+                            border-radius: 4px;
+
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 20px;
+                            text-transform: uppercase;
+                        }
                     }
                 }
             }
@@ -632,7 +651,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
         padding-left: 24px;
 
         .link-text {
-            color: $access-text-medium-dark;
+            color: $access-black-medium;
             font-size: 18px;
             line-height: 30px;
             align-self: stretch;
@@ -646,7 +665,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
             margin-top: 4px;
 
             p, a {
-                color: $access-text-medium;
+                color: $access-medium;
                 font-weight: 500;
                 font-size: 16px;
                 text-decoration: underline;
