@@ -1,13 +1,11 @@
 import {useEffect, useState} from "react";
 import {ReactComponent as ListIcon} from '../../../../../assets/img/icons/list.svg';
 import {ReactComponent as DashboardIcon} from '../../../../../assets/img/icons/dashboard.svg';
-import ResourceBadge from "./ResourceBadge/ResourceBadge";
 import ResourceBadgeTabContent from "./ResourceBadgeTabContent/ResourceBadgeTabContent";
-
 
 function BadgeContainerViewOptionButton({children, onClick, isActive}) {
     return (
-        <button type="button" className="btn btn-dark switch-btn" onClick={onClick}
+        <button type="button" className="btn btn-medium switch-btn" onClick={onClick}
                 style={{
                     backgroundColor: isActive ? '#107180' : 'white',
                     border: isActive ? '1px solid #107180' : 'none'

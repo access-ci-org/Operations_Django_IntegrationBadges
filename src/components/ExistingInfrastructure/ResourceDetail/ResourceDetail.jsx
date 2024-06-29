@@ -162,7 +162,7 @@ export default function ResourceDetail() {
     return (
         <div className="resource-detail">
             <ResourceDetailHeader data={jetStream4}/>
-            <button className="btn btn-dark resource-detail-btn">View User Guide</button>
+            <button className="btn btn-medium resource-detail-btn">View User Guide</button>
             <DescriptionSection data={jetStream4}/>
             <FeatureSection data={jetStream4}/>
             <ResourceBadgeSection data={jetStream4}/>

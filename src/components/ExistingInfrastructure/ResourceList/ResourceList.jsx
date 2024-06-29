@@ -26,6 +26,7 @@ const Indiana = {
                         "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
                         "usage metrics, etc. ",
                     status: "Verified",
+                    required: true,
                     source: "Indiana Jetstream2 CPU",
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
@@ -35,7 +36,8 @@ const Indiana = {
                         "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
                         "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
                         "usage metrics, etc. ",
-                    status: "Unverified",
+                    status: "NotStarted",
+                    required: true,
                     source: "Indiana Jetstream2 CPU",
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
@@ -43,7 +45,8 @@ const Indiana = {
                     name: "Badge ABC",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
-                    status: "Unverified",
+                    status: "NotStarted",
+                    required: false,
                     source: "Indiana Jetstream2 CPU",
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
@@ -51,7 +54,8 @@ const Indiana = {
                     name: "Another Badge",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
-                    status: "Verified",
+                    status: "Planned",
+                    required: false,
                     source: "Indiana Jetstream2 CPU",
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
@@ -59,11 +63,40 @@ const Indiana = {
                     name: "Badge for XYX",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
-                    status: "Verified",
+                    status: "Planned",
+                    required: true,
                     source: "Indiana Jetstream2 CPU",
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
-                }]
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Deprecated",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "TaskCompleted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "VerificationFailed",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }
+            ]
         },
         {
             id: 2,
@@ -76,51 +109,85 @@ const Indiana = {
                 "is a state something something something something something something something something something.",
             status: "Active",
             count: 5,
-            badges: [{
-                name: "ACCESS Resource Description",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Ticket Handling",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge ABC",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Another Badge",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge for XYX",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }]
+            badges: [
+                {
+                    name: "ACCESS Resource Description",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "Verified",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Ticket Handling",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "NotStarted",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge ABC",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "NotStarted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Another Badge",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Deprecated",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "TaskCompleted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "VerificationFailed",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }
+            ]
         },
         {
             id: 3,
@@ -133,51 +200,85 @@ const Indiana = {
                 "is a state something something something something something something something something something.",
             status: "Active",
             count: 5,
-            badges: [{
-                name: "ACCESS Resource Description",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Ticket Handling",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge ABC",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Another Badge",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge for XYX",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }]
+            badges: [
+                {
+                    name: "ACCESS Resource Description",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "Verified",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Ticket Handling",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "NotStarted",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge ABC",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "NotStarted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Another Badge",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Deprecated",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "TaskCompleted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "VerificationFailed",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }
+            ]
         },
         {
             id: 4,
@@ -190,51 +291,85 @@ const Indiana = {
                 "is a state something something something something something something something something something.",
             status: "Active",
             count: 5,
-            badges: [{
-                name: "ACCESS Resource Description",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Ticket Handling",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge ABC",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Another Badge",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge for XYX",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }]
+            badges: [
+                {
+                    name: "ACCESS Resource Description",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "Verified",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Ticket Handling",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "NotStarted",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge ABC",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "NotStarted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Another Badge",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Deprecated",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "TaskCompleted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "VerificationFailed",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }
+            ]
         },
         {
             id: 5,
@@ -247,51 +382,85 @@ const Indiana = {
                 "is a state something something something something something something something something something.",
             status: "Active",
             count: 5,
-            badges: [{
-                name: "ACCESS Resource Description",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Ticket Handling",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge ABC",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Another Badge",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge for XYX",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }]
+            badges: [
+                {
+                    name: "ACCESS Resource Description",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "Verified",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Ticket Handling",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "NotStarted",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge ABC",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "NotStarted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Another Badge",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Deprecated",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "TaskCompleted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "VerificationFailed",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }
+            ]
         },
         {
             id: 6,
@@ -304,51 +473,85 @@ const Indiana = {
                 "is a state something something something something something something something something something.",
             status: "Active",
             count: 5,
-            badges: [{
-                name: "ACCESS Resource Description",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Ticket Handling",
-                description: "If you have any questions or issue related to this resource like raise a support request " +
-                    "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-                    "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-                    "usage metrics, etc. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge ABC",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Unverified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Another Badge",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }, {
-                name: "Badge for XYX",
-                description: "This is a badge description. This is a badge description. This is a badge description. " +
-                    "This is a badge description. This is a badge description. This is a badge description. ",
-                status: "Verified",
-                source: "Indiana Jetstream2 CPU",
-                actionUrl: "https://jetstream2.tacc.utexas.edu/",
-                actionText: "Submit a Ticket"
-            }]
+            badges: [
+                {
+                    name: "ACCESS Resource Description",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "Verified",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Ticket Handling",
+                    description: "If you have any questions or issue related to this resource like raise a support request " +
+                        "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
+                        "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
+                        "usage metrics, etc. ",
+                    status: "NotStarted",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge ABC",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "NotStarted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Another Badge",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Planned",
+                    required: true,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "Deprecated",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "TaskCompleted",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }, {
+                    name: "Badge for XYX",
+                    description: "This is a badge description. This is a badge description. This is a badge description. " +
+                        "This is a badge description. This is a badge description. This is a badge description. ",
+                    status: "VerificationFailed",
+                    required: false,
+                    source: "Indiana Jetstream2 CPU",
+                    actionUrl: "https://jetstream2.tacc.utexas.edu/",
+                    actionText: "Submit a Ticket"
+                }
+            ]
         },
     ]
 }

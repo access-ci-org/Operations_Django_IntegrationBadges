@@ -16,7 +16,7 @@ export default function ResourceBadgeTopTag({required, title}) {
             newTag = "Unverified";
             newClassName += " unverified-style";
         } else if (title === "Verified") {
-            newTag = "Verified";
+            newTag = "Available";
             newClassName += " verified-style";
         }
 

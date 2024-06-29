@@ -9,6 +9,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     color: $access-black;
 }
 
+// search section on the resource list page
 .search-section-wrapper {
     display: flex;
     flex-direction: column;
@@ -51,6 +52,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     }
 }
 
+// page showing the list of resources
 .resource-list {
     display: flex;
     flex-direction: column;
@@ -92,6 +94,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     }
 }
 
+// resource card on the resource list page
 .resource-card {
     min-width: 280px;
     max-width: 280px;
@@ -214,56 +217,90 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     }
 }
 
-.badge-modal-body {
-    display: flex;
-    flex-direction: row;
-    padding: 24px;
-    gap: 24px;
-    align-items: center;
+// researcher badge modal
+.modal-md-lg {
+    max-width: 640px;
 
-    .badge-modal-status {
-        font-size: 14px;
-        line-height: 20px;
-    }
+    .badge-modal-body {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 24px;
 
-    .badge-modal-name {
-        color: $access-black;
-        font-size: 20px;
-        font-weight: 600;
-        line-height: 24px;
-    }
-}
+        .badge-modal-header {
+            display: flex;
+            justify-content: space-between;
 
-.resource-detail-tab {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 8px 0;
+            .badge-modal-header-info {
+                display: flex;
+                gap: 16px;
 
-    .nav-link {
-        color: $access-medium;
-        background: white;
-        border: 1px solid $access-grey-light;
-        width: 220px;
+                img {
+                    max-height: 120px;
+                    max-width: 120px;
+                }
 
-        &.active {
-            color: white;
-            background: $access-medium;
+                .badge-modal-name {
+                    font-size: 24px;
+                    font-weight: 600;
+                    line-height: 24px;
+                    margin-bottom: 8px;
+                }
+
+                .badge-modal-source {
+                    color: $access-grey;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+
+                // copied and modified from resource-badge-section
+                .resource-badge-top-tag {
+                    display: flex;
+                    padding: 2px 8px;
+                    align-items: center;
+                    border-radius: 4px;
+                    background: $access-grey-light;
+                    font-size: 12px;
+                    line-height: 20px;
+                    color: $access-medium;
+                    width: fit-content;
+
+                    &.unverified-style {
+                        color: #FFA500;
+                    }
+                }
+            }
+        }
+
+        .badge-modal-content {
+
+            p {
+                color: $access-grey;
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+
+        .badge-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+
+            a:first-of-type {
+                color: $access-medium;
+            }
+
+            a {
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: 500;
+                border-radius: 4px;
+                width: fit-content;
+            }
         }
     }
-
-    #pills-RP-tab {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border-right: none;
-    }
-
-    #pills-researcher-tab {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
 }
 
+// detail page of a resource (except the badge section)
 .resource-detail {
     display: flex;
     flex-direction: column;
@@ -397,245 +434,245 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
             }
         }
     }
+}
 
-    .resource-badge-section {
+// badge section on the detail page of a resource
+.resource-badge-section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    gap: 20px;
+
+    .resource-badge-header {
         display: flex;
-        flex-direction: column;
-        margin-top: 16px;
-        gap: 20px;
+        justify-content: space-between;
+        align-items: center;
 
-        .resource-badge-header {
+        > div:first-of-type {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .resource-badge-header-filter {
+            .btn {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                border-radius: 8px;
+                border: 1px solid $access-grey-medium;
+            }
+
+            p {
+                cursor: pointer;
+                margin-bottom: 0;
+            }
+        }
+
+        .resource-badge-change-view {
+            color: $access-medium;
+            text-decoration: underline;
+        }
+    }
+
+    .switch-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin: 0;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+    }
+
+    .resource-badge-container-container {
+        > div:first-of-type {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+        }
 
-            > div:first-of-type {
-                display: flex;
-                gap: 10px;
-                align-items: center;
+        .resource-badge-container-options {
+            gap: 16px;
+            margin-bottom: 20px;
+
+            .nav-link {
+                padding: 4px 4px 8px;
+                color: $access-grey;
+                font-size: 16px;
+                line-height: 24px;
+
+                &.active {
+                    color: $access-medium;
+                    font-weight: 500;
+                    border-bottom: 2px solid $access-medium;
+                }
             }
+        }
 
-            .resource-badge-header-filter {
-                .btn {
+        .resource-badge-container {
+
+            .resource-badge {
+                position: relative;
+                width: 280px;
+
+                .resource-badge-top-tag {
+                    position: absolute;
                     display: flex;
+                    padding: 2px 8px;
+                    margin: 8px;
                     align-items: center;
-                    gap: 4px;
                     border-radius: 8px;
-                    border: 1px solid $access-grey-medium;
-                }
+                    background: $access-grey-light;
+                    font-size: 12px;
+                    line-height: 20px;
+                    color: $access-medium;
 
-                p {
-                    cursor: pointer;
-                    margin-bottom: 0;
-                }
-            }
-
-            .resource-badge-change-view {
-                color: $access-medium;
-                text-decoration: underline;
-            }
-        }
-
-        .switch-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            margin: 0;
-            padding: 0;
-            width: 40px;
-            height: 40px;
-        }
-
-        .resource-badge-container-container {
-            > div:first-of-type {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-            }
-
-            .resource-badge-container-options {
-                gap: 16px;
-                margin-bottom: 20px;
-
-                .nav-link {
-                    padding: 4px 4px 8px;
-                    color: $access-grey;
-                    font-size: 16px;
-                    line-height: 24px;
-
-                    &.active {
-                        color: $access-medium;
-                        font-weight: 500;
-                        border-bottom: 2px solid $access-medium;
+                    &.unverified-style {
+                        color: #FFA500;
                     }
                 }
-            }
 
-            .resource-badge-container {
+                .card-img-top {
+                    max-height: 120px;
+                    padding: 8px;
+                    object-fit: contain;
+                }
 
-                .resource-badge {
-                    position: relative;
-                    width: 280px;
+                .card-body {
+                    padding-top: 8px;
+                    padding-bottom: 8px;
 
-                    .resource-badge-top-tag {
-                        position: absolute;
-                        display: flex;
-                        padding: 2px 8px;
-                        margin: 8px;
-                        align-items: center;
-                        border-radius: 8px;
-                        background: $access-grey-light;
-                        font-size: 12px;
+                    h5 {
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1;
+                        align-self: stretch;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
+                        font-size: 16px;
+                        font-weight: 600;
+                        line-height: 24px;
+                        margin-bottom: 4px;
+                    }
+
+                    p {
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 3;
+                        align-self: stretch;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
+                        font-size: 14px;
+                        font-weight: 400;
                         line-height: 20px;
-                        color: $access-medium;
-
-                        &.unverified-style {
-                            color: #FFA500;
-                        }
+                        color: $access-grey;
+                        margin-bottom: 8px;
                     }
 
-                    .card-img-top {
-                        max-height: 120px;
-                        padding: 8px;
-                        object-fit: contain;
-                    }
+                    .resource-badge-tag-section {
+                        min-height: 24px;
+                        margin-top: 12px;
+                        margin-bottom: 8px;
 
-                    .card-body {
-                        padding-top: 8px;
-                        padding-bottom: 8px;
-
-                        h5 {
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 1;
+                        .resource-badge-tag {
+                            display: flex;
+                            align-items: center;
                             align-self: stretch;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
+                            border-radius: 4px;
 
-                            font-size: 16px;
-                            font-weight: 600;
-                            line-height: 24px;
-                            margin-bottom: 4px;
-                        }
-
-                        p {
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 3;
-                            align-self: stretch;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-
+                            color: #3F3F3F;
                             font-size: 14px;
+                            font-style: normal;
                             font-weight: 400;
                             line-height: 20px;
-                            color: $access-grey;
-                            margin-bottom: 8px;
-                        }
 
-                        .resource-badge-tag-section {
-                            min-height: 24px;
-                            margin-top: 12px;
-                            margin-bottom: 8px;
+                            position: relative;
+                            padding: 2px 8px 2px 20px;
+                            width: fit-content;
 
-                            .resource-badge-tag {
-                                display: flex;
-                                align-items: center;
-                                align-self: stretch;
-                                border-radius: 4px;
+                            &::before {
+                                content: '•';
+                                position: absolute;
+                                color: black;
+                                font-size: 20px;
+                                left: 0;
+                                margin-left: 8px;
+                            }
 
-                                color: #3F3F3F;
-                                font-size: 14px;
-                                font-style: normal;
-                                font-weight: 400;
-                                line-height: 20px;
-
-                                position: relative;
-                                padding: 2px 8px 2px 20px;
-                                width: fit-content;
+                            &.deprecated-style {
+                                border: 1px dashed #8C8C8C;
+                                color: #8C8C8C;
 
                                 &::before {
-                                    content: '•';
-                                    position: absolute;
-                                    color: black;
-                                    font-size: 20px;
-                                    left: 0;
-                                    margin-left: 8px;
-                                }
-
-                                &.deprecated-style {
-                                    border: 1px dashed #8C8C8C;
                                     color: #8C8C8C;
-
-                                    &::before {
-                                        color: #8C8C8C;
-                                    }
                                 }
+                            }
 
-                                &.not-started-style {
-                                    background: #F2F2F2;
+                            &.not-started-style {
+                                background: #F2F2F2;
 
-                                    &::before {
-                                        color: #B0B0B0;
-                                    }
+                                &::before {
+                                    color: #B0B0B0;
                                 }
+                            }
 
-                                &.planned-style {
-                                    background: #E8F3FF;
+                            &.planned-style {
+                                background: #E8F3FF;
 
-                                    &::before {
-                                        color: #3596FF;
-                                    }
+                                &::before {
+                                    color: #3596FF;
                                 }
+                            }
 
-                                &.verified-style {
-                                    background: #E3FCE9;
+                            &.verified-style {
+                                background: #E3FCE9;
 
-                                    &::before {
-                                        color: #59D376;
-                                    }
+                                &::before {
+                                    color: #59D376;
                                 }
+                            }
 
-                                &.task-completed-style {
-                                    background: #FFF1D8;
+                            &.task-completed-style {
+                                background: #FFF1D8;
 
-                                    &::before {
-                                        color: #FFA500;
-                                    }
+                                &::before {
+                                    color: #FFA500;
                                 }
+                            }
 
-                                &.verification-failed-style {
-                                    background: #FFD7D1;
+                            &.verification-failed-style {
+                                background: #FFD7D1;
 
-                                    &::before {
-                                        color: #F83E1D;
-                                    }
+                                &::before {
+                                    color: #F83E1D;
                                 }
                             }
                         }
+                    }
 
-                        .resource-badge-action {
-                            margin-left: 0;
-                            margin-top: 8px;
-                            margin-bottom: 8px;
-                            width: 100%;
-                            border-radius: 4px;
+                    .resource-badge-action {
+                        margin-left: 0;
+                        margin-top: 8px;
+                        margin-bottom: 8px;
+                        width: 100%;
+                        border-radius: 4px;
 
-                            font-size: 14px;
-                            font-weight: 500;
-                            line-height: 20px;
-                            text-transform: uppercase;
-                        }
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 20px;
+                        text-transform: uppercase;
                     }
                 }
             }
         }
-
-
     }
 }
 
+// link panel on the resource list page
 .link-panel {
     padding: 36px 16px;
     border-radius: 8px;
