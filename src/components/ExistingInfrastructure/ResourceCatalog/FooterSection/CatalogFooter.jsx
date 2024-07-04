@@ -1,4 +1,4 @@
-import arrow from '../../../assets/img/arrow-forward.svg';
+import arrow from '../../../../assets/img/arrow-forward.svg';
 
 const firstLink = {
     text: "Need access to computing, data analysis, or storage resources?",
@@ -39,7 +39,7 @@ function LinkSection({data}) {
 
 }
 
-export default function LinkPanel() {
+export default function CatalogFooter() {
     return (
         <div className={"row row-cols-4 link-panel"}>
             <LinkSection data={firstLink} />

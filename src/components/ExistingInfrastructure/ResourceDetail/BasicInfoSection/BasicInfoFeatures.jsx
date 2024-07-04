@@ -9,7 +9,7 @@ function FeatureBadge({name}) {
     );
 }
 
-export default function ResourceDetailFeatures({data}) {
+export default function BasicInfoFeatures({data}) {
     return (
         <div className="feature-section">
             <h2>Features</h2>

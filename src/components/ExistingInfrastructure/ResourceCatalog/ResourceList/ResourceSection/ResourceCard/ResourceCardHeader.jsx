@@ -1,7 +1,7 @@
-import jetStream2 from '../../../../../assets/img/jetstream2_logo.png';
-import delta from '../../../../../assets/img/delta_logo.png';
-import anton from '../../../../../assets/img/anton_logo.png';
-import ookami from '../../../../../assets/img/OOKAMI_logo.png';
+import jetStream2 from '../../../../../../assets/img/jetstream2_logo.png';
+import delta from '../../../../../../assets/img/delta_logo.png';
+import anton from '../../../../../../assets/img/anton_logo.png';
+import ookami from '../../../../../../assets/img/OOKAMI_logo.png';
 
 export default function ResourceCardHeader ({ data }) {
     let logo = jetStream2;

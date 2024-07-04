@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {ReactComponent as ListIcon} from '../../../../../assets/img/icons/list.svg';
 import {ReactComponent as DashboardIcon} from '../../../../../assets/img/icons/dashboard.svg';
-import ResourceBadgeTabContent from "./ResourceBadgeTabContent/ResourceBadgeTabContent";
+import BadgeContainerViewLayout from "./ViewLayout/BadgeContainerViewLayout";
 
 function BadgeContainerViewOptionButton({children, onClick, isActive}) {
     return (
@@ -28,7 +28,7 @@ function BadgeContainerViewOption({badgeDisplay, toggleBadgeDisplay}) {
     );
 }
 
-export default function ResourceBadgeContainer({badges, selectedView, activeTab, setActiveTab}) {
+export default function BadgeContainer({badges, selectedView, activeTab, setActiveTab}) {
     // True for Dashboard View, False for List View
     const [badgeDisplay, setBadgeDisplay] = useState(true);
     const toggleBadgeDisplay = () => {
@@ -88,7 +88,7 @@ export default function ResourceBadgeContainer({badges, selectedView, activeTab,
 
                 <BadgeContainerViewOption badgeDisplay={badgeDisplay} toggleBadgeDisplay={toggleBadgeDisplay}/>
             </div>
-            <ResourceBadgeTabContent
+            <BadgeContainerViewLayout
                 recommendedBadges={recommendedBadges}
                 plannedBadges={plannedBadges}
                 achievedBadges={achievedBadges}

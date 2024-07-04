@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { ReactComponent as SearchIcon } from "../../../assets/img/icons/search.svg";
+import { ReactComponent as SearchIcon } from "../../../../assets/img/icons/search.svg";
 
 function SearchBar() {
     return (
@@ -36,7 +36,7 @@ const resourceType = ["All Types", "Data", "Software", "Service", "Hardware"];
 const resourceOrganization = ["All Organizations", "Organization 1", "Organization 2", "Organization 3"];
 const resourceBadge = ["All Badges", "Badge 1", "Badge 2", "Badge 3"];
 
-export default function SearchSection() {
+export default function CatalogSearch() {
     const [selectedStatus, setSelectedStatus] = useState(resourceStatus[0]);
     const [selectedType, setSelectedType] = useState(resourceType[0]);
     const [selectedOrganization, setSelectedOrganization] = useState(resourceOrganization[0]);

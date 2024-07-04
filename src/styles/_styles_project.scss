@@ -4,221 +4,270 @@
     flex-direction: column;
 }
 
+// adjusted styles according to access style guide 9 and the project's design
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     font-stretch: normal;
     color: $access-black;
 }
 
-// search section on the resource list page
-.search-section-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 20px;
-
-    .search-bar-wrapper {
-        height: 40px;
-
-        .input-group-text {
-            background: none;
-        }
-    }
-
-    .filter-section {
-        display: flex;
-        gap: 10px;
-        padding: 0 10px;
-        align-items: center;
-
-        p {
-            color: $access-grey;
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 0;
-        }
-
-        .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-radius: 4px;
-            border: 1px solid $access-grey-medium;
-            margin-right: 0;
-
-            &:hover {
-                background-color: $access-grey-light;
-            }
-        }
-    }
+h1, .h1 {
+    font-weight: 500;
+    margin-bottom: 0;
 }
 
-// page showing the list of resources
-.resource-list {
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-    padding-left: 0;
-    padding-right: 0;
-    margin-top: 32px;
-    margin-bottom: 48px;
+// resource catalog page
+.resource-catalog-wrapper {
 
-    .resource-inst-section {
+    // search bar section
+    .search-section-wrapper {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 8px;
+        margin-top: 20px;
 
-        .resource-inst-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: nowrap;
+        .search-bar-wrapper {
+            height: 40px;
 
-            .resource-inst-name {
-                font-weight: 800;
-                margin-bottom: 0;
-                line-height: 28px;
+            .input-group-text {
+                background: none;
             }
+        }
 
-            .resource-inst-resource-count {
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            padding: 0 10px;
+            align-items: center;
+
+            p {
                 color: $access-grey;
                 font-size: 16px;
                 font-weight: 500;
                 margin-bottom: 0;
-                line-height: 24px;
             }
 
-            .resource-inst-view-all {
-                color: $access-medium;
-            }
-        }
-    }
-}
-
-// resource card on the resource list page
-.resource-card {
-    min-width: 280px;
-    max-width: 280px;
-    min-height: 330px;
-    max-height: 330px;
-    margin-top: 20px;
-    border: 1px solid $access-grey-light;
-    border-radius: 16px;
-
-    &:hover {
-        cursor: pointer;
-        border: 1px solid $access-medium;
-    }
-
-    p {
-        margin-bottom: 0;
-        font-size: 14px;
-    }
-
-    .card-header-wrapper {
-        height: 130px;
-        background: $access-grey-light;
-        padding: 16px;
-        border-top-left-radius: 16px;
-        border-top-right-radius: 16px;
-
-        .card-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            background: $access-grey-light;
-            border: none;
-            padding: 16px;
-        }
-
-        img {
-            max-height: 100%;
-            max-width: 100%;
-        }
-    }
-
-    .card-body-wrapper {
-
-    }
-
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        padding-top: 8px;
-
-        .resource-title {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            align-self: stretch;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .resource-type {
-            font-size: 12px;
-            color: $access-grey;
-        }
-
-        .card-text {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            align-self: stretch;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .badge-container {
-            display: flex;
-            gap: 8px;
-            flex-wrap: nowrap;
-            align-items: center;
-
-            .resource-badge {
-                width: 40px;
-                height: 40px;
-                border: none;
-                border-radius: 4px;
-                background: white;
+            .dropdown-toggle {
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                margin: 0;
-                padding: 0;
-
-                &:focus-visible, :focus {
-                    color: $access-black !important;
-                }
+                gap: 8px;
+                border-radius: 4px;
+                border: 1px solid $access-grey-medium;
+                margin-right: 0;
 
                 &:hover {
-                    background: $access-grey-light;
+                    background-color: $access-grey-light;
                 }
             }
+        }
+    }
 
-            .badge-more p {
-                color: $access-grey;
+    // resource list section
+    .resource-list {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 32px;
+        margin-bottom: 48px;
+
+        .resource-inst-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .resource-inst-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: nowrap;
+
+                .resource-inst-name {
+                    font-weight: 800;
+                    margin-bottom: 0;
+                    line-height: 28px;
+                }
+
+                .resource-inst-resource-count {
+                    color: $access-grey;
+                    font-size: 16px;
+                    font-weight: 500;
+                    margin-bottom: 0;
+                    line-height: 24px;
+                }
+
+                .resource-inst-view-all {
+                    color: $access-medium;
+                }
+            }
+        }
+    }
+
+    // each resource card
+    .resource-card {
+        min-width: 280px;
+        max-width: 280px;
+        min-height: 330px;
+        max-height: 330px;
+        margin-top: 20px;
+        border: 1px solid $access-grey-light;
+        border-radius: 16px;
+
+        &:hover {
+            cursor: pointer;
+            border: 1px solid $access-medium;
+        }
+
+        p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .card-header-wrapper {
+            height: 130px;
+            background: $access-grey-light;
+            padding: 16px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+
+            .card-header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                background: $access-grey-light;
+                border: none;
+                padding: 16px;
+            }
+
+            img {
+                max-height: 100%;
+                max-width: 100%;
             }
         }
 
-        .resource-type-container {
-            padding-top: 16px;
+        .card-body {
             display: flex;
-            gap: 12px;
-            flex-wrap: nowrap;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 8px;
+
+            .resource-title {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                align-self: stretch;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: 600;
+                font-size: 16px;
+            }
+
+            .resource-type {
+                font-size: 12px;
+                color: $access-grey;
+            }
+
+            .card-text {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                align-self: stretch;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .badge-container {
+                display: flex;
+                gap: 8px;
+                flex-wrap: nowrap;
+                align-items: center;
+
+                .resource-badge {
+                    width: 40px;
+                    height: 40px;
+                    border: none;
+                    border-radius: 4px;
+                    background: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0;
+                    padding: 0;
+
+                    &:focus-visible, :focus {
+                        color: $access-black !important;
+                    }
+
+                    &:hover {
+                        background: $access-grey-light;
+                    }
+                }
+
+                .badge-more p {
+                    color: $access-grey;
+                }
+            }
+
+            .resource-type-container {
+                padding-top: 16px;
+                display: flex;
+                gap: 12px;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+
+    // footer section
+    .link-panel {
+        padding: 36px 16px;
+        border-radius: 8px;
+        background: $access-grey-light;
+        min-height: 200px;
+
+        .link-section {
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: center;
+            align-self: stretch;
+            border-right: 1px solid $access-grey-medium;
+            padding-left: 24px;
+
+            .link-text {
+                color: $access-black-medium;
+                font-size: 18px;
+                line-height: 30px;
+                align-self: stretch;
+                max-width: 80%;
+            }
+
+            .expand-button {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                margin-top: 4px;
+
+                p, a {
+                    color: $access-medium;
+                    font-weight: 500;
+                    font-size: 16px;
+                    text-decoration: underline;
+                }
+            }
+
+            &:last-child {
+                border-right: none;
+            }
         }
     }
 }
 
 // researcher badge modal
-.modal-md-lg {
+.researcher-modal {
     max-width: 640px;
 
     .badge-modal-body {
@@ -254,7 +303,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                 }
 
                 // copied and modified from resource-badge-section
-                .resource-badge-top-tag {
+                .resource-card-badge-tag {
                     display: flex;
                     padding: 2px 8px;
                     align-items: center;
@@ -325,7 +374,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
 
                 h1 {
                     margin-bottom: 0;
-                    font-weight: 500;
                 }
 
                 h3 {
@@ -387,7 +435,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     }
 
     h2 {
-        font-size: 24px;
         font-weight: 800;
         margin-bottom: 0;
         line-height: 28px;
@@ -450,11 +497,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
 
         > div:first-of-type {
             display: flex;
+            flex-direction: column;
             gap: 10px;
-            align-items: center;
         }
 
         .resource-badge-header-filter {
+            display: flex;
+            gap: 20px;
+
             .btn {
                 display: flex;
                 align-items: center;
@@ -544,7 +594,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                     padding-top: 8px;
                     padding-bottom: 8px;
 
-                    h5 {
+                    .card-title {
                         display: -webkit-box;
                         -webkit-box-orient: vertical;
                         -webkit-line-clamp: 1;
@@ -558,7 +608,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
                         margin-bottom: 4px;
                     }
 
-                    p {
+                    .card-text {
                         display: -webkit-box;
                         -webkit-box-orient: vertical;
                         -webkit-line-clamp: 3;
@@ -672,45 +722,24 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
     }
 }
 
-// link panel on the resource list page
-.link-panel {
-    padding: 36px 16px;
-    border-radius: 8px;
-    background: $access-grey-light;
-    min-height: 200px;
+// badge detail page
+.badge-detail-wrapper {
 
-    .link-section {
+    .header-wrapper {
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
-        align-self: stretch;
-        border-right: 1px solid $access-grey-medium;
-        padding-left: 24px;
 
-        .link-text {
-            color: $access-black-medium;
-            font-size: 18px;
-            line-height: 30px;
-            align-self: stretch;
-            max-width: 80%;
-        }
-
-        .expand-button {
+        .title-wrapper {
             display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 4px;
+            flex-direction: column;
+            gap: 16px;
 
-            p, a {
+            a {
+                text-transform: uppercase;
+                text-decoration: none;
                 color: $access-medium;
                 font-weight: 500;
-                font-size: 16px;
-                text-decoration: underline;
             }
-        }
-
-        &:last-child {
-            border-right: none;
         }
     }
 }

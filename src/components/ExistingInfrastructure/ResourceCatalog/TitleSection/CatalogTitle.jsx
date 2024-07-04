@@ -1,4 +1,4 @@
-export default function PageTitle() {
+export default function CatalogTitle() {
     return (
         <div>
             <h1 style={{ fontWeight: '500' }}>ACCESS Active Resource Catalog</h1>

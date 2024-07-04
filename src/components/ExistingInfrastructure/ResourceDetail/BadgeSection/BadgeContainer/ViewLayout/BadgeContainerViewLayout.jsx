@@ -55,7 +55,7 @@ function DashboardView({recommendedBadges,
     );
 }
 
-export default function ResourceBadgeTabContent({
+export default function BadgeContainerViewLayout({
                                                     recommendedBadges,
                                                     plannedBadges,
                                                     achievedBadges,

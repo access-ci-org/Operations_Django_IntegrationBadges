@@ -1,6 +1,6 @@
 import jetStream2 from '../../../../assets/img/jetstream2_logo.png';
 
-export default function ResourceDetailHeader({data}) {
+export default function BasicInfoHeader({data}) {
     return (
         <div className="resource-detail-header">
             <div className="resource-detail-header-info">

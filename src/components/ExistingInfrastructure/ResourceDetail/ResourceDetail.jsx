@@ -1,7 +1,6 @@
-import {useParams} from "react-router-dom";
-import ResourceDetailHeader from "./BasicInfoSection/ResourceDetailHeader";
-import ResourceBadgeSection from "./ResourceBadgeSection/ResourceBadgeSection";
-import ResourceDetailFeatures from "./BasicInfoSection/ResourceDetailFeatures";
+import BasicInfoHeader from "./BasicInfoSection/BasicInfoHeader";
+import BadgeSection from "./BadgeSection/BadgeSection";
+import BasicInfoFeatures from "./BasicInfoSection/BasicInfoFeatures";
 
 const jetStream4 = {
     id: 1,
@@ -21,6 +20,7 @@ const jetStream4 = {
             name: "Jetstream4 Compute Roadmap",
             badges: [
                 {
+                    id: 1,
                     name: "ACCESS Resource Description",
                     description: "If you have any questions or issue related to this resource like raise a support request " +
                         "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
@@ -32,6 +32,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 2,
                     name: "Ticket Handling",
                     description: "If you have any questions or issue related to this resource like raise a support request " +
                         "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
@@ -43,6 +44,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 3,
                     name: "Badge ABC",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
@@ -52,6 +54,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 4,
                     name: "Another Badge",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
@@ -61,6 +64,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 5,
                     name: "Badge for XYX",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
@@ -70,6 +74,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 6,
                     name: "Badge for XYX",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
@@ -79,6 +84,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 7,
                     name: "Badge for XYX",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
@@ -88,6 +94,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 8,
                     name: "Badge for XYX",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
@@ -103,6 +110,7 @@ const jetStream4 = {
             name: "Jetstream4 Storage Roadmap",
             badges: [
                 {
+                    id: 9,
                     name: "ACCESS Resource Description",
                     description: "If you have any questions or issue related to this resource like raise a support request " +
                         "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
@@ -114,6 +122,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 10,
                     name: "Ticket Handling",
                     description: "If you have any questions or issue related to this resource like raise a support request " +
                         "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
@@ -125,6 +134,7 @@ const jetStream4 = {
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",
                     actionText: "Submit a Ticket"
                 }, {
+                    id: 11,
                     name: "Badge ABC",
                     description: "This is a badge description. This is a badge description. This is a badge description. " +
                         "This is a badge description. This is a badge description. This is a badge description. ",
@@ -152,20 +162,19 @@ function DescriptionSection({data}) {
 
 function FeatureSection({data}) {
     return (
-        <ResourceDetailFeatures data={data}/>
+        <BasicInfoFeatures data={data}/>
     );
 }
 
 export default function ResourceDetail() {
-    const { resourceId } = useParams();
 
     return (
         <div className="resource-detail">
-            <ResourceDetailHeader data={jetStream4}/>
+            <BasicInfoHeader data={jetStream4}/>
             <button className="btn btn-medium resource-detail-btn">View User Guide</button>
             <DescriptionSection data={jetStream4}/>
             <FeatureSection data={jetStream4}/>
-            <ResourceBadgeSection data={jetStream4}/>
+            <BadgeSection data={jetStream4}/>
         </div>
     );
 }
