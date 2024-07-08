@@ -1,22 +1,31 @@
 import LabelTag from "../../fragments/LabelTag";
 import {ReactComponent as BookmarkIcon} from "../../../assets/img/icons/bookmark.svg";
 import StatusTag from "../../fragments/StatusTag";
+import {useEffect, useState} from "react";
+import PlanModal from "./PlanModal";
 
-const description = "ACCESS resource and online service operators will be assigned tickets " +
-    "for issues or questions about their resources and online services. In response they will monitor " +
-    "the ticket system for tickets assigned to them, triage them as necessary, reassign them to other staff " +
-    "or organizations if necessary, resolve issues, and close tickets once the request is addressed.";
+function BadgeTitle({title, required, status}) {
+    const [className, setClassName] = useState("btn btn-medium");
 
-function BadgeTitle({title, required}) {
+    useEffect(() => {
+        if (status === "NotPlanned") {
+            setClassName("btn btn-medium");
+        } else {
+            setClassName("btn btn-medium planned-style");
+        }
+    }, [status]);
+
     return (
         <div className="basic-info-header">
             <div className="basic-info-title">
                 <h2>{title}</h2>
                 {required && <LabelTag title="Required" verified/>}
             </div>
-            <button className="btn btn-medium">
+            <PlanModal id={`PlanBadgeModal${1}`} name={title} />
+            <button className={className} data-bs-toggle="modal"
+                    data-bs-target={`#PlanBadgeModal${1}`}>
                 <BookmarkIcon />
-                Plan this Badge
+                {status === "NotPlanned" ? "Plan this Badge" : "Unplan this Badge"}
             </button>
         </div>
     );
@@ -60,10 +69,10 @@ function BadgeDescription({description}) {
 export default function BadgeDetailBasicInfo({data}) {
     return (
         <div className="basic-info-wrapper">
-            <BadgeTitle title={"Ticket Handling"} required={true} />
+            <BadgeTitle title={"Ticket Handling"} required={true} status={"NotPlanned"}/>
             <BadgeStatus type={"Coordination"} status={"NotPlanned"}
                          roles={"Resource or Service Integration Coordinator"} />
-            <BadgeDescription description={description} />
+            <BadgeDescription description={data.resource_provider_summary} />
         </div>
     );
 }

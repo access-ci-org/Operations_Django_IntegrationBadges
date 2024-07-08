@@ -1,9 +1,9 @@
-import placeholder from "../../../../../assets/img/placeholder_badge.png";
-import StatusTag from "../../../../fragments/StatusTag";
+import placeholder from "../../../../../../assets/img/placeholder_badge.png";
+import StatusTag from "../../../../../fragments/StatusTag";
+import LabelTag from "../../../../../fragments/LabelTag";
 import {useNavigate, useParams} from "react-router-dom";
-import ResearcherModal from "../../../../fragments/ResearcherModal";
-import LabelTag from "../../../../fragments/LabelTag";
-import {ReactComponent as ArrowRightIcon} from "../../../../../assets/img/icons/arrow-up-right.svg";
+import ResearcherModal from "../../../../../fragments/ResearcherModal";
+import {ReactComponent as ArrowRightIcon} from "../../../../../../assets/img/icons/arrow-up-right.svg";
 
 function ListAction({data, view}) {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ function ListAction({data, view}) {
         <div>
             {view ? (
                 <button className="btn list-action" onClick={handleBadgeClick}>
-                    View Badge Details
+                    Badge Details
                     <ArrowRightIcon style={{color: '#107180'}}/>
                 </button>
             ) : (
@@ -36,7 +36,7 @@ function ListAction({data, view}) {
     );
 }
 
-function List({badges, view}) {
+export default function BadgeList({badges, view}) {
 
     const labelTitle = (status) => {
         if (status === "Verified") {
@@ -84,53 +84,21 @@ function List({badges, view}) {
                         </td>
                         {view && <td className="col-1">{badge.required ? "Required" : "Optional"}</td>}
                         {view ? (
-                            <td className="col-2"><StatusTag title={badge.status}/></td>)
+                                <td className="col-2"><StatusTag title={badge.status}/></td>)
                             : (
-                            <td className="col-2">
-                                <LabelTag title={labelTitle(badge.status)}
-                                          verified={badge.status === "Verified"}
-                                          style={labelStyle(badge.status)}/>
-                            </td>
-                        )}
-                        <td className="col-3">
+                                <td className="col-2">
+                                    <LabelTag title={labelTitle(badge.status)}
+                                              verified={badge.status === "Verified"}
+                                              style={labelStyle(badge.status)}/>
+                                </td>
+                            )}
+                        <td className="col-2">
                             <ListAction data={badge} view={view}/>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
-        </div>
-    );
-}
-
-export default function ListView({recommendedBadges, plannedBadges, achievedBadges, selectedView, activeTab}) {
-    return (
-        <div className="tab-content resource-badge-container-content" id="resource-badges-tabContent">
-            <div className={`tab-pane fade ${activeTab === 'recommended' ? 'show active' : ''}`}
-                 id="resource-badge-container-recommended-tab" role="tabpanel"
-                 aria-labelledby="resource-badge-container-recommended-tab" tabIndex="0">
-                {selectedView ?
-                    <List badges={recommendedBadges} view={selectedView}/>
-                    :
-                    <List badges={achievedBadges} view={selectedView}/>
-                }
-            </div>
-            <div className={`tab-pane fade ${activeTab === 'planned' ? 'show active' : ''}`}
-                 id="resource-badge-container-planned-tab" role="tabpanel"
-                 aria-labelledby="resource-badge-container-planned-tab" tabIndex="0">
-                {selectedView ?
-                    <List badges={plannedBadges} view={selectedView}/>
-                    :
-                    <List badges={plannedBadges.concat(recommendedBadges)} view={selectedView}/>
-                }
-            </div>
-            {selectedView &&
-                <div className={`tab-pane fade ${activeTab === 'achieved' ? 'show active' : ''}`}
-                     id="resource-badge-container-achieved-tab" role="tabpanel"
-                     aria-labelledby="resource-badge-container-achieved-tab" tabIndex="0">
-                    <List badges={achievedBadges} view={selectedView}/>
-                </div>
-            }
         </div>
     );
 }

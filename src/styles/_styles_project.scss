@@ -510,16 +510,6 @@ h1, .h1 {
         }
     }
 
-    .switch-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-        width: 40px;
-        height: 40px;
-    }
-
     .resource-badge-container-container {
         > div:first-of-type {
             display: flex;
@@ -529,7 +519,6 @@ h1, .h1 {
 
         .resource-badge-container-options {
             gap: 16px;
-            margin-bottom: 24px;
             width: 100%;
             //border-bottom: 1px solid $access-grey-light;
 
@@ -546,148 +535,91 @@ h1, .h1 {
                 }
             }
         }
+    }
+}
 
-        // badges under list view
-        .resource-badge-list-wrapper {
-            padding-left: 0;
-            padding-right: 0;
+// badges under list view
+.resource-badge-list-wrapper {
+    margin-top: 24px;
+    padding-left: 0;
+    padding-right: 0;
 
-            .resource-badge-list {
-                thead {
+    .resource-badge-list {
+        thead {
 
-                    th:first-of-type {
-                        border-top-left-radius: 4px;
-                    }
+            th:first-of-type {
+                border-top-left-radius: 4px;
+            }
 
-                    th:last-of-type {
-                        border-top-right-radius: 4px;
-                    }
+            th:last-of-type {
+                border-top-right-radius: 4px;
+            }
 
-                    th {
-                        background-color: $access-grey-light;
-                        color: $access-black-medium;
-                        font-weight: 700;
-                        border: none;
-                    }
+            th {
+                background-color: $access-grey-light;
+                color: $access-black-medium;
+                font-weight: 700;
+                border: none;
+            }
 
-                    .col-plan {
-                        padding-left: 24px;
-                    }
-                }
-
-                tbody {
-                    tr {
-                        vertical-align: middle;
-
-                        th, td {
-                            padding-top: 12px;
-                            padding-bottom: 12px;
-                        }
-
-                        td:not(:first-of-type) {
-                            //padding-top: 16px;
-                        }
-
-                        th[scope="row"] {
-                            display: none;
-                        }
-
-                        .badge-list-img {
-                            max-height: 64px;
-                            max-width: 64px;
-                            object-fit: contain;
-                        }
-
-                        .badge-list-name, .badge-list-description {
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 2;
-                            width: 100%;
-                            overflow: hidden;
-                        }
-
-                        .list-action {
-                            font-size: 14px;
-                            font-weight: 500;
-                            color: $access-medium;
-                            text-transform: uppercase;
-                            display: flex;
-                            flex-wrap: nowrap;
-                            align-items: center;
-                            gap: 8px;
-                        }
-                    }
-                }
+            .col-plan {
+                padding-left: 24px;
             }
         }
 
-        // badges under dashboard view
-        .resource-badge-dashboard {
-            //gap: 16px;
+        tbody {
+            tr {
+                vertical-align: middle;
 
-            .col {
-                padding-bottom: 24px;
-            }
+                th, td {
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                }
 
-            .resource-badge {
-                position: relative;
-                width: 280px;
-                border: 1px solid $access-grey-medium;
+                td:not(:first-of-type) {
+                    //padding-top: 16px;
+                }
 
-                .card-img-top {
-                    max-height: 120px;
-                    padding: 8px;
+                th[scope="row"] {
+                    display: none;
+                }
+
+                .badge-list-img {
+                    max-height: 64px;
+                    max-width: 64px;
                     object-fit: contain;
                 }
 
-                .card-body {
-                    padding-top: 8px;
-                    padding-bottom: 8px;
+                .badge-list-name, .badge-list-description {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    width: 100%;
+                    overflow: hidden;
+                }
 
-                    .card-title {
-                        display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 1;
-                        align-self: stretch;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-
-                        font-size: 16px;
-                        font-weight: 600;
-                        line-height: 24px;
-                        margin-bottom: 4px;
-                    }
-
-                    .card-text {
-                        display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 3;
-                        align-self: stretch;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-
-                        font-size: 14px;
-                        font-weight: 400;
-                        line-height: 20px;
-                        color: $access-grey;
-                        margin-bottom: 8px;
-                    }
-
-                    .resource-badge-tag-section {
-                        min-height: 24px;
-                        margin-top: 12px;
-                        margin-bottom: 8px;
-                    }
-
-                    .resource-badge-action {
-                        margin-left: 0;
-                        margin-top: 8px;
-                        margin-bottom: 8px;
-                        width: 100%;
-                    }
+                .list-action {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: $access-medium;
+                    text-transform: uppercase;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    gap: 8px;
                 }
             }
         }
+    }
+}
+
+// badges under dashboard view
+.resource-badge-dashboard {
+    margin-top: 24px;
+    //gap: 16px;
+
+    .col {
+        padding-bottom: 24px;
     }
 }
 
@@ -831,10 +763,157 @@ h1, .h1 {
                     }
                 }
             }
+
+            .prerequisite-badge-container {
+                margin-top: 48px;
+
+                .prerequisite-badge-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    h5 {
+                        font-size: 18px;
+                        font-weight: 600;
+                        margin-bottom: 0;
+                        line-height: 24px;
+                    }
+
+                    .switch-btn {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0;
+                        padding: 0;
+                        width: 40px;
+                        height: 40px;
+                    }
+                }
+            }
+
+            .task-container {
+                margin-top: 48px;
+
+                .task-container-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .task-container-title {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 4px;
+
+                        h5 {
+                            font-size: 18px;
+                            font-weight: 600;
+                            margin-bottom: 0;
+                            line-height: 24px;
+                        }
+
+                        p {
+                            display: flex;
+                            align-items: center;
+                            gap: 4px;
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    .btn {
+                        max-height: 38px;
+                    }
+                }
+
+                .task-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                    margin-top: 32px;
+
+                    .task-list-action {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-left: 0;
+                        margin-right: 0;
+                        padding: 16px;
+                        font-size: 18px;
+                        border-radius: 8px;
+                        border: none;
+                        line-height: 30px;
+                        min-height: 50px;
+                        max-height: 50px;
+                        color: $access-medium;
+                        background: $access-grey-light;
+
+                        &:hover {
+                            cursor: pointer;
+                            background: $access-grey-medium;
+                        }
+                    }
+                }
+            }
         }
     }
+}
 
+// badge detail plan modal
+.plan-modal {
+    max-width: 800px;
 
+    .badge-modal-body {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 24px;
+
+        .badge-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h2 {
+                margin-bottom: 0;
+                color: $access-medium;
+                font-weight: 600;
+                text-transform: capitalize;
+                line-height: 28px;
+            }
+        }
+
+        .badge-modal-content {
+
+            p:first-of-type {
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 28px;
+                color: $access-black;
+                margin-bottom: 8px;
+            }
+
+            p {
+                color: $access-grey;
+                margin-bottom: 0;
+            }
+        }
+
+        .badge-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+
+            a:first-of-type {
+                color: $access-medium;
+            }
+
+            a {
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: 500;
+                border-radius: 4px;
+                width: fit-content;
+            }
+        }
+    }
 }
 
 // fragments
@@ -946,8 +1025,94 @@ h1, .h1 {
     line-height: 20px;
     border-radius: 4px;
     text-transform: uppercase;
+
+    &.planned-style {
+        border: 1px solid $access-medium;
+        color: $access-medium;
+        background: none;
+
+        &:hover {
+            background: $access-medium;
+            color: white;
+        }
+    }
+
+    &.disabled {
+        background: $access-grey-medium;
+        color: $access-grey;
+        border: none;
+    }
 }
 
 .btn-text {
 
+}
+
+.switch-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.resource-badge {
+    position: relative;
+    width: 280px;
+    border: 1px solid $access-grey-medium;
+
+    .card-img-top {
+        max-height: 120px;
+        padding: 8px;
+        object-fit: contain;
+    }
+
+    .card-body {
+        padding-top: 8px;
+        padding-bottom: 8px;
+
+        .card-title {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            align-self: stretch;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .card-text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            align-self: stretch;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: $access-grey;
+            margin-bottom: 8px;
+        }
+
+        .resource-badge-tag-section {
+            min-height: 24px;
+            margin-top: 12px;
+            margin-bottom: 8px;
+        }
+
+        .resource-badge-action {
+            margin-left: 0;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            width: 100%;
+        }
+    }
 }

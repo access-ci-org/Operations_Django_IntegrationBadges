@@ -26,7 +26,7 @@ export default function BadgeDetail() {
             <BadgeDetailHeader title={resource_name} link={"#"} badges={[badge]}/>
             <div className="main-wrapper">
                 <BadgeDetailSideBar />
-                <BadgeDetailContent />
+                <BadgeDetailContent data={badge}/>
             </div>
         </div>
     );
