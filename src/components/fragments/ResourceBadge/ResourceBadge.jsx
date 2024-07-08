@@ -1,18 +1,12 @@
-import placeholder from "../../../../../assets/img/placeholder_badge.png";
-import ResourceBadgeTopTag from "./ResourceBadgeTopTag";
+import placeholder from "../../../assets/img/placeholder_badge.png";
+import StatusTag from "../StatusTag";
 import {useNavigate, useParams} from "react-router-dom";
-import ResearcherModal from "../../../../fragments/ResearcherModal";
-import StatusTag from "../../../../fragments/StatusTag";
+import ResearcherModal from "../ResearcherModal";
+import ResourceBadgeTopTag from "./ResourceBadgeTopTag";
 
-function ResourceBadgeAction({data, selectedView}) {
+function ResourceBadgeAction({data, view}) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
-    let action = "";
-    if (data.status === "NotStarted" || data.status === "Deprecated") {
-        action = "View Badge Details";
-    } else {
-        action = "Complete tasks";
-    }
 
     const handleBadgeClick = () => {
         navigate(`/resourceBadge/${resourceId}/${data.id}`);
@@ -20,9 +14,9 @@ function ResourceBadgeAction({data, selectedView}) {
 
     return (
         <div>
-            {selectedView ? (
+            {view ? (
                 <button className="btn btn-medium resource-badge-action" onClick={handleBadgeClick}>
-                    {action}
+                    View Badge Details
                 </button>
             ) : (
                 <div>
@@ -39,30 +33,31 @@ function ResourceBadgeAction({data, selectedView}) {
     );
 }
 
-export default function ResourceBadge({data, selectedView}) {
+// TODO: replace the placeholder with the actual badge image
+/**
+ * A badge card that displays the basic info of a badge model.
+ * @param data - the badge model
+ * @param view - true if under RP view, false if under researcher view
+ */
+export default function ResourceBadge({data, view}) {
     return (
         <div className="card resource-badge">
             <div style={{position: 'relative'}}>
-                {(data.required && selectedView) &&
+                {(data.required && view) &&
                     <ResourceBadgeTopTag required={true}/>}
-                {!selectedView &&
+                {!view &&
                     <ResourceBadgeTopTag title={data.status}/>}
                 <img src={placeholder} className="card-img-top" alt={data.name}/>
             </div>
             <div className="card-body">
                 <h5 className="card-title">{data.name}</h5>
                 <p className="card-text">{data.description}</p>
-                {selectedView &&
+                {view &&
                     <div className="resource-badge-tag-section">
                         <StatusTag title={data.status}/>
                     </div>
                 }
-                {((data.status !== "Verified" && selectedView) || (!selectedView)) && (
-                    <ResourceBadgeAction
-                        data={data}
-                        selectedView={selectedView}
-                    />
-                )}
+                <ResourceBadgeAction data={data} view={view}/>
             </div>
         </div>
     );

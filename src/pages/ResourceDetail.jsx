@@ -10,9 +10,11 @@ const jetStream4 = {
     type: "Compute",
     status: "TBD",
     globalResourceId: "jetstream4.indiana.access-ci.org",
-    description: "Jetstream4 is a hybrid-cloud platform that provides flexible, on-demand, programmable " +
+    description: "Jetstream2 is a hybrid-cloud platform that provides flexible, on-demand, programmable " +
         "cyberinfrastructure tools ranging from interactive virtual machine services to a variety of " +
-        "infrastructure and orchestration services for research and education. ",
+        "infrastructure and orchestration services for research and education. The primary resource is a " +
+        "standard CPU resource consisting of AMD Milan 7713 CPUs with 128 cores per node and 512gb RAM per " +
+        "node connected by 100gbps ethernet to the spine.",
     features: ["Allocated by ACCESS", "Jetstream4 API", "Jetstream4 CLI", "Supported by Science Gateways",
         "Jetstream4 User Guide", "Community software areas for science gateways", "Jetstream4 User Forum"],
     roadmaps:[
@@ -38,7 +40,7 @@ const jetStream4 = {
                         "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
                         "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
                         "usage metrics, etc. ",
-                    status: "NotStarted",
+                    status: "NotPlanned",
                     required: true,
                     source: "Indiana Jetstream2 CPU",
                     actionUrl: "https://jetstream2.tacc.utexas.edu/",

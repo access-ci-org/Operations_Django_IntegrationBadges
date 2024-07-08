@@ -26,6 +26,9 @@ export default function StatusTag({title, style}) {
         } else if (title === "VerificationFailed") {
             newTag = "Verification Failed";
             newClassName += " verification-failed-style";
+        } else if (title === "NotPlanned") {
+            newTag = "Not Planned";
+            newClassName += " not-planned-style";
         }
 
         // Set the state with the new values
