@@ -1,7 +1,7 @@
 import placeholderBadge from "../../../../../assets/img/placeholder_badge.png";
 import ResearcherModal from "../../../../fragments/ResearcherModal";
 
-export default function ResourceCardBadge({data, index}) {
+export default function ResourceCardBadge({source, badge, index}) {
     const handleBadgeClick = (event) => {
         event.stopPropagation();
     };
@@ -13,7 +13,9 @@ export default function ResourceCardBadge({data, index}) {
                 <img src={placeholderBadge} alt="badge" className="badge-icon"
                      style={{width: '32px', height: '32px'}}/>
             </button>
-            <ResearcherModal id={`ResourceCardBadgeModal${index}`} {...data}/>
+            <ResearcherModal id={`ResourceCardBadgeModal${index}`}
+                name={badge.name} source={source} description={badge.researcher_summary}
+                actionUrl={badge.default_badge_access_url} actionText={badge.default_badge_access_url_label}/>
         </div>
     );
 }

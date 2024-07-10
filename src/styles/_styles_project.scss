@@ -143,8 +143,9 @@ h1, .h1 {
             }
 
             img {
-                max-height: 100%;
-                max-width: 100%;
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
             }
         }
 
@@ -483,7 +484,7 @@ h1, .h1 {
         > div:first-of-type {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .resource-badge-header-filter {
@@ -673,12 +674,32 @@ h1, .h1 {
                 white-space: nowrap;
                 background: #f5f5f5;
 
-                .sidebar-section-title {
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: $access-medium;
-                    text-transform: uppercase;
-                    margin-bottom: 0;
+                .sidebar-section-title-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    line-height: 20px;
+
+                    .sidebar-section-title {
+                        font-size: 14px;
+                        font-weight: 500;
+                        color: $access-medium;
+                        text-transform: uppercase;
+                        margin-bottom: 0;
+                    }
+
+                    .sidebar-section-title-icon {
+                        color: $access-medium;
+                        height: 28px;
+                        width: 28px;
+                        padding: 4px;
+                        border-radius: 4px;
+
+                        &:hover {
+                            cursor: pointer;
+                            background: $access-grey-medium;
+                        }
+                    }
                 }
 
                 .sidebar-section-links {
@@ -691,6 +712,10 @@ h1, .h1 {
                         font-weight: 500;
                         text-decoration: none;
                         color: $access-black;
+
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
                     }
                 }
             }
@@ -864,7 +889,7 @@ h1, .h1 {
     .badge-modal-body {
         display: flex;
         flex-direction: column;
-        padding: 24px;
+        padding: 36px;
         gap: 24px;
 
         .badge-modal-header {
@@ -894,6 +919,28 @@ h1, .h1 {
             p {
                 color: $access-grey;
                 margin-bottom: 0;
+            }
+
+            .badge-modal-input-wrapper {
+                margin-top: 32px;
+                color: $access-grey;
+
+                .form-check-input {
+                    border-radius: 2px;
+
+                    &:checked {
+                        background-color: $access-dark;
+                        border-color: $access-dark;
+                    }
+
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+
+                .badge-modal-input {
+                    margin-top: 16px;
+                }
             }
         }
 
@@ -1114,5 +1161,19 @@ h1, .h1 {
             margin-bottom: 8px;
             width: 100%;
         }
+    }
+}
+
+.form-checkbox {
+    border-radius: 2px;
+    border: 2px solid $access-grey;
+
+    &:checked {
+        background-color: $access-dark;
+        border-color: $access-dark;
+    }
+
+    &:focus {
+        box-shadow: none;
     }
 }

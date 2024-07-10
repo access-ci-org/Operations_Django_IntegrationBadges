@@ -916,11 +916,11 @@ const Ookami = {
 
 const data = [Indiana, NCSA, Anton, Ookami];
 
-export function ResourceList() {
+export function ResourceList({resources, badges}) {
     return (
         <div className="container-fluid resource-list">
-            {data.map((institution, index) => (
-                <ResourceSection key={index} data={institution}/>
+            {resources.map((institution, index) => (
+                <ResourceSection key={index} institution={institution} badges={badges}/>
             ))}
         </div>
     )

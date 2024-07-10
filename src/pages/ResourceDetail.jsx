@@ -1,6 +1,9 @@
 import BasicInfoHeader from "../components/resourceDetail/basicInfoSection/BasicInfoHeader";
 import BadgeSection from "../components/resourceDetail/badgeSection/BadgeSection";
 import BasicInfoFeatures from "../components/resourceDetail/basicInfoSection/BasicInfoFeatures";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {useLocation, useParams} from "react-router-dom";
 
 const jetStream4 = {
     id: 1,
@@ -151,12 +154,12 @@ const jetStream4 = {
     ],
 };
 
-function DescriptionSection({data}) {
+function DescriptionSection({description}) {
     return (
         <div className="description-section">
             <h2 className="description-title">Overview</h2>
             <p className="description-text">
-                {data.description}
+                {description}
             </p>
         </div>
     );
@@ -169,14 +172,52 @@ function FeatureSection({data}) {
 }
 
 export default function ResourceDetail() {
+    const location = useLocation();
+    const { resourceBadges } = location.state || {};
+    const { resourceId } = useParams();
+
+    const [resource, setResource] = useState(null);
+
+    useEffect(() => {
+        const fetchResource = async () => {
+            try {
+                const response = await axios.get(`/resource/${resourceId}`);
+                setResource(response.data.results);
+                return response.data.results;
+            } catch (error) {
+                console.error('Error fetching resource:', error);
+                return error;
+            }
+        };
+
+        fetchResource().then(r => {
+            if (r instanceof Error) {
+                console.log('Failed to fetch current resource:', r);
+            } else {
+                console.log('Resource fetched:', r);
+            }
+        });
+    }, [resourceId]);
+
+    const handleViewGuideClick = () => {
+        if (resource && resource.cider_view_url) {
+            window.open(resource.cider_view_url, "_blank");
+        }
+    };
+
+    if (!resource) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="resource-detail">
-            <BasicInfoHeader data={jetStream4}/>
-            <button className="btn btn-medium resource-detail-btn">View User Guide</button>
-            <DescriptionSection data={jetStream4}/>
+            <BasicInfoHeader resource={resource}/>
+            <button className="btn btn-medium resource-detail-btn" onClick={handleViewGuideClick}>
+                View User Guide
+            </button>
+            <DescriptionSection description={resource.resource_description}/>
             <FeatureSection data={jetStream4}/>
-            <BadgeSection data={jetStream4}/>
+            <BadgeSection resource={resource} badges={resourceBadges}/>
         </div>
     );
 }

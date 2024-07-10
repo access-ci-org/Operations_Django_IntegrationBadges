@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from "react";
 import BadgeContainer from "./badgeContainer/BadgeContainer";
 
-function ResourceBadgeHeader({ data,
+function ResourceBadgeHeader({ resource,
                                  selectedRoadmaps,
                                  toggleRoadmapOption,
                                  selectedView,
@@ -11,18 +11,18 @@ function ResourceBadgeHeader({ data,
             <div>
                 <h2>Resource Badges</h2>
                 <div className="resource-badge-header-filter">
-                    {data.roadmaps.map((item, index) => (
+                    {resource.roadmaps.map((item, index) => (
                         <div key={index} className="form-check">
                             <input
-                                className="form-check-input"
+                                className="form-check-input form-checkbox"
                                 type="checkbox"
-                                value={item.name}
-                                checked={selectedRoadmaps.includes(item.name)}
+                                value={item.roadmap.name}
+                                checked={selectedRoadmaps.includes(item.roadmap.name)}
                                 onChange={() => toggleRoadmapOption(item)}
                                 id={`roadmapCheckbox${index}`}
                             />
                             <label className="form-check-label" htmlFor={`roadmapCheckbox${index}`}>
-                                {item.name}
+                                {item.roadmap.name}
                             </label>
                         </div>
                     ))}
@@ -35,9 +35,9 @@ function ResourceBadgeHeader({ data,
     );
 }
 
-export default function BadgeSection({data}) {
-    const [selectedRoadmaps, setSelectedRoadmaps] = useState([data.roadmaps[0].name]);
-    const [selectedBadges, setSelectedBadges] = useState(data.roadmaps[0].badges);
+export default function BadgeSection({resource, badges}) {
+    const [selectedRoadmaps, setSelectedRoadmaps] = useState([resource.roadmaps[0].roadmap.name]);
+    const [selectedBadges, setSelectedBadges] = useState(resource.roadmaps[0].roadmap.badges);
 
     // True for Resource Provider View, False for Researcher View
     const [selectedView, setSelectedView] = useState(true);
@@ -50,32 +50,32 @@ export default function BadgeSection({data}) {
 
     const toggleRoadmapOption = useCallback((item) => {
         setSelectedRoadmaps(current => {
-            if (current.includes(item.name)) {
-                return current.filter(name => name !== item.name);
+            if (current.includes(item.roadmap.name)) {
+                return current.filter(name => name !== item.roadmap.name);
             } else {
-                return [...current, item.name];
+                return [...current, item.roadmap.name];
             }
         });
     }, []);
 
     React.useEffect(() => {
-        const selectedBadges = data.roadmaps
-            .filter(roadmap => selectedRoadmaps.includes(roadmap.name))
-            .flatMap(roadmap => roadmap.badges);
+        const selectedBadges = resource.roadmaps
+            .filter(roadmap => selectedRoadmaps.includes(roadmap.roadmap.name))
+            .flatMap(roadmap => roadmap.roadmap.badges);
         setSelectedBadges(selectedBadges);
-    }, [selectedRoadmaps, data.roadmaps]);
+    }, [selectedRoadmaps, resource.roadmaps]);
 
     return (
         <div className="resource-badge-section">
-            <ResourceBadgeHeader data={data}
+            <ResourceBadgeHeader resource={resource}
                                  selectedRoadmaps={selectedRoadmaps}
                                  selectedView={selectedView}
                                  toggleViewDisplay={toggleViewDisplay}
                                  toggleRoadmapOption={toggleRoadmapOption}/>
-            <BadgeContainer badges={selectedBadges}
-                            selectedView={selectedView}
-                            activeTab={activeTab}
-                            setActiveTab={setActiveTab}/>
+            {/*<BadgeContainer badges={selectedBadges}*/}
+            {/*                selectedView={selectedView}*/}
+            {/*                activeTab={activeTab}*/}
+            {/*                setActiveTab={setActiveTab}/>*/}
         </div>
     );
 }

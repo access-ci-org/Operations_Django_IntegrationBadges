@@ -1,27 +1,44 @@
 import placeholder from '../../../assets/img/placeholder_badge.png';
+import {ReactComponent as ArrowUpRightIcon} from '../../../assets/img/icons/arrow-up-right.svg';
+import {ReactComponent as EditIcon} from '../../../assets/img/icons/edit.svg';
 
-const links=[
+const implementationRoles=[
     {
-        url: "https://jetstream2.tacc.utexas.edu/",
-        text: "Submit a Ticket"
+        url: "https://google.com",
+        text: "Researcher Support Contacts"
     },
     {
-        url: "https://jetstream2.tacc.utexas.edu/",
-        text: "Integration Resources"
+        url: "https://google.com",
+        text: "RP Contacts"
     },
-    {
-        url: "https://jetstream2.tacc.utexas.edu/",
-        text: "Contact admins"
-    }
 ];
 
-function SidebarSection({title, links, editable}) {
+const supportContacts=[
+    {
+        url: "https://google.com",
+        text: "Open a Ticket"
+    },
+    {
+        url: "https://google.com",
+        text: "Integration Resources"
+    },
+];
+
+function SidebarSection({title, links, icon, editable}) {
     return (
         <div className="sidebar-section">
-            <p className="sidebar-section-title">{title}</p>
+            <div className="sidebar-section-title-wrapper">
+                <p className="sidebar-section-title">{title}</p>
+                {editable &&
+                    <EditIcon className="sidebar-section-title-icon"/>
+                }
+            </div>
             <div className="sidebar-section-links">
                 {links.map((link, index) => (
-                    <a key={index} href={link.url}>{link.text}</a>
+                    <a key={index} href={link.url}>
+                        {link.text}
+                        {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
+                    </a>
                 ))}
             </div>
         </div>
@@ -32,9 +49,9 @@ export default function BadgeDetailSideBar() {
     return (
         <div className="sidebar-wrapper">
             <img src={placeholder} alt="badge"/>
-            <SidebarSection title="Implementation Roles" links={links}/>
-            <SidebarSection title="Support Contacts" links={links}/>
-            <SidebarSection title="Badge Action and Url" links={links}/>
+            <SidebarSection title="Implementation Roles" links={implementationRoles}/>
+            <SidebarSection title="Support Contacts" links={supportContacts} icon/>
+            <SidebarSection title="Badge Action and Url" links={supportContacts} editable/>
         </div>
     );
 }

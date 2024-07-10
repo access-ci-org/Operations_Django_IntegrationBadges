@@ -5,6 +5,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ResourceDetail from "./pages/ResourceDetail";
 import BadgeDetail from "./pages/BadgeDetail";
 import Demo from "./pages/Demo";
+import axios from "axios";
+
+// Setting the default baseURL
+axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
 
 function App() {
     return (
