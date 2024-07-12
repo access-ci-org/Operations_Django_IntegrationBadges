@@ -4,13 +4,14 @@ import LabelTag from "../../../../../fragments/LabelTag";
 import {useNavigate, useParams} from "react-router-dom";
 import ResearcherModal from "../../../../../fragments/ResearcherModal";
 import {ReactComponent as ArrowRightIcon} from "../../../../../../assets/img/icons/arrow-up-right.svg";
+import {useBadges} from "../../../../../../contexts/BadgeContext";
 
 function ListAction({data, view}) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
 
     const handleBadgeClick = () => {
-        navigate(`/resourceBadge/${resourceId}/${data.id}`);
+        navigate(`/resourceBadge/${resourceId}/${data.badge_id}`);
     };
 
     return (
@@ -23,36 +24,51 @@ function ListAction({data, view}) {
             ) : (
                 <div>
                     <button className="btn list-action" data-bs-toggle="modal"
-                            data-bs-target={`#ResourceBadgeModal${data.id}`}>
+                            data-bs-target={`#ResourceBadgeModal${data.badge_id}`}>
                         Badge Action
                         <ArrowRightIcon style={{color: '#107180'}}/>
                     </button>
-                    <ResearcherModal id={`ResourceBadgeModal${data.id}`} name={data.name} status={data.status}
-                                     actionText={data.actionText} description={data.description}
-                                     actionUrl={data.actionUrl} source={data.source}/>
+                    <ResearcherModal id={`ResourceBadgeModal${data.badge_id}`} name={data.name}
+                                     status={"NotPlanned"} actionText={data.default_badge_access_url_label}
+                                     description={data.researcher_summary}
+                                     actionUrl={data.default_badge_access_url} source={"placeholder"}/>
                 </div>
             )}
         </div>
     );
 }
 
-export default function BadgeList({badges, view}) {
+// TODO: update the status
+export default function BadgeList({data, view}) {
+    const {badges} = useBadges();
 
     const labelTitle = (status) => {
-        if (status === "Verified") {
-            return "Available";
-        } else if (status === "Planned" || status === "TaskCompleted" || status === "VerificationFailed") {
-            return "Unverified";
-        } else if (status === "NotStarted" || status === "Deprecated" || status === "NotPlanned") {
-            return "Not Available";
+        switch (status) {
+            case "Verified":
+                return "Available";
+            case "Planned":
+            case "TaskCompleted":
+            case "VerificationFailed":
+                return "Unverified";
+            case "NotStarted":
+            case "Deprecated":
+            case "NotPlanned":
+            default:
+                return "Not Available";
         }
-    }
+    };
 
     const labelStyle = (status) => {
-        if (status === "NotStarted" || status === "Deprecated" || status === "NotPlanned") {
+        if (!status || status === "NotStarted" || status === "Deprecated" || status === "NotPlanned") {
             return {color: "#232323"};
         }
+        return {};
     }
+
+    const mergedData = data.map(item => ({
+        ...item,
+        badge: badges.find(b => b.badge_id === item.badge.badge_id)
+    })).filter(item => item.badge);
 
     return (
         <div className="container-fluid resource-badge-list-wrapper">
@@ -68,35 +84,36 @@ export default function BadgeList({badges, view}) {
                 </tr>
                 </thead>
                 <tbody>
-                {badges.map((badge, index) => (
-                    <tr key={index}>
-                        <th scope="row">{index + 1}</th>
-                        <td className="col-1" style={{textAlign: 'center'}}>
-                            <img src={placeholder} className="badge-list-img" alt={badge.name}/>
-                        </td>
-                        <td className="col-2">
-                            <div className="badge-list-name">
-                                {badge.name}
-                            </div>
-                        </td>
-                        <td className="col-4">
-                            <div className="badge-list-description">{badge.description}</div>
-                        </td>
-                        {view && <td className="col-1">{badge.required ? "Required" : "Optional"}</td>}
-                        {view ? (
-                                <td className="col-2"><StatusTag title={badge.status}/></td>)
-                            : (
-                                <td className="col-2">
-                                    <LabelTag title={labelTitle(badge.status)}
-                                              verified={badge.status === "Verified"}
-                                              style={labelStyle(badge.status)}/>
-                                </td>
-                            )}
-                        <td className="col-2">
-                            <ListAction data={badge} view={view}/>
-                        </td>
-                    </tr>
-                ))}
+                    {mergedData.map((item, index) => (
+                        <tr key={index}>
+                            <th scope="row">{index + 1}</th>
+                            <td className="col-1" style={{textAlign: 'center'}}>
+                                <img src={placeholder} className="badge-list-img" alt={item.badge.name}/>
+                            </td>
+                            <td className="col-2">
+                                <div className="badge-list-name">
+                                    {item.badge.name}
+                                </div>
+                            </td>
+                            <td className="col-4">
+                                <div className="badge-list-description">
+                                    {view ? item.badge.resource_provider_summary : item.badge.researcher_summary}
+                                </div>
+                            </td>
+                            {view && <td className="col-1">{item.badge.required ? "Required" : "Optional"}</td>}
+                            <td className="col-2">
+                                {view ?
+                                    <StatusTag title="NotPlanned"/>
+                                    :
+                                    <LabelTag title={labelTitle(item.badge.status)}
+                                              style={labelStyle(item.badge.status)}/>
+                                }
+                            </td>
+                            <td className="col-2">
+                                <ListAction data={item.badge} view={view}/>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

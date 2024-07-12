@@ -1,5 +1,6 @@
 import ResourceCard from "./resourceCard/ResourceCard";
 import {useState} from "react";
+import {useBadges} from "../../../../contexts/BadgeContext";
 
 function TitleSection({data, onToggleViewAll, viewAll}) {
     return (
@@ -16,8 +17,9 @@ function TitleSection({data, onToggleViewAll, viewAll}) {
 }
 
 
-export default function ResourceSection({institution, badges}) {
+export default function ResourceSection({institution}) {
     const [viewAll, setViewAll] = useState(false);
+    const { badges } = useBadges();
 
     const visibleResources = viewAll ? institution.resources : institution.resources.slice(0, 5);
     const toggleViewAll = () => setViewAll(!viewAll);

@@ -54,7 +54,7 @@ export default function BadgeDetailContent({data}) {
     return (
         <div className="content-wrapper">
             <BadgeDetailBasicInfo data={data}/>
-            <PrerequisiteBadgesContainer badges={badges}/>
+            {/*<PrerequisiteBadgesContainer badges={badges}/>*/}
             <TaskContainer />
         </div>
     );

@@ -1,6 +1,10 @@
 import BadgeDetailHeader from "../components/badgeDetail/BadgeDetailHeader";
 import BadgeDetailSideBar from "../components/badgeDetail/sidebar/BadgeDetailSideBar";
 import BadgeDetailContent from "../components/badgeDetail/content/BadgeDetailContent";
+import {useParams} from "react-router-dom";
+import {useBadges} from "../contexts/BadgeContext";
+import {useEffect, useState} from "react";
+import {useResources} from "../contexts/ResourcesContext";
 
 const badge = {
     badge_id: 1,
@@ -18,12 +22,32 @@ const badge = {
         "the request is addressed."
 }
 
-const resource_name = "Integrating Indiana Jetstreams 4";
-
 export default function BadgeDetail() {
+    const { resourceId, badgeId } = useParams();
+    const { badges } = useBadges();
+    const { resources } = useResources();
+    const [selectedBadge, setSelectedBadge] = useState(null);
+    const [selectedResource, setSelectedResource] = useState(null);
+
+    useEffect(() => {
+        // Find the badge in the list of badges
+        const badge = badges.find(b => b.badge_id === parseInt(badgeId, 10));
+        setSelectedBadge(badge);
+    }, [badges, badgeId]);
+
+    useEffect(() => {
+        // Find the resource in the list of resources
+        const resource = resources.find(b => b.cider_resource_id === parseInt(resourceId, 10));
+        setSelectedResource(resource);
+    }, [resources, resourceId]);
+
+    if (!selectedBadge || !selectedResource) {
+        return <div>Loading...</div>
+    }
+
     return (
         <div className="badge-detail-wrapper">
-            <BadgeDetailHeader title={resource_name} link={"#"} badges={[badge]}/>
+            <BadgeDetailHeader resource={selectedResource}/>
             <div className="main-wrapper">
                 <BadgeDetailSideBar />
                 <BadgeDetailContent data={badge}/>

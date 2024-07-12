@@ -7,25 +7,25 @@ export default function ListView({recommendedBadges, plannedBadges, achievedBadg
                  id="resource-badge-container-recommended-tab" role="tabpanel"
                  aria-labelledby="resource-badge-container-recommended-tab" tabIndex="0">
                 {selectedView ?
-                    <BadgeList badges={recommendedBadges} view={selectedView}/>
+                    <BadgeList data={recommendedBadges} view={selectedView}/>
                     :
-                    <BadgeList badges={achievedBadges} view={selectedView}/>
+                    <BadgeList data={achievedBadges} view={selectedView}/>
                 }
             </div>
             <div className={`tab-pane fade ${activeTab === 'planned' ? 'show active' : ''}`}
                  id="resource-badge-container-planned-tab" role="tabpanel"
                  aria-labelledby="resource-badge-container-planned-tab" tabIndex="0">
                 {selectedView ?
-                    <BadgeList badges={plannedBadges} view={selectedView}/>
+                    <BadgeList data={plannedBadges} view={selectedView}/>
                     :
-                    <BadgeList badges={plannedBadges.concat(recommendedBadges)} view={selectedView}/>
+                    <BadgeList data={plannedBadges.concat(recommendedBadges)} view={selectedView}/>
                 }
             </div>
             {selectedView &&
                 <div className={`tab-pane fade ${activeTab === 'achieved' ? 'show active' : ''}`}
                      id="resource-badge-container-achieved-tab" role="tabpanel"
                      aria-labelledby="resource-badge-container-achieved-tab" tabIndex="0">
-                    <BadgeList badges={achievedBadges} view={selectedView}/>
+                    <BadgeList data={achievedBadges} view={selectedView}/>
                 </div>
             }
         </div>

@@ -35,7 +35,7 @@ function ResourceBadgeHeader({ resource,
     );
 }
 
-export default function BadgeSection({resource, badges}) {
+export default function BadgeSection({resource}) {
     const [selectedRoadmaps, setSelectedRoadmaps] = useState([resource.roadmaps[0].roadmap.name]);
     const [selectedBadges, setSelectedBadges] = useState(resource.roadmaps[0].roadmap.badges);
 
@@ -72,10 +72,10 @@ export default function BadgeSection({resource, badges}) {
                                  selectedView={selectedView}
                                  toggleViewDisplay={toggleViewDisplay}
                                  toggleRoadmapOption={toggleRoadmapOption}/>
-            {/*<BadgeContainer badges={selectedBadges}*/}
-            {/*                selectedView={selectedView}*/}
-            {/*                activeTab={activeTab}*/}
-            {/*                setActiveTab={setActiveTab}/>*/}
+            <BadgeContainer roadmapBadges={selectedBadges}
+                            selectedView={selectedView}
+                            activeTab={activeTab}
+                            setActiveTab={setActiveTab}/>
         </div>
     );
 }

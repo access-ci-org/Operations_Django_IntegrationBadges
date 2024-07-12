@@ -1,8 +1,8 @@
-import jetStream2 from '../../../../../assets/img/jetstream2_logo.png';
+import QuestionIcon from '../../../../../assets/img/icons/question-circle.svg';
 
 
 export default function ResourceCardHeader ({ resource }) {
-    let logo = resource.organization_logo_url ? resource.organization_logo_url : jetStream2;
+    let logo = resource.organization_logo_url ? resource.organization_logo_url : QuestionIcon;
 
     return (
         <div className="card-header-wrapper">

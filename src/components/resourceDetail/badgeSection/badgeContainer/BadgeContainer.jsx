@@ -2,29 +2,28 @@ import {useEffect, useState} from "react";
 import DashboardView from "./views/DashboardView";
 import ListView from "./views/ListView/ListView";
 import BadgeContainerViewOption from "../../../fragments/BadgeContainerViewOption";
+import {useBadges} from "../../../../contexts/BadgeContext";
 
-export default function BadgeContainer({badges, selectedView, activeTab, setActiveTab}) {
-    // True for Dashboard View, False for List View
-    const [badgeDisplay, setBadgeDisplay] = useState(true);
-    const toggleBadgeDisplay = () => {
-        setBadgeDisplay(current => !current);
-    };
+export default function BadgeContainer({roadmapBadges, selectedView, activeTab, setActiveTab}) {
+    const { badges } = useBadges();
+    const [badgeDisplay, setBadgeDisplay] = useState(true); // true for dashboard view
     const [recommendedBadges, setRecommendedBadges] = useState([]);
     const [plannedBadges, setPlannedBadges] = useState([]);
     const [achievedBadges, setAchievedBadges] = useState([]);
 
     useEffect(() => {
-        const recommended = badges.filter(badge => badge.status === "NotStarted"
-            || badge.status === "Deprecated"
-            || badge.status === "NotPlanned");
-        const planned = badges.filter(badge => badge.status === "Planned"
-            || badge.status === "TaskCompleted"
-            || badge.status === "VerificationFailed");
-        const achieved = badges.filter(badge => badge.status === "Verified");
-        setRecommendedBadges(recommended);
-        setPlannedBadges(planned);
-        setAchievedBadges(achieved);
-    }, [badges]);
+        // const planned = badges.filter(badge => badge.status === "Planned"
+        //     || badge.status === "TaskCompleted"
+        //     || badge.status === "VerificationFailed");
+        // const achieved = badges.filter(badge => badge.status === "Verified");
+        setRecommendedBadges(roadmapBadges);
+        setPlannedBadges([]);
+        setAchievedBadges([]);
+    }, [roadmapBadges, badges]);
+
+    const toggleBadgeDisplay = () => {
+        setBadgeDisplay(current => !current);
+    };
 
     return (
         <div className="resource-badge-container-container">
@@ -58,7 +57,7 @@ export default function BadgeContainer({badges, selectedView, activeTab, setActi
                                     data-bs-target="#resource-badge-container-achieved-tab"
                                     type="button" role="tab" aria-controls="resource-badge-container-achieved-tab"
                                     aria-selected="false" onClick={() => setActiveTab('achieved')}>
-                                Achieved ({achievedBadges.length})
+                                Available ({achievedBadges.length})
                             </button>
                         </li>
                     }
