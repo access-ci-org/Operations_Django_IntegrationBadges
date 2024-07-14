@@ -1,24 +1,48 @@
-import React, {useState} from 'react';
-import ResourceCardHeader from "./ResourceCardHeader";
+import React from 'react';
 import ResourceCardBadge from "./ResourceCardBadge";
 import {useNavigate} from "react-router-dom";
+import {useBadges} from "../../../../contexts/BadgeContext";
+import {ReactComponent as PlaceholderIcon} from "../../../../assets/img/icons/pc-display.svg";
 
-export default function ResourceCard({ resource, badges }) {
+/**
+ * The header of the resource card displaying the organization logo.
+ * @param {string} name - Name of the organization.
+ * @param {string} url - URL of the organization logo.
+ */
+function ResourceCardHeader ({ name, url }) {
+
+    return (
+        <div className="card-header-wrapper">
+            {url ?
+                <div className="card-header">
+                    <img src={url} alt={name}/>
+                </div>
+                :
+                <div className="card-header-placeholder">
+                    <PlaceholderIcon style={{ width: '100%', height: '60%' }}/>
+                    {/*<p>Logo Not Available</p>*/}
+                </div>
+            }
+        </div>
+    );
+}
+
+/**
+ * A card that displays a single resource.
+ * @param {Object} resource - The single resource to display.
+ */
+export default function ResourceCard({ resource }) {
+    const { badges } = useBadges();
     const count = resource.badges.length;
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        // Find badges related to this resource
-        const resourceBadges = resource.badges.map(badge => {
-            return badges.find(b => b.badge_id === badge.badge_id);
-        }).filter(b => b != null);
-
-        navigate(`/resourceDetail/${resource.cider_resource_id}`, { state: { resourceBadges } });
+        navigate(`/resourceDetail/${resource.cider_resource_id}`);
     };
 
     return (
         <div className="card resource-card" onClick={handleCardClick}>
-            <ResourceCardHeader resource={resource}/>
+            <ResourceCardHeader name={resource.organization_name} url={resource.organization_logo_url}/>
             <div className="card-body-wrapper">
                 <div className="card-body">
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -26,13 +50,13 @@ export default function ResourceCard({ resource, badges }) {
                         <p className="resource-type">{resource.cider_type} Resource</p>
                     </div>
                     <p className="card-text">
-                        {resource.resource_description}
+                        {resource.resource_description ? resource.resource_description : 'Description not available.'}
                     </p>
                     <div className="badge-container">
                         {resource.badges.slice(0, count > 4 ? 4 : count).map((badge, index) => {
                             const badgeData = badges.find(b => b.badge_id === badge.badge_id);
                             return (
-                                <ResourceCardBadge key={index} source={resource.resource_descriptive_name}
+                                <ResourceCardBadge key={index} resourceName={resource.resource_descriptive_name}
                                                    badge={badgeData} index={index} />
                             );
                         })}

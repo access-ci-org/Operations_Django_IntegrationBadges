@@ -5,7 +5,14 @@ import ResearcherModal from "../ResearcherModal";
 import ResourceBadgeTopTag from "./ResourceBadgeTopTag";
 import {useBadges} from "../../../contexts/BadgeContext";
 
-function ResourceBadgeAction({view, badge}) {
+/**
+ * The action button for the badge card. It will either navigate to the badge detail page.
+ * @param view - True for Resource Provider View, False for Researcher View
+ * @param {Object} badge - The badge model got from the badge context
+ * @param {string} status - The status of the badge
+ * TODO: find out how to retrieve resource name, actionUrl, and actionText
+ */
+function ResourceBadgeAction({view, badge, status }) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
 
@@ -26,9 +33,9 @@ function ResourceBadgeAction({view, badge}) {
                         Badge Action
                     </button>
                     <ResearcherModal id={`ResourceBadgeModal${badge.badge_id}`} name={badge.name}
-                                     status={"NotPlanned"} actionText={badge.default_badge_access_url_label}
+                                     status={status} actionText={badge.default_badge_access_url_label}
                                      description={badge.researcher_summary}
-                                     actionUrl={badge.default_badge_access_url} source={"placeholder"}/>
+                                     actionUrl={badge.default_badge_access_url} resourceName={"placeholder"}/>
                 </div>
             )}
         </div>
@@ -36,13 +43,14 @@ function ResourceBadgeAction({view, badge}) {
 }
 
 /**
- * A badge card that displays the basic info of a badge model.
- * @param data - the resource badge model
- * @param view - true if under RP view, false if under researcher view
+ * A badge card that displays the basic info of a badge model. It is being used in the dashboard view.
+ * @param {Object} data - the resource badge model, plus the status of the badge
+ * @param view - True for Resource Provider View, False for Researcher View
  */
 export default function ResourceBadge({data, view}) {
     const { badges } = useBadges();
 
+    // find the badge object with the full information from the badge id
     const badge = badges.find(b => b.badge_id === data.badge.badge_id);
 
     return (
@@ -51,8 +59,7 @@ export default function ResourceBadge({data, view}) {
                 {(data.required && view) &&
                     <ResourceBadgeTopTag required={true}/>}
                 {!view &&
-                    // TODO: Change the title to the actual status
-                    <ResourceBadgeTopTag title={"NotPlanned"}/>}
+                    <ResourceBadgeTopTag title={data.status}/>}
                 <img src={placeholder} className="card-img-top" alt={badge.name}/>
             </div>
             <div className="card-body">
@@ -62,10 +69,10 @@ export default function ResourceBadge({data, view}) {
                 </p>
                 {view &&
                     <div className="resource-badge-tag-section">
-                        <StatusTag title={"NotPlanned"}/>
+                        <StatusTag title={data.status}/>
                     </div>
                 }
-                <ResourceBadgeAction view={view} badge={badge}/>
+                <ResourceBadgeAction view={view} badge={badge} status={data.status}/>
             </div>
         </div>
     );

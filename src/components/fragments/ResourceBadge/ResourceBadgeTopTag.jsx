@@ -2,9 +2,10 @@ import {useEffect, useState} from "react";
 import LabelTag from "../LabelTag";
 
 /**
- * The top tag of a resource badge card.
- * @param required - true if the badge is required, false otherwise
- * @param title - can be any of the following:
+ * The top tag of a resource badge card, mainly for researcher view badges and required tag
+ * for resource provider view badges.
+ * @param {Boolean} required - true if the badge is required, false otherwise
+ * @param {string} title - can be any of the following:
  * "Planned", "TaskCompleted", "VerificationFailed", "Verified", "NotStarted", "Deprecated", "NotPlanned"
  */
 export default function ResourceBadgeTopTag({required, title}) {

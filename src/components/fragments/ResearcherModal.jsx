@@ -1,7 +1,27 @@
 import placeholderBadge from "../../assets/img/placeholder_badge.png";
 import LabelTag from "./LabelTag";
 
-export default function ResearcherModal({id, status, name, source, description, actionUrl, actionText}) {
+/**
+ * A modal that displays the badge information for a researcher.
+ * @param {string} id - The id of the modal.
+ * @param {string} img - The logo of the badge.
+ * @param {string} name - badge name.
+ * @param {string} status - badge status.
+ * @param {string} resourceName - The name of the resource.
+ * @param {string} description - The researcher summary of the badge.
+ * @param {string} actionUrl - The URL to access the badge action.
+ * @param {string} actionText - The text to display on the action button.
+ */
+export default function ResearcherModal({
+                                            id,
+                                            img,
+                                            name,
+                                            status,
+                                            resourceName,
+                                            description,
+                                            actionUrl,
+                                            actionText
+                                        }) {
     const handleCloseClick = (event) => {
         event.stopPropagation();
     };
@@ -14,13 +34,13 @@ export default function ResearcherModal({id, status, name, source, description, 
                     <div className="modal-body badge-modal-body">
                         <div className="badge-modal-header">
                             <div className="badge-modal-header-info">
-                                <img src={placeholderBadge} alt="badge" className="badge-icon"/>
+                                <img src={img ? img : placeholderBadge} alt={name} className="badge-icon"/>
                                 <div className="badge-modal-header-info-title">
-                                    <LabelTag title={status === "Verified" ? "Available" : "Unverified"}
-                                              verified={status === "Verified"} style={{margin: '0'}}/>
-                                    <div style={{ paddingTop: "16px" }}>
+                                    {status && <LabelTag title={status === "Verified" ? "Available" : "Unverified"}
+                                                        verified={status === "Verified"} style={{margin: '0'}}/>}
+                                    <div style={{paddingTop: "16px"}}>
                                         <p className="badge-modal-name">{name}</p>
-                                        <p className="badge-modal-source">{source}</p>
+                                        <p className="badge-modal-source">{resourceName}</p>
                                     </div>
                                 </div>
                             </div>

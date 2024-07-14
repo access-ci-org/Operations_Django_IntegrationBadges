@@ -4,6 +4,15 @@ import ListView from "./views/ListView/ListView";
 import BadgeContainerViewOption from "../../../fragments/BadgeContainerViewOption";
 import {useBadges} from "../../../../contexts/BadgeContext";
 
+/**
+ * The container for the badges. The badges are displayed in a dashboard view or a list view.
+ * The badges are filtered based on the status of the badge,
+ * which is determined by the resource.badge_status.
+ * @param {Object} roadmapBadges - The badges associated with the resource
+ * @param selectedView - True for Resource Provider View, False for Researcher View
+ * @param activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
+ * @param {Function} setActiveTab - Function to set the current active tab
+ */
 export default function BadgeContainer({roadmapBadges, selectedView, activeTab, setActiveTab}) {
     const { badges } = useBadges();
     const [badgeDisplay, setBadgeDisplay] = useState(true); // true for dashboard view
@@ -11,14 +20,17 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
     const [plannedBadges, setPlannedBadges] = useState([]);
     const [achievedBadges, setAchievedBadges] = useState([]);
 
+    // Update the badges with status information from resource.badge_status
     useEffect(() => {
-        // const planned = badges.filter(badge => badge.status === "Planned"
-        //     || badge.status === "TaskCompleted"
-        //     || badge.status === "VerificationFailed");
-        // const achieved = badges.filter(badge => badge.status === "Verified");
-        setRecommendedBadges(roadmapBadges);
-        setPlannedBadges([]);
-        setAchievedBadges([]);
+        const recommended = roadmapBadges.filter(badge =>
+            badge.status === "NotPlanned" || badge.status === "Deprecated");
+        const planned = roadmapBadges.filter(badge => badge.status === "Planned"
+            || badge.status === "TaskCompleted"
+            || badge.status === "VerificationFailed");
+        const achieved = roadmapBadges.filter(badge => badge.status === "Verified");
+        setRecommendedBadges(recommended);
+        setPlannedBadges(planned);
+        setAchievedBadges(achieved);
     }, [roadmapBadges, badges]);
 
     const toggleBadgeDisplay = () => {

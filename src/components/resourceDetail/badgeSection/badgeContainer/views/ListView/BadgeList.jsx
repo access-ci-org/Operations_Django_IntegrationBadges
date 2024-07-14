@@ -6,7 +6,14 @@ import ResearcherModal from "../../../../../fragments/ResearcherModal";
 import {ReactComponent as ArrowRightIcon} from "../../../../../../assets/img/icons/arrow-up-right.svg";
 import {useBadges} from "../../../../../../contexts/BadgeContext";
 
-function ListAction({data, view}) {
+/**
+ * The action button for each badge in the list.
+ * @param {Object} data - The merged badge information
+ * @param view - True for Resource Provider View, False for Researcher View
+ * @param {string} status - The status of the badge
+ * TODO: find out how to retrieve resource name, actionUrl, and actionText
+ */
+function ListAction({data, view, status}) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
 
@@ -29,16 +36,20 @@ function ListAction({data, view}) {
                         <ArrowRightIcon style={{color: '#107180'}}/>
                     </button>
                     <ResearcherModal id={`ResourceBadgeModal${data.badge_id}`} name={data.name}
-                                     status={"NotPlanned"} actionText={data.default_badge_access_url_label}
+                                     status={status} actionText={data.default_badge_access_url_label}
                                      description={data.researcher_summary}
-                                     actionUrl={data.default_badge_access_url} source={"placeholder"}/>
+                                     actionUrl={data.default_badge_access_url} resourceName={"placeholder"}/>
                 </div>
             )}
         </div>
     );
 }
 
-// TODO: update the status
+/**
+ * A list of badges on the resource detail page.
+ * @param {Object} data - The badge information got from roadmapBadges
+ * @param view - True for Resource Provider View, False for Researcher View
+ */
 export default function BadgeList({data, view}) {
     const {badges} = useBadges();
 
@@ -100,17 +111,17 @@ export default function BadgeList({data, view}) {
                                     {view ? item.badge.resource_provider_summary : item.badge.researcher_summary}
                                 </div>
                             </td>
-                            {view && <td className="col-1">{item.badge.required ? "Required" : "Optional"}</td>}
+                            {view && <td className="col-1">{item.required ? "Required" : "Optional"}</td>}
                             <td className="col-2">
                                 {view ?
-                                    <StatusTag title="NotPlanned"/>
+                                    <StatusTag title={item.status}/>
                                     :
-                                    <LabelTag title={labelTitle(item.badge.status)}
-                                              style={labelStyle(item.badge.status)}/>
+                                    <LabelTag title={labelTitle(item.status)}
+                                              style={labelStyle(item.status)}/>
                                 }
                             </td>
                             <td className="col-2">
-                                <ListAction data={item.badge} view={view}/>
+                                <ListAction data={item.badge} view={view} status={item.status}/>
                             </td>
                         </tr>
                     ))}

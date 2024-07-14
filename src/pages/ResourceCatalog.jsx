@@ -1,16 +1,22 @@
-import CatalogTitle from "../components/resourceCatalog/titleSection/CatalogTitle";
-import {ResourceList} from "../components/resourceCatalog/resourceList/ResourceList";
 import CatalogFooter from "../components/resourceCatalog/footerSection/CatalogFooter";
 import CatalogSearch from "../components/resourceCatalog/titleSection/CatalogSearch";
 import {useBadges} from "../contexts/BadgeContext";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
+import ResourceSection from "../components/resourceCatalog/resourceSection/ResourceSection";
+import LoadingPage from "../components/fragments/LoadingPage";
 
+/**
+ * The initial page that displays al resources.
+ * Get the full list of resources and badges from the contexts.
+ * Sort resources by organization name and group them by organization.
+ */
 export default function ResourceCatalog() {
     const {badges} = useBadges();
     const {resources} = useResources();
-    const [updatedResources, setUpdatedResources] = useState([]);
+    const [updatedResources, setUpdatedResources] = useState(null);
 
+    // sort resources by organization name and group them by organization
     useEffect(() => {
         const sortedData = resources.sort((a, b) =>
             a.organization_name.localeCompare(b.organization_name));
@@ -31,16 +37,26 @@ export default function ResourceCatalog() {
             }
             groups[organization_name].resources.push(resource);
         });
+
         return Object.values(groups);
     }
 
     return (
         <div className="resource-catalog-wrapper">
-            <CatalogTitle/>
+            <div>
+                <h1 style={{fontWeight: '500'}}>ACCESS Active Resource Catalog</h1>
+                <h3 style={{paddingTop: '28px', fontWeight: '800', fontStyle: 'normal'}}>
+                    Comprehensive list of all resources integrated within ACCESS.
+                </h3>
+            </div>
             <CatalogSearch/>
             {(badges && updatedResources) ?
-                <ResourceList resources={updatedResources}/>
-                : <div>Loading...</div>
+                <div className="container-fluid resource-list">
+                    {updatedResources.map((institution, index) => (
+                        <ResourceSection key={index} institution={institution}/>
+                    ))}
+                </div>
+                : <LoadingPage/>
             }
             <CatalogFooter/>
         </div>

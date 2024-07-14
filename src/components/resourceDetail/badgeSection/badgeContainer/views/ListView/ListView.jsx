@@ -1,6 +1,20 @@
 import BadgeList from "./BadgeList";
 
-export default function ListView({recommendedBadges, plannedBadges, achievedBadges, selectedView, activeTab}) {
+/**
+ * Displaying the badges in a list view.
+ * @param {Object} recommendedBadges - not planned or deprecated badges
+ * @param {Object} plannedBadges - planned, task completed, or verification failed badges
+ * @param {Object} achievedBadges - verified badges
+ * @param selectedView - True for Resource Provider View, False for Researcher View
+ * @param activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
+ */
+export default function ListView({
+                                     recommendedBadges,
+                                     plannedBadges,
+                                     achievedBadges,
+                                     selectedView,
+                                     activeTab
+                                 }) {
     return (
         <div className="tab-content resource-badge-container-content" id="resource-badges-tabContent">
             <div className={`tab-pane fade ${activeTab === 'recommended' ? 'show active' : ''}`}

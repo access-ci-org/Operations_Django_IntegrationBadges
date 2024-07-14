@@ -1,5 +1,9 @@
-import jetStream2 from '../../../assets/img/jetstream2_logo.png';
+import placeholder from '../../../assets/img/icons/pc-display.svg';
 
+/**
+ * The header section of the resource detail page.
+ * @param {Object} resource - The resource object to display.
+ */
 export default function BasicInfoHeader({resource}) {
     return (
         <div className="resource-detail-header">
@@ -24,7 +28,7 @@ export default function BasicInfoHeader({resource}) {
                 </div>
             </div>
             <div className="resource-detail-header-img">
-                <img src={resource.organization_logo_url ? resource.organization_logo_url : jetStream2}
+                <img src={resource.organization_logo_url ? resource.organization_logo_url : placeholder}
                      alt={resource.organization_name}/>
             </div>
         </div>

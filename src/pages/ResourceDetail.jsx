@@ -3,30 +3,35 @@ import BadgeSection from "../components/resourceDetail/badgeSection/BadgeSection
 import BasicInfoFeatures from "../components/resourceDetail/basicInfoSection/BasicInfoFeatures";
 import {useParams} from "react-router-dom";
 import {useBadges} from "../contexts/BadgeContext";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
+import LoadingPage from "../components/fragments/LoadingPage";
 
-function DescriptionSection({description}) {
+/**
+ * For the case where there are no badges associated with the resource.
+ */
+function BadgeSectionPlaceholder() {
     return (
-        <div className="description-section">
-            <h2 className="description-title">Overview</h2>
-            <p className="description-text">
-                {description}
-            </p>
+        <div className="resource-badge-section">
+            <div className="resource-badge-header">
+                <h2>Resource Badges</h2>
+            </div>
+            <div>
+                No badges associated with this resource.
+            </div>
         </div>
     );
 }
 
-function FeatureSection({data}) {
-    return (
-        <BasicInfoFeatures data={data}/>
-    );
-}
-
+/**
+ * The page that displays the detail of a resource, including
+ * all the badges that are associated with the resource.
+ * TODO: Implement feature section after features are developed
+ */
 export default function ResourceDetail() {
-    const { resourceId } = useParams();
+    const {resourceId} = useParams();
     const [resource, setResource] = useState(null);
-    const { badges} = useBadges();
+    const {badges} = useBadges();
 
     useEffect(() => {
         const fetchResource = async () => {
@@ -55,8 +60,9 @@ export default function ResourceDetail() {
         }
     };
 
+    // If the resource is not fetched yet, display loading page
     if (!resource || !badges) {
-        return <div>Loading...</div>;
+        return (<LoadingPage/>);
     }
 
     return (
@@ -65,11 +71,15 @@ export default function ResourceDetail() {
             <button className="btn btn-medium resource-detail-btn" onClick={handleViewGuideClick}>
                 View User Guide
             </button>
-            <DescriptionSection description={resource.resource_description}/>
-            {/*<FeatureSection data={jetStream4}/> TODO: Implement feature section after features are developed*/}
-            {resource.roadmaps && resource.roadmaps.length > 0 && (
-                <BadgeSection resource={resource}/>
-            )}
+            <div className="description-section">
+                <h2 className="description-title">Overview</h2>
+                <p className="description-text">
+                    {resource.resource_description ? resource.resource_description : 'Description not available.'}
+                </p>
+            </div>
+            {/*<BasicInfoFeatures data={jetStream4}/>*/}
+            {(resource.roadmaps && resource.roadmaps.length > 0) ?
+                <BadgeSection resource={resource}/> : <BadgeSectionPlaceholder/>}
         </div>
     );
 }

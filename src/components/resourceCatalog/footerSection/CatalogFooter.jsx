@@ -39,6 +39,10 @@ function LinkSection({data}) {
 
 }
 
+/**
+ * Footer section of the catalog page. Links are static.
+ * TODO: Get the real links
+ */
 export default function CatalogFooter() {
     return (
         <div className={"row row-cols-4 link-panel"}>
