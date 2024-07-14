@@ -50,12 +50,12 @@ const badges = [
     }
 ]
 
-export default function BadgeDetailContent({data}) {
+export default function BadgeDetailContent({badge, tasks}) {
     return (
         <div className="content-wrapper">
-            <BadgeDetailBasicInfo data={data}/>
+            <BadgeDetailBasicInfo badge={badge}/>
             {/*<PrerequisiteBadgesContainer badges={badges}/>*/}
-            <TaskContainer />
+            <TaskContainer badgeId={badge.badge_id} tasks={tasks}/>
         </div>
     );
 }

@@ -1,23 +1,45 @@
 import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-triangle.svg';
 import {ReactComponent as ArrowIcon} from '../../../assets/img/icons/arrow-right.svg';
 
-const tasks = [
-    {title: 'Ticket Routing Queue Setup - For RP queues', url: "https://google.com"},
-    {title: 'Ticket Routing Queue Setup - For ACCESS awardee queues', url: "https://google.com"},
-    {title: 'Ticket Handling', url: "https://google.com"},
-];
+function BadgeTask({index, parentId, task}) {
+    const targetId = `#${parentId}${index}`;
 
-function BadgeTask({title, url}) {
     return (
-        <button className="btn btn-secondary task-list-action"
-                onClick={() => window.location.href = url}>
-            {title}
-            <ArrowIcon style={{color: '#1a5b6e'}}/>
-        </button>
+        <div className="accordion-item task-wrapper">
+            <h2 className="accordion-header" id={`heading${parentId}${index}`}>
+                <button className="accordion-button collapsed task-title" type="button"
+                        data-bs-toggle="collapse" data-bs-target={targetId}
+                        aria-expanded="false" aria-controls={parentId + index}>
+                    {task.name}
+                </button>
+            </h2>
+            <div id={parentId + index} className="accordion-collapse collapse task-content"
+                 aria-labelledby={`heading${parentId}${index}`}>
+                <div className="accordion-body">
+                    <p className="task-summary">{task.technical_summary}</p>
+                    <div className="task-options-wrapper">
+                        <div className="task-options">
+                            <div className="task-option-box">
+                                <p>Implementation Roles</p>
+                                <p>{task.implementor_roles}</p>
+                            </div>
+                            <div className="task-option-box">
+                                <p>Task Experts</p>
+                                <p>{task.task_experts}</p>
+                            </div>
+                        </div>
+                        <button className="btn btn-medium" onClick={task.detailed_instructions_url}>
+                            View Task Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 
-export default function TaskContainer() {
+
+export default function TaskContainer({badgeId, tasks}) {
     return (
         <div className="task-container">
             <div className="task-container-header">
@@ -30,9 +52,12 @@ export default function TaskContainer() {
                     Mark as Completed
                 </button>
             </div>
-            <div className="task-list">
+            <div className="accordion task-list" id={`BadgeTaskContainer${badgeId}`}>
                 {tasks.map((task, index) => (
-                    <BadgeTask key={index} title={task.title} url={task.url}/>
+                    <BadgeTask key={index}
+                               index={index}
+                               parentId={`BadgeTaskContainer${badgeId}`}
+                               task={task.task}/>
                 ))}
             </div>
         </div>

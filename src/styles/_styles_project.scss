@@ -15,6 +15,10 @@ h1, .h1 {
     margin-bottom: 0;
 }
 
+p {
+    margin-bottom: 0;
+}
+
 // resource catalog page
 .resource-catalog-wrapper {
 
@@ -43,7 +47,6 @@ h1, .h1 {
                 color: $access-grey;
                 font-size: 16px;
                 font-weight: 500;
-                margin-bottom: 0;
             }
 
             .dropdown-toggle {
@@ -119,7 +122,6 @@ h1, .h1 {
         }
 
         p {
-            margin-bottom: 0;
             font-size: 14px;
         }
 
@@ -397,7 +399,6 @@ h1, .h1 {
                 gap: 32px;
 
                 p {
-                    margin-bottom: 0;
                     font-size: 18px;
                     font-weight: 500;
                 }
@@ -450,7 +451,6 @@ h1, .h1 {
         p {
             color: $access-grey;
             max-width: 80%;
-            margin-bottom: 0;
         }
     }
 
@@ -645,6 +645,7 @@ h1, .h1 {
     .header-wrapper {
         display: flex;
         justify-content: space-between;
+        align-items: flex-start;
         margin-bottom: 32px;
 
         .title-wrapper {
@@ -661,6 +662,29 @@ h1, .h1 {
                 font-weight: 500;
             }
         }
+
+        .btn-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+
+            p {
+                white-space: nowrap;
+                color: $access-grey;
+            }
+
+            .dropdown-toggle {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border: 1px solid $access-grey-medium;
+                border-radius: 4px;
+                max-height: 36px;
+                min-width: 120px;
+            }
+        }
+
     }
 
     .main-wrapper {
@@ -788,7 +812,6 @@ h1, .h1 {
                         }
 
                         p {
-                            margin-bottom: 0;
                             font-size: 18px;
                             font-weight: 500;
                         }
@@ -855,42 +878,93 @@ h1, .h1 {
                             display: flex;
                             align-items: center;
                             gap: 4px;
-                            margin-bottom: 0;
                         }
                     }
 
                     .btn {
                         max-height: 38px;
+                        white-space: nowrap;
                     }
                 }
 
                 .task-list {
                     display: flex;
                     flex-direction: column;
-                    gap: 16px;
                     margin-top: 32px;
+                    gap: 20px;
 
-                    .task-list-action {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-left: 0;
-                        margin-right: 0;
-                        padding: 16px;
-                        font-size: 18px;
-                        border-radius: 8px;
+                    .task-wrapper {
                         border: none;
-                        line-height: 30px;
-                        min-height: 50px;
-                        max-height: 50px;
-                        color: $access-medium;
-                        background: $access-grey-light;
 
-                        &:hover {
-                            cursor: pointer;
-                            background: $access-grey-medium;
+                        .task-title {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-left: 0;
+                            margin-right: 0;
+                            padding: 16px;
+                            font-size: 18px;
+                            border-radius: 8px;
+                            border: none;
+                            line-height: 30px;
+                            min-height: 50px;
+                            max-height: 50px;
+                            color: $access-medium;
+                            background: $access-grey-light;
+
+                            &:not(.collapsed) {
+                                border-bottom-left-radius: 0;
+                                border-bottom-right-radius: 0;
+                                box-shadow: none;
+                            }
+                        }
+
+                        .task-content {
+                            border: 1px solid $access-grey-light;
+                            border-bottom-left-radius: 8px;
+                            border-bottom-right-radius: 8px;
+
+                            .task-summary {
+                                display: -webkit-box;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 3;
+                            }
+
+                            .task-options-wrapper {
+                                display: flex;
+                                justify-content: space-between;
+                                margin-top: 16px;
+                                align-items: flex-start;
+
+                                .task-options {
+                                    display: flex;
+                                    gap: 64px;
+                                    align-items: center;
+
+                                    .task-option-box {
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: space-between;
+                                        gap: 4px;
+
+                                        p:first-of-type {
+                                            font-size: 14px;
+                                            font-weight: 400;
+                                            line-height: 20px;
+                                            color: $access-grey;
+                                        }
+
+                                        p {
+                                            font-size: 16px;
+                                            font-weight: 500;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
+
+
                 }
             }
         }
@@ -933,7 +1007,6 @@ h1, .h1 {
 
             p {
                 color: $access-grey;
-                margin-bottom: 0;
             }
 
             .badge-modal-input-wrapper {

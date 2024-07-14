@@ -66,13 +66,13 @@ function BadgeDescription({description}) {
     );
 }
 
-export default function BadgeDetailBasicInfo({data}) {
+export default function BadgeDetailBasicInfo({badge}) {
     return (
         <div className="basic-info-wrapper">
-            <BadgeTitle title={"Ticket Handling"} required={true} status={"NotPlanned"}/>
-            <BadgeStatus type={"Coordination"} status={"NotPlanned"}
+            <BadgeTitle title={badge.name} required={badge.required} status={badge.status}/>
+            <BadgeStatus type={"Coordination"} status={badge.status}
                          roles={"Resource or Service Integration Coordinator"} />
-            <BadgeDescription description={data.resource_provider_summary} />
+            <BadgeDescription description={badge.resource_provider_summary} />
         </div>
     );
 }

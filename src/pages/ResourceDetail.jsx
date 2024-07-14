@@ -40,7 +40,6 @@ export default function ResourceDetail() {
                 setResource(response.data.results);
                 return response.data.results;
             } catch (error) {
-                console.error('Error fetching resource:', error);
                 return error;
             }
         };
