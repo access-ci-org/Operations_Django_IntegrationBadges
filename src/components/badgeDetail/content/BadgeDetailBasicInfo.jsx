@@ -4,7 +4,7 @@ import StatusTag from "../../fragments/StatusTag";
 import {useEffect, useState} from "react";
 import PlanModal from "./PlanModal";
 
-function BadgeTitle({title, required, status}) {
+function BadgeTitle({title, status}) {
     const [className, setClassName] = useState("btn btn-medium");
 
     useEffect(() => {
@@ -19,7 +19,6 @@ function BadgeTitle({title, required, status}) {
         <div className="basic-info-header">
             <div className="basic-info-title">
                 <h2>{title}</h2>
-                {required && <LabelTag title="Required" verified/>}
             </div>
             <PlanModal id={`PlanBadgeModal${1}`} name={title} />
             <button className={className} data-bs-toggle="modal"
@@ -31,20 +30,20 @@ function BadgeTitle({title, required, status}) {
     );
 }
 
-function BadgeStatus({type, status, roles}) {
+function BadgeStatus({method, status, roadmaps}) {
     return (
         <div className="basic-info-status">
             <BadgeStatusBlock>
-                <p>Task Type</p>
-                <p>{type}</p>
+                <p>Verification Method</p>
+                <p>{method}</p>
             </BadgeStatusBlock>
             <BadgeStatusBlock>
                 <p>Latest Status</p>
                 <StatusTag title={status} />
             </BadgeStatusBlock>
             <BadgeStatusBlock>
-                <p>RP Roles</p>
-                <p>{roles}</p>
+                <p>Required By</p>
+                <p>{roadmaps.join(", ")}</p>
             </BadgeStatusBlock>
         </div>
     );
@@ -58,10 +57,11 @@ function BadgeStatusBlock({children}) {
     );
 }
 
-function BadgeDescription({description}) {
+function BadgeDescription({title, text, style}) {
     return (
-        <div className="basic-info-description">
-            <p>{description}</p>
+        <div className="basic-info-description" style={style}>
+            <h5>{title}</h5>
+            <p>{text}</p>
         </div>
     );
 }
@@ -69,10 +69,11 @@ function BadgeDescription({description}) {
 export default function BadgeDetailBasicInfo({badge}) {
     return (
         <div className="basic-info-wrapper">
-            <BadgeTitle title={badge.name} required={badge.required} status={badge.status}/>
-            <BadgeStatus type={"Coordination"} status={badge.status}
-                         roles={"Resource or Service Integration Coordinator"} />
-            <BadgeDescription description={badge.resource_provider_summary} />
+            <BadgeTitle title={badge.name} status={badge.status}/>
+            <BadgeStatus method={badge.verification_method} status={badge.status} roadmaps={badge.roadmap_names}/>
+            <BadgeDescription title={"Badge Description"} text={badge.resource_provider_summary}/>
+            <BadgeDescription title={"Verification Summary"}
+                              text={badge.verification_summary} style={{marginTop: '12px'}}/>
         </div>
     );
 }

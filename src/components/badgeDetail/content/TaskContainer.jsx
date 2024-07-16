@@ -4,6 +4,10 @@ import {ReactComponent as ArrowIcon} from '../../../assets/img/icons/arrow-right
 function BadgeTask({index, parentId, task}) {
     const targetId = `#${parentId}${index}`;
 
+    const openTaskDetails = (url) => {
+        window.open(url, '_blank');
+    }
+
     return (
         <div className="accordion-item task-wrapper">
             <h2 className="accordion-header" id={`heading${parentId}${index}`}>
@@ -28,7 +32,8 @@ function BadgeTask({index, parentId, task}) {
                                 <p>{task.task_experts}</p>
                             </div>
                         </div>
-                        <button className="btn btn-medium" onClick={task.detailed_instructions_url}>
+                        <button className="btn btn-medium"
+                                onClick={() => openTaskDetails(task.detailed_instructions_url)}>
                             View Task Details
                         </button>
                     </div>
@@ -44,7 +49,7 @@ export default function TaskContainer({badgeId, tasks}) {
         <div className="task-container">
             <div className="task-container-header">
                 <div className="task-container-title">
-                    <h5>Associated Tasks</h5>
+                    <h4>Associated Tasks</h4>
                     <p><span><WarningIcon/></span> Please complete tasks for all pre-requisite
                         badges before completing the tasks for this badge.</p>
                 </div>

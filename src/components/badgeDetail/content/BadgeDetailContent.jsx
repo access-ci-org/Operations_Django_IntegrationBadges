@@ -1,60 +1,47 @@
 import BadgeDetailBasicInfo from "./BadgeDetailBasicInfo";
 import PrerequisiteBadgesContainer from "./PrerequisiteBadgesContainer";
 import TaskContainer from "./TaskContainer";
+import {useEffect, useState} from "react";
+import LoadingPage from "../../fragments/LoadingPage";
+import {useBadges} from "../../../contexts/BadgeContext";
 
-const badges = [
-    {
-        id: 1,
-        name: "ACCESS Resource Description",
-        description: "If you have any questions or issue related to this resource like raise a support request " +
-            "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-            "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-            "usage metrics, etc. ",
-        status: "Verified",
-        required: true,
-        source: "Indiana Jetstream2 CPU",
-        actionUrl: "https://jetstream2.tacc.utexas.edu/",
-        actionText: "Submit a Ticket"
-    }, {
-        id: 2,
-        name: "Ticket Handling",
-        description: "If you have any questions or issue related to this resource like raise a support request " +
-            "or ticket using this badge. This resource is integrated with ACCESS Ticketing systems to answer and " +
-            "resolve any queries related to accessing this resource, help with allocation, help with monitoring " +
-            "usage metrics, etc. ",
-        status: "NotPlanned",
-        required: true,
-        source: "Indiana Jetstream2 CPU",
-        actionUrl: "https://jetstream2.tacc.utexas.edu/",
-        actionText: "Submit a Ticket"
-    }, {
-        id: 3,
-        name: "Badge ABC",
-        description: "This is a badge description. This is a badge description. This is a badge description. " +
-            "This is a badge description. This is a badge description. This is a badge description. ",
-        status: "NotStarted",
-        required: false,
-        source: "Indiana Jetstream2 CPU",
-        actionUrl: "https://jetstream2.tacc.utexas.edu/",
-        actionText: "Submit a Ticket"
-    }, {
-        id: 4,
-        name: "Another Badge",
-        description: "This is a badge description. This is a badge description. This is a badge description. " +
-            "This is a badge description. This is a badge description. This is a badge description. ",
-        status: "Planned",
-        required: false,
-        source: "Indiana Jetstream2 CPU",
-        actionUrl: "https://jetstream2.tacc.utexas.edu/",
-        actionText: "Submit a Ticket"
-    }
-]
+export default function BadgeDetailContent({resource, badge, tasks}) {
+    const {badges} = useBadges();
+    const [prerequisiteBadges, setPrerequisiteBadges] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-export default function BadgeDetailContent({badge, tasks}) {
+    useEffect(() => {
+        setLoading(true);
+        const updatedPrerequisites = badge.prerequisites.map(prerequisite => {
+            // Find the badge details from the global badges array
+            const fullBadge = badges.find(b => b.badge_id === prerequisite.prerequisite_badge_id);
+
+            // Find the status of the badge from resource.badge_status
+            const statusInfo = resource.badge_status.find(status => status.badge_id === prerequisite.prerequisite_badge_id);
+
+            // Find the 'required' flag from the roadmap's badge list
+            const requiredInfo = resource.roadmaps
+                .flatMap(roadmap => roadmap.roadmap.badges)
+                .find(b => b.badge.badge_id === prerequisite.prerequisite_badge_id)?.required || false;
+
+            return {
+                badge: fullBadge,
+                status: statusInfo ? statusInfo.status : 'NotPlanned',
+                required: requiredInfo,
+                resource_name: resource.resource_descriptive_name
+            };
+        });
+
+        setPrerequisiteBadges(updatedPrerequisites);
+        setLoading(false);
+    }, [badge.prerequisites, resource.badge_status, resource.roadmaps, badges, resource.resource_descriptive_name]);
+
+    console.log("prerequisiteBadges", prerequisiteBadges);
+
     return (
         <div className="content-wrapper">
             <BadgeDetailBasicInfo badge={badge}/>
-            {/*<PrerequisiteBadgesContainer badges={badges}/>*/}
+            {loading ? <LoadingPage/> : <PrerequisiteBadgesContainer badges={prerequisiteBadges}/>}
             <TaskContainer badgeId={badge.badge_id} tasks={tasks}/>
         </div>
     );

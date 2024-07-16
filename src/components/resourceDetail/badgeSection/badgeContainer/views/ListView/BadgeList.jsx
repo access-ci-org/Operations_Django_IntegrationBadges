@@ -11,9 +11,9 @@ import {useBadges} from "../../../../../../contexts/BadgeContext";
  * @param {Object} data - The merged badge information
  * @param view - True for Resource Provider View, False for Researcher View
  * @param {string} status - The status of the badge
- * TODO: find out how to retrieve resource name, actionUrl, and actionText
+ * @param {string} resource_name - The name of the resource
  */
-function ListAction({data, view, status}) {
+function ListAction({data, view, status, resource_name}) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
 
@@ -38,7 +38,7 @@ function ListAction({data, view, status}) {
                     <ResearcherModal id={`ResourceBadgeModal${data.badge_id}`} name={data.name}
                                      status={status} actionText={data.default_badge_access_url_label}
                                      description={data.researcher_summary}
-                                     actionUrl={data.default_badge_access_url} resourceName={"placeholder"}/>
+                                     actionUrl={data.default_badge_access_url} resourceName={resource_name}/>
                 </div>
             )}
         </div>
@@ -121,7 +121,10 @@ export default function BadgeList({data, view}) {
                                 }
                             </td>
                             <td className="col-2">
-                                <ListAction data={item.badge} view={view} status={item.status}/>
+                                <ListAction data={item.badge}
+                                            view={view}
+                                            status={item.status}
+                                            resource_name={item.resource_name}/>
                             </td>
                         </tr>
                     ))}

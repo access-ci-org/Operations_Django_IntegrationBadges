@@ -17,9 +17,6 @@ export default function StatusTag({title, style}) {
         // Determine the new tag name and class based on conditions
         if (title === "Deprecated") {
             newClassName += " deprecated-style";
-        } else if (title === "NotStarted") {
-            newTag = "Not Started";
-            newClassName += " not-started-style";
         } else if (title === "Planned") {
             newTag = "In Progress";
             newClassName += " planned-style";

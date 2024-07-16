@@ -1,30 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 export default function BadgeDetailHeader({ resource, badges, currentBadge }) {
     const [roadmapBadges, setRoadmapBadges] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Extract badges correctly based on the detailed structure of roadmaps
-        const updatedRoadmapBadges = resource.roadmaps.flatMap(roadmap =>
-            roadmap.roadmap.badges.map(badgeContainer => {
-                const fullBadgeInfo = badges.find(badge => badge.badge_id === badgeContainer.badge.badge_id);
-                return fullBadgeInfo ? fullBadgeInfo : {...badgeContainer.badge, name: 'Unknown Badge'};
-            })
-        );
-        setRoadmapBadges(updatedRoadmapBadges);
+        const badgeMap = new Map();
+
+        resource.roadmaps.forEach(roadmap => {
+            roadmap.roadmap.badges.forEach(badgeContainer => {
+                const badgeId = badgeContainer.badge.badge_id;
+                if (!badgeMap.has(badgeId)) {
+                    const fullBadgeInfo = badges.find(badge => badge.badge_id === badgeId)
+                        || {...badgeContainer.badge, name: 'Unknown Badge'};
+                    badgeMap.set(badgeId, fullBadgeInfo);
+                }
+            });
+        });
+
+        setRoadmapBadges([...badgeMap.values()]);
     }, [resource, badges]);
+
 
     // Handle badge selection and navigate
     const handleSelectBadge = (badge) => {
         navigate(`/resourceBadge/${resource.cider_resource_id}/${badge.badge_id}`);
     };
 
+    // Handle title selection and navigate
+    const handleSelectTitle = () => {
+        navigate(`/resourceDetail/${resource.cider_resource_id}`);
+    }
+
     return (
         <div className="header-wrapper">
             <div className="title-wrapper">
-                <h1>{resource.resource_descriptive_name}</h1>
+                <h1 onClick={() => handleSelectTitle()}>{resource.resource_descriptive_name}</h1>
                 <a href={resource.organization_url}>{resource.cider_type} Resource</a>
             </div>
             <div className="btn-group">

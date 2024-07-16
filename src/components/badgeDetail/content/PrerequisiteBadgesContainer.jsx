@@ -13,7 +13,7 @@ export default function PrerequisiteBadgesContainer({badges}) {
     return (
         <div className="prerequisite-badge-container">
             <div className="prerequisite-badge-header">
-                <h5>Prerequisite Badges</h5>
+                <h4>Prerequisite Badges</h4>
                 <BadgeContainerViewOption badgeDisplay={badgeDisplay} toggleBadgeDisplay={toggleBadgeDisplay}/>
             </div>
             {badgeDisplay ?

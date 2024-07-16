@@ -15,9 +15,11 @@ function TitleSection({name, count, onToggleViewAll, viewAll}) {
                 <h2 className="resource-inst-name">{name}</h2>
                 <h2 className="resource-inst-resource-count">({count})</h2>
             </div>
-            <button className="btn resource-inst-view-all" onClick={onToggleViewAll}>
-                {viewAll ? "Collapse" : "View All"}
-            </button>
+            {count >= 5 && (
+                <button className="btn resource-inst-view-all" onClick={onToggleViewAll}>
+                    {viewAll ? "Collapse" : "View All"}
+                </button>
+            )}
         </div>
     );
 }

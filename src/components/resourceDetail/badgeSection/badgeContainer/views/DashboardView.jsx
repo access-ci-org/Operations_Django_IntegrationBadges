@@ -55,11 +55,15 @@ export default function DashboardView({
                                     <ResourceBadge data={badge} view={selectedView}/>
                                 </div>
                             ))}
-                            {recommendedBadges.map((badge, index) => (
-                                <div key={index} className="col">
-                                    <ResourceBadge data={badge} view={selectedView}/>
-                                </div>
-                            ))}
+                            {recommendedBadges
+                                // Filtering out badges with "NotPlanned" status
+                                .filter(badge => badge.status !== "NotPlanned")
+                                .map((badge, index) => (
+                                    <div key={index} className="col">
+                                        <ResourceBadge data={badge} view={selectedView}/>
+                                    </div>
+                                ))
+                            }
                         </>
                     }
                 </div>

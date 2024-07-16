@@ -45,13 +45,15 @@ function SidebarSection({title, links, icon, editable}) {
     );
 }
 
-export default function BadgeDetailSideBar() {
+export default function BadgeDetailSideBar({badge}) {
     return (
         <div className="sidebar-wrapper">
             <img src={placeholder} alt="badge"/>
             <SidebarSection title="Implementation Roles" links={implementationRoles}/>
-            <SidebarSection title="Support Contacts" links={supportContacts} icon/>
-            <SidebarSection title="Badge Action and Url" links={supportContacts} editable/>
+            <SidebarSection title="Resource Integration Support" links={supportContacts} icon/>
+            {(badge.status && badge.status !== 'NotPlanned') &&
+                <SidebarSection title="Badge Action and Url" links={supportContacts} editable/>
+            }
         </div>
     );
 }

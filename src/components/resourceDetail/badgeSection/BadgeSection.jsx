@@ -6,14 +6,14 @@ import BadgeContainer from "./badgeContainer/BadgeContainer";
  * between researcher view and resource provider view and the
  * list of roadmaps to filter the badges.
  * @param {Object} resource - The resource object to display
- * @param selectedRoadmaps - The list of roadmaps that are selected
+ * @param selectedRoadmap - The roadmap that is selected
  * @param {Function} toggleRoadmapOption - The function to toggle the roadmap option
  * @param selectedView - The view that is currently selected
  * @param {Function} toggleViewDisplay - The function to toggle the view display
  */
 function ResourceBadgeHeader({
                                  resource,
-                                 selectedRoadmaps,
+                                 selectedRoadmap,
                                  toggleRoadmapOption,
                                  selectedView,
                                  toggleViewDisplay
@@ -26,21 +26,22 @@ function ResourceBadgeHeader({
                     {resource.roadmaps.map((item, index) => (
                         <div key={index} className="form-check">
                             <input
-                                id={`roadmapCheckbox${index}`}
-                                className="form-check-input form-checkbox"
-                                type="checkbox"
+                                id={`roadmapRadio${index}`}
+                                className="form-check-input"
+                                type="radio"
+                                name="roadmapSelection"
                                 value={item.roadmap.name}
-                                checked={selectedRoadmaps.includes(item.roadmap.name)}
-                                onChange={() => toggleRoadmapOption(item)}
+                                checked={selectedRoadmap === item.roadmap.name}
+                                onChange={() => toggleRoadmapOption(item.roadmap.name)}
                             />
-                            <label className="form-check-label" htmlFor={`roadmapCheckbox${index}`}>
+                            <label className="form-check-label" htmlFor={`roadmapRadio${index}`}>
                                 {item.roadmap.name}
                             </label>
                         </div>
                     ))}
                 </div>
             </div>
-            <button className="btn resource-badge-change-view" onClick={() => toggleViewDisplay()}>
+            <button className="btn resource-badge-change-view" onClick={toggleViewDisplay}>
                 {selectedView ? 'Go to Researcher View' : 'Go to Resource Provider View'}
             </button>
         </div>
@@ -52,7 +53,7 @@ function ResourceBadgeHeader({
  * @param {Object} resource - The resource object to display
  */
 export default function BadgeSection({resource}) {
-    const [selectedRoadmaps, setSelectedRoadmaps] = useState([resource.roadmaps[0].roadmap.name]);
+    const [selectedRoadmap, setSelectedRoadmap] = useState(resource.roadmaps[0].roadmap.name);
     const [selectedBadges, setSelectedBadges] = useState([]);
 
     // True for Resource Provider View, False for Researcher View
@@ -62,34 +63,28 @@ export default function BadgeSection({resource}) {
     // Update the badges with status information from resource.badge_status
     useEffect(() => {
         const roadmapBadges = resource.roadmaps
-            .filter(roadmap => selectedRoadmaps.includes(roadmap.roadmap.name))
-            .flatMap(roadmap => roadmap.roadmap.badges)
-            .map(badge => {
-                const statusInfo = resource.badge_status.find(status => status.badge_id === badge.badge_id);
-                return { ...badge, status: statusInfo ? statusInfo.status : "NotPlanned" };
-            });
+            .filter(roadmap => selectedRoadmap === roadmap.roadmap.name)
+            .flatMap(roadmap => roadmap.roadmap.badges.map(badge => ({
+                ...badge,
+                resource_name: resource.resource_descriptive_name,
+                status: resource.badge_status.find(status => status.badge_id === badge.badge_id)?.status || "NotPlanned"
+            })));
         setSelectedBadges(roadmapBadges);
-    }, [selectedRoadmaps, resource.roadmaps, resource.badge_status]);
+    }, [selectedRoadmap, resource]);
 
     const toggleViewDisplay = () => {
         setSelectedView(current => !current);
         setActiveTab('recommended');
     };
 
-    const toggleRoadmapOption = useCallback((item) => {
-        setSelectedRoadmaps(current => {
-            if (current.includes(item.roadmap.name)) {
-                return current.filter(name => name !== item.roadmap.name);
-            } else {
-                return [...current, item.roadmap.name];
-            }
-        });
+    const toggleRoadmapOption = useCallback((roadmapName) => {
+        setSelectedRoadmap(roadmapName);
     }, []);
 
     return (
         <div className="resource-badge-section">
             <ResourceBadgeHeader resource={resource}
-                                 selectedRoadmaps={selectedRoadmaps}
+                                 selectedRoadmap={selectedRoadmap}
                                  selectedView={selectedView}
                                  toggleViewDisplay={toggleViewDisplay}
                                  toggleRoadmapOption={toggleRoadmapOption}/>

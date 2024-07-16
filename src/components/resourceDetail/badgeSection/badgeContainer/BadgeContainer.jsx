@@ -59,7 +59,8 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
                                 aria-selected="false" onClick={() => setActiveTab('planned')}>
                             {selectedView ?
                                 `Planned (${plannedBadges.length})` :
-                                `Planned (${plannedBadges.length + recommendedBadges.length})`}
+                                `Planned (${plannedBadges.length + 
+                                recommendedBadges.filter(badge => badge.status !== "NotPlanned").length})`}
                         </button>
                     </li>
                     {selectedView &&

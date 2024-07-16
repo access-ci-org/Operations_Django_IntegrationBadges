@@ -63,21 +63,26 @@ export default function BadgeDetail() {
             const badge = badges.find(b => b.badge_id === parseInt(badgeId, 10));
 
             if (badge) {
-                // Find badge requirements and status from the resource
+                let roadmapNames = [];
+
+                // Iterate over each roadmap and badge to find matching badges and collect roadmap names
                 selectedResource.roadmaps.forEach(roadmap => {
                     roadmap.roadmap.badges.forEach(b => {
                         if (b.badge.badge_id === badge.badge_id) {
-                            badge.required = b.required;
+                            roadmapNames.push(roadmap.roadmap.name);
                         }
                     });
                 });
 
+                // Ensure the list of roadmap names is unique
+                badge.roadmap_names = Array.from(new Set(roadmapNames));
+
+                // Find badge status from the resource
                 const statusInfo = selectedResource.badge_status.find(status => status.badge_id === badge.badge_id);
                 badge.status = statusInfo ? statusInfo.status : 'NotPlanned';
 
                 setSelectedBadge(badge);
                 console.log("Badge details merged:", badge);
-
             }
         };
 
@@ -93,8 +98,8 @@ export default function BadgeDetail() {
         <div className="badge-detail-wrapper">
             <BadgeDetailHeader resource={selectedResource} currentBadge={selectedBadge} badges={badges} />
             <div className="main-wrapper">
-                <BadgeDetailSideBar />
-                <BadgeDetailContent badge={selectedBadge} tasks={selectedTasks}/>
+                <BadgeDetailSideBar badge={selectedBadge}/>
+                <BadgeDetailContent resource={selectedResource} badge={selectedBadge} tasks={selectedTasks}/>
             </div>
         </div>
     );

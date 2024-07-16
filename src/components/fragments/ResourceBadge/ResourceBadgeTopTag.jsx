@@ -26,7 +26,7 @@ export default function ResourceBadgeTopTag({required, title}) {
         } else if (title === "Verified") {
             newTag = "Available";
             newStatus = true;
-        } else if (title === "NotStarted" || title === "Deprecated" || title === "NotPlanned") {
+        } else if (title === "Deprecated" || title === "NotPlanned") {
             newTag = "Not Available";
             newStyle = {position: 'absolute', color: '#232323'};
         }

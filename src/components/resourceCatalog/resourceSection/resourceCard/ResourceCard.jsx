@@ -2,14 +2,16 @@ import React from 'react';
 import ResourceCardBadge from "./ResourceCardBadge";
 import {useNavigate} from "react-router-dom";
 import {useBadges} from "../../../../contexts/BadgeContext";
-import {ReactComponent as PlaceholderIcon} from "../../../../assets/img/icons/pc-display.svg";
+import {ReactComponent as ComputeIcon} from "../../../../assets/img/icons/cpu.svg";
+import {ReactComponent as StorageIcon} from "../../../../assets/img/icons/hdd.svg";
 
 /**
  * The header of the resource card displaying the organization logo.
  * @param {string} name - Name of the organization.
+ * @param {string} type - Type of the resource. Currently only for compute and storage.
  * @param {string} url - URL of the organization logo.
  */
-function ResourceCardHeader ({ name, url }) {
+function ResourceCardHeader ({ name, type, url }) {
 
     return (
         <div className="card-header-wrapper">
@@ -19,7 +21,9 @@ function ResourceCardHeader ({ name, url }) {
                 </div>
                 :
                 <div className="card-header-placeholder">
-                    <PlaceholderIcon style={{ width: '100%', height: '60%' }}/>
+                    {type === 'Compute' ?
+                        <ComputeIcon style={{ width: '100%', height: '60%' }}/> :
+                        <StorageIcon style={{ width: '100%', height: '60%' }}/>}
                     {/*<p>Logo Not Available</p>*/}
                 </div>
             }
@@ -42,7 +46,9 @@ export default function ResourceCard({ resource }) {
 
     return (
         <div className="card resource-card" onClick={handleCardClick}>
-            <ResourceCardHeader name={resource.organization_name} url={resource.organization_logo_url}/>
+            <ResourceCardHeader name={resource.organization_name}
+                                type={resource.cider_type}
+                                url={resource.organization_logo_url}/>
             <div className="card-body-wrapper">
                 <div className="card-body">
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
