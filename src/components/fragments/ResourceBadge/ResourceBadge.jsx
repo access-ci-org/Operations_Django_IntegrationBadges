@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import ResearcherModal from "../ResearcherModal";
 import ResourceBadgeTopTag from "./ResourceBadgeTopTag";
 import {useBadges} from "../../../contexts/BadgeContext";
+import LoadingPage from "../LoadingPage";
 
 /**
  * The action button for the badge card. It will either navigate to the badge detail page.
@@ -54,6 +55,10 @@ export default function ResourceBadge({data, view}) {
     const badge = badges.find(b => b.badge_id === data.badge.badge_id);
     // TODO: change the logic to retrieve the badge graphic from the badge object (from badge.graphic)
     const graphic = placeholder;
+
+    if (!badge) {
+        return <LoadingPage/>;
+    }
 
     return (
         <div className="card resource-badge">

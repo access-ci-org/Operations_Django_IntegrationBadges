@@ -61,7 +61,7 @@ export default function ResourceDetail() {
 
     // If the resource is not fetched yet, display loading page
     if (!resource || !badges) {
-        return (<LoadingPage/>);
+        return <LoadingPage/>;
     }
 
     return (
