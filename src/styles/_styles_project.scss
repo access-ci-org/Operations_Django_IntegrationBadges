@@ -1287,3 +1287,16 @@ p {
     align-items: center;
     gap: 16px;
 }
+
+.empty-page-wrapper {
+    width: 100%;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+    font-size: 18px;
+    text-transform: capitalize;
+}

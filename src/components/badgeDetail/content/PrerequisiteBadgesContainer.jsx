@@ -2,6 +2,7 @@ import {useState} from "react";
 import BadgeContainerViewOption from "../../fragments/BadgeContainerViewOption";
 import ResourceBadge from "../../fragments/ResourceBadge/ResourceBadge";
 import BadgeList from "../../resourceDetail/badgeSection/badgeContainer/views/ListView/BadgeList";
+import EmptyPage from "../../fragments/EmptyPage";
 
 export default function PrerequisiteBadgesContainer({badges}) {
     // True for Dashboard View, False for List View
@@ -18,13 +19,16 @@ export default function PrerequisiteBadgesContainer({badges}) {
             </div>
             {badgeDisplay ?
                 <div className="row row-cols-auto resource-badge-dashboard">
-                    {badges.map((badge, index) => (
+                    {
+                        badges.length === 0 ?
+                            <EmptyPage text="No Prerequisite Badges" style={{minHeight: '240px'}}/> :
+                        badges.map((badge, index) => (
                         <div key={index} className="col">
                             <ResourceBadge data={badge} view={true}/>
                         </div>
                     ))}
                 </div>
-                : <BadgeList badges={badges} view={true}/>
+                : <BadgeList data={badges} view={true}/>
             }
         </div>
     );

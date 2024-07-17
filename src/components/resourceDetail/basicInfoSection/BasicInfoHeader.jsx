@@ -1,4 +1,6 @@
 import placeholder from '../../../assets/img/icons/pc-display.svg';
+import {ReactComponent as ComputeIcon} from "../../../assets/img/icons/cpu.svg";
+import {ReactComponent as StorageIcon} from "../../../assets/img/icons/hdd.svg";
 
 /**
  * The header section of the resource detail page.
@@ -28,8 +30,12 @@ export default function BasicInfoHeader({resource}) {
                 </div>
             </div>
             <div className="resource-detail-header-img">
-                <img src={resource.organization_logo_url ? resource.organization_logo_url : placeholder}
-                     alt={resource.organization_name}/>
+                {resource.organization_logo_url ?
+                    <img src={resource.organization_logo_url} alt={resource.organization_name}/> :
+                    resource.cider_type === 'Compute' ?
+                        <ComputeIcon style={{width: '100%', height: '100%'}}/> :
+                        <StorageIcon style={{width: '100%', height: '100%'}}/>
+                }
             </div>
         </div>
     );

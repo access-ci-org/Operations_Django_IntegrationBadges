@@ -25,8 +25,10 @@ export default function ResourceCardBadge({resourceName, badge, index}) {
             </button>
             <ResearcherModal id={`ResourceCardBadgeModal${index}`} img={graphic} name={badge.name}
                              resourceName={resourceName} description={badge.researcher_summary}
-                             actionUrl={badge.default_badge_access_url}
-                             actionText={badge.default_badge_access_url_label}/>
+                             actionUrl={badge.badge_access_url ?
+                                 badge.badge_access_url : badge.default_badge_access_url}
+                             actionText={badge.badge_access_url_label ?
+                                 badge.badge_access_url_label : badge.default_badge_access_url_label}/>
         </div>
     );
 }

@@ -70,7 +70,11 @@ export default function BadgeSection({resource}) {
                     ...badge,
                     required: badge.required,
                     resource_name: resource.resource_descriptive_name,
-                    state: status ? status.state : "Not Planned"
+                    state: status ? status.state : "Not Planned",
+                    badge_access_url: status ? status.badge_access_url ?
+                        status.badge_access_url : null : null,
+                    badge_access_url_label: status ? status.badge_access_url_label ?
+                        status.badge_access_url_label : null : null
                 };
             }));
         setSelectedBadges(roadmapBadges);
@@ -85,7 +89,6 @@ export default function BadgeSection({resource}) {
         setSelectedRoadmap(roadmapName);
     }, []);
 
-    console.log("selectedBadges", selectedBadges);
     return (
         <div className="resource-badge-section">
             <ResourceBadgeHeader resource={resource}

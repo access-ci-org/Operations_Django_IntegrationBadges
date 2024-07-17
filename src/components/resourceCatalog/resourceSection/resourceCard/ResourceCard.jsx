@@ -61,9 +61,14 @@ export default function ResourceCard({ resource }) {
                     <div className="badge-container">
                         {resource.badges.slice(0, count > 4 ? 4 : count).map((badge, index) => {
                             const badgeData = badges.find(b => b.badge_id === badge.badge_id);
+                            const preparedBadgeData = {
+                                ...badgeData,
+                                ...(badge.badge_access_url ? { badge_access_url: badge.badge_access_url } : {}),
+                                ...(badge.badge_access_url_label ? { badge_access_url_label: badge.badge_access_url_label } : {})
+                            };
                             return (
                                 <ResourceCardBadge key={index} resourceName={resource.resource_descriptive_name}
-                                                   badge={badgeData} index={index} />
+                                                   badge={preparedBadgeData} index={index} />
                             );
                         })}
                         {count > 4 && (

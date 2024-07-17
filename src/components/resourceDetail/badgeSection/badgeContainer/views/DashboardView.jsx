@@ -1,4 +1,5 @@
 import ResourceBadge from "../../../../fragments/ResourceBadge/ResourceBadge";
+import EmptyPage from "../../../../fragments/EmptyPage";
 
 /**
  * Displaying the badges in a dashboard view. To switch between the researcher/RP view,
@@ -24,17 +25,21 @@ export default function DashboardView({
                  aria-labelledby="resource-badge-container-recommended-tab" tabIndex="0">
                 <div className="row row-cols-auto resource-badge-dashboard">
                     {selectedView ?
-                        recommendedBadges.map((badge, index) => (
-                            <div key={index} className="col">
-                                <ResourceBadge data={badge} view={selectedView}/>
-                            </div>
-                        ))
+                        recommendedBadges.length === 0 ?
+                            <EmptyPage text="No Recommended Badges"/> :
+                            recommendedBadges.map((badge, index) => (
+                                <div key={index} className="col">
+                                    <ResourceBadge data={badge} view={selectedView}/>
+                                </div>
+                            ))
                         :
-                        achievedBadges.map((badge, index) => (
-                            <div key={index} className="col">
-                                <ResourceBadge data={badge} view={selectedView}/>
-                            </div>
-                        ))
+                        achievedBadges.length === 0 ?
+                            <EmptyPage text="No Available Badges"/> :
+                            achievedBadges.map((badge, index) => (
+                                <div key={index} className="col">
+                                    <ResourceBadge data={badge} view={selectedView}/>
+                                </div>
+                            ))
                     }
                 </div>
             </div>
@@ -43,28 +48,33 @@ export default function DashboardView({
                  aria-labelledby="resource-badge-container-planned-tab" tabIndex="0">
                 <div className="row row-cols-auto resource-badge-dashboard">
                     {selectedView ?
-                        plannedBadges.map((badge, index) => (
-                            <div key={index} className="col">
-                                <ResourceBadge data={badge} view={selectedView}/>
-                            </div>
-                        ))
-                        :
-                        <>
-                            {plannedBadges.map((badge, index) => (
+                        plannedBadges.length === 0 ?
+                            <EmptyPage text="No Planned Badges"/> :
+                            plannedBadges.map((badge, index) => (
                                 <div key={index} className="col">
                                     <ResourceBadge data={badge} view={selectedView}/>
                                 </div>
-                            ))}
-                            {recommendedBadges
-                                // Filtering out badges with "NotPlanned" status
-                                .filter(badge => badge.status !== "NotPlanned")
-                                .map((badge, index) => (
+                            ))
+                        :
+                        plannedBadges.length === 0 && recommendedBadges
+                            .filter(badge => badge.state !== "Not Planned").length === 0 ?
+                            <EmptyPage text="No Planned Badges"/> :
+                            <>
+                                {plannedBadges.map((badge, index) => (
                                     <div key={index} className="col">
                                         <ResourceBadge data={badge} view={selectedView}/>
                                     </div>
-                                ))
-                            }
-                        </>
+                                ))}
+                                {recommendedBadges
+                                    // Filtering out badges with "Not Planned" status
+                                    .filter(badge => badge.state !== "Not Planned")
+                                    .map((badge, index) => (
+                                        <div key={index} className="col">
+                                            <ResourceBadge data={badge} view={selectedView}/>
+                                        </div>
+                                    ))
+                                }
+                            </>
                     }
                 </div>
             </div>
@@ -73,11 +83,14 @@ export default function DashboardView({
                      id="resource-badge-container-achieved-tab" role="tabpanel"
                      aria-labelledby="resource-badge-container-achieved-tab" tabIndex="0">
                     <div className="row row-cols-auto resource-badge-dashboard">
-                        {achievedBadges.map((badge, index) => (
-                            <div key={index} className="col">
-                                <ResourceBadge data={badge} view={selectedView}/>
-                            </div>
-                        ))}
+                        {
+                            achievedBadges.length === 0 ?
+                                <EmptyPage text="No Available Badges"/> :
+                                achievedBadges.map((badge, index) => (
+                                    <div key={index} className="col">
+                                        <ResourceBadge data={badge} view={selectedView}/>
+                                    </div>
+                                ))}
                     </div>
                 </div>
             }

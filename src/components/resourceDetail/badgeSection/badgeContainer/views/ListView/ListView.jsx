@@ -1,4 +1,6 @@
 import BadgeList from "./BadgeList";
+import ResourceBadge from "../../../../../fragments/ResourceBadge/ResourceBadge";
+import EmptyPage from "../../../../../fragments/EmptyPage";
 
 /**
  * Displaying the badges in a list view.
@@ -21,25 +23,43 @@ export default function ListView({
                  id="resource-badge-container-recommended-tab" role="tabpanel"
                  aria-labelledby="resource-badge-container-recommended-tab" tabIndex="0">
                 {selectedView ?
-                    <BadgeList data={recommendedBadges} view={selectedView}/>
+                    recommendedBadges.length === 0 ?
+                        <EmptyPage text="No Recommended Badges" style={{marginTop: '24px'}}/> :
+                        <BadgeList data={recommendedBadges} view={selectedView}/>
                     :
-                    <BadgeList data={achievedBadges} view={selectedView}/>
+                    achievedBadges.length === 0 ?
+                        <EmptyPage text="No Available Badges" style={{marginTop: '24px'}}/> :
+                        <BadgeList data={achievedBadges} view={selectedView}/>
                 }
             </div>
             <div className={`tab-pane fade ${activeTab === 'planned' ? 'show active' : ''}`}
                  id="resource-badge-container-planned-tab" role="tabpanel"
                  aria-labelledby="resource-badge-container-planned-tab" tabIndex="0">
                 {selectedView ?
-                    <BadgeList data={plannedBadges} view={selectedView}/>
+                    plannedBadges.length === 0 ?
+                        <EmptyPage text="No Planned Badges" style={{marginTop: '24px'}}/> :
+                        <BadgeList data={plannedBadges} view={selectedView}/>
                     :
-                    <BadgeList data={plannedBadges.concat(recommendedBadges)} view={selectedView}/>
+                    plannedBadges.length === 0 && recommendedBadges
+                        .filter(badge => badge.state !== "Not Planned").length === 0 ?
+                        <EmptyPage text="No Planned Badges" style={{marginTop: '24px'}}/> :
+                        <BadgeList data={plannedBadges.concat(recommendedBadges
+                            // Filtering out badges with "Not Planned" status
+                            .filter(badge => badge.state !== "Not Planned")
+                            .map((badge, index) => (
+                                <div key={index} className="col">
+                                    <ResourceBadge data={badge} view={selectedView}/>
+                                </div>
+                            )))} view={selectedView}/>
                 }
             </div>
             {selectedView &&
                 <div className={`tab-pane fade ${activeTab === 'achieved' ? 'show active' : ''}`}
                      id="resource-badge-container-achieved-tab" role="tabpanel"
                      aria-labelledby="resource-badge-container-achieved-tab" tabIndex="0">
-                    <BadgeList data={achievedBadges} view={selectedView}/>
+                    {achievedBadges.length === 0 ?
+                        <EmptyPage text="No Available Badges" style={{marginTop: '24px'}}/> :
+                        <BadgeList data={achievedBadges} view={selectedView}/>}
                 </div>
             }
         </div>

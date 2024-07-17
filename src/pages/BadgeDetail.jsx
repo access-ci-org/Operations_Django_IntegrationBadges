@@ -78,11 +78,14 @@ export default function BadgeDetail() {
                 badge.roadmap_names = Array.from(new Set(roadmapNames));
 
                 // Find badge status from the resource
-                const statusInfo = selectedResource.badge_status.find(status => status.badge_id === badge.badge_id);
-                badge.state = statusInfo ? statusInfo.state : 'Not Planned';
+                const badge_status = selectedResource.badge_status.find(status => status.badge_id === badge.badge_id);
+                badge.state = badge_status ? badge_status.state : 'Not Planned';
+                badge.badge_access_url = badge_status ?
+                    badge_status.badge_access_url ? badge_status.badge_access_url : null : null;
+                badge.badge_access_url_label = badge_status ?
+                    badge_status.badge_access_url_label ? badge_status.badge_access_url_label : null : null;
 
                 setSelectedBadge(badge);
-                console.log("Badge details merged:", badge);
             }
         };
 

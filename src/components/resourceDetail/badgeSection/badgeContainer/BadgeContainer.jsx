@@ -60,7 +60,7 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
                             {selectedView ?
                                 `Planned (${plannedBadges.length})` :
                                 `Planned (${plannedBadges.length + 
-                                recommendedBadges.filter(badge => badge.status !== "NotPlanned").length})`}
+                                recommendedBadges.filter(badge => badge.state !== "Not Planned").length})`}
                         </button>
                     </li>
                     {selectedView &&

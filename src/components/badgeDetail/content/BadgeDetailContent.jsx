@@ -36,11 +36,9 @@ export default function BadgeDetailContent({resource, badge, tasks}) {
         setLoading(false);
     }, [badge.prerequisites, resource.badge_status, resource.roadmaps, badges, resource.resource_descriptive_name]);
 
-    console.log("prerequisiteBadges", prerequisiteBadges);
-
     return (
         <div className="content-wrapper">
-            <BadgeDetailBasicInfo badge={badge}/>
+            <BadgeDetailBasicInfo resource_id={resource.cider_resource_id} badge={badge}/>
             {loading ? <LoadingPage/> : <PrerequisiteBadgesContainer badges={prerequisiteBadges}/>}
             <TaskContainer badgeId={badge.badge_id} tasks={tasks}/>
         </div>

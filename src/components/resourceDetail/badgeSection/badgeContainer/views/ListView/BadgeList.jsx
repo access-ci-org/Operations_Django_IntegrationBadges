@@ -5,6 +5,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import ResearcherModal from "../../../../../fragments/ResearcherModal";
 import {ReactComponent as ArrowRightIcon} from "../../../../../../assets/img/icons/arrow-up-right.svg";
 import {useBadges} from "../../../../../../contexts/BadgeContext";
+import EmptyPage from "../../../../../fragments/EmptyPage";
 
 /**
  * The action button for each badge in the list.
@@ -82,18 +83,20 @@ export default function BadgeList({data, view}) {
 
     return (
         <div className="container-fluid resource-badge-list-wrapper">
-            <table className="table table-hover resource-badge-list">
-                <thead>
-                <tr>
-                    <th scope="col" className="col-img"></th>
-                    <th scope="col" className="col-name">Badge Name</th>
-                    <th scope="col" className="col-description">Badge Description</th>
-                    {view && <th scope="col" className="col-criteria">Criteria</th>}
-                    <th scope="col" className="col-status">Badge Status</th>
-                    <th scope="col" className="col-plan">Action</th>
-                </tr>
-                </thead>
-                <tbody>
+            {mergedData.length === 0 ?
+                <EmptyPage text={"No Prerequisite Badges"} style={{ minHeight: "240px" }}/> :
+                <table className="table table-hover resource-badge-list">
+                    <thead>
+                    <tr>
+                        <th scope="col" className="col-img"></th>
+                        <th scope="col" className="col-name">Badge Name</th>
+                        <th scope="col" className="col-description">Badge Description</th>
+                        {view && <th scope="col" className="col-criteria">Criteria</th>}
+                        <th scope="col" className="col-status">Badge Status</th>
+                        <th scope="col" className="col-plan">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     {mergedData.map((item, index) => (
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
@@ -127,8 +130,8 @@ export default function BadgeList({data, view}) {
                             </td>
                         </tr>
                     ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>}
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-triangle.svg';
 import {ReactComponent as ArrowIcon} from '../../../assets/img/icons/arrow-right.svg';
+import EmptyPage from "../../fragments/EmptyPage";
 
 function BadgeTask({index, parentId, task}) {
     const targetId = `#${parentId}${index}`;
@@ -57,14 +58,17 @@ export default function TaskContainer({badgeId, tasks}) {
                     Mark as Completed
                 </button>
             </div>
-            <div className="accordion task-list" id={`BadgeTaskContainer${badgeId}`}>
-                {tasks.map((task, index) => (
-                    <BadgeTask key={index}
-                               index={index}
-                               parentId={`BadgeTaskContainer${badgeId}`}
-                               task={task.task}/>
-                ))}
-            </div>
+            {tasks.length === 0 ?
+                <EmptyPage text={"No available tasks"} task/> :
+                <div className="accordion task-list" id={`BadgeTaskContainer${badgeId}`}>
+                    {tasks.map((task, index) => (
+                        <BadgeTask key={index}
+                                   index={index}
+                                   parentId={`BadgeTaskContainer${badgeId}`}
+                                   task={task.task}/>
+                    ))}
+                </div>
+            }
         </div>
     );
 }
