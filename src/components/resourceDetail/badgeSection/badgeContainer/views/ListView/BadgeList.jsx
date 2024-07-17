@@ -10,10 +10,10 @@ import {useBadges} from "../../../../../../contexts/BadgeContext";
  * The action button for each badge in the list.
  * @param {Object} data - The merged badge information
  * @param view - True for Resource Provider View, False for Researcher View
- * @param {string} status - The status of the badge
+ * @param {string} state - The status of the badge
  * @param {string} resource_name - The name of the resource
  */
-function ListAction({data, view, status, resource_name}) {
+function ListAction({data, view, state, resource_name}) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
 
@@ -36,7 +36,7 @@ function ListAction({data, view, status, resource_name}) {
                         <ArrowRightIcon style={{color: '#107180'}}/>
                     </button>
                     <ResearcherModal id={`ResourceBadgeModal${data.badge_id}`} name={data.name}
-                                     status={status} actionText={data.default_badge_access_url_label}
+                                     state={state} actionText={data.default_badge_access_url_label}
                                      description={data.researcher_summary}
                                      actionUrl={data.default_badge_access_url} resourceName={resource_name}/>
                 </div>
@@ -58,19 +58,18 @@ export default function BadgeList({data, view}) {
             case "Verified":
                 return "Available";
             case "Planned":
-            case "TaskCompleted":
-            case "VerificationFailed":
+            case "Task Completed":
+            case "Verification Failed":
                 return "Unverified";
-            case "NotStarted":
             case "Deprecated":
-            case "NotPlanned":
+            case "Not Planned":
             default:
                 return "Not Available";
         }
     };
 
     const labelStyle = (status) => {
-        if (!status || status === "NotStarted" || status === "Deprecated" || status === "NotPlanned") {
+        if (!status || status === "NotStarted" || status === "Deprecated" || status === "Not Planned") {
             return {color: "#232323"};
         }
         return {};
@@ -114,16 +113,16 @@ export default function BadgeList({data, view}) {
                             {view && <td className="col-1">{item.required ? "Required" : "Optional"}</td>}
                             <td className="col-2">
                                 {view ?
-                                    <StatusTag title={item.status}/>
+                                    <StatusTag title={item.state}/>
                                     :
-                                    <LabelTag title={labelTitle(item.status)}
-                                              style={labelStyle(item.status)}/>
+                                    <LabelTag title={labelTitle(item.state)}
+                                              style={labelStyle(item.state)}/>
                                 }
                             </td>
                             <td className="col-2">
                                 <ListAction data={item.badge}
                                             view={view}
-                                            status={item.status}
+                                            state={item.state}
                                             resource_name={item.resource_name}/>
                             </td>
                         </tr>

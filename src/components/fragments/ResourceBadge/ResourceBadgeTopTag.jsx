@@ -21,12 +21,12 @@ export default function ResourceBadgeTopTag({required, title}) {
         if (required) {
             newTag = "Required";
             newStatus = true;
-        } else if (title === "Planned" || title === "TaskCompleted" || title === "VerificationFailed") {
+        } else if (title === "Planned" || title === "Task Completed" || title === "Verification Failed") {
             newTag = "Unverified";
         } else if (title === "Verified") {
             newTag = "Available";
             newStatus = true;
-        } else if (title === "Deprecated" || title === "NotPlanned") {
+        } else if (title === "Deprecated" || title === "Not Planned") {
             newTag = "Not Available";
             newStyle = {position: 'absolute', color: '#232323'};
         }

@@ -26,7 +26,7 @@ export default function BadgeDetailContent({resource, badge, tasks}) {
 
             return {
                 badge: fullBadge,
-                status: statusInfo ? statusInfo.status : 'NotPlanned',
+                state: statusInfo ? statusInfo.state : 'Not Planned',
                 required: requiredInfo,
                 resource_name: resource.resource_descriptive_name
             };

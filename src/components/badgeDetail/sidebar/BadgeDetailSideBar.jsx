@@ -51,7 +51,7 @@ export default function BadgeDetailSideBar({badge}) {
             <img src={placeholder} alt="badge"/>
             <SidebarSection title="Implementation Roles" links={implementationRoles}/>
             <SidebarSection title="Resource Integration Support" links={supportContacts} icon/>
-            {(badge.status && badge.status !== 'NotPlanned') &&
+            {(badge.state && badge.state !== 'Not Planned') &&
                 <SidebarSection title="Badge Action and Url" links={supportContacts} editable/>
             }
         </div>

@@ -23,11 +23,11 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
     // Update the badges with status information from resource.badge_status
     useEffect(() => {
         const recommended = roadmapBadges.filter(badge =>
-            badge.status === "NotPlanned" || badge.status === "Deprecated");
-        const planned = roadmapBadges.filter(badge => badge.status === "Planned"
-            || badge.status === "TaskCompleted"
-            || badge.status === "VerificationFailed");
-        const achieved = roadmapBadges.filter(badge => badge.status === "Verified");
+            badge.state === "Not Planned" || badge.state === "Deprecated");
+        const planned = roadmapBadges.filter(badge => badge.state === "Planned"
+            || badge.state === "Task Completed"
+            || badge.state === "Verification Failed");
+        const achieved = roadmapBadges.filter(badge => badge.state === "Verified");
         setRecommendedBadges(recommended);
         setPlannedBadges(planned);
         setAchievedBadges(achieved);

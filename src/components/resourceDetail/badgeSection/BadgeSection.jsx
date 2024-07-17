@@ -64,11 +64,15 @@ export default function BadgeSection({resource}) {
     useEffect(() => {
         const roadmapBadges = resource.roadmaps
             .filter(roadmap => selectedRoadmap === roadmap.roadmap.name)
-            .flatMap(roadmap => roadmap.roadmap.badges.map(badge => ({
-                ...badge,
-                resource_name: resource.resource_descriptive_name,
-                status: resource.badge_status.find(status => status.badge_id === badge.badge_id)?.status || "NotPlanned"
-            })));
+            .flatMap(roadmap => roadmap.roadmap.badges.map(badge => {
+                const status = resource.badge_status.find(status => status.badge_id === badge.badge.badge_id);
+                return {
+                    ...badge,
+                    required: badge.required,
+                    resource_name: resource.resource_descriptive_name,
+                    state: status ? status.state : "Not Planned"
+                };
+            }));
         setSelectedBadges(roadmapBadges);
     }, [selectedRoadmap, resource]);
 
@@ -81,6 +85,7 @@ export default function BadgeSection({resource}) {
         setSelectedRoadmap(roadmapName);
     }, []);
 
+    console.log("selectedBadges", selectedBadges);
     return (
         <div className="resource-badge-section">
             <ResourceBadgeHeader resource={resource}

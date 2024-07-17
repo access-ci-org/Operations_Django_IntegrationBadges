@@ -6,7 +6,7 @@ import LabelTag from "./LabelTag";
  * @param {string} id - The id of the modal.
  * @param {string} img - The logo of the badge.
  * @param {string} name - badge name.
- * @param {string} status - badge status.
+ * @param {string} state - badge status.
  * @param {string} resourceName - The name of the resource.
  * @param {string} description - The researcher summary of the badge.
  * @param {string} actionUrl - The URL to access the badge action.
@@ -16,7 +16,7 @@ export default function ResearcherModal({
                                             id,
                                             img,
                                             name,
-                                            status,
+                                            state,
                                             resourceName,
                                             description,
                                             actionUrl,
@@ -36,8 +36,8 @@ export default function ResearcherModal({
                             <div className="badge-modal-header-info">
                                 <img src={img ? img : placeholderBadge} alt={name} className="badge-icon"/>
                                 <div className="badge-modal-header-info-title">
-                                    {status && <LabelTag title={status === "Verified" ? "Available" : "Unverified"}
-                                                        verified={status === "Verified"} style={{margin: '0'}}/>}
+                                    {state && <LabelTag title={state === "Verified" ? "Available" : "Unverified"}
+                                                        verified={state === "Verified"} style={{margin: '0'}}/>}
                                     <div style={{paddingTop: "16px"}}>
                                         <p className="badge-modal-name">{name}</p>
                                         <p className="badge-modal-source">{resourceName}</p>

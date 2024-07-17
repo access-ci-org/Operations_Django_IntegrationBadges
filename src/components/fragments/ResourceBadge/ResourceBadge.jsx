@@ -10,10 +10,10 @@ import LoadingPage from "../LoadingPage";
  * The action button for the badge card. It will either navigate to the badge detail page.
  * @param view - True for Resource Provider View, False for Researcher View
  * @param {Object} badge - The badge model got from the badge context
- * @param {string} status - The status of the badge
+ * @param {string} state - The status of the badge
  * @param {string} resource_name - The name of the resource
  */
-function ResourceBadgeAction({view, badge, status, resource_name}) {
+function ResourceBadgeAction({view, badge, state, resource_name}) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
 
@@ -34,7 +34,7 @@ function ResourceBadgeAction({view, badge, status, resource_name}) {
                         Badge Action
                     </button>
                     <ResearcherModal id={`ResourceBadgeModal${badge.badge_id}`} name={badge.name}
-                                     status={status} actionText={badge.default_badge_access_url_label}
+                                     state={state} actionText={badge.default_badge_access_url_label}
                                      description={badge.researcher_summary}
                                      actionUrl={badge.default_badge_access_url} resourceName={resource_name}/>
                 </div>
@@ -66,7 +66,7 @@ export default function ResourceBadge({data, view}) {
                 {(data.required && view) &&
                     <ResourceBadgeTopTag required={true}/>}
                 {!view &&
-                    <ResourceBadgeTopTag title={data.status}/>}
+                    <ResourceBadgeTopTag title={data.state}/>}
                 <img src={graphic} className="card-img-top" alt={badge.name}/>
             </div>
             <div className="card-body">
@@ -76,11 +76,11 @@ export default function ResourceBadge({data, view}) {
                 </p>
                 {view &&
                     <div className="resource-badge-tag-section">
-                        <StatusTag title={data.status}/>
+                        <StatusTag title={data.state}/>
                     </div>
                 }
                 <ResourceBadgeAction view={view} badge={badge}
-                                     status={data.status}
+                                     state={data.state}
                                      resource_name={data.resource_name}/>
             </div>
         </div>

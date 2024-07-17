@@ -79,7 +79,7 @@ export default function BadgeDetail() {
 
                 // Find badge status from the resource
                 const statusInfo = selectedResource.badge_status.find(status => status.badge_id === badge.badge_id);
-                badge.status = statusInfo ? statusInfo.status : 'NotPlanned';
+                badge.state = statusInfo ? statusInfo.state : 'Not Planned';
 
                 setSelectedBadge(badge);
                 console.log("Badge details merged:", badge);

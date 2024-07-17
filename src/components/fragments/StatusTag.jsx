@@ -23,13 +23,13 @@ export default function StatusTag({title, style}) {
         } else if (title === "Verified") {
             newTag = "Badge Available";
             newClassName += " verified-style";
-        } else if (title === "TaskCompleted") {
+        } else if (title === "Task Completed") {
             newTag = "Pending Verification";
             newClassName += " task-completed-style";
-        } else if (title === "VerificationFailed") {
+        } else if (title === "Verification Failed") {
             newTag = "Verification Failed";
             newClassName += " verification-failed-style";
-        } else if (title === "NotPlanned") {
+        } else if (title === "Not Planned") {
             newTag = "Not Planned";
             newClassName += " not-planned-style";
         }
