@@ -49,7 +49,7 @@ export default function BadgeDetailContent({resource, setResource, badge, tasks}
         <div className="content-wrapper">
             <BadgeDetailBasicInfo resource_id={resource.cider_resource_id} badge={badge} setResource={setResource}/>
             {loading ? <LoadingPage/> : <PrerequisiteBadgesContainer badges={prerequisiteBadges}/>}
-            <TaskContainer badgeId={badge.badge_id} tasks={tasks}/>
+            <TaskContainer resource_id={resource.cider_resource_id} badge={badge} tasks={tasks} setResource={setResource}/>
         </div>
     );
 }

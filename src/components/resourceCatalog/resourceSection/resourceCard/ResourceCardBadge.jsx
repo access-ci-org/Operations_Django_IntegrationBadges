@@ -6,7 +6,6 @@ import ResearcherModal from "../../../fragments/ResearcherModal";
  * @param {string} resourceName - The name of the resource.
  * @param {Object} badge - Badge object containing full badge information.
  * @param {number} index - Index of the badge in the list.
- * TODO: change the logic to retrieve the badge graphic from the badge object
  */
 export default function ResourceCardBadge({resourceName, badge, index}) {
     const graphic = placeholderBadge;
@@ -24,7 +23,7 @@ export default function ResourceCardBadge({resourceName, badge, index}) {
                      style={{width: '32px', height: '32px'}}/>
             </button>
             <ResearcherModal id={`ResourceCardBadgeModal${index}`} img={graphic} name={badge.name}
-                             resourceName={resourceName} description={badge.researcher_summary}
+                             resourceName={resourceName} description={badge.researcher_summary} state={badge.state}
                              actionUrl={badge.badge_access_url ?
                                  badge.badge_access_url : badge.default_badge_access_url}
                              actionText={badge.badge_access_url_label ?

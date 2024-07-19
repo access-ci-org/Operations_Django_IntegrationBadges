@@ -63,6 +63,7 @@ export default function ResourceCard({ resource }) {
                             const badgeData = badges.find(b => b.badge_id === badge.badge_id);
                             const preparedBadgeData = {
                                 ...badgeData,
+                                ...(badge.state ? { state: badge.state } : {}),
                                 ...(badge.badge_access_url ? { badge_access_url: badge.badge_access_url } : {}),
                                 ...(badge.badge_access_url_label ? { badge_access_url_label: badge.badge_access_url_label } : {})
                             };
