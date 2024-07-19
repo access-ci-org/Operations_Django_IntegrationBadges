@@ -2,8 +2,17 @@ import {ReactComponent as BookmarkIcon} from "../../../assets/img/icons/bookmark
 import StatusTag from "../../fragments/StatusTag";
 import {useEffect, useState} from "react";
 import PlanModal from "./PlanModal";
+import UnplanModal from "./UnplanModal";
 
-function BadgeTitle({title, state, resource_id, badge_id}) {
+/**
+ * The title of the badge, containing the plan/unplan button.
+ * @param {string} title - The badge name
+ * @param {string} state - The badge state
+ * @param {string} resource_id - The resource id
+ * @param {string} badge_id - The badge id
+ * @param {Function} setResource - The function to set the resource.
+ */
+function BadgeTitle({title, state, resource_id, badge_id, setResource}) {
     const [className, setClassName] = useState("btn btn-medium");
 
     useEffect(() => {
@@ -19,18 +28,44 @@ function BadgeTitle({title, state, resource_id, badge_id}) {
             <div className="basic-info-title">
                 <h2>{title}</h2>
             </div>
-            <PlanModal id={`PlanBadgeModal${resource_id}${badge_id}`}
-                       name={title} resource_id={resource_id} badge_id={badge_id}/>
+            {
+                state === "Not Planned" ?
+                    <PlanModal id={`PlanBadgeModal${resource_id}${badge_id}`}
+                               name={title}
+                               resource_id={resource_id}
+                               badge_id={badge_id}
+                               setResource={setResource}/>
+                    : <UnplanModal id={`PlanBadgeModal${resource_id}${badge_id}`}
+                                   name={title}
+                                   resource_id={resource_id}
+                                   badge_id={badge_id}
+                                   setResource={setResource}/>
+            }
             <button className={className} data-bs-toggle="modal"
                     data-bs-target={`#PlanBadgeModal${resource_id}${badge_id}`}>
-                <BookmarkIcon />
+                <BookmarkIcon/>
                 {state === "Not Planned" ? "Plan this Badge" : "Unplan this Badge"}
             </button>
         </div>
     );
 }
 
+/**
+ * Displays various badge status information.
+ * @param {string} method - The verification method: automated/manual
+ * @param {string} state - badge state
+ * @param {Array} roadmaps - list of roadmaps the badge is associated with
+ */
 function BadgeStatus({method, state, roadmaps}) {
+
+    function BadgeStatusBlock({children}) {
+        return (
+            <div className="basic-info-status-block">
+                {children}
+            </div>
+        );
+    }
+
     return (
         <div className="basic-info-status">
             <BadgeStatusBlock>
@@ -39,24 +74,22 @@ function BadgeStatus({method, state, roadmaps}) {
             </BadgeStatusBlock>
             <BadgeStatusBlock>
                 <p>Latest Status</p>
-                <StatusTag title={state} />
+                <StatusTag title={state}/>
             </BadgeStatusBlock>
             <BadgeStatusBlock>
-                <p>Required By</p>
+                <p>Roadmaps</p>
                 <p>{roadmaps.join(", ")}</p>
             </BadgeStatusBlock>
         </div>
     );
 }
 
-function BadgeStatusBlock({children}) {
-    return (
-        <div className="basic-info-status-block">
-            {children}
-        </div>
-    );
-}
-
+/**
+ * Displays a description block. Used for badge description and verification summary.
+ * @param {string} title - The title of the description block.
+ * @param {string} text - The text of the description block.
+ * @param {Object} style - optional styling for the description block.
+ */
 function BadgeDescription({title, text, style}) {
     return (
         <div className="basic-info-description" style={style}>
@@ -66,10 +99,20 @@ function BadgeDescription({title, text, style}) {
     );
 }
 
-export default function BadgeDetailBasicInfo({resource_id, badge}) {
+/**
+ * The header than contains information about the badge.
+ * @param {string} resource_id - used in endpoint to plan/unplan badge
+ * @param {Object} badge - The info about the current badge.
+ * @param {Function} setResource - The function to set the resource.
+ */
+export default function BadgeDetailBasicInfo({resource_id, badge, setResource}) {
     return (
         <div className="basic-info-wrapper">
-            <BadgeTitle title={badge.name} state={badge.state} resource_id={resource_id} badge_id={badge.badge_id}/>
+            <BadgeTitle title={badge.name}
+                        state={badge.state}
+                        resource_id={resource_id}
+                        badge_id={badge.badge_id}
+                        setResource={setResource}/>
             <BadgeStatus method={badge.verification_method} state={badge.state} roadmaps={badge.roadmap_names}/>
             <BadgeDescription title={"Badge Description"} text={badge.resource_provider_summary}/>
             <BadgeDescription title={"Verification Summary"}

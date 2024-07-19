@@ -56,6 +56,7 @@ export default function BadgeDetail() {
 
     // Merge badge details with resource and badge status
     useEffect(() => {
+        console.log("Merging badge details");
         const mergeBadgeDetails = () => {
             if (!badges || !selectedResource) return;
 
@@ -68,6 +69,7 @@ export default function BadgeDetail() {
                 // Iterate over each roadmap and badge to find matching badges and collect roadmap names
                 selectedResource.roadmaps.forEach(roadmap => {
                     roadmap.roadmap.badges.forEach(b => {
+                        // if the roadmap contains the badge
                         if (b.badge.badge_id === badge.badge_id) {
                             roadmapNames.push(roadmap.roadmap.name);
                         }
@@ -79,12 +81,15 @@ export default function BadgeDetail() {
 
                 // Find badge status from the resource
                 const badge_status = selectedResource.badge_status.find(status => status.badge_id === badge.badge_id);
-                badge.state = badge_status ? badge_status.state : 'Not Planned';
-                badge.badge_access_url = badge_status ?
-                    badge_status.badge_access_url ? badge_status.badge_access_url : null : null;
-                badge.badge_access_url_label = badge_status ?
-                    badge_status.badge_access_url_label ? badge_status.badge_access_url_label : null : null;
+                if (badge_status) {
+                    badge.state = badge_status.state;
+                    badge.badge_access_url = badge_status.badge_access_url;
+                    badge.badge_access_url_label = badge_status.badge_access_url_label;
+                } else {
+                    badge.state = 'Not Planned';
+                }
 
+                console.log("badge_status:", badge.state);
                 setSelectedBadge(badge);
             }
         };
@@ -99,10 +104,13 @@ export default function BadgeDetail() {
 
     return (
         <div className="badge-detail-wrapper">
-            <BadgeDetailHeader resource={selectedResource} currentBadge={selectedBadge} badges={badges} />
+            <BadgeDetailHeader resource={selectedResource} name={selectedBadge.name}/>
             <div className="main-wrapper">
                 <BadgeDetailSideBar badge={selectedBadge}/>
-                <BadgeDetailContent resource={selectedResource} badge={selectedBadge} tasks={selectedTasks}/>
+                <BadgeDetailContent resource={selectedResource}
+                                    setResource={setSelectedResource}
+                                    badge={selectedBadge}
+                                    tasks={selectedTasks}/>
             </div>
         </div>
     );

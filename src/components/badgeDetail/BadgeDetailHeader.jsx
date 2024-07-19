@@ -1,10 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import {useBadges} from "../../contexts/BadgeContext";
 
-export default function BadgeDetailHeader({ resource, badges, currentBadge }) {
-    const [roadmapBadges, setRoadmapBadges] = useState([]);
+/**
+ * The header of the badge detail page that includes the resource
+ * name/type and a dropdown of all badges in the roadmaps of the resource.
+ * @param {Object} resource - the resource that the badge is associated with
+ * @param {string} name - the name of the current badge
+ */
+export default function BadgeDetailHeader({ resource, name }) {
+    const { badges } = useBadges();
     const navigate = useNavigate();
+    const [roadmapBadges, setRoadmapBadges] = useState([]);
 
+    // find all badges in the roadmaps, ensure no duplicates
     useEffect(() => {
         const badgeMap = new Map();
 
@@ -12,9 +21,7 @@ export default function BadgeDetailHeader({ resource, badges, currentBadge }) {
             roadmap.roadmap.badges.forEach(badgeContainer => {
                 const badgeId = badgeContainer.badge.badge_id;
                 if (!badgeMap.has(badgeId)) {
-                    const fullBadgeInfo = badges.find(badge => badge.badge_id === badgeId)
-                        || {...badgeContainer.badge, name: 'Unknown Badge'};
-                    badgeMap.set(badgeId, fullBadgeInfo);
+                    badgeMap.set(badgeId, badgeContainer.badge);
                 }
             });
         });
@@ -42,7 +49,7 @@ export default function BadgeDetailHeader({ resource, badges, currentBadge }) {
             <div className="btn-group">
                 <p>All Badges: </p>
                 <button type="button" className="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    {currentBadge ? currentBadge.name : 'Select a Badge'}
+                    {name ? name : 'Select a Badge'}
                 </button>
                 <ul className="dropdown-menu">
                     {roadmapBadges.map((badge, index) => (

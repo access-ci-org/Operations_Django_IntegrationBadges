@@ -987,6 +987,10 @@ p {
 .plan-modal {
     max-width: 800px;
 
+    &.unplan {
+        max-width: 600px;
+    }
+
     .badge-modal-body {
         display: flex;
         flex-direction: column;

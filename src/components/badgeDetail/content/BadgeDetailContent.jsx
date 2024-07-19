@@ -5,11 +5,19 @@ import {useEffect, useState} from "react";
 import LoadingPage from "../../fragments/LoadingPage";
 import {useBadges} from "../../../contexts/BadgeContext";
 
-export default function BadgeDetailContent({resource, badge, tasks}) {
+/**
+ * The main content of the badge detail page.
+ * @param {Object} resource - The resource that the badge is associated with.
+ * @param {Function} setResource - The function to set the resource.
+ * @param {Object} badge - The info of the current badge, including resource-badge model info.
+ * @param {Array} tasks - The tasks associated with the badge. Default is empty array.
+ */
+export default function BadgeDetailContent({resource, setResource, badge, tasks}) {
     const {badges} = useBadges();
     const [prerequisiteBadges, setPrerequisiteBadges] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // find the prerequisite badges
     useEffect(() => {
         setLoading(true);
         const updatedPrerequisites = badge.prerequisites.map(prerequisite => {
@@ -20,6 +28,7 @@ export default function BadgeDetailContent({resource, badge, tasks}) {
             const statusInfo = resource.badge_status.find(status => status.badge_id === prerequisite.prerequisite_badge_id);
 
             // Find the 'required' flag from the roadmap's badge list
+            // TODO: 'required' doesn't make sense right now
             const requiredInfo = resource.roadmaps
                 .flatMap(roadmap => roadmap.roadmap.badges)
                 .find(b => b.badge.badge_id === prerequisite.prerequisite_badge_id)?.required || false;
@@ -38,7 +47,7 @@ export default function BadgeDetailContent({resource, badge, tasks}) {
 
     return (
         <div className="content-wrapper">
-            <BadgeDetailBasicInfo resource_id={resource.cider_resource_id} badge={badge}/>
+            <BadgeDetailBasicInfo resource_id={resource.cider_resource_id} badge={badge} setResource={setResource}/>
             {loading ? <LoadingPage/> : <PrerequisiteBadgesContainer badges={prerequisiteBadges}/>}
             <TaskContainer badgeId={badge.badge_id} tasks={tasks}/>
         </div>

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
-// import * as bootstrap from 'bootstrap';
+import {useBadges} from "../../../contexts/BadgeContext";
 
 function PlanModalInput({
                             defaultAction,
@@ -60,7 +60,15 @@ function PlanModalInput({
     );
 }
 
-export default function PlanModal({id, name, resource_id, badge_id}) {
+/**
+ * The plan modal for the badge. It asks for the action button text and the usage URL.
+ * @param {string} id - The id of the modal
+ * @param {string} name - The name of the badge
+ * @param {string} resource_id - The resource id
+ * @param {string} badge_id - The badge id
+ * @param {Function} setResource - The function to set the resource
+ */
+export default function PlanModal({id, name, resource_id, badge_id, setResource}) {
     const [defaultAction, setDefaultAction] = useState(true);
     const [actionButtonText, setActionButtonText] = useState('Default Action Text');
     const [usageUrl, setUsageUrl] = useState('https://defaulturl.com');
@@ -77,39 +85,45 @@ export default function PlanModal({id, name, resource_id, badge_id}) {
         }
     };
 
-    const handleCloseClick = (event) => {
-        event.stopPropagation();
-    };
-
     const handleFinishPlanning = async () => {
-        if (!defaultAction) {
-            const postData = {
-                badge_access_url: usageUrl,
-                badge_access_url_label: actionButtonText
-            };
+        const postData = {
+            badge_access_url: usageUrl,
+            badge_access_url_label: actionButtonText
+        };
 
-            try {
-                const response = await axios.post(`resource/${resource_id}/${badge_id}/plan`, postData);
-                console.log('Success:', response.data);
-            } catch (error) {
-                console.error('Error posting resource-badge:', error);
-            } finally {
-                // click the close button
-                document.querySelector(`#${id} .btn-close`).click();
+        try {
+            const response = await axios.post(`resource/${resource_id}/${badge_id}/plan`, postData);
+            console.log('Successfully changing state:', response.data);
+
+            // Fetch the updated badge status
+            const badgeStatusResponse = await axios.get(`resource/${resource_id}/state`);
+            const updatedBadgeStatus = badgeStatusResponse.data.results.badge_status;
+            console.log('Successfully updated badge status:', updatedBadgeStatus);
+
+            if (updatedBadgeStatus) {
+                setResource(prevState => {
+                    const updatedResource = {...prevState};
+                    updatedResource.badge_status = updatedBadgeStatus;
+                    return updatedResource;
+                });
             }
+
+            // close the modal
+            document.querySelector(`#${id} .btn-close`).click();
+        } catch (error) {
+            console.error('Error posting resource-badge:', error);
         }
     };
 
     return (
-        <div className="modal fade" id={id} tabIndex="-1"
-             aria-labelledby="badgeModal" aria-hidden="true" onClick={handleCloseClick}>
+        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby="badgeModal" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-md-lg plan-modal">
                 <div className="modal-content">
                     <div className="modal-body badge-modal-body">
                         <div className="badge-modal-header">
                             <h2>{name}</h2>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close" onClick={handleCloseClick} style={{color: '#107080'}}/>
+                                    aria-label="Close" style={{color: '#107080'}}/>
                         </div>
                         <div className="badge-modal-content">
                             <p>Enter the action button name and a resource URL for Ticket Handling badge.</p>
@@ -126,7 +140,7 @@ export default function PlanModal({id, name, resource_id, badge_id}) {
                         </div>
                         <div className="badge-modal-footer">
                             <a type="button" className="btn" data-bs-dismiss="modal"
-                               aria-label="Close" onClick={handleCloseClick}>Cancel</a>
+                               aria-label="Close">Cancel</a>
                             <a type="button" className={"btn btn-medium"} onClick={handleFinishPlanning}>
                                 Finish Planning
                             </a>
