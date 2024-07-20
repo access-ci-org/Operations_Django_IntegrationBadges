@@ -27,16 +27,9 @@ export default function BadgeDetailContent({resource, setResource, badge, tasks}
             // Find the status of the badge from resource.badge_status
             const statusInfo = resource.badge_status.find(status => status.badge_id === prerequisite.prerequisite_badge_id);
 
-            // Find the 'required' flag from the roadmap's badge list
-            // TODO: 'required' doesn't make sense right now
-            const requiredInfo = resource.roadmaps
-                .flatMap(roadmap => roadmap.roadmap.badges)
-                .find(b => b.badge.badge_id === prerequisite.prerequisite_badge_id)?.required || false;
-
             return {
                 badge: fullBadge,
                 state: statusInfo ? statusInfo.state : 'Not Planned',
-                required: requiredInfo,
                 resource_name: resource.resource_descriptive_name
             };
         });

@@ -4,7 +4,7 @@ export default function UnplanModal({id, name, resource_id, badge_id, setResourc
 
     const handleFinishUnplanning = async () => {
         try {
-            const response = await axios.delete(`resource/${resource_id}/${badge_id}/plan`);
+            const response = await axios.post(`resource/${resource_id}/${badge_id}/unplan`);
             console.log('Successfully changing state:', response.data.results);
 
             // Fetch the updated badge status
