@@ -731,7 +731,6 @@ p {
                         font-weight: 500;
                         color: $access-medium;
                         text-transform: uppercase;
-                        margin-bottom: 0;
                     }
 
                     .sidebar-section-title-icon {
@@ -763,6 +762,21 @@ p {
                         align-items: center;
                         gap: 8px;
                     }
+                }
+            }
+
+            .badge-status-wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 16px 16px 28px;
+
+                // the same as sidebar-section-title
+                .badge-status-title {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: $access-medium;
+                    text-transform: uppercase;
                 }
             }
         }
@@ -1303,4 +1317,39 @@ p {
 
     font-size: 18px;
     text-transform: capitalize;
+}
+
+.stepper-wrapper {
+
+    .stepper {
+        display: flex;
+        flex-direction: column;
+
+        .stepper-content {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+
+            .stepper-circle {
+                color: $access-grey-medium;
+
+                &.checked {
+                    color: $access-medium;
+                }
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+
+        .progress-bar {
+            color: $access-grey-medium;
+            margin-left: 6px;
+
+            &.checked {
+                color: $access-medium;
+            }
+        }
+    }
 }

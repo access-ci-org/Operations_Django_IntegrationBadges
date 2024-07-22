@@ -56,7 +56,6 @@ export default function BadgeDetail() {
 
     // Merge badge details with resource and badge status
     useEffect(() => {
-        console.log("Merging badge details");
         const mergeBadgeDetails = () => {
             if (!badges || !selectedResource) return;
 
@@ -85,12 +84,16 @@ export default function BadgeDetail() {
                     badge.state = badge_status.state;
                     badge.badge_access_url = badge_status.badge_access_url;
                     badge.badge_access_url_label = badge_status.badge_access_url_label;
+                    badge.state_updated_at = badge_status.state_updated_at;
                 } else {
                     badge.state = 'Not Planned';
+                    badge.badge_access_url = null;
+                    badge.badge_access_url_label = null;
+                    badge.state_updated_at = null;
                 }
 
-                console.log("badge_status:", badge.state);
-                setSelectedBadge(badge);
+                console.log("Current badge model:", badge);
+                setSelectedBadge({ ...badge });
             }
         };
 

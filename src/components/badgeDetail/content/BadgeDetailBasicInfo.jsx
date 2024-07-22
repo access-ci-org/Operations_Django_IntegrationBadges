@@ -54,9 +54,31 @@ function BadgeTitle({title, state, resource_id, badge_id, setResource}) {
  * Displays various badge status information.
  * @param {string} method - The verification method: automated/manual
  * @param {string} state - badge state
- * @param {Array} roadmaps - list of roadmaps the badge is associated with
+ * @param {string} time - the time of the latest update
  */
-function BadgeStatus({method, state, roadmaps}) {
+function BadgeStatus({method, state, time}) {
+    const [formattedTime, setFormattedTime] = useState("Not Updated Before");
+
+    useEffect(() => {
+        let date = new Date();
+        if (time) {
+            date = new Date(time);
+        }
+
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZoneName: 'short'
+        };
+
+        const formattedDate = time ? new Intl.DateTimeFormat('en-US', options).format(date)
+            : "Not Updated Before";
+        setFormattedTime(formattedDate);
+    }, [time]);
 
     function BadgeStatusBlock({children}) {
         return (
@@ -77,8 +99,8 @@ function BadgeStatus({method, state, roadmaps}) {
                 <StatusTag title={state}/>
             </BadgeStatusBlock>
             <BadgeStatusBlock>
-                <p>Roadmaps</p>
-                <p>{roadmaps.join(", ")}</p>
+                <p>Latest Update Time</p>
+                <p>{formattedTime}</p>
             </BadgeStatusBlock>
         </div>
     );
@@ -113,7 +135,7 @@ export default function BadgeDetailBasicInfo({resource_id, badge, setResource}) 
                         resource_id={resource_id}
                         badge_id={badge.badge_id}
                         setResource={setResource}/>
-            <BadgeStatus method={badge.verification_method} state={badge.state} roadmaps={badge.roadmap_names}/>
+            <BadgeStatus method={badge.verification_method} state={badge.state} time={badge.state_updated_at}/>
             <BadgeDescription title={"Badge Description"} text={badge.resource_provider_summary}/>
             <BadgeDescription title={"Verification Summary"}
                               text={badge.verification_summary}

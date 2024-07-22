@@ -1,0 +1,62 @@
+import {ReactComponent as RecordCircleIcon} from "../../assets/img/icons/record-circle.svg";
+import {ReactComponent as CheckedCircleIcon} from "../../assets/img/icons/check-circle-fill.svg";
+import {ReactComponent as ProgressBar} from "../../assets/img/icons/progress-bar.svg";
+
+/**
+ * A customized stepper just for the badge detail page.
+ * @param {string} state - The state of the badge.
+ */
+export default function Stepper({state}) {
+    const getStepClass = (currentStep) => {
+        switch (state) {
+            case 'Planned':
+                return currentStep === 1 ? 'checked' : '';
+            case 'Task Completed':
+                return currentStep <= 2 ? 'checked' : '';
+            case 'Verified':
+                return currentStep <= 3 ? 'checked' : '';
+            default:
+                return '';
+        }
+    };
+
+    const isStepChecked = (currentStep) => {
+        switch (state) {
+            case 'Planned':
+                return currentStep === 1;
+            case 'Task Completed':
+                return currentStep <= 2;
+            case 'Verified':
+                return currentStep <= 3;
+            default:
+                return false;
+        }
+    };
+
+    return (
+        <div className="stepper-wrapper">
+            <div className="stepper">
+                <div className="stepper-content">
+                    {isStepChecked(2) ?
+                        <CheckedCircleIcon className={`stepper-circle ${getStepClass(1)}`} />
+                        : <RecordCircleIcon className={`stepper-circle ${getStepClass(1)}`} />}
+                    <p className="stepper-text">Complete Badge Tasks</p>
+                </div>
+                <ProgressBar className={`progress-bar ${getStepClass(2)}`}/>
+                <div className="stepper-content">
+                    {isStepChecked(3) ?
+                        <CheckedCircleIcon className={`stepper-circle ${getStepClass(2)}`} />
+                        : <RecordCircleIcon className={`stepper-circle ${getStepClass(2)}`} />}
+                    <p className="stepper-text">Await Badge Verification</p>
+                </div>
+                <ProgressBar className={`progress-bar ${getStepClass(3)}`}/>
+                <div className="stepper-content">
+                    {isStepChecked(3) ?
+                        <CheckedCircleIcon className={`stepper-circle ${getStepClass(3)}`} />
+                        : <RecordCircleIcon className={`stepper-circle ${getStepClass(3)}`} />}
+                    <p className="stepper-text">Badge Available</p>
+                </div>
+            </div>
+        </div>
+    );
+}

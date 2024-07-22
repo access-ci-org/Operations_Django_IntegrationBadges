@@ -60,7 +60,7 @@ export default function TaskContainer({resource_id, badge, tasks, setResource}) 
         } else if (badge.state === "Planned") {
             newState = "";
         } else if (badge.state === "Task Completed") {
-            newState = "completed";
+            newState = "disabled completed";
         } else {
             newState = "disabled";
         }

@@ -1,6 +1,9 @@
 import placeholder from '../../../assets/img/placeholder_badge.png';
 import {ReactComponent as ArrowUpRightIcon} from '../../../assets/img/icons/arrow-up-right.svg';
 import BadgeEditingSection from "./BadgeEditingSection";
+import StatusTag from "../../fragments/StatusTag";
+import Stepper from "../../fragments/Stepper";
+import {useEffect} from "react";
 
 const implementationRoles=[
     {
@@ -43,9 +46,18 @@ function SidebarSection({title, links, icon}) {
 }
 
 export default function BadgeDetailSideBar({badge}) {
+
     return (
         <div className="sidebar-wrapper">
             <img src={placeholder} alt="badge"/>
+            {
+                badge.state !== 'Not Planned' &&
+                <div className="badge-status-wrapper">
+                    <p className="badge-status-title">Badge Status</p>
+                    <StatusTag title={badge.state} style={{marginBottom: '8px'}}/>
+                    <Stepper state={badge.state}/>
+                </div>
+            }
             <SidebarSection title="Implementation Roles" links={implementationRoles}/>
             <SidebarSection title="Resource Integration Support" links={supportContacts} icon/>
             {(badge.state && badge.state !== 'Not Planned') &&
