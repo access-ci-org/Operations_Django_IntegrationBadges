@@ -85,11 +85,13 @@ export default function BadgeDetail() {
                     badge.badge_access_url = badge_status.badge_access_url;
                     badge.badge_access_url_label = badge_status.badge_access_url_label;
                     badge.state_updated_at = badge_status.state_updated_at;
+                    badge.comment = badge_status.comment;
                 } else {
                     badge.state = 'Not Planned';
                     badge.badge_access_url = null;
                     badge.badge_access_url_label = null;
                     badge.state_updated_at = null;
+                    badge.comment = null;
                 }
 
                 console.log("Current badge model:", badge);
@@ -109,7 +111,9 @@ export default function BadgeDetail() {
         <div className="badge-detail-wrapper">
             <BadgeDetailHeader resource={selectedResource} name={selectedBadge.name}/>
             <div className="main-wrapper">
-                <BadgeDetailSideBar badge={selectedBadge}/>
+                <BadgeDetailSideBar badge={selectedBadge}
+                                    resource_id={selectedResource.cider_resource_id}
+                                    setResource={setSelectedResource}/>
                 <BadgeDetailContent resource={selectedResource}
                                     setResource={setSelectedResource}
                                     badge={selectedBadge}

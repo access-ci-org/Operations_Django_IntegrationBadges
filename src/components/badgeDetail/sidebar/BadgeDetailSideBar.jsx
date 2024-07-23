@@ -1,9 +1,11 @@
 import placeholder from '../../../assets/img/placeholder_badge.png';
 import {ReactComponent as ArrowUpRightIcon} from '../../../assets/img/icons/arrow-up-right.svg';
+import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-triangle.svg';
 import BadgeEditingSection from "./BadgeEditingSection";
 import StatusTag from "../../fragments/StatusTag";
 import Stepper from "../../fragments/Stepper";
 import {useEffect} from "react";
+import BadgeCommentModal from "./BadgeCommentModal";
 
 const implementationRoles=[
     {
@@ -45,7 +47,7 @@ function SidebarSection({title, links, icon}) {
     );
 }
 
-export default function BadgeDetailSideBar({badge}) {
+export default function BadgeDetailSideBar({badge, resource_id, setResource}) {
 
     return (
         <div className="sidebar-wrapper">
@@ -56,13 +58,24 @@ export default function BadgeDetailSideBar({badge}) {
                     <p className="badge-status-title">Badge Status</p>
                     <StatusTag title={badge.state} style={{marginBottom: '8px'}}/>
                     <Stepper state={badge.state}/>
+                    {badge.state === 'Verification Failed' &&
+                        <button className="btn btn-medium planned-style badge-status-comment-btn" data-bs-toggle="modal"
+                                data-bs-target={`#BadgeCommentModal${resource_id}${badge.badge_id}`}>
+                            <span><WarningIcon/></span> View Comments
+                        </button>
+                    }
                 </div>
             }
             <SidebarSection title="Implementation Roles" links={implementationRoles}/>
             <SidebarSection title="Resource Integration Support" links={supportContacts} icon/>
             {(badge.state && badge.state !== 'Not Planned') &&
-                <BadgeEditingSection title="Badge Action and Url"/>
+                <BadgeEditingSection label={badge.badge_access_url_label}
+                                     url={badge.badge_access_url}
+                                     resource_id={resource_id}
+                                     badge_id={badge.badge_id}
+                                     setResource={setResource}/>
             }
+            <BadgeCommentModal id={`BadgeCommentModal${resource_id}${badge.badge_id}`} comment={badge.comment}/>
         </div>
     );
 }

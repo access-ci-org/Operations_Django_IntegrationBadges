@@ -59,9 +59,9 @@ export default function TaskContainer({resource_id, badge, tasks, setResource}) 
             newState = "disabled";
         } else if (badge.state === "Planned") {
             newState = "";
-        } else if (badge.state === "Task Completed") {
-            newState = "disabled completed";
-        } else {
+        } else if (badge.state !== "Verified") {
+            newState = "planned-style";
+        } else if (badge.state === "Verified") {
             newState = "disabled";
         }
 
@@ -90,6 +90,28 @@ export default function TaskContainer({resource_id, badge, tasks, setResource}) 
         }
     };
 
+    const handleTaskUncompleted = async () => {
+        try {
+            const response = await axios.post(`resource/${resource_id}/${badge.badge_id}/task_uncompleted`);
+            console.log('Successfully mark state task uncompleted:', response.data);
+
+            // Fetch the updated badge status
+            const badgeStatusResponse = await axios.get(`resource/${resource_id}/state`);
+            const updatedBadgeStatus = badgeStatusResponse.data.results.badge_status;
+            console.log('Successfully updated badge status:', updatedBadgeStatus);
+
+            if (updatedBadgeStatus) {
+                setResource(prevState => {
+                    const updatedResource = {...prevState};
+                    updatedResource.badge_status = updatedBadgeStatus;
+                    return updatedResource;
+                });
+            }
+        } catch (error) {
+            console.error('Error posting resource-badge (task uncompleted):', error);
+        }
+    };
+
     return (
         <div className="task-container">
             <div className="task-container-header">
@@ -99,8 +121,9 @@ export default function TaskContainer({resource_id, badge, tasks, setResource}) 
                         <p><span><WarningIcon/></span> Please plan the badge first to mark tasks as completed.</p>
                     }
                 </div>
-                <button className={`btn btn-medium ` + planned} style={{minHeight: '36px'}} onClick={handleTaskCompleted}>
-                    Mark as Completed
+                <button className={`btn btn-medium ` + planned} style={{minHeight: '36px'}}
+                        onClick={planned === "planned-style" ? handleTaskUncompleted : handleTaskCompleted}>
+                    {planned === "planned-style" ? "Mark as Uncompleted" : "Mark as Completed"}
                 </button>
             </div>
             {tasks.length === 0 ?
