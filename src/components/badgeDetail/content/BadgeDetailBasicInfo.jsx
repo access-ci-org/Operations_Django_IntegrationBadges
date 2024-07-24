@@ -1,8 +1,10 @@
 import {ReactComponent as BookmarkIcon} from "../../../assets/img/icons/bookmark.svg";
+import {ReactComponent as BookmarkXIcon} from '../../../assets/img/icons/bookmark-x.svg';
 import StatusTag from "../../fragments/StatusTag";
 import {useEffect, useState} from "react";
 import PlanModal from "./PlanModal";
 import UnplanModal from "./UnplanModal";
+import {workflow_states} from "../../../App";
 
 /**
  * The title of the badge, containing the plan/unplan button.
@@ -16,7 +18,7 @@ function BadgeTitle({title, state, resource_id, badge_id, setResource}) {
     const [className, setClassName] = useState("btn btn-medium");
 
     useEffect(() => {
-        if (state === "Not Planned") {
+        if (state === workflow_states.NOT_PLANNED) {
             setClassName("btn btn-medium");
         } else {
             setClassName("btn btn-medium planned-style");
@@ -29,7 +31,7 @@ function BadgeTitle({title, state, resource_id, badge_id, setResource}) {
                 <h2>{title}</h2>
             </div>
             {
-                state === "Not Planned" ?
+                state === workflow_states.NOT_PLANNED ?
                     <PlanModal id={`PlanBadgeModal${resource_id}${badge_id}`}
                                name={title}
                                resource_id={resource_id}
@@ -43,8 +45,8 @@ function BadgeTitle({title, state, resource_id, badge_id, setResource}) {
             }
             <button className={className} data-bs-toggle="modal"
                     data-bs-target={`#PlanBadgeModal${resource_id}${badge_id}`}>
-                <BookmarkIcon/>
-                {state === "Not Planned" ? "Plan this Badge" : "Unplan this Badge"}
+                {state === workflow_states.NOT_PLANNED ? <BookmarkIcon/> : <BookmarkXIcon/>}
+                {state === workflow_states.NOT_PLANNED ? "Plan this Badge" : "Unplan this Badge"}
             </button>
         </div>
     );

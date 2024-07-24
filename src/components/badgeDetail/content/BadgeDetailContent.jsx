@@ -4,6 +4,7 @@ import TaskContainer from "./TaskContainer";
 import {useEffect, useState} from "react";
 import LoadingPage from "../../fragments/LoadingPage";
 import {useBadges} from "../../../contexts/BadgeContext";
+import {workflow_states} from "../../../App";
 
 /**
  * The main content of the badge detail page.
@@ -29,7 +30,7 @@ export default function BadgeDetailContent({resource, setResource, badge, tasks}
 
             return {
                 badge: fullBadge,
-                state: statusInfo ? statusInfo.state : 'Not Planned',
+                state: statusInfo ? statusInfo.state : workflow_states.NOT_PLANNED,
                 resource_name: resource.resource_descriptive_name
             };
         });

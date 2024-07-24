@@ -1,6 +1,7 @@
 import BadgeList from "./BadgeList";
 import ResourceBadge from "../../../../../fragments/ResourceBadge/ResourceBadge";
 import EmptyPage from "../../../../../fragments/EmptyPage";
+import {workflow_states} from "../../../../../../App";
 
 /**
  * Displaying the badges in a list view.
@@ -41,11 +42,11 @@ export default function ListView({
                         <BadgeList data={plannedBadges} view={selectedView}/>
                     :
                     plannedBadges.length === 0 && recommendedBadges
-                        .filter(badge => badge.state !== "Not Planned").length === 0 ?
+                        .filter(badge => badge.state !== workflow_states.NOT_PLANNED).length === 0 ?
                         <EmptyPage text="No Planned Badges" style={{marginTop: '24px'}}/> :
                         <BadgeList data={plannedBadges.concat(recommendedBadges
                             // Filtering out badges with "Not Planned" status
-                            .filter(badge => badge.state !== "Not Planned")
+                            .filter(badge => badge.state !== workflow_states.NOT_PLANNED)
                             .map((badge, index) => (
                                 <div key={index} className="col">
                                     <ResourceBadge data={badge} view={selectedView}/>

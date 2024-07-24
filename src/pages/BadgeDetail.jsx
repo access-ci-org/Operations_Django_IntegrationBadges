@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {useResources} from "../contexts/ResourcesContext";
 import axios from "axios";
 import LoadingPage from "../components/fragments/LoadingPage";
+import {workflow_states} from "../App";
 
 export default function BadgeDetail() {
     const { resourceId, badgeId } = useParams();
@@ -87,7 +88,7 @@ export default function BadgeDetail() {
                     badge.state_updated_at = badge_status.state_updated_at;
                     badge.comment = badge_status.comment;
                 } else {
-                    badge.state = 'Not Planned';
+                    badge.state = workflow_states.NOT_PLANNED;
                     badge.badge_access_url = null;
                     badge.badge_access_url_label = null;
                     badge.state_updated_at = null;
@@ -111,9 +112,10 @@ export default function BadgeDetail() {
         <div className="badge-detail-wrapper">
             <BadgeDetailHeader resource={selectedResource} name={selectedBadge.name}/>
             <div className="main-wrapper">
-                <BadgeDetailSideBar badge={selectedBadge}
-                                    resource_id={selectedResource.cider_resource_id}
-                                    setResource={setSelectedResource}/>
+                <BadgeDetailSideBar resource={selectedResource}
+                                    setResource={setSelectedResource}
+                                    badge={selectedBadge}
+                                    tasks={selectedTasks}/>
                 <BadgeDetailContent resource={selectedResource}
                                     setResource={setSelectedResource}
                                     badge={selectedBadge}

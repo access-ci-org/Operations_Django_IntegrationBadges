@@ -1,5 +1,6 @@
 import placeholderBadge from "../../assets/img/placeholder_badge.png";
 import LabelTag from "./LabelTag";
+import {workflow_states} from "../../App";
 
 /**
  * A modal that displays the badge information for a researcher.
@@ -36,8 +37,8 @@ export default function ResearcherModal({
                             <div className="badge-modal-header-info">
                                 <img src={img ? img : placeholderBadge} alt={name} className="badge-icon"/>
                                 <div className="badge-modal-header-info-title">
-                                    {state && <LabelTag title={state === "Verified" ? "Available" : "Unverified"}
-                                                        verified={state === "Verified"} style={{margin: '0'}}/>}
+                                    {state && <LabelTag title={state === workflow_states.VERIFIED ? "Available" : "Unverified"}
+                                                        verified={state === workflow_states.VERIFIED} style={{margin: '0'}}/>}
                                     <div style={{paddingTop: "16px"}}>
                                         <p className="badge-modal-name">{name}</p>
                                         <p className="badge-modal-source">{resourceName}</p>

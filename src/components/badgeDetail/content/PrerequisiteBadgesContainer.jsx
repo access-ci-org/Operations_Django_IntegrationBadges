@@ -28,7 +28,7 @@ export default function PrerequisiteBadgesContainer({badges}) {
                         </div>
                     ))}
                 </div>
-                : <BadgeList data={badges} view={true}/>
+                : <BadgeList data={badges} view={true} noCriteria/>
             }
         </div>
     );

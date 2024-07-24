@@ -6,6 +6,7 @@ import ResearcherModal from "../../../../../fragments/ResearcherModal";
 import {ReactComponent as ArrowRightIcon} from "../../../../../../assets/img/icons/arrow-up-right.svg";
 import {useBadges} from "../../../../../../contexts/BadgeContext";
 import EmptyPage from "../../../../../fragments/EmptyPage";
+import {workflow_states} from "../../../../../../App";
 
 /**
  * The action button for each badge in the list.
@@ -50,27 +51,28 @@ function ListAction({data, view, state, resource_name}) {
  * A list of badges on the resource detail page.
  * @param {Object} data - The badge information got from roadmapBadges
  * @param view - True for Resource Provider View, False for Researcher View
+ * @param {Boolean} noCriteria - True to not show the criteria column
  */
-export default function BadgeList({data, view}) {
+export default function BadgeList({data, view, noCriteria}) {
     const {badges} = useBadges();
 
     const labelTitle = (status) => {
         switch (status) {
-            case "Verified":
+            case workflow_states.VERIFIED:
                 return "Available";
-            case "Planned":
-            case "Task Completed":
-            case "Verification Failed":
+            case workflow_states.PLANNED:
+            case workflow_states.TASK_COMPLETED:
+            case workflow_states.VERIFICATION_FAILED:
                 return "Unverified";
-            case "Deprecated":
-            case "Not Planned":
+            case workflow_states.DEPRECATED:
+            case workflow_states.NOT_PLANNED:
             default:
                 return "Not Available";
         }
     };
 
     const labelStyle = (status) => {
-        if (!status || status === "NotStarted" || status === "Deprecated" || status === "Not Planned") {
+        if (!status || status === workflow_states.DEPRECATED || status === workflow_states.NOT_PLANNED) {
             return {color: "#232323"};
         }
         return {};
@@ -91,7 +93,7 @@ export default function BadgeList({data, view}) {
                         <th scope="col" className="col-img"></th>
                         <th scope="col" className="col-name">Badge Name</th>
                         <th scope="col" className="col-description">Badge Description</th>
-                        {view && <th scope="col" className="col-criteria">Criteria</th>}
+                        {view && !noCriteria && <th scope="col" className="col-criteria">Criteria</th>}
                         <th scope="col" className="col-status">Badge Status</th>
                         <th scope="col" className="col-plan">Action</th>
                     </tr>
@@ -113,7 +115,7 @@ export default function BadgeList({data, view}) {
                                     {view ? item.badge.resource_provider_summary : item.badge.researcher_summary}
                                 </div>
                             </td>
-                            {view && <td className="col-1">{item.required ? "Required" : "Optional"}</td>}
+                            {view && !noCriteria && <td className="col-1">{item.required ? "Required" : "Optional"}</td>}
                             <td className="col-2">
                                 {view ?
                                     <StatusTag title={item.state}/>

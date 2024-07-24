@@ -1,8 +1,8 @@
 import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-triangle.svg';
-import {ReactComponent as ArrowIcon} from '../../../assets/img/icons/arrow-right.svg';
 import EmptyPage from "../../fragments/EmptyPage";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {workflow_states} from "../../../App";
 
 function BadgeTask({index, parentId, task}) {
     const targetId = `#${parentId}${index}`;
@@ -27,7 +27,7 @@ function BadgeTask({index, parentId, task}) {
                     <div className="task-options-wrapper">
                         <div className="task-options">
                             <div className="task-option-box">
-                                <p>Implementation Roles</p>
+                                <p>Implementor Roles</p>
                                 <p>{task.implementor_roles}</p>
                             </div>
                             <div className="task-option-box">
@@ -55,13 +55,14 @@ export default function TaskContainer({resource_id, badge, tasks, setResource}) 
 
         if (!badge.state) {
             newState = "disabled";
-        } else if (badge.state === "Not Planned") {
+        } else if (badge.state === workflow_states.NOT_PLANNED) {
             newState = "disabled";
-        } else if (badge.state === "Planned") {
+        } else if (badge.state === workflow_states.PLANNED) {
             newState = "";
-        } else if (badge.state !== "Verified") {
+        } else if (badge.state !== workflow_states.VERIFIED) {
+            // besides verified and the first two, share the same style
             newState = "planned-style";
-        } else if (badge.state === "Verified") {
+        } else if (badge.state === workflow_states.VERIFIED) {
             newState = "disabled";
         }
 
@@ -117,7 +118,7 @@ export default function TaskContainer({resource_id, badge, tasks, setResource}) 
             <div className="task-container-header">
                 <div className="task-container-title">
                     <h4>Associated Tasks</h4>
-                    {(!badge.state || badge.state === "Not Planned") &&
+                    {(!badge.state || badge.state === workflow_states.NOT_PLANNED) &&
                         <p><span><WarningIcon/></span> Please plan the badge first to mark tasks as completed.</p>
                     }
                 </div>

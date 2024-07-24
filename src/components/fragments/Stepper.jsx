@@ -1,6 +1,7 @@
 import {ReactComponent as RecordCircleIcon} from "../../assets/img/icons/record-circle.svg";
 import {ReactComponent as CheckedCircleIcon} from "../../assets/img/icons/check-circle-fill.svg";
 import {ReactComponent as ProgressBar} from "../../assets/img/icons/progress-bar.svg";
+import {workflow_states} from "../../App";
 
 /**
  * A customized stepper just for the badge detail page.
@@ -9,11 +10,11 @@ import {ReactComponent as ProgressBar} from "../../assets/img/icons/progress-bar
 export default function Stepper({state}) {
     const getStepClass = (currentStep) => {
         switch (state) {
-            case 'Planned':
+            case workflow_states.PLANNED:
                 return currentStep === 1 ? 'checked' : '';
-            case 'Task Completed':
+            case workflow_states.TASK_COMPLETED:
                 return currentStep <= 2 ? 'checked' : '';
-            case 'Verified':
+            case workflow_states.VERIFIED:
                 return currentStep <= 3 ? 'checked' : '';
             default:
                 return '';
@@ -22,11 +23,11 @@ export default function Stepper({state}) {
 
     const isStepChecked = (currentStep) => {
         switch (state) {
-            case 'Planned':
+            case workflow_states.PLANNED:
                 return currentStep === 1;
-            case 'Task Completed':
+            case workflow_states.TASK_COMPLETED:
                 return currentStep <= 2;
-            case 'Verified':
+            case workflow_states.VERIFIED:
                 return currentStep <= 3;
             default:
                 return false;

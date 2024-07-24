@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {workflow_states} from "../../App";
 
 /**
  * A status tag that displays the status of the badge.
@@ -15,21 +16,21 @@ export default function StatusTag({title, style}) {
         let newClassName = "badge status-tag";
 
         // Determine the new tag name and class based on conditions
-        if (title === "Deprecated") {
+        if (title === workflow_states.DEPRECATED) {
             newClassName += " deprecated-style";
-        } else if (title === "Planned") {
+        } else if (title === workflow_states.PLANNED) {
             newTag = "In Progress";
             newClassName += " planned-style";
-        } else if (title === "Verified") {
+        } else if (title === workflow_states.VERIFIED) {
             newTag = "Badge Available";
             newClassName += " verified-style";
-        } else if (title === "Task Completed") {
+        } else if (title === workflow_states.TASK_COMPLETED) {
             newTag = "Pending Verification";
             newClassName += " task-completed-style";
-        } else if (title === "Verification Failed") {
+        } else if (title === workflow_states.VERIFICATION_FAILED) {
             newTag = "Verification Failed";
             newClassName += " verification-failed-style";
-        } else if (title === "Not Planned") {
+        } else if (title === workflow_states.NOT_PLANNED) {
             newTag = "Not Planned";
             newClassName += " not-planned-style";
         }

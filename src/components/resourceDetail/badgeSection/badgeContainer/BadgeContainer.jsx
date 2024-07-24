@@ -3,6 +3,7 @@ import DashboardView from "./views/DashboardView";
 import ListView from "./views/ListView/ListView";
 import BadgeContainerViewOption from "../../../fragments/BadgeContainerViewOption";
 import {useBadges} from "../../../../contexts/BadgeContext";
+import {workflow_states} from "../../../../App";
 
 /**
  * The container for the badges. The badges are displayed in a dashboard view or a list view.
@@ -23,11 +24,11 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
     // Update the badges with status information from resource.badge_status
     useEffect(() => {
         const recommended = roadmapBadges.filter(badge =>
-            badge.state === "Not Planned" || badge.state === "Deprecated");
-        const planned = roadmapBadges.filter(badge => badge.state === "Planned"
-            || badge.state === "Task Completed"
-            || badge.state === "Verification Failed");
-        const achieved = roadmapBadges.filter(badge => badge.state === "Verified");
+            badge.state === workflow_states.NOT_PLANNED || badge.state === workflow_states.DEPRECATED);
+        const planned = roadmapBadges.filter(badge => badge.state === workflow_states.PLANNED
+            || badge.state === workflow_states.TASK_COMPLETED
+            || badge.state === workflow_states.VERIFICATION_FAILED);
+        const achieved = roadmapBadges.filter(badge => badge.state === workflow_states.VERIFIED);
         setRecommendedBadges(recommended);
         setPlannedBadges(planned);
         setAchievedBadges(achieved);
@@ -60,7 +61,7 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
                             {selectedView ?
                                 `Planned (${plannedBadges.length})` :
                                 `Planned (${plannedBadges.length + 
-                                recommendedBadges.filter(badge => badge.state !== "Not Planned").length})`}
+                                recommendedBadges.filter(badge => badge.state !== workflow_states.NOT_PLANNED).length})`}
                         </button>
                     </li>
                     {selectedView &&

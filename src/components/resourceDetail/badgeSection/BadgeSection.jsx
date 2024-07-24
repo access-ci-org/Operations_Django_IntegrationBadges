@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import BadgeContainer from "./badgeContainer/BadgeContainer";
+import {workflow_states} from "../../../App";
 
 /**
  * The header of the badge section. It also shows the switch
@@ -70,7 +71,7 @@ export default function BadgeSection({resource}) {
                     ...badge,
                     required: badge.required,
                     resource_name: resource.resource_descriptive_name,
-                    state: status ? status.state : "Not Planned",
+                    state: status ? status.state : workflow_states.NOT_PLANNED,
                     badge_access_url: status ? status.badge_access_url ?
                         status.badge_access_url : null : null,
                     badge_access_url_label: status ? status.badge_access_url_label ?

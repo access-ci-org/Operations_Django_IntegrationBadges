@@ -1,5 +1,6 @@
 import ResourceBadge from "../../../../fragments/ResourceBadge/ResourceBadge";
 import EmptyPage from "../../../../fragments/EmptyPage";
+import {workflow_states} from "../../../../../App";
 
 /**
  * Displaying the badges in a dashboard view. To switch between the researcher/RP view,
@@ -57,7 +58,7 @@ export default function DashboardView({
                             ))
                         :
                         plannedBadges.length === 0 && recommendedBadges
-                            .filter(badge => badge.state !== "Not Planned").length === 0 ?
+                            .filter(badge => badge.state !== workflow_states.NOT_PLANNED).length === 0 ?
                             <EmptyPage text="No Planned Badges"/> :
                             <>
                                 {plannedBadges.map((badge, index) => (
@@ -67,7 +68,7 @@ export default function DashboardView({
                                 ))}
                                 {recommendedBadges
                                     // Filtering out badges with "Not Planned" status
-                                    .filter(badge => badge.state !== "Not Planned")
+                                    .filter(badge => badge.state !== workflow_states.NOT_PLANNED)
                                     .map((badge, index) => (
                                         <div key={index} className="col">
                                             <ResourceBadge data={badge} view={selectedView}/>

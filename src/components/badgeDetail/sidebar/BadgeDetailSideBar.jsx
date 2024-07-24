@@ -4,19 +4,9 @@ import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-tri
 import BadgeEditingSection from "./BadgeEditingSection";
 import StatusTag from "../../fragments/StatusTag";
 import Stepper from "../../fragments/Stepper";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import BadgeCommentModal from "./BadgeCommentModal";
-
-const implementationRoles=[
-    {
-        url: "https://google.com",
-        text: "Researcher Support Contacts"
-    },
-    {
-        url: "https://google.com",
-        text: "RP Contacts"
-    },
-];
+import {workflow_states} from "../../../App";
 
 const supportContacts=[
     {
@@ -29,53 +19,99 @@ const supportContacts=[
     },
 ];
 
-function SidebarSection({title, links, icon}) {
+function ImplementorRoleSection({tasks}) {
     return (
         <div className="sidebar-section">
             <div className="sidebar-section-title-wrapper">
-                <p className="sidebar-section-title">{title}</p>
+                <p className="sidebar-section-title">Implementor Roles</p>
             </div>
-            <div className="sidebar-section-links">
-                {links.map((link, index) => (
-                    <a key={index} href={link.url}>
-                        {link.text}
-                        {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
-                    </a>
+            <div className="sidebar-section-edit-wrapper">
+                {tasks.length === 0 ?
+                    <p>No tasks related to this badge.</p>
+                    : tasks.map((task, index) => (
+                    <div key={index} className="sidebar-section-edit">
+                        <p className="sidebar-section-edit-title">{task.name}</p>
+                        <p className="sidebar-section-edit-content">{task.roles}</p>
+                    </div>
                 ))}
             </div>
         </div>
     );
 }
 
-export default function BadgeDetailSideBar({badge, resource_id, setResource}) {
+function SidebarSection({title, links, icon, justText}) {
+    return (
+        <div className="sidebar-section">
+            <div className="sidebar-section-title-wrapper">
+                <p className="sidebar-section-title">{title}</p>
+            </div>
+            <div className="sidebar-section-links">
+                {links.length === 0 ?
+                    <p>{title} is currently unavailable for this badge.</p>
+                    : links.map((link, index) => (
+                    justText ?
+                        <p key={index}>
+                            {link.text}
+                            {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
+                        </p>
+                        : <a key={index} href={link.url}>
+                            {link.text}
+                            {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
+                        </a>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default function BadgeDetailSideBar({resource, setResource, badge, tasks}) {
+    const [roadmapLinks, setRoadmapLinks] = useState([]);
+    const [implementorRoles, setImplementorRoles] = useState([]);
+
+    useEffect(() => {
+        const links = resource.roadmaps.map(roadmap => ({
+            url: "#", // Placeholder URL
+            text: roadmap.roadmap.name
+        }));
+        setRoadmapLinks(links);
+    }, [resource]);
+
+    useEffect(() => {
+        const roles = tasks.map(task => ({
+            name: task.task.name,
+            roles: task.task.implementor_roles
+        }));
+        setImplementorRoles(roles);
+    }, [tasks]);
 
     return (
         <div className="sidebar-wrapper">
-            <img src={placeholder} alt="badge"/>
+        <img src={placeholder} alt="badge"/>
             {
-                badge.state !== 'Not Planned' &&
+                badge.state !== workflow_states.NOT_PLANNED &&
                 <div className="badge-status-wrapper">
                     <p className="badge-status-title">Badge Status</p>
                     <StatusTag title={badge.state} style={{marginBottom: '8px'}}/>
                     <Stepper state={badge.state}/>
-                    {badge.state === 'Verification Failed' &&
+                    {badge.state === workflow_states.VERIFICATION_FAILED &&
                         <button className="btn btn-medium planned-style badge-status-comment-btn" data-bs-toggle="modal"
-                                data-bs-target={`#BadgeCommentModal${resource_id}${badge.badge_id}`}>
+                                data-bs-target={`#BadgeCommentModal${resource.cider_resource_id}${badge.badge_id}`}>
                             <span><WarningIcon/></span> View Comments
                         </button>
                     }
                 </div>
             }
-            <SidebarSection title="Implementation Roles" links={implementationRoles}/>
+            <SidebarSection title="Roadmaps" links={roadmapLinks} justText/>
+            <ImplementorRoleSection tasks={implementorRoles}/>
             <SidebarSection title="Resource Integration Support" links={supportContacts} icon/>
-            {(badge.state && badge.state !== 'Not Planned') &&
+            {(badge.state && badge.state !== workflow_states.NOT_PLANNED) &&
                 <BadgeEditingSection label={badge.badge_access_url_label}
                                      url={badge.badge_access_url}
-                                     resource_id={resource_id}
+                                     resource_id={resource.cider_resource_id}
                                      badge_id={badge.badge_id}
                                      setResource={setResource}/>
             }
-            <BadgeCommentModal id={`BadgeCommentModal${resource_id}${badge.badge_id}`} comment={badge.comment}/>
+            <BadgeCommentModal id={`BadgeCommentModal${resource.cider_resource_id}${badge.badge_id}`} comment={badge.comment}/>
         </div>
     );
 }
