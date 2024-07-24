@@ -9,9 +9,9 @@ function PlanModalInput({
                             setActionButtonText,
                             usageUrl,
                             setUsageUrl,
-                            handleCheckboxChange
+                            handleCheckboxChange,
+                            errorMessage,
                         }) {
-
     return (
         <div className="badge-modal-input-wrapper">
             <div className="form-check">
@@ -33,13 +33,14 @@ function PlanModalInput({
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${errorMessage ? 'is-invalid' : ''}`}
                         id="BadgeActionButtonText"
                         value={actionButtonText}
                         onChange={(e) => setActionButtonText(e.target.value)}
                         placeholder="Badge Action Button Text"
                         disabled={defaultAction}
                     />
+                    {errorMessage && <div className="invalid-feedback">{errorMessage}</div>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="BadgeUsageURL" className="form-label">
@@ -47,13 +48,14 @@ function PlanModalInput({
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${errorMessage ? 'is-invalid' : ''}`}
                         id="BadgeUsageURL"
                         value={usageUrl}
                         onChange={(e) => setUsageUrl(e.target.value)}
                         placeholder="Badge Usage URL"
                         disabled={defaultAction}
                     />
+                    {errorMessage && <div className="invalid-feedback">{errorMessage}</div>}
                 </div>
             </div>
         </div>
@@ -72,6 +74,7 @@ export default function PlanModal({id, name, resource_id, badge_id, setResource}
     const [defaultAction, setDefaultAction] = useState(true);
     const [actionButtonText, setActionButtonText] = useState('Default Action Text');
     const [usageUrl, setUsageUrl] = useState('https://defaulturl.com');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Handle checkbox change
     const handleCheckboxChange = (event) => {
@@ -108,10 +111,16 @@ export default function PlanModal({id, name, resource_id, badge_id, setResource}
                 });
             }
 
+            setErrorMessage('');
             // close the modal
             document.querySelector(`#${id} .btn-close`).click();
         } catch (error) {
             console.error('Error posting resource-badge:', error);
+            if (error.response && error.response.data && error.response.data.detail) {
+                setErrorMessage(error.response.data.detail);
+            } else {
+                setErrorMessage('An unexpected error occurred. Please try again.');
+            }
         }
     };
 
@@ -136,7 +145,8 @@ export default function PlanModal({id, name, resource_id, badge_id, setResource}
                                             setActionButtonText={setActionButtonText}
                                             usageUrl={usageUrl}
                                             setUsageUrl={setUsageUrl}
-                                            handleCheckboxChange={handleCheckboxChange}/>
+                                            handleCheckboxChange={handleCheckboxChange}
+                                            errorMessage={errorMessage}/>
                         </div>
                         <div className="badge-modal-footer">
                             <a type="button" className="btn" data-bs-dismiss="modal"

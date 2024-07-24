@@ -5,7 +5,8 @@ function EditModalInput({
                             actionButtonText,
                             setActionButtonText,
                             usageUrl,
-                            setUsageUrl}) {
+                            setUsageUrl,
+                            errorMessage,}) {
 
     return (
         <div className="badge-modal-input-wrapper">
@@ -16,12 +17,13 @@ function EditModalInput({
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${errorMessage ? 'is-invalid' : ''}`}
                         id="BadgeActionButtonText"
                         value={actionButtonText}
                         onChange={(e) => setActionButtonText(e.target.value)}
                         placeholder="Badge Action Button Text"
                     />
+                    {errorMessage && <div className="invalid-feedback">{errorMessage}</div>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="BadgeUsageURL" className="form-label">
@@ -29,12 +31,13 @@ function EditModalInput({
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${errorMessage ? 'is-invalid' : ''}`}
                         id="BadgeUsageURL"
                         value={usageUrl}
                         onChange={(e) => setUsageUrl(e.target.value)}
                         placeholder="Badge Usage URL"
                     />
+                    {errorMessage && <div className="invalid-feedback">{errorMessage}</div>}
                 </div>
             </div>
         </div>
@@ -44,6 +47,7 @@ function EditModalInput({
 export default function BadgeEditingModal({id, label, url, resource_id, badge_id, setResource}) {
     const [actionButtonText, setActionButtonText] = useState(label);
     const [usageUrl, setUsageUrl] = useState(url);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleFinishPlanning = async () => {
         const postData = {
@@ -68,10 +72,16 @@ export default function BadgeEditingModal({id, label, url, resource_id, badge_id
                 });
             }
 
+            setErrorMessage('');
             // close the modal
             document.querySelector(`#${id} .btn-close`).click();
         } catch (error) {
             console.error('Error editing resource-badge:', error);
+            if (error.response && error.response.data && error.response.data.detail) {
+                setErrorMessage(error.response.data.detail);
+            } else {
+                setErrorMessage('An unexpected error occurred. Please try again.');
+            }
         }
     };
 
@@ -89,7 +99,8 @@ export default function BadgeEditingModal({id, label, url, resource_id, badge_id
                             <EditModalInput actionButtonText={actionButtonText}
                                             setActionButtonText={setActionButtonText}
                                             usageUrl={usageUrl}
-                                            setUsageUrl={setUsageUrl}/>
+                                            setUsageUrl={setUsageUrl}
+                                            errorMessage={errorMessage}/>
                         </div>
                         <div className="badge-modal-footer">
                             <a type="button" className="btn" data-bs-dismiss="modal"

@@ -1096,6 +1096,10 @@ p {
 
                 .badge-modal-input {
                     margin-top: 16px;
+
+                    .invalid-feedback {
+                        margin-top: 8px;
+                    }
                 }
             }
         }
