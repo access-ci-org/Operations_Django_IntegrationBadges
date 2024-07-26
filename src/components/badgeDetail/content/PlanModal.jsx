@@ -82,6 +82,7 @@ export default function PlanModal({id, name, resource_id, badge_id, setResource}
         if (event.target.checked) {
             setActionButtonText('Default Action Text');
             setUsageUrl('https://defaulturl.com');
+            setErrorMessage('');
         } else {
             setActionButtonText('');
             setUsageUrl('');

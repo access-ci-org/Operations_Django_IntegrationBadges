@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import BadgeCommentModal from "./BadgeCommentModal";
 import {workflow_states} from "../../../App";
 
+// The support contacts for the badge, static
 const supportContacts=[
     {
         url: "https://access-ci.atlassian.net/servicedesk/customer/portal/2",
@@ -19,6 +20,10 @@ const supportContacts=[
     },
 ];
 
+/**
+ * A section that displays the implementor roles of the badge
+ * @param {Object} tasks - The tasks related to the badge
+ */
 function ImplementorRoleSection({tasks}) {
     return (
         <div className="sidebar-section">
@@ -39,6 +44,13 @@ function ImplementorRoleSection({tasks}) {
     );
 }
 
+/**
+ * A general sidebar section that displays a title and a list of links.
+ * @param {string} title - The title of the section
+ * @param {Object} links - The list of links to display
+ * @param {Boolean} icon - Whether to show an icon next to each link
+ * @param {Boolean} justText - Whether to show only text without links
+ */
 function SidebarSection({title, links, icon, justText}) {
     return (
         <div className="sidebar-section">
@@ -50,10 +62,10 @@ function SidebarSection({title, links, icon, justText}) {
                     <p>{title} is currently unavailable for this badge.</p>
                     : links.map((link, index) => (
                     justText ?
-                        <p key={index}>
+                        <li key={index}>
                             {link.text}
                             {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
-                        </p>
+                        </li>
                         : <a key={index} href={link.url}>
                             {link.text}
                             {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
@@ -64,6 +76,14 @@ function SidebarSection({title, links, icon, justText}) {
     );
 }
 
+/**
+ * The sidebar of the badge detail page. It shows the badge status,
+ * roadmap links, implementor roles, and support contacts.
+ * @param {Object} resource - The current resource that associates with the badge
+ * @param {Function} setResource - The function to update the resource
+ * @param {Object} badge - The badge object
+ * @param {Object} tasks - The tasks related to the badge
+ */
 export default function BadgeDetailSideBar({resource, setResource, badge, tasks}) {
     const [roadmapLinks, setRoadmapLinks] = useState([]);
     const [implementorRoles, setImplementorRoles] = useState([]);

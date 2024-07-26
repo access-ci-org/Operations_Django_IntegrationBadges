@@ -9,6 +9,10 @@ import axios from "axios";
 import LoadingPage from "../components/fragments/LoadingPage";
 import {workflow_states} from "../App";
 
+/**
+ * The page that displays the details of a badge, including basic stats,
+ * plan/unplan a badge, and view/complete tasks associated with the badge.
+ */
 export default function BadgeDetail() {
     const { resourceId, badgeId } = useParams();
     const { badges } = useBadges();

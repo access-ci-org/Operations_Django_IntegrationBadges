@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@popperjs/core": "^2.11.8",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,6 +16,7 @@
     "babel-plugin-named-asset-import": "^0.3.8",
     "babel-preset-react-app": "^10.0.1",
     "bfj": "^7.0.2",
+    "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "browserslist": "^4.18.1",
     "camelcase": "^6.2.1",
@@ -99,9 +101,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "bootstrap": "^5.3.2"
-  },
+  "devDependencies": {},
   "jest": {
     "roots": [
       "<rootDir>/src"

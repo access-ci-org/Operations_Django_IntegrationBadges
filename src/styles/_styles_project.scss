@@ -198,9 +198,10 @@ p {
 
             .badge-container {
                 display: flex;
-                gap: 8px;
+                gap: 2px;
                 flex-wrap: nowrap;
                 align-items: center;
+                justify-content: space-between;
 
                 .resource-badge {
                     width: 40px;
@@ -223,8 +224,16 @@ p {
                     }
                 }
 
-                .badge-more p {
+                .badge-more {
+                    padding: 4px 8px;
+                    margin-left: 0;
+                    border: none;
+                    border-radius: 4px;
                     color: $access-grey;
+
+                    &:hover {
+                        background: $access-grey-light;
+                    }
                 }
             }
 
@@ -280,6 +289,28 @@ p {
                 border-right: none;
             }
         }
+    }
+}
+
+.resource-card-badge-tooltip {
+
+    .tooltip-inner {
+        font-size: 16px;
+        font-weight: 600;
+        color: $access-medium;
+        box-shadow: 0 4px 4px 0 #1071801A;
+        border-radius: 8px;
+        background: white;
+        padding: 8px 16px;
+    }
+
+    &.show {
+        margin-top: -8px !important;
+        opacity: 1 !important;
+    }
+
+    .tooltip-arrow {
+        display: none;
     }
 }
 
@@ -766,6 +797,16 @@ p {
                         display: flex;
                         align-items: center;
                         gap: 8px;
+
+                        text-overflow: ellipsis;
+                        white-space: break-spaces;
+                    }
+
+                    // has text-decoration
+                    li {
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: $access-black;
 
                         text-overflow: ellipsis;
                         white-space: break-spaces;

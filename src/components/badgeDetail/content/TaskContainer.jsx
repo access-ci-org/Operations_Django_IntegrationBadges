@@ -5,8 +5,6 @@ import axios from "axios";
 import {workflow_states} from "../../../App";
 
 function BadgeTask({index, parentId, task}) {
-    const targetId = `#${parentId}${index}`;
-
     const openTaskDetails = (url) => {
         window.open(url, '_blank');
     }
@@ -14,13 +12,17 @@ function BadgeTask({index, parentId, task}) {
     return (
         <div className="accordion-item task-wrapper">
             <h2 className="accordion-header" id={`heading${parentId}${index}`}>
-                <button className="accordion-button collapsed task-title" type="button"
-                        data-bs-toggle="collapse" data-bs-target={targetId}
-                        aria-expanded="false" aria-controls={parentId + index}>
+                <button className="accordion-button collapsed task-title"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#${parentId}${index}`}
+                        aria-expanded="false"
+                        aria-controls={parentId + index}>
                     {task.name}
                 </button>
             </h2>
-            <div id={parentId + index} className="accordion-collapse collapse task-content"
+            <div id={`${parentId}${index}`}
+                 className="accordion-collapse task-content collapse"
                  aria-labelledby={`heading${parentId}${index}`}>
                 <div className="accordion-body">
                     <p className="task-summary">{task.technical_summary}</p>

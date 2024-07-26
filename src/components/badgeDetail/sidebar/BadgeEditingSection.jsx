@@ -1,14 +1,29 @@
 import {ReactComponent as EditIcon} from '../../../assets/img/icons/edit.svg';
 import BadgeEditingModal from "./BadgeEditingModal";
 
-export default function BadgeEditingSection({label, url, resource_id, badge_id, setResource}) {
+/**
+ * The badge editing section for a badge. Once the badge is planned,
+ * the user can edit the badge action and URL.
+ * @param {string} label - The badge action
+ * @param {string} url - The badge URL
+ * @param {string} resource_id - The resource ID (resource associated with the badge)
+ * @param {string} badge_id - The badge ID
+ * @param {Function} setResource - The function to update the resource
+ */
+export default function BadgeEditingSection({
+                                                label,
+                                                url,
+                                                resource_id,
+                                                badge_id,
+                                                setResource
+                                            }) {
     return (
         <div className="sidebar-section">
             <div className="sidebar-section-title-wrapper">
                 <p className="sidebar-section-title">Badge Action and Url</p>
                 <button className="btn sidebar-section-title-icon" data-bs-toggle="modal"
                         data-bs-target={`#BadgeEditingModal${resource_id}${badge_id}`}>
-                    <EditIcon />
+                    <EditIcon/>
                 </button>
             </div>
             <div className="sidebar-section-edit-wrapper">

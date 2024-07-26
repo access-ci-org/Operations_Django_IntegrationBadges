@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ResourceCardBadge from "./ResourceCardBadge";
 import {useNavigate} from "react-router-dom";
 import {useBadges} from "../../../../contexts/BadgeContext";
@@ -44,6 +44,10 @@ export default function ResourceCard({ resource }) {
         navigate(`/resourceDetail/${resource.cider_resource_id}`);
     };
 
+    const handlePopoverClick = (event) => {
+        event.stopPropagation();
+    };
+
     return (
         <div className="card resource-card" onClick={handleCardClick}>
             <ResourceCardHeader name={resource.organization_name}
@@ -51,7 +55,7 @@ export default function ResourceCard({ resource }) {
                                 url={resource.organization_logo_url}/>
             <div className="card-body-wrapper">
                 <div className="card-body">
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
                         <p className="resource-title">{resource.resource_descriptive_name}</p>
                         <p className="resource-type">{resource.cider_type} Resource</p>
                     </div>
@@ -59,23 +63,29 @@ export default function ResourceCard({ resource }) {
                         {resource.resource_description ? resource.resource_description : 'Description not available.'}
                     </p>
                     <div className="badge-container">
-                        {resource.badges.slice(0, count > 4 ? 4 : count).map((badge, index) => {
+                        {resource.badges.slice(0, count > 5 ? 5 : count).map((badge, index) => {
                             const badgeData = badges.find(b => b.badge_id === badge.badge_id);
                             const preparedBadgeData = {
                                 ...badgeData,
-                                ...(badge.state ? { state: badge.state } : {}),
-                                ...(badge.badge_access_url ? { badge_access_url: badge.badge_access_url } : {}),
-                                ...(badge.badge_access_url_label ? { badge_access_url_label: badge.badge_access_url_label } : {})
+                                ...(badge.state ? {state: badge.state} : {}),
+                                ...(badge.badge_access_url ? {badge_access_url: badge.badge_access_url} : {}),
+                                ...(badge.badge_access_url_label ? {badge_access_url_label: badge.badge_access_url_label} : {})
                             };
                             return (
-                                <ResourceCardBadge key={index} resourceName={resource.resource_descriptive_name}
-                                                   badge={preparedBadgeData} index={index} />
+                                <ResourceCardBadge key={index}
+                                                   resourceName={resource.resource_descriptive_name}
+                                                   badge={preparedBadgeData} index={index}/>
                             );
                         })}
-                        {count > 4 && (
-                            <div className="badge-more">
-                                <p>+{count - 4} more</p>
-                            </div>
+                        {count > 5 && (
+                            <button className="btn badge-more"
+                                    data-bs-container="body"
+                                    data-bs-toggle="popover"
+                                    data-bs-placement="top"
+                                    data-bs-content="More badges available"
+                                    onClick={handlePopoverClick}>
+                                +{count - 5}
+                            </button>
                         )}
                     </div>
                 </div>

@@ -1,12 +1,23 @@
 import {useState} from "react";
 import axios from "axios";
 
+/**
+ * The input fields for editing badge action and URL.
+ * @param actionButtonText - The badge action button text
+ * @param setActionButtonText - The function to update the badge action button text
+ * @param usageUrl - The badge usage URL
+ * @param setUsageUrl
+ * @param errorMessage
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function EditModalInput({
                             actionButtonText,
                             setActionButtonText,
                             usageUrl,
                             setUsageUrl,
-                            errorMessage,}) {
+                            errorMessage,
+                        }) {
 
     return (
         <div className="badge-modal-input-wrapper">
@@ -44,7 +55,23 @@ function EditModalInput({
     );
 }
 
-export default function BadgeEditingModal({id, label, url, resource_id, badge_id, setResource}) {
+/**
+ * The modal that allows users to edit badge action/url after planned a badge.
+ * @param {string} id - The modal ID
+ * @param {string} label - The badge action
+ * @param {string} url - The badge URL
+ * @param {string} resource_id - The resource ID
+ * @param {string} badge_id - The badge ID
+ * @param {Function} setResource - The function to update the resource
+ */
+export default function BadgeEditingModal({
+                                              id,
+                                              label,
+                                              url,
+                                              resource_id,
+                                              badge_id,
+                                              setResource
+                                          }) {
     const [actionButtonText, setActionButtonText] = useState(label);
     const [usageUrl, setUsageUrl] = useState(url);
     const [errorMessage, setErrorMessage] = useState('');
