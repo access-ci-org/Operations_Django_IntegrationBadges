@@ -24,21 +24,26 @@ const supportContacts=[
  * A section that displays the implementor roles of the badge
  * @param {Object} tasks - The tasks related to the badge
  */
-function ImplementorRoleSection({tasks}) {
+function ImplementorRoleSection({ tasks }) {
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+        // Flatten the roles, split by commas, and remove duplicates
+        const allRoles = tasks.flatMap(task => task.roles.split(',').map(role => role.trim()));
+        const uniqueRoles = [...new Set(allRoles)];
+        setRoles(uniqueRoles);
+    }, [tasks]);
+
     return (
         <div className="sidebar-section">
             <div className="sidebar-section-title-wrapper">
                 <p className="sidebar-section-title">Implementor Roles</p>
             </div>
             <div className="sidebar-section-edit-wrapper">
-                {tasks.length === 0 ?
-                    <p>No tasks related to this badge.</p>
-                    : tasks.map((task, index) => (
-                    <div key={index} className="sidebar-section-edit">
-                        <p className="sidebar-section-edit-title">{task.name}</p>
-                        <p className="sidebar-section-edit-content">{task.roles}</p>
-                    </div>
-                ))}
+                {roles.length === 0 ?
+                    <p>No implementor roles available.</p>
+                    : <p>{roles.join(', ')}</p>
+                }
             </div>
         </div>
     );

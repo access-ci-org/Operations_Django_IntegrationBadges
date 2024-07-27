@@ -198,10 +198,14 @@ p {
 
             .badge-container {
                 display: flex;
-                gap: 2px;
+                gap: 8px;
                 flex-wrap: nowrap;
                 align-items: center;
-                justify-content: space-between;
+
+                &.more {
+                    justify-content: space-between;
+                    gap: 2px;
+                }
 
                 .resource-badge {
                     width: 40px;
@@ -828,10 +832,12 @@ p {
                             color: $access-grey,
                         }
 
-                        a, p {
-                            text-overflow: ellipsis;
-                            white-space: break-spaces;
-                        }
+
+                    }
+
+                    a, p {
+                        text-overflow: ellipsis;
+                        white-space: break-spaces;
                     }
                 }
             }

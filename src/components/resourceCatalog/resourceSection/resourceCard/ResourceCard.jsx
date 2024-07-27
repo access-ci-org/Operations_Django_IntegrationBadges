@@ -37,15 +37,19 @@ function ResourceCardHeader ({ name, type, url }) {
  */
 export default function ResourceCard({ resource }) {
     const { badges } = useBadges();
-    const count = resource.badges.length;
     const navigate = useNavigate();
+    const [badgeContainerName, setBadgeContainerName] = useState("");
+
+    useEffect(() => {
+        if (resource.badges.length > 5) {
+            setBadgeContainerName("badge-container more");
+        } else {
+            setBadgeContainerName("badge-container");
+        }
+    }, [resource.badges.length]);
 
     const handleCardClick = () => {
         navigate(`/resourceDetail/${resource.cider_resource_id}`);
-    };
-
-    const handlePopoverClick = (event) => {
-        event.stopPropagation();
     };
 
     return (
@@ -62,8 +66,8 @@ export default function ResourceCard({ resource }) {
                     <p className="card-text">
                         {resource.resource_description ? resource.resource_description : 'Description not available.'}
                     </p>
-                    <div className="badge-container">
-                        {resource.badges.slice(0, count > 5 ? 5 : count).map((badge, index) => {
+                    <div className={badgeContainerName}>
+                        {resource.badges.slice(0, resource.badges.length > 5 ? 5 : resource.badges.length).map((badge, index) => {
                             const badgeData = badges.find(b => b.badge_id === badge.badge_id);
                             const preparedBadgeData = {
                                 ...badgeData,
@@ -77,14 +81,9 @@ export default function ResourceCard({ resource }) {
                                                    badge={preparedBadgeData} index={index}/>
                             );
                         })}
-                        {count > 5 && (
-                            <button className="btn badge-more"
-                                    data-bs-container="body"
-                                    data-bs-toggle="popover"
-                                    data-bs-placement="top"
-                                    data-bs-content="More badges available"
-                                    onClick={handlePopoverClick}>
-                                +{count - 5}
+                        {resource.badges.length > 5 && (
+                            <button className="btn badge-more">
+                                +{resource.badges.length - 5}
                             </button>
                         )}
                     </div>

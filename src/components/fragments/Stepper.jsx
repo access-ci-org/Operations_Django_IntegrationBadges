@@ -11,6 +11,7 @@ export default function Stepper({state}) {
     const getStepClass = (currentStep) => {
         switch (state) {
             case workflow_states.PLANNED:
+            case workflow_states.VERIFICATION_FAILED:
                 return currentStep === 1 ? 'checked' : '';
             case workflow_states.TASK_COMPLETED:
                 return currentStep <= 2 ? 'checked' : '';
@@ -24,6 +25,7 @@ export default function Stepper({state}) {
     const isStepChecked = (currentStep) => {
         switch (state) {
             case workflow_states.PLANNED:
+            case workflow_states.VERIFICATION_FAILED:
                 return currentStep === 1;
             case workflow_states.TASK_COMPLETED:
                 return currentStep <= 2;

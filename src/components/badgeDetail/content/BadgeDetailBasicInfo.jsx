@@ -78,7 +78,7 @@ function BadgeStatus({method, state, time}) {
         };
 
         const formattedDate = time ? new Intl.DateTimeFormat('en-US', options).format(date)
-            : "Not Updated Before";
+            : "Not Applicable";
         setFormattedTime(formattedDate);
     }, [time]);
 
