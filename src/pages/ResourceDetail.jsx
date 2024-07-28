@@ -16,9 +16,7 @@ function BadgeSectionPlaceholder() {
             <div className="resource-badge-header">
                 <h2>Resource Badges</h2>
             </div>
-            <div>
-                No badges associated with this resource.
-            </div>
+            <div>No badges associated with this resource.</div>
         </div>
     );
 }
@@ -73,7 +71,7 @@ export default function ResourceDetail() {
             <div className="description-section">
                 <h2 className="description-title">Overview</h2>
                 <p className="description-text">
-                    {resource.resource_description ? resource.resource_description : 'Description not available.'}
+                    {resource.resource_description || 'Description not available.'}
                 </p>
             </div>
             {/*<BasicInfoFeatures data={jetStream4}/>*/}

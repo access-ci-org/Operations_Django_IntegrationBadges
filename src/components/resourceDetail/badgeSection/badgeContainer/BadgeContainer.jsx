@@ -9,7 +9,7 @@ import {workflow_states} from "../../../../App";
  * The container for the badges. The badges are displayed in a dashboard view or a list view.
  * The badges are filtered based on the status of the badge,
  * which is determined by the resource.badge_status.
- * @param {Object} roadmapBadges - The badges associated with the resource
+ * @param {Array<RoadmapBadge>} roadmapBadges - The badges associated with the resource
  * @param selectedView - True for Resource Provider View, False for Researcher View
  * @param activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
  * @param {Function} setActiveTab - Function to set the current active tab

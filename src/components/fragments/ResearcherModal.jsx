@@ -29,16 +29,17 @@ export default function ResearcherModal({
 
     return (
         <div className="modal fade" id={id} tabIndex="-1"
-             aria-labelledby="badgeModal" aria-hidden="true" onClick={handleCloseClick}>
+             aria-labelledby="researcherModal" aria-hidden="true" onClick={handleCloseClick}>
             <div className="modal-dialog modal-dialog-centered modal-md-lg researcher-modal">
                 <div className="modal-content">
                     <div className="modal-body badge-modal-body">
                         <div className="badge-modal-header">
                             <div className="badge-modal-header-info">
-                                <img src={img ? img : placeholderBadge} alt={name} className="badge-icon"/>
+                                <img src={img || placeholderBadge} alt={name} className="badge-icon"/>
                                 <div className="badge-modal-header-info-title">
                                     {state && <LabelTag title={state === workflow_states.VERIFIED ? "Available" : "Unverified"}
-                                                        verified={state === workflow_states.VERIFIED} style={{margin: '0'}}/>}
+                                                        verified={state === workflow_states.VERIFIED}
+                                                        style={{margin: '0'}}/>}
                                     <div style={{paddingTop: "16px"}}>
                                         <p className="badge-modal-name">{name}</p>
                                         <p className="badge-modal-source">{resourceName}</p>

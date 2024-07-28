@@ -5,6 +5,7 @@ import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import ResourceSection from "../components/resourceCatalog/resourceSection/ResourceSection";
 import LoadingPage from "../components/fragments/LoadingPage";
+import EmptyPage from "../components/fragments/EmptyPage";
 
 /**
  * The initial page that displays al resources.
@@ -25,6 +26,7 @@ export default function ResourceCatalog() {
         setUpdatedResources(groupedData);
     }, [resources]);
 
+    // group resources by organization name
     const groupByOrganization = (resources) => {
         const groups = {};
         resources.forEach(resource => {
@@ -51,11 +53,13 @@ export default function ResourceCatalog() {
             </div>
             <CatalogSearch/>
             {(badges && updatedResources) ?
-                <div className="container-fluid resource-list">
-                    {updatedResources.map((institution, index) => (
-                        <ResourceSection key={index} institution={institution}/>
-                    ))}
-                </div>
+                updatedResources.length === 0 ?
+                    <EmptyPage text={"No resources found."}/>
+                    : <div className="container-fluid resource-list">
+                        {updatedResources.map((institution, index) => (
+                            <ResourceSection key={index} institution={institution}/>
+                        ))}
+                    </div>
                 : <LoadingPage/>
             }
             <CatalogFooter/>

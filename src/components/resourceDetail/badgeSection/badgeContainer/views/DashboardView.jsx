@@ -6,9 +6,9 @@ import {workflow_states} from "../../../../../App";
  * Displaying the badges in a dashboard view. To switch between the researcher/RP view,
  * different groups of badges will be rendered under different tabs. For example, the first
  * tab will be replaced with available badges under researcher view.
- * @param {Object} recommendedBadges - not planned or deprecated badges
- * @param {Object} plannedBadges - planned, task completed, or verification failed badges
- * @param {Object} achievedBadges - verified badges
+ * @param {Array<RoadmapBadge>} recommendedBadges - not planned or deprecated badges
+ * @param {Array<RoadmapBadge>} plannedBadges - planned, task completed, or verification failed badges
+ * @param {Array<RoadmapBadge>} achievedBadges - verified badges
  * @param selectedView - True for Resource Provider View, False for Researcher View
  * @param activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
  */

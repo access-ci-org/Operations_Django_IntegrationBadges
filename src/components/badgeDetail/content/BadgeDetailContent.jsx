@@ -29,7 +29,7 @@ export default function BadgeDetailContent({resource, setResource, badge, tasks}
             const statusInfo = resource.badge_status.find(status => status.badge_id === prerequisite.prerequisite_badge_id);
 
             return {
-                badge: fullBadge,
+                ...fullBadge,
                 state: statusInfo ? statusInfo.state : workflow_states.NOT_PLANNED,
                 resource_name: resource.resource_descriptive_name
             };

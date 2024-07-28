@@ -6,7 +6,7 @@ import {useState} from "react";
  * @param {string} name - Name of the organization.
  * @param {number} count - Number of resources under that organization.
  * @param {Function} onToggleViewAll - Function to toggle view all resources.
- * @param viewAll - Boolean to determine if all resources are visible.
+ * @param {boolean} viewAll - Boolean to determine if all resources are visible.
  */
 function TitleSection({name, count, onToggleViewAll, viewAll}) {
     return (
@@ -26,7 +26,7 @@ function TitleSection({name, count, onToggleViewAll, viewAll}) {
 
 /**
  * A section on the resource catalog page that displays all resources under an organization.
- * @param {Object} institution - Contains all resources that belongs to that organization.
+ * @param {Institution} institution - Contains all resources that belong to that organization.
  */
 export default function ResourceSection({institution}) {
     const [viewAll, setViewAll] = useState(false);
@@ -36,6 +36,7 @@ export default function ResourceSection({institution}) {
         a.resource_descriptive_name.localeCompare(b.resource_descriptive_name)
     );
 
+    // display only 5 resources if viewAll is false
     const visibleResources = viewAll ? sortedResources : sortedResources.slice(0, 5);
     const toggleViewAll = () => setViewAll(!viewAll);
 

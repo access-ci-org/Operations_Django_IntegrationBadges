@@ -296,6 +296,7 @@ p {
     }
 }
 
+// resource catalog badge tooltip
 .resource-card-badge-tooltip {
 
     .tooltip-inner {
@@ -1085,6 +1086,10 @@ p {
 // badge detail plan modal
 .plan-modal {
     max-width: 800px;
+
+    &.large {
+        max-width: 1200px;
+    }
 
     &.unplan {
         max-width: 600px;

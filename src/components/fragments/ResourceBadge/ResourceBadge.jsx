@@ -54,7 +54,7 @@ export default function ResourceBadge({data, view}) {
     const { badges } = useBadges();
 
     // find the badge object with the full information from the badge id
-    const badge = badges.find(b => b.badge_id === data.badge.badge_id);
+    const badge = badges.find(b => b.badge_id === data.badge_id);
     // TODO: change the logic to retrieve the badge graphic from the badge object (from badge.graphic)
     const graphic = placeholder;
 

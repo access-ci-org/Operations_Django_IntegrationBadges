@@ -51,7 +51,7 @@ function ResourceBadgeHeader({
 
 /**
  * The page that displays the detail of a resource.
- * @param {Object} resource - The resource object to display
+ * @param {Resource} resource - The resource object to display
  */
 export default function BadgeSection({resource}) {
     const [selectedRoadmap, setSelectedRoadmap] = useState(resource.roadmaps[0].roadmap.name);
@@ -66,16 +66,16 @@ export default function BadgeSection({resource}) {
         const roadmapBadges = resource.roadmaps
             .filter(roadmap => selectedRoadmap === roadmap.roadmap.name)
             .flatMap(roadmap => roadmap.roadmap.badges.map(badge => {
-                const status = resource.badge_status.find(status => status.badge_id === badge.badge.badge_id);
+                const status = resource.badge_status.find(status =>
+                    status.badge_id === badge.badge.badge_id);
                 return {
-                    ...badge,
+                    badge_id: badge.badge.badge_id,
+                    name: badge.badge.name,
                     required: badge.required,
                     resource_name: resource.resource_descriptive_name,
-                    state: status ? status.state : workflow_states.NOT_PLANNED,
-                    badge_access_url: status ? status.badge_access_url ?
-                        status.badge_access_url : null : null,
-                    badge_access_url_label: status ? status.badge_access_url_label ?
-                        status.badge_access_url_label : null : null
+                    state: status?.state ?? workflow_states.NOT_PLANNED,
+                    badge_access_url: status?.badge_access_url ?? null,
+                    badge_access_url_label: status?.badge_access_url_label ?? null,
                 };
             }));
         setSelectedBadges(roadmapBadges);

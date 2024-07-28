@@ -5,7 +5,7 @@ import {useEffect} from "react";
 /**
  * A badge displayed on a resource card, showing an available badge for the resource.
  * @param {string} resourceName - The name of the resource.
- * @param {Object} badge - Badge object containing full badge information.
+ * @param {CatalogBadge} badge - Badge object containing full badge information.
  * @param {number} index - Index of the badge in the list.
  */
 export default function ResourceCardBadge({resourceName, badge, index}) {
@@ -31,7 +31,7 @@ export default function ResourceCardBadge({resourceName, badge, index}) {
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     data-bs-custom-class="resource-card-badge-tooltip"
-                    data-bs-title={badge.name}>
+                    data-bs-title={badge.badge.name}>
                 <div data-bs-toggle="modal"
                      data-bs-target={`#ResourceCardBadgeModal${index}`}
                      onClick={handleBadgeClick}>
@@ -39,12 +39,16 @@ export default function ResourceCardBadge({resourceName, badge, index}) {
                          style={{width: '32px', height: '32px'}}/>
                 </div>
             </button>
-            <ResearcherModal id={`ResourceCardBadgeModal${index}`} img={graphic} name={badge.name}
-                             resourceName={resourceName} description={badge.researcher_summary} state={badge.state}
+            <ResearcherModal id={`ResourceCardBadgeModal${index}`}
+                             img={graphic}
+                             name={badge.badge.name}
+                             resourceName={resourceName}
+                             description={badge.badge.researcher_summary}
+                             state={badge.state}
                              actionUrl={badge.badge_access_url ?
-                                 badge.badge_access_url : badge.default_badge_access_url}
+                                 badge.badge_access_url : badge.badge.default_badge_access_url}
                              actionText={badge.badge_access_url_label ?
-                                 badge.badge_access_url_label : badge.default_badge_access_url_label}/>
+                                 badge.badge_access_url_label : badge.badge.default_badge_access_url_label}/>
         </div>
     );
 }

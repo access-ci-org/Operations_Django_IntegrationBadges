@@ -49,7 +49,7 @@ function ListAction({data, view, state, resource_name}) {
 
 /**
  * A list of badges on the resource detail page.
- * @param {Object} data - The badge information got from roadmapBadges
+ * @param {RoadmapBadge} data - The badge information got from roadmapBadges
  * @param view - True for Resource Provider View, False for Researcher View
  * @param {Boolean} noCriteria - True to not show the criteria column
  */
@@ -78,10 +78,13 @@ export default function BadgeList({data, view, noCriteria}) {
         return {};
     }
 
-    const mergedData = data.map(item => ({
-        ...item,
-        badge: badges.find(b => b.badge_id === item.badge.badge_id)
-    })).filter(item => item.badge);
+    const mergedData = data.map(item => {
+        const badgeDetails = badges.find(b => b.badge_id === item.badge_id);
+        return badgeDetails ? {
+            ...item,
+            ...badgeDetails
+        } : item;
+    }).filter(item => item.badge_id);
 
     return (
         <div className="container-fluid resource-badge-list-wrapper">
@@ -103,16 +106,16 @@ export default function BadgeList({data, view, noCriteria}) {
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td className="col-1" style={{textAlign: 'center'}}>
-                                <img src={placeholder} className="badge-list-img" alt={item.badge.name}/>
+                                <img src={placeholder} className="badge-list-img" alt={item.name}/>
                             </td>
                             <td className="col-2">
                                 <div className="badge-list-name">
-                                    {item.badge.name}
+                                    {item.name}
                                 </div>
                             </td>
                             <td className="col-4">
                                 <div className="badge-list-description">
-                                    {view ? item.badge.resource_provider_summary : item.badge.researcher_summary}
+                                    {view ? item.resource_provider_summary : item.researcher_summary}
                                 </div>
                             </td>
                             {view && !noCriteria && <td className="col-1">{item.required ? "Required" : "Optional"}</td>}
@@ -125,7 +128,7 @@ export default function BadgeList({data, view, noCriteria}) {
                                 }
                             </td>
                             <td className="col-2">
-                                <ListAction data={item.badge}
+                                <ListAction data={item}
                                             view={view}
                                             state={item.state}
                                             resource_name={item.resource_name}/>
