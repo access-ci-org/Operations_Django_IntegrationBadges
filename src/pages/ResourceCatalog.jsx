@@ -53,18 +53,18 @@ export default function ResourceCatalog() {
                     Comprehensive list of all resources integrated within ACCESS.
                 </h3>
             </div>
-            {(badges && updatedResources && displayedResources) ?
+            {(updatedResources && displayedResources) &&
+                <CatalogSearch resources={updatedResources}
+                               displayedResources={displayedResources}
+                               setDisplayedResources={setDisplayedResources}/>
+            }
+            {(updatedResources && displayedResources) ?
                 displayedResources.length === 0 ?
                     <EmptyPage text={"No resources found."}/>
-                    : <div>
-                        <CatalogSearch resources={updatedResources}
-                                       displayedResources={displayedResources}
-                                       setDisplayedResources={setDisplayedResources}/>
-                        <div className="container-fluid resource-list">
-                            {displayedResources.map((institution, index) => (
-                                <ResourceSection key={index} institution={institution}/>
-                            ))}
-                        </div>
+                    : <div className="container-fluid resource-list">
+                        {displayedResources.map((institution, index) => (
+                            <ResourceSection key={index} institution={institution}/>
+                        ))}
                     </div>
                 : <LoadingPage/>
             }
