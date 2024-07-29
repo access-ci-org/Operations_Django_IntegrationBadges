@@ -1,57 +1,194 @@
-import React, {useState} from "react";
-import { ReactComponent as SearchIcon } from "../../../assets/img/icons/search.svg";
+import React, {useEffect, useState} from "react";
+import SearchBar from "./SearchBar";
+import DropDownFilter from "./DropDownFilter";
+import {useBadges} from "../../../contexts/BadgeContext";
 
-function SearchBar() {
-    return (
-        <div className="input-group search-bar-wrapper">
-            <span className="input-group-text" id="inputGroup-icon">
-                <SearchIcon className="search-icon" />
-            </span>
-            <input type="text" className="form-control search-bar" aria-label="Search resources"
-                   placeholder="Search Resource by Name, Type, Badge, etc" />
-        </div>
-    );
-}
+const resourceStatus = ["All Resources", "Active Resources", "Upcoming Resources"];
+const resourceType = ["All Types", "Compute", "Storage"];
 
-function DropDownFilter({data, selected, setSelected}) {
-    return (
-        <div className="dropdown-filter">
-            <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                {selected}
-            </button>
-            <ul className="dropdown-menu">
-                {data.map((item, index) => (
-                    <li key={index} onClick={() => setSelected(item)}>
-                        <p className="dropdown-item">{item}</p>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-}
-
-const resourceStatus = ["Active Resources", "Upcoming Resources", "All Resources"];
-const resourceType = ["All Types", "Data", "Software", "Service", "Hardware"];
-const resourceOrganization = ["All Organizations", "Organization 1", "Organization 2", "Organization 3"];
-const resourceBadge = ["All Badges", "Badge 1", "Badge 2", "Badge 3"];
-
-export default function CatalogSearch() {
+export default function CatalogSearch({resources, displayedResources, setDisplayedResources}) {
+    const {badges} = useBadges();
     const [selectedStatus, setSelectedStatus] = useState(resourceStatus[0]);
     const [selectedType, setSelectedType] = useState(resourceType[0]);
-    const [selectedOrganization, setSelectedOrganization] = useState(resourceOrganization[0]);
-    const [selectedBadge, setSelectedBadge] = useState(resourceBadge[0]);
+    const [selectedOrganization, setSelectedOrganization] = useState("All Organizations");
+    const [selectedBadge, setSelectedBadge] = useState("All Badges");
+    const [resourceOrganizations, setResourceOrganizations] = useState(["All Organizations"]);
+    const [badgeOptions, setBadgeOptions] = useState(["All Badges"]);
+
+    useEffect(() => {
+        // Populate resourceOrganizations with the names of institutions from resources
+        const organizations = ["All Organizations", ...resources.map(institution => institution.organization_name)];
+        setResourceOrganizations(organizations);
+    }, [resources]);
+
+    useEffect(() => {
+        // Populate badgeOptions with the list of badges
+        const badgeNames = ["All Badges", ...badges.map(badge => badge.name)];
+        setBadgeOptions(badgeNames);
+    }, [badges]);
+
+    const getBadgeName = (badge_id) => {
+        const badge = badges.find(b => b.badge_id === badge_id);
+        return badge ? badge.name : "";
+    };
+
+    const handleSearch = (searchTerm) => {
+        const searchTermLower = searchTerm.toLowerCase();
+
+        let filteredResources = resources;
+
+        if (selectedOrganization !== "All Organizations") {
+            filteredResources = filteredResources.filter(institution =>
+                institution.organization_name === selectedOrganization
+            );
+        }
+
+        if (selectedType !== "All Types") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource =>
+                    resource.cider_type.toLowerCase() === selectedType.toLowerCase())
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        if (selectedBadge !== "All Badges") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource =>
+                    resource.badges.some(badge => getBadgeName(badge.badge_id) === selectedBadge)
+                )
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        if (searchTerm.trim() !== "") {
+            filteredResources = filteredResources.reduce((acc, institution) => {
+                const institutionMatch = institution.organization_name.toLowerCase().includes(searchTermLower);
+                const filteredResources = institution.resources.filter(resource =>
+                    resource.resource_descriptive_name.toLowerCase().includes(searchTermLower)
+                );
+
+                if (institutionMatch) {
+                    // If institution matches, show all its resources unless specific resources are found
+                    acc.push({
+                        ...institution,
+                        resources: filteredResources.length > 0 ? filteredResources : institution.resources
+                    });
+                } else if (filteredResources.length > 0) {
+                    // If specific resources are found, show only those resources
+                    acc.push({
+                        ...institution,
+                        resources: filteredResources
+                    });
+                }
+
+                return acc;
+            }, []);
+        }
+
+        setDisplayedResources(filteredResources);
+    };
+
+    const handleOrganizationChange = (organization) => {
+        setSelectedOrganization(organization);
+        let filteredResources = resources;
+
+        if (organization !== "All Organizations") {
+            filteredResources = resources.filter(institution =>
+                institution.organization_name === organization
+            );
+        }
+
+        if (selectedType !== "All Types") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource => resource.cider_type.toLowerCase() === selectedType.toLowerCase())
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        if (selectedBadge !== "All Badges") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource =>
+                    resource.badges.some(badge => getBadgeName(badge.badge_id) === selectedBadge)
+                )
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        setDisplayedResources(filteredResources);
+    };
+
+    const handleTypeChange = (type) => {
+        setSelectedType(type);
+        let filteredResources = resources;
+
+        if (selectedOrganization !== "All Organizations") {
+            filteredResources = filteredResources.filter(institution =>
+                institution.organization_name === selectedOrganization
+            );
+        }
+
+        if (type !== "All Types") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource =>
+                    resource.cider_type.toLowerCase() === type.toLowerCase())
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        if (selectedBadge !== "All Badges") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource =>
+                    resource.badges.some(badge => getBadgeName(badge.badge_id) === selectedBadge)
+                )
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        setDisplayedResources(filteredResources);
+    };
+
+    const handleBadgeChange = (badge) => {
+        setSelectedBadge(badge);
+        let filteredResources = resources;
+
+        if (selectedOrganization !== "All Organizations") {
+            filteredResources = filteredResources.filter(institution =>
+                institution.organization_name === selectedOrganization
+            );
+        }
+
+        if (selectedType !== "All Types") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource =>
+                    resource.cider_type.toLowerCase() === selectedType.toLowerCase())
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        if (badge !== "All Badges") {
+            filteredResources = filteredResources.map(institution => ({
+                ...institution,
+                resources: institution.resources.filter(resource =>
+                    resource.badges.some(badgeItem => getBadgeName(badgeItem.badge_id) === badge)
+                )
+            })).filter(institution => institution.resources.length > 0);
+        }
+
+        setDisplayedResources(filteredResources);
+    };
 
     return (
         <div className="search-section-wrapper">
-            <SearchBar/>
+            <SearchBar onSearch={handleSearch}/>
             <div className="filter-section">
                 <p>Filters</p>
-                <DropDownFilter data={resourceStatus} selected={selectedStatus} setSelected={setSelectedStatus}/>
-                <DropDownFilter data={resourceType} selected={selectedType} setSelected={setSelectedType}/>
-                <DropDownFilter data={resourceOrganization} selected={selectedOrganization}
-                                setSelected={setSelectedOrganization}/>
-                <DropDownFilter data={resourceBadge} selected={selectedBadge} setSelected={setSelectedBadge}/>
+                <DropDownFilter data={resourceStatus} selected={selectedStatus}
+                                setSelected={setSelectedStatus} disabled/>
+                <DropDownFilter data={resourceType} selected={selectedType} setSelected={handleTypeChange} />
+                <DropDownFilter data={resourceOrganizations} selected={selectedOrganization}
+                                setSelected={handleOrganizationChange}/>
+                <DropDownFilter data={badgeOptions} selected={selectedBadge}
+                                setSelected={handleBadgeChange} />
             </div>
         </div>
     );

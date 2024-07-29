@@ -16,6 +16,7 @@ export default function ResourceCatalog() {
     const {badges} = useBadges();
     const {resources} = useResources();
     const [updatedResources, setUpdatedResources] = useState(null);
+    const [displayedResources, setDisplayedResources] = useState(null);
 
     // sort resources by organization name and group them by organization
     useEffect(() => {
@@ -24,6 +25,7 @@ export default function ResourceCatalog() {
         const groupedData = groupByOrganization(sortedData);
 
         setUpdatedResources(groupedData);
+        setDisplayedResources(groupedData);
     }, [resources]);
 
     // group resources by organization name
@@ -51,14 +53,18 @@ export default function ResourceCatalog() {
                     Comprehensive list of all resources integrated within ACCESS.
                 </h3>
             </div>
-            <CatalogSearch/>
-            {(badges && updatedResources) ?
-                updatedResources.length === 0 ?
+            {(badges && updatedResources && displayedResources) ?
+                displayedResources.length === 0 ?
                     <EmptyPage text={"No resources found."}/>
-                    : <div className="container-fluid resource-list">
-                        {updatedResources.map((institution, index) => (
-                            <ResourceSection key={index} institution={institution}/>
-                        ))}
+                    : <div>
+                        <CatalogSearch resources={updatedResources}
+                                       displayedResources={displayedResources}
+                                       setDisplayedResources={setDisplayedResources}/>
+                        <div className="container-fluid resource-list">
+                            {displayedResources.map((institution, index) => (
+                                <ResourceSection key={index} institution={institution}/>
+                            ))}
+                        </div>
                     </div>
                 : <LoadingPage/>
             }

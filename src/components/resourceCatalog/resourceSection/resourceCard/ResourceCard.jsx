@@ -82,8 +82,8 @@ export default function ResourceCard({resource}) {
             <ResourceCardHeader name={resource.organization_name}
                                 type={resource.cider_type}
                                 url={resource.organization_logo_url}/>
-            <div className="card-body-wrapper">
-                <div className="card-body">
+            <div className="card-body">
+                <div className="card-body-header">
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <p className="resource-title">{resource.resource_descriptive_name}</p>
                         <p className="resource-type">{resource.cider_type} Resource</p>
@@ -91,25 +91,25 @@ export default function ResourceCard({resource}) {
                     <p className="card-text">
                         {resource.resource_description || 'Description not available.'}
                     </p>
-                    <div className={badgeContainerName}>
-                        {displayedBadges.slice(0, 5).map((badge, index) => (
-                            <ResourceCardBadge key={index}
-                                               resourceName={resource.resource_descriptive_name}
-                                               badge={badge} index={index}/>
-                        ))}
-                        {additionalBadgeCount > 0 && (
-                            <div>
-                                <button className="btn badge-more"
-                                        data-bs-toggle="modal"
-                                        data-bs-target={`#ResourceCardBadgeModal${resource.cider_resource_id}`}
-                                        onClick={handleModalClick}>
-                                    +{additionalBadgeCount}
-                                </button>
-                                <ResourceCardBadgeModal id={`ResourceCardBadgeModal${resource.cider_resource_id}`}
-                                                        badges={displayedBadges}/>
-                            </div>
-                        )}
-                    </div>
+                </div>
+                <div className={badgeContainerName}>
+                    {displayedBadges.slice(0, 5).map((badge, index) => (
+                        <ResourceCardBadge key={index}
+                                           resourceName={resource.resource_descriptive_name}
+                                           badge={badge} index={index}/>
+                    ))}
+                    {additionalBadgeCount > 0 && (
+                        <div>
+                            <button className="btn badge-more"
+                                    data-bs-toggle="modal"
+                                    data-bs-target={`#ResourceCardBadgeModal${resource.cider_resource_id}`}
+                                    onClick={handleModalClick}>
+                                +{additionalBadgeCount}
+                            </button>
+                            <ResourceCardBadgeModal id={`ResourceCardBadgeModal${resource.cider_resource_id}`}
+                                                    badges={displayedBadges}/>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

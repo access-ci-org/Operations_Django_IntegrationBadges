@@ -26,7 +26,7 @@ p {
     .search-section-wrapper {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
         margin-top: 20px;
 
         .search-bar-wrapper {
@@ -39,7 +39,7 @@ p {
 
         .filter-section {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             padding: 0 10px;
             align-items: center;
 
@@ -165,35 +165,47 @@ p {
             }
         }
 
+        .card-body-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
         .card-body {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            justify-content: space-between;
             padding-top: 8px;
 
-            .resource-title {
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 1;
-                align-self: stretch;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-weight: 600;
-                font-size: 16px;
-            }
+            .card-body-header {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
 
-            .resource-type {
-                font-size: 12px;
-                color: $access-grey;
-            }
+                .resource-title {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                    align-self: stretch;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    font-weight: 600;
+                    font-size: 16px;
+                }
 
-            .card-text {
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 3;
-                align-self: stretch;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                .resource-type {
+                    font-size: 12px;
+                    color: $access-grey;
+                }
+
+                .card-text {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    align-self: stretch;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
 
             .badge-container {
@@ -239,15 +251,6 @@ p {
                         background: $access-grey-light;
                     }
                 }
-            }
-
-            .resource-type-container {
-                padding-top: 16px;
-                display: flex;
-                gap: 12px;
-                flex-wrap: nowrap;
-                justify-content: space-between;
-                align-items: center;
             }
         }
     }
