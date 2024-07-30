@@ -1,60 +1,44 @@
-import placeholder from "../../../../../../assets/img/placeholder_badge.png";
-import StatusTag from "../../../../../fragments/StatusTag";
-import LabelTag from "../../../../../fragments/LabelTag";
-import {useNavigate, useParams} from "react-router-dom";
-import ResearcherModal from "../../../../../fragments/ResearcherModal";
-import {ReactComponent as ArrowRightIcon} from "../../../../../../assets/img/icons/arrow-up-right.svg";
-import {useBadges} from "../../../../../../contexts/BadgeContext";
-import EmptyPage from "../../../../../fragments/EmptyPage";
-import {workflow_states} from "../../../../../../App";
+import placeholder from "../../../../assets/img/placeholder_badge.png";
+import LabelTag from "../../../fragments/LabelTag";
+import ResearcherModal from "../../../fragments/ResearcherModal";
+import {ReactComponent as ArrowRightIcon} from "../../../../assets/img/icons/arrow-up-right.svg";
+import {useBadges} from "../../../../contexts/BadgeContext";
+import EmptyPage from "../../../fragments/EmptyPage";
+import {workflow_states} from "../../../../App";
+import ReactDOM from "react-dom";
 
 /**
  * The action button for each badge in the list.
  * @param {Object} data - The merged badge information
- * @param view - True for Resource Provider View, False for Researcher View
  * @param {string} state - The status of the badge
  * @param {string} resource_name - The name of the resource
  */
-function ListAction({data, view, state, resource_name}) {
-    const navigate = useNavigate();
-    const {resourceId} = useParams();
-
-    const handleBadgeClick = () => {
-        navigate(`/resourceBadge/${resourceId}/${data.badge_id}`);
-    };
+function ListAction({data, state, resource_name}) {
+    const modal = (
+        <ResearcherModal id={`ResourceCardBadgeListModal${data.badge_id}`} name={data.name}
+                         state={state} actionText={data.default_badge_access_url_label}
+                         description={data.researcher_summary}
+                         actionUrl={data.default_badge_access_url} resourceName={resource_name}/>
+    );
 
     return (
         <div>
-            {view ? (
-                <button className="btn list-action" onClick={handleBadgeClick}>
-                    Badge Details
-                    <ArrowRightIcon style={{color: '#107180'}}/>
-                </button>
-            ) : (
-                <div>
-                    <button className="btn list-action"
-                            data-bs-toggle="modal"
-                            data-bs-target={`#ResourceBadgeModal${data.badge_id}`}>
-                        Badge Action
-                        <ArrowRightIcon style={{color: '#107180'}}/>
-                    </button>
-                    <ResearcherModal id={`ResourceBadgeModal${data.badge_id}`} name={data.name}
-                                     state={state} actionText={data.default_badge_access_url_label}
-                                     description={data.researcher_summary}
-                                     actionUrl={data.default_badge_access_url} resourceName={resource_name}/>
-                </div>
-            )}
+            <button className="btn list-action"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#ResourceCardBadgeListModal${data.badge_id}`}>
+                Badge Action
+                <ArrowRightIcon style={{color: '#107180'}}/>
+            </button>
+            {ReactDOM.createPortal(modal, document.body)}
         </div>
     );
 }
 
 /**
- * A list of badges on the resource detail page.
+ * A list of badges on the resource catalog page, adopted from BadgeList.jsx for resource detail page.
  * @param {RoadmapBadge} data - The badge information got from roadmapBadges
- * @param view - True for Resource Provider View, False for Researcher View
- * @param {Boolean} noCriteria - True to not show the criteria column
  */
-export default function BadgeList({data, view, noCriteria}) {
+export default function ResourceCardBadgeList({data}) {
     const {badges} = useBadges();
 
     const labelTitle = (status) => {
@@ -90,14 +74,13 @@ export default function BadgeList({data, view, noCriteria}) {
     return (
         <div className="container-fluid resource-badge-list-wrapper">
             {mergedData.length === 0 ?
-                <EmptyPage text={"No Prerequisite Badges"} style={{ minHeight: "240px" }}/> :
+                <EmptyPage text={"No Prerequisite Badges"} style={{minHeight: "240px"}}/> :
                 <table className="table table-hover resource-badge-list">
                     <thead>
                     <tr>
                         <th scope="col" className="col-img"></th>
                         <th scope="col" className="col-name">Badge Name</th>
                         <th scope="col" className="col-description">Badge Description</th>
-                        {view && !noCriteria && <th scope="col" className="col-criteria">Criteria</th>}
                         <th scope="col" className="col-status">Badge Status</th>
                         <th scope="col" className="col-plan">Action</th>
                     </tr>
@@ -116,21 +99,15 @@ export default function BadgeList({data, view, noCriteria}) {
                             </td>
                             <td className="col-4">
                                 <div className="badge-list-description">
-                                    {view ? item.resource_provider_summary : item.researcher_summary}
+                                    {item.researcher_summary}
                                 </div>
                             </td>
-                            {view && !noCriteria && <td className="col-1">{item.required ? "Required" : "Optional"}</td>}
                             <td className="col-2">
-                                {view ?
-                                    <StatusTag title={item.state}/>
-                                    :
-                                    <LabelTag title={labelTitle(item.state)}
-                                              style={labelStyle(item.state)}/>
-                                }
+                                <LabelTag title={labelTitle(item.state)}
+                                          style={labelStyle(item.state)}/>
                             </td>
                             <td className="col-2">
                                 <ListAction data={item}
-                                            view={view}
                                             state={item.state}
                                             resource_name={item.resource_name}/>
                             </td>

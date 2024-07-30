@@ -1,5 +1,5 @@
-import BadgeList from "../../../resourceDetail/badgeSection/badgeContainer/views/ListView/BadgeList";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import ResourceCardBadgeList from "./ResourceCardBadgeList";
 
 export default function ResourceCardBadgeModal({id, badges}) {
     const [modifiedBadges, setModifiedBadges] = useState([]);
@@ -12,13 +12,8 @@ export default function ResourceCardBadgeModal({id, badges}) {
         setModifiedBadges(processedBadges);
     }, [badges]);
 
-    const handleCloseClick = (event) => {
-        event.stopPropagation();
-    };
-
     return (
-        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby="resourceCardBadgeModal" aria-hidden="true"
-             onClick={handleCloseClick}>
+        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby="resourceCardBadgeModal" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-md-lg plan-modal large">
                 <div className="modal-content">
                     <div className="modal-body badge-modal-body">
@@ -28,18 +23,16 @@ export default function ResourceCardBadgeModal({id, badges}) {
                                     className="btn-close"
                                     data-bs-dismiss="modal"
                                     aria-label="Close"
-                                    onClick={handleCloseClick}
-                                    style={{color: '#107080'}} />
+                                    style={{color: '#107080'}}/>
                         </div>
                         <div className="badge-modal-content">
-                            <BadgeList data={modifiedBadges}/>
+                            <ResourceCardBadgeList data={modifiedBadges}/>
                         </div>
                         <div className="badge-modal-footer">
                             <a type="button"
                                className="btn"
                                data-bs-dismiss="modal"
-                               aria-label="Close"
-                               onClick={handleCloseClick}>Close</a>
+                               aria-label="Close">Close</a>
                         </div>
                     </div>
                 </div>

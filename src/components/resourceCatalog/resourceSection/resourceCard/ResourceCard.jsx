@@ -73,9 +73,9 @@ export default function ResourceCard({resource}) {
         navigate(`/resourceDetail/${resource.cider_resource_id}`);
     };
 
-    const handleModalClick = (event) => {
+    const handleBadgeContainerClick = (event) => {
         event.stopPropagation();
-    }
+    };
 
     return (
         <div className="card resource-card" onClick={handleCardClick}>
@@ -92,7 +92,7 @@ export default function ResourceCard({resource}) {
                         {resource.resource_description || 'Description not available.'}
                     </p>
                 </div>
-                <div className={badgeContainerName}>
+                <div className={badgeContainerName} onClick={handleBadgeContainerClick}>
                     {displayedBadges.slice(0, 5).map((badge, index) => (
                         <ResourceCardBadge key={index}
                                            resourceName={resource.resource_descriptive_name}
@@ -102,8 +102,7 @@ export default function ResourceCard({resource}) {
                         <div>
                             <button className="btn badge-more"
                                     data-bs-toggle="modal"
-                                    data-bs-target={`#ResourceCardBadgeModal${resource.cider_resource_id}`}
-                                    onClick={handleModalClick}>
+                                    data-bs-target={`#ResourceCardBadgeModal${resource.cider_resource_id}`}>
                                 +{additionalBadgeCount}
                             </button>
                             <ResourceCardBadgeModal id={`ResourceCardBadgeModal${resource.cider_resource_id}`}

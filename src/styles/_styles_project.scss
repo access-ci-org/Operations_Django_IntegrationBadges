@@ -116,9 +116,16 @@ p {
         border: 1px solid $access-grey-light;
         border-radius: 16px;
 
+        // Apply hover styles when hovering over the card, but not the badge container
         &:hover {
             cursor: pointer;
             border: 1px solid $access-medium;
+        }
+
+        // Apply hover styles when the card is hovered, but excluding the badge container
+        &:hover:has(.badge-container:hover) {
+            cursor: initial;
+            border: 1px solid $access-grey-light;
         }
 
         p {
@@ -428,6 +435,19 @@ p {
                     a {
                         color: $access-medium;
                         text-decoration: none;
+                    }
+                }
+
+                .resource-detail-header-title-subtitle {
+                    display: flex;
+                    gap: 16px;
+
+                    .resource-detail-header-badge {
+
+                        &:hover {
+                            cursor: pointer;
+                            background: $access-dark;
+                        }
                     }
                 }
             }

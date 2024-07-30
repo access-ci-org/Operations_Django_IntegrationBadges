@@ -6,6 +6,7 @@ import {useBadges} from "../contexts/BadgeContext";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import LoadingPage from "../components/fragments/LoadingPage";
+import EmptyPage from "../components/fragments/EmptyPage";
 
 /**
  * For the case where there are no badges associated with the resource.
@@ -16,7 +17,9 @@ function BadgeSectionPlaceholder() {
             <div className="resource-badge-header">
                 <h2>Resource Badges</h2>
             </div>
-            <div>No badges associated with this resource.</div>
+            <div>
+                <EmptyPage text={"No badges available for this resource."}/>
+            </div>
         </div>
     );
 }

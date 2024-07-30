@@ -23,13 +23,10 @@ export default function ResearcherModal({
                                             actionUrl,
                                             actionText
                                         }) {
-    const handleCloseClick = (event) => {
-        event.stopPropagation();
-    };
 
     return (
         <div className="modal fade" id={id} tabIndex="-1"
-             aria-labelledby="researcherModal" aria-hidden="true" onClick={handleCloseClick}>
+             aria-labelledby="researcherModal" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-md-lg researcher-modal">
                 <div className="modal-content">
                     <div className="modal-body badge-modal-body">
@@ -47,14 +44,14 @@ export default function ResearcherModal({
                                 </div>
                             </div>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close" onClick={handleCloseClick}/>
+                                    aria-label="Close"/>
                         </div>
                         <div className="badge-modal-content">
                             <p>{description}</p>
                         </div>
                         <div className="badge-modal-footer">
                             <a type="button" className="btn" data-bs-dismiss="modal"
-                               aria-label="Close" onClick={handleCloseClick}>CLOSE</a>
+                               aria-label="Close">CLOSE</a>
                             <a href={actionUrl} type="button" className={"btn btn-medium"}>{actionText}</a>
                         </div>
                     </div>
