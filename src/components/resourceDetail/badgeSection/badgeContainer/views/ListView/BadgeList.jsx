@@ -125,6 +125,7 @@ export default function BadgeList({data, view, noCriteria}) {
                                     <StatusTag title={item.state}/>
                                     :
                                     <LabelTag title={labelTitle(item.state)}
+                                              verified={item.state === workflow_states.VERIFIED}
                                               style={labelStyle(item.state)}/>
                                 }
                             </td>

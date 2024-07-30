@@ -33,13 +33,13 @@ export default function ResourceCardBadge({resourceName, badge, index}) {
                     data-bs-custom-class="resource-card-badge-tooltip"
                     data-bs-title={badge.badge.name}>
                 <div data-bs-toggle="modal"
-                     data-bs-target={`#ResourceCardBadgeModal${index}`}
+                     data-bs-target={`#ResourceCardBadgeModal${badge.badge.badge_id}${index}`}
                      onClick={handleBadgeClick}>
                     <img src={graphic} alt="badge" className="badge-icon"
                          style={{width: '32px', height: '32px'}}/>
                 </div>
             </button>
-            <ResearcherModal id={`ResourceCardBadgeModal${index}`}
+            <ResearcherModal id={`ResourceCardBadgeModal${badge.badge.badge_id}${index}`}
                              img={graphic}
                              name={badge.badge.name}
                              resourceName={resourceName}
