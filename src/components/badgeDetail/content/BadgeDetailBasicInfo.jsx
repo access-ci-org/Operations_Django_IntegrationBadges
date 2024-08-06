@@ -10,8 +10,8 @@ import {workflow_states} from "../../../App";
  * The title of the badge, containing the plan/unplan button.
  * @param {string} title - The badge name
  * @param {string} state - The badge state
- * @param {string} resource_id - The resource id
- * @param {string} badge_id - The badge id
+ * @param {number} resource_id - The resource id
+ * @param {number} badge_id - The badge id
  * @param {Function} setResource - The function to set the resource.
  */
 function BadgeTitle({title, state, resource_id, badge_id, setResource}) {
@@ -125,8 +125,8 @@ function BadgeDescription({title, text, style}) {
 
 /**
  * The header than contains information about the badge.
- * @param {string} resource_id - used in endpoint to plan/unplan badge
- * @param {Object} badge - The info about the current badge.
+ * @param {number} resource_id - used in endpoint to plan/unplan badge
+ * @param {CombinedBadge} badge - The info about the current badge.
  * @param {Function} setResource - The function to set the resource.
  */
 export default function BadgeDetailBasicInfo({resource_id, badge, setResource}) {

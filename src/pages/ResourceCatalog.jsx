@@ -1,6 +1,5 @@
 import CatalogFooter from "../components/resourceCatalog/footerSection/CatalogFooter";
 import CatalogSearch from "../components/resourceCatalog/titleSection/CatalogSearch";
-import {useBadges} from "../contexts/BadgeContext";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import ResourceSection from "../components/resourceCatalog/resourceSection/ResourceSection";
@@ -13,7 +12,6 @@ import EmptyPage from "../components/fragments/EmptyPage";
  * Sort resources by organization name and group them by organization.
  */
 export default function ResourceCatalog() {
-    const {badges} = useBadges();
     const {resources} = useResources();
     const [updatedResources, setUpdatedResources] = useState(null);
     const [displayedResources, setDisplayedResources] = useState(null);
@@ -54,9 +52,7 @@ export default function ResourceCatalog() {
                 </h3>
             </div>
             {(updatedResources && displayedResources) &&
-                <CatalogSearch resources={updatedResources}
-                               displayedResources={displayedResources}
-                               setDisplayedResources={setDisplayedResources}/>
+                <CatalogSearch resources={updatedResources} setDisplayedResources={setDisplayedResources}/>
             }
             {(updatedResources && displayedResources) ?
                 displayedResources.length === 0 ?

@@ -1,18 +1,30 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import SearchBar from "./SearchBar";
 import DropDownFilter from "./DropDownFilter";
 import {useBadges} from "../../../contexts/BadgeContext";
 
+// The status of resources (active or upcoming), currently not used
 const resourceStatus = ["All Resources", "Active Resources", "Upcoming Resources"];
-const resourceType = ["All Types", "Compute", "Storage"];
 
-export default function CatalogSearch({resources, displayedResources, setDisplayedResources}) {
+/**
+ * The search section of the resource catalog. The user may type in a search term or filter
+ * resources using the dropdowns. Currently, the dropdown options are NOT changed dynamically
+ * when a search term is inputted.
+ * @param {ResourceList} resources - The list of resources grouped by organization.
+ * @param {Function} setDisplayedResources - The function to set the displayed resources after filtering.
+ */
+export default function CatalogSearch({resources, setDisplayedResources}) {
     const {badges} = useBadges();
+    // status of resources (active or upcoming)
     const [selectedStatus, setSelectedStatus] = useState(resourceStatus[0]);
-    const [selectedType, setSelectedType] = useState(resourceType[0]);
+    // types of resources
+    const [selectedType, setSelectedType] = useState("All Types");
+    const [resourceTypes, setResourceTypes] = useState(["All Types"]);
+    // organizations
     const [selectedOrganization, setSelectedOrganization] = useState("All Organizations");
-    const [selectedBadge, setSelectedBadge] = useState("All Badges");
     const [resourceOrganizations, setResourceOrganizations] = useState(["All Organizations"]);
+    // badges
+    const [selectedBadge, setSelectedBadge] = useState("All Badges");
     const [badgeOptions, setBadgeOptions] = useState(["All Badges"]);
 
     useEffect(() => {
@@ -27,103 +39,32 @@ export default function CatalogSearch({resources, displayedResources, setDisplay
         setBadgeOptions(badgeNames);
     }, [badges]);
 
-    const getBadgeName = (badge_id) => {
+    useEffect(() => {
+        // Populate resourceTypes with the types of resources
+        const typesSet = new Set();
+        resources.forEach(institution => {
+            institution.resources.forEach(resource => {
+                typesSet.add(resource.cider_type);
+            });
+        });
+        const typesArray = ["All Types", ...Array.from(typesSet)];
+        setResourceTypes(typesArray);
+    }, [resources]);
+
+    const getBadgeName = useCallback((badge_id) => {
         const badge = badges.find(b => b.badge_id === badge_id);
         return badge ? badge.name : "";
-    };
+    }, [badges]);
 
-    const handleSearch = (searchTerm) => {
+    const filterResources = useCallback((resources, filters) => {
+        const { organization, type, badge, searchTerm } = filters;
         const searchTermLower = searchTerm.toLowerCase();
 
         let filteredResources = resources;
 
-        if (selectedOrganization !== "All Organizations") {
-            filteredResources = filteredResources.filter(institution =>
-                institution.organization_name === selectedOrganization
-            );
-        }
-
-        if (selectedType !== "All Types") {
-            filteredResources = filteredResources.map(institution => ({
-                ...institution,
-                resources: institution.resources.filter(resource =>
-                    resource.cider_type.toLowerCase() === selectedType.toLowerCase())
-            })).filter(institution => institution.resources.length > 0);
-        }
-
-        if (selectedBadge !== "All Badges") {
-            filteredResources = filteredResources.map(institution => ({
-                ...institution,
-                resources: institution.resources.filter(resource =>
-                    resource.badges.some(badge => getBadgeName(badge.badge_id) === selectedBadge)
-                )
-            })).filter(institution => institution.resources.length > 0);
-        }
-
-        if (searchTerm.trim() !== "") {
-            filteredResources = filteredResources.reduce((acc, institution) => {
-                const institutionMatch = institution.organization_name.toLowerCase().includes(searchTermLower);
-                const filteredResources = institution.resources.filter(resource =>
-                    resource.resource_descriptive_name.toLowerCase().includes(searchTermLower)
-                );
-
-                if (institutionMatch) {
-                    // If institution matches, show all its resources unless specific resources are found
-                    acc.push({
-                        ...institution,
-                        resources: filteredResources.length > 0 ? filteredResources : institution.resources
-                    });
-                } else if (filteredResources.length > 0) {
-                    // If specific resources are found, show only those resources
-                    acc.push({
-                        ...institution,
-                        resources: filteredResources
-                    });
-                }
-
-                return acc;
-            }, []);
-        }
-
-        setDisplayedResources(filteredResources);
-    };
-
-    const handleOrganizationChange = (organization) => {
-        setSelectedOrganization(organization);
-        let filteredResources = resources;
-
         if (organization !== "All Organizations") {
-            filteredResources = resources.filter(institution =>
-                institution.organization_name === organization
-            );
-        }
-
-        if (selectedType !== "All Types") {
-            filteredResources = filteredResources.map(institution => ({
-                ...institution,
-                resources: institution.resources.filter(resource => resource.cider_type.toLowerCase() === selectedType.toLowerCase())
-            })).filter(institution => institution.resources.length > 0);
-        }
-
-        if (selectedBadge !== "All Badges") {
-            filteredResources = filteredResources.map(institution => ({
-                ...institution,
-                resources: institution.resources.filter(resource =>
-                    resource.badges.some(badge => getBadgeName(badge.badge_id) === selectedBadge)
-                )
-            })).filter(institution => institution.resources.length > 0);
-        }
-
-        setDisplayedResources(filteredResources);
-    };
-
-    const handleTypeChange = (type) => {
-        setSelectedType(type);
-        let filteredResources = resources;
-
-        if (selectedOrganization !== "All Organizations") {
             filteredResources = filteredResources.filter(institution =>
-                institution.organization_name === selectedOrganization
+                institution.organization_name === organization
             );
         }
 
@@ -132,36 +73,6 @@ export default function CatalogSearch({resources, displayedResources, setDisplay
                 ...institution,
                 resources: institution.resources.filter(resource =>
                     resource.cider_type.toLowerCase() === type.toLowerCase())
-            })).filter(institution => institution.resources.length > 0);
-        }
-
-        if (selectedBadge !== "All Badges") {
-            filteredResources = filteredResources.map(institution => ({
-                ...institution,
-                resources: institution.resources.filter(resource =>
-                    resource.badges.some(badge => getBadgeName(badge.badge_id) === selectedBadge)
-                )
-            })).filter(institution => institution.resources.length > 0);
-        }
-
-        setDisplayedResources(filteredResources);
-    };
-
-    const handleBadgeChange = (badge) => {
-        setSelectedBadge(badge);
-        let filteredResources = resources;
-
-        if (selectedOrganization !== "All Organizations") {
-            filteredResources = filteredResources.filter(institution =>
-                institution.organization_name === selectedOrganization
-            );
-        }
-
-        if (selectedType !== "All Types") {
-            filteredResources = filteredResources.map(institution => ({
-                ...institution,
-                resources: institution.resources.filter(resource =>
-                    resource.cider_type.toLowerCase() === selectedType.toLowerCase())
             })).filter(institution => institution.resources.length > 0);
         }
 
@@ -174,8 +85,102 @@ export default function CatalogSearch({resources, displayedResources, setDisplay
             })).filter(institution => institution.resources.length > 0);
         }
 
+        if (searchTerm.trim() !== "") {
+            filteredResources = filteredResources.reduce((acc, institution) => {
+                const institutionMatch = institution.organization_name.toLowerCase().includes(searchTermLower);
+                const typeMatch = institution.resources.some(resource =>
+                    resource.cider_type.toLowerCase().includes(searchTermLower)
+                );
+                const badgeMatch = institution.resources.some(resource =>
+                    resource.badges.some(badge => getBadgeName(badge.badge_id).toLowerCase().includes(searchTermLower))
+                );
+                const filteredResources = institution.resources.filter(resource =>
+                    resource.resource_descriptive_name.toLowerCase().includes(searchTermLower)
+                );
+
+                if (institutionMatch) {
+                    acc.push({
+                        ...institution,
+                        resources: filteredResources.length > 0 ? filteredResources : institution.resources
+                    });
+                } else if (typeMatch) {
+                    acc.push({
+                        ...institution,
+                        resources: institution.resources.filter(resource =>
+                            resource.cider_type.toLowerCase().includes(searchTermLower)
+                        )
+                    });
+                } else if (badgeMatch) {
+                    acc.push({
+                        ...institution,
+                        resources: institution.resources.filter(resource =>
+                            resource.badges.some(badge => getBadgeName(badge.badge_id).toLowerCase().includes(searchTermLower))
+                        )
+                    });
+                } else if (filteredResources.length > 0) {
+                    acc.push({
+                        ...institution,
+                        resources: filteredResources
+                    });
+                }
+
+                return acc;
+            }, []);
+        }
+
+        return filteredResources;
+    }, [getBadgeName]);
+
+    const handleSearch = useCallback((searchTerm) => {
+        const filters = {
+            organization: selectedOrganization,
+            type: selectedType,
+            badge: selectedBadge,
+            searchTerm,
+        };
+
+        const filteredResources = filterResources(resources, filters);
         setDisplayedResources(filteredResources);
-    };
+    }, [selectedOrganization, selectedType, selectedBadge, filterResources, resources, setDisplayedResources]);
+
+    const handleOrganizationChange = useCallback((organization) => {
+        setSelectedOrganization(organization);
+        const filters = {
+            organization,
+            type: selectedType,
+            badge: selectedBadge,
+            searchTerm: "",
+        };
+
+        const filteredResources = filterResources(resources, filters);
+        setDisplayedResources(filteredResources);
+    }, [selectedType, selectedBadge, filterResources, resources, setDisplayedResources]);
+
+    const handleTypeChange = useCallback((type) => {
+        setSelectedType(type);
+        const filters = {
+            organization: selectedOrganization,
+            type,
+            badge: selectedBadge,
+            searchTerm: "",
+        };
+
+        const filteredResources = filterResources(resources, filters);
+        setDisplayedResources(filteredResources);
+    }, [selectedOrganization, selectedBadge, filterResources, resources, setDisplayedResources]);
+
+    const handleBadgeChange = useCallback((badge) => {
+        setSelectedBadge(badge);
+        const filters = {
+            organization: selectedOrganization,
+            type: selectedType,
+            badge,
+            searchTerm: "",
+        };
+
+        const filteredResources = filterResources(resources, filters);
+        setDisplayedResources(filteredResources);
+    }, [selectedOrganization, selectedType, filterResources, resources, setDisplayedResources]);
 
     return (
         <div className="search-section-wrapper">
@@ -184,7 +189,7 @@ export default function CatalogSearch({resources, displayedResources, setDisplay
                 <p>Filters</p>
                 <DropDownFilter data={resourceStatus} selected={selectedStatus}
                                 setSelected={setSelectedStatus} disabled/>
-                <DropDownFilter data={resourceType} selected={selectedType} setSelected={handleTypeChange} />
+                <DropDownFilter data={resourceTypes} selected={selectedType} setSelected={handleTypeChange} />
                 <DropDownFilter data={resourceOrganizations} selected={selectedOrganization}
                                 setSelected={handleOrganizationChange}/>
                 <DropDownFilter data={badgeOptions} selected={selectedBadge}

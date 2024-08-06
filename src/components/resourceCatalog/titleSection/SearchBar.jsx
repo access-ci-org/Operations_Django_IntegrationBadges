@@ -17,7 +17,7 @@ export default function SearchBar({onSearch}) {
                 type="text"
                 className="form-control search-bar"
                 aria-label="Search resources"
-                placeholder="Search by Institution or Resource Name"
+                placeholder="Search by Institution, Resource, Type, or Badge..."
                 onChange={handleInputChange}
             />
         </div>

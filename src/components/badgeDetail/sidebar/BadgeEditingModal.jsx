@@ -3,13 +3,11 @@ import axios from "axios";
 
 /**
  * The input fields for editing badge action and URL.
- * @param actionButtonText - The badge action button text
- * @param setActionButtonText - The function to update the badge action button text
- * @param usageUrl - The badge usage URL
- * @param setUsageUrl
- * @param errorMessage
- * @returns {JSX.Element}
- * @constructor
+ * @param {string} actionButtonText - The badge action button text
+ * @param {Function} setActionButtonText - The function to update the badge action button text
+ * @param {string} usageUrl - The badge usage URL
+ * @param {Function} setUsageUrl - The function to update the badge usage URL
+ * @param {string} errorMessage - The error message to display
  */
 function EditModalInput({
                             actionButtonText,
@@ -60,8 +58,8 @@ function EditModalInput({
  * @param {string} id - The modal ID
  * @param {string} label - The badge action
  * @param {string} url - The badge URL
- * @param {string} resource_id - The resource ID
- * @param {string} badge_id - The badge ID
+ * @param {number} resource_id - The resource ID
+ * @param {number} badge_id - The badge ID
  * @param {Function} setResource - The function to update the resource
  */
 export default function BadgeEditingModal({

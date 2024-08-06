@@ -10,8 +10,8 @@ import {workflow_states} from "../../../../App";
  * The badges are filtered based on the status of the badge,
  * which is determined by the resource.badge_status.
  * @param {Array<RoadmapBadge>} roadmapBadges - The badges associated with the resource
- * @param selectedView - True for Resource Provider View, False for Researcher View
- * @param activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
+ * @param {boolean} selectedView - True for Resource Provider View, False for Researcher View
+ * @param {string} activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
  * @param {Function} setActiveTab - Function to set the current active tab
  */
 export default function BadgeContainer({roadmapBadges, selectedView, activeTab, setActiveTab}) {
@@ -24,11 +24,14 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
     // Update the badges with status information from resource.badge_status
     useEffect(() => {
         const recommended = roadmapBadges.filter(badge =>
-            badge.state === workflow_states.NOT_PLANNED || badge.state === workflow_states.DEPRECATED);
-        const planned = roadmapBadges.filter(badge => badge.state === workflow_states.PLANNED
+            badge.state === workflow_states.NOT_PLANNED
+            || badge.state === workflow_states.DEPRECATED);
+        const planned = roadmapBadges.filter(badge =>
+            badge.state === workflow_states.PLANNED
             || badge.state === workflow_states.TASK_COMPLETED
             || badge.state === workflow_states.VERIFICATION_FAILED);
-        const achieved = roadmapBadges.filter(badge => badge.state === workflow_states.VERIFIED);
+        const achieved = roadmapBadges.filter(badge =>
+            badge.state === workflow_states.VERIFIED);
         setRecommendedBadges(recommended);
         setPlannedBadges(planned);
         setAchievedBadges(achieved);

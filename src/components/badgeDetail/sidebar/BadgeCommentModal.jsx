@@ -1,3 +1,10 @@
+
+/**
+ * The modal that displays the concierge comment of a badge. It only shows up when the state is
+ * set to be "Verification Failed".
+ * @param {string} id - The id of the modal
+ * @param {string} comment - The comment from the concierge
+ */
 export default function BadgeCommentModal({id, comment}) {
 
     return (
@@ -11,7 +18,7 @@ export default function BadgeCommentModal({id, comment}) {
                                     aria-label="Close" style={{color: '#107080'}}/>
                         </div>
                         <div className="badge-modal-content">
-                            <p>{comment ? comment : "No Available Comment."}</p>
+                            <p>{comment || "No Available Comment."}</p>
                         </div>
                         <div className="badge-modal-footer">
                             <a type="button" className="btn" data-bs-dismiss="modal"

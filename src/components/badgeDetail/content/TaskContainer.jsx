@@ -4,6 +4,12 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {workflow_states} from "../../../App";
 
+/**
+ * The task component that displays the task details.
+ * @param {number} index - The index of the task.
+ * @param {string} parentId - The parent ID of the task.
+ * @param {task} task - The task info.
+ */
 function BadgeTask({index, parentId, task}) {
     const openTaskDetails = (url) => {
         window.open(url, '_blank');
@@ -48,9 +54,17 @@ function BadgeTask({index, parentId, task}) {
     );
 }
 
-
-export default function TaskContainer({resource_id, badge, tasks, setResource}) {
+/**
+ * The container that displays the tasks associated with the badge.
+ * @param {number} resource_id - The resource ID.
+ * @param {string} resource_name - The resource name.
+ * @param {CombinedBadge} badge - The badge info.
+ * @param {Array<Task>} tasks - The tasks associated with the badge.
+ * @param {Function} setResource - The function to set the resource.
+ */
+export default function TaskContainer({resource_id, resource_name, badge, tasks, setResource}) {
     const [planned, setPlanned] = useState("disabled");
+    const resourceNameWithoutSpaces = resource_name.replace(/\s/g, '');
 
     useEffect(() => {
         let newState = "disabled";
@@ -131,11 +145,11 @@ export default function TaskContainer({resource_id, badge, tasks, setResource}) 
             </div>
             {tasks.length === 0 ?
                 <EmptyPage text={"No available tasks"} task/> :
-                <div className="accordion task-list" id={`BadgeTaskContainer${badge.badge_id}`}>
+                <div className="accordion task-list" id={`BadgeTaskContainer${resource_id}${resourceNameWithoutSpaces}${badge.badge_id}`}>
                     {tasks.map((task, index) => (
                         <BadgeTask key={index}
                                    index={index}
-                                   parentId={`BadgeTaskContainer${badge.badge_id}`}
+                                   parentId={`BadgeTaskContainer${resource_id}${resourceNameWithoutSpaces}${badge.badge_id}`}
                                    task={task.task}/>
                     ))}
                 </div>

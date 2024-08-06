@@ -2,10 +2,11 @@ import {ReactComponent as ExclamationIcon} from '../../assets/img/icons/patch-ex
 import {ReactComponent as BookmarkIcon} from '../../assets/img/icons/bookmark-x.svg';
 
 /**
- * The component that
+ * The component that displays an empty page with a message and an icon.
  * @param {string} text - The message to display on the empty page.
  * @param {Object} style - Optional style object for the empty page wrapper.
- * @param {Boolean} task - Optional flag to indicate if the empty page is for tasks.
+ * @param {Boolean} task - Optional flag to indicate if the empty page is for tasks. In case of tasks,
+ * the icon will be a bookmark icon.
  */
 export default function EmptyPage({text, style, task}) {
     return (

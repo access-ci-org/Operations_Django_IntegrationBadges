@@ -1,4 +1,3 @@
-import placeholder from '../../../assets/img/icons/pc-display.svg';
 import {ReactComponent as ComputeIcon} from "../../../assets/img/icons/cpu.svg";
 import {ReactComponent as StorageIcon} from "../../../assets/img/icons/hdd.svg";
 import {useNavigate} from "react-router-dom";

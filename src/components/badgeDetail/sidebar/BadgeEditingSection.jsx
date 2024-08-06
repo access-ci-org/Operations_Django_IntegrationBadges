@@ -6,8 +6,8 @@ import BadgeEditingModal from "./BadgeEditingModal";
  * the user can edit the badge action and URL.
  * @param {string} label - The badge action
  * @param {string} url - The badge URL
- * @param {string} resource_id - The resource ID (resource associated with the badge)
- * @param {string} badge_id - The badge ID
+ * @param {number} resource_id - The resource ID (resource associated with the badge)
+ * @param {number} badge_id - The badge ID
  * @param {Function} setResource - The function to update the resource
  */
 export default function BadgeEditingSection({

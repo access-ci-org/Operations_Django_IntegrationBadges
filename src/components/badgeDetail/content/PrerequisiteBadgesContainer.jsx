@@ -4,6 +4,10 @@ import ResourceBadge from "../../fragments/ResourceBadge/ResourceBadge";
 import BadgeList from "../../resourceDetail/badgeSection/badgeContainer/views/ListView/BadgeList";
 import EmptyPage from "../../fragments/EmptyPage";
 
+/**
+ * The container for the prerequisite badges of a badge.
+ * @param {Array<CombinedBadge>} badges - The list of prerequisite badges.
+ */
 export default function PrerequisiteBadgesContainer({badges}) {
     // True for Dashboard View, False for List View
     const [badgeDisplay, setBadgeDisplay] = useState(true);
@@ -22,13 +26,15 @@ export default function PrerequisiteBadgesContainer({badges}) {
                     {
                         badges.length === 0 ?
                             <EmptyPage text="No Prerequisite Badges" style={{minHeight: '240px'}}/> :
-                        badges.map((badge, index) => (
-                        <div key={index} className="col">
-                            <ResourceBadge data={badge} view={true}/>
-                        </div>
-                    ))}
+                            badges.map((badge, index) => (
+                                <div key={index} className="col">
+                                    <ResourceBadge data={badge} view={true}/>
+                                </div>
+                            ))}
                 </div>
-                : <BadgeList data={badges} view={true} noCriteria/>
+                : badges.length === 0 ?
+                    <EmptyPage text="No Prerequisite Badges" style={{minHeight: '240px'}}/> :
+                    <BadgeList data={badges} view={true} noCriteria/>
             }
         </div>
     );

@@ -4,7 +4,6 @@ import BadgeDetailContent from "../components/badgeDetail/content/BadgeDetailCon
 import {useParams} from "react-router-dom";
 import {useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
-import {useResources} from "../contexts/ResourcesContext";
 import axios from "axios";
 import LoadingPage from "../components/fragments/LoadingPage";
 import {workflow_states} from "../App";
@@ -90,6 +89,7 @@ export default function BadgeDetail() {
                     badge.badge_access_url = badge_status.badge_access_url;
                     badge.badge_access_url_label = badge_status.badge_access_url_label;
                     badge.state_updated_at = badge_status.state_updated_at;
+
                     badge.comment = badge_status.comment;
                 } else {
                     badge.state = workflow_states.NOT_PLANNED;

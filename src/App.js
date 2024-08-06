@@ -8,6 +8,7 @@ import Demo from "./pages/Demo";
 import axios from "axios";
 import {BadgeProvider} from "./contexts/BadgeContext";
 import {ResourcesProvider} from "./contexts/ResourcesContext";
+import BreadCrumb from "./components/fragments/BreadCrumb";
 
 // Setting the default baseURL
 axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
@@ -28,6 +29,7 @@ function App() {
             <BadgeProvider>
                 <div className={"main"}>
                     <BrowserRouter>
+                        <BreadCrumb/>
                         <Routes>
                             <Route path="/" element={<ResourceCatalog/>}/>
                             <Route path="/resourceDetail/:resourceId" element={<ResourceDetail/>}/>

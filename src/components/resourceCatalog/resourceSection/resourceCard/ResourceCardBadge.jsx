@@ -4,17 +4,21 @@ import {useEffect} from "react";
 
 /**
  * A badge displayed on a resource card, showing an available badge for the resource.
- * @param {string} resourceName - The name of the resource.
- * @param {CatalogBadge} badge - Badge object containing full badge information.
+ * @param {ResourceListResourceBadge} badge - Badge object containing full badge information.
  * @param {number} index - Index of the badge in the list.
  */
-export default function ResourceCardBadge({resourceName, badge, index}) {
-    const graphic = placeholderBadge;
+export default function ResourceCardBadge({badge, index}) {
+    const graphic = placeholderBadge; // TODO: Replace with badge graphic
+    const resourceNameWithoutSpaces = badge.resource_name.replace(/\s+/g, '');
+
 
     const handleBadgeClick = (event) => {
         event.stopPropagation();
     };
 
+    console.log("ResourceCardBadge", badge);
+
+    // Initialize Bootstrap tooltips
     useEffect(() => {
         // Initialize Bootstrap tooltips
         import('bootstrap/dist/js/bootstrap.bundle.min.js').then((bootstrap) => {
@@ -33,22 +37,20 @@ export default function ResourceCardBadge({resourceName, badge, index}) {
                     data-bs-custom-class="resource-card-badge-tooltip"
                     data-bs-title={badge.badge.name}>
                 <div data-bs-toggle="modal"
-                     data-bs-target={`#ResourceCardBadgeModal${badge.badge.badge_id}${index}`}
+                     data-bs-target={`#ResourceCardBadgeModal${resourceNameWithoutSpaces}${badge.badge.badge_id}${index}`}
                      onClick={handleBadgeClick}>
                     <img src={graphic} alt="badge" className="badge-icon"
                          style={{width: '32px', height: '32px'}}/>
                 </div>
             </button>
-            <ResearcherModal id={`ResourceCardBadgeModal${badge.badge.badge_id}${index}`}
+            <ResearcherModal id={`ResourceCardBadgeModal${resourceNameWithoutSpaces}${badge.badge.badge_id}${index}`}
                              img={graphic}
                              name={badge.badge.name}
-                             resourceName={resourceName}
+                             resourceName={badge.resource_name}
                              description={badge.badge.researcher_summary}
                              state={badge.state}
-                             actionUrl={badge.badge_access_url ?
-                                 badge.badge_access_url : badge.badge.default_badge_access_url}
-                             actionText={badge.badge_access_url_label ?
-                                 badge.badge_access_url_label : badge.badge.default_badge_access_url_label}/>
+                             actionUrl={badge.badge_access_url || badge.badge.default_badge_access_url}
+                             actionText={badge.badge_access_url_label || badge.badge.default_badge_access_url_label}/>
         </div>
     );
 }

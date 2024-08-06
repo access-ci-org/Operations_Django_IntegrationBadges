@@ -61,6 +61,13 @@ p {
                     background-color: $access-grey-light;
                 }
             }
+
+            .dropdown-item {
+
+                &:active {
+                    background-color: $access-grey-light;
+                }
+            }
         }
     }
 
@@ -446,7 +453,7 @@ p {
 
                         &:hover {
                             cursor: pointer;
-                            background: $access-dark;
+                            background: $access-dark !important;
                         }
                     }
                 }
@@ -1468,5 +1475,14 @@ p {
                 color: $access-medium;
             }
         }
+    }
+}
+
+.breadcrumb-wrapper {
+    --bs-breadcrumb-divider: '>';
+
+    a {
+        color: $access-medium;
+        text-decoration: none;
     }
 }

@@ -6,10 +6,10 @@ import {workflow_states} from "../../../App";
  * The header of the badge section. It also shows the switch
  * between researcher view and resource provider view and the
  * list of roadmaps to filter the badges.
- * @param {Object} resource - The resource object to display
- * @param selectedRoadmap - The roadmap that is selected
+ * @param {Resource} resource - The resource object to display
+ * @param {string} selectedRoadmap - The roadmap that is selected
  * @param {Function} toggleRoadmapOption - The function to toggle the roadmap option
- * @param selectedView - The view that is currently selected
+ * @param {boolean} selectedView - The view that is currently selected
  * @param {Function} toggleViewDisplay - The function to toggle the view display
  */
 function ResourceBadgeHeader({

@@ -11,13 +11,13 @@ import {workflow_states} from "../../../../../../App";
 /**
  * The action button for each badge in the list.
  * @param {Object} data - The merged badge information
- * @param view - True for Resource Provider View, False for Researcher View
+ * @param {boolean} view - True for Resource Provider View, False for Researcher View
  * @param {string} state - The status of the badge
- * @param {string} resource_name - The name of the resource
  */
-function ListAction({data, view, state, resource_name}) {
+function ListAction({data, view, state}) {
     const navigate = useNavigate();
     const {resourceId} = useParams();
+    const resourceNameWithoutSpaces = data.resource_name.replace(/\s+/g, '');
 
     const handleBadgeClick = () => {
         navigate(`/resourceBadge/${resourceId}/${data.badge_id}`);
@@ -34,14 +34,16 @@ function ListAction({data, view, state, resource_name}) {
                 <div>
                     <button className="btn list-action"
                             data-bs-toggle="modal"
-                            data-bs-target={`#ResourceBadgeModal${data.badge_id}`}>
+                            data-bs-target={`#ResourceBadgeModal${resourceNameWithoutSpaces}${data.badge_id}`}>
                         Badge Action
                         <ArrowRightIcon style={{color: '#107180'}}/>
                     </button>
-                    <ResearcherModal id={`ResourceBadgeModal${data.badge_id}`} name={data.name}
-                                     state={state} actionText={data.default_badge_access_url_label}
+                    <ResearcherModal id={`ResourceBadgeModal${resourceNameWithoutSpaces}${data.badge_id}`} name={data.name}
+                                     state={state}
+                                     actionUrl={data.badge_access_url || data.default_badge_access_url}
+                                     actionText={data.badge_access_url_label || data.default_badge_access_url_label}
                                      description={data.researcher_summary}
-                                     actionUrl={data.default_badge_access_url} resourceName={resource_name}/>
+                                     resourceName={data.resource_name}/>
                 </div>
             )}
         </div>
@@ -50,12 +52,13 @@ function ListAction({data, view, state, resource_name}) {
 
 /**
  * A list of badges on the resource detail page.
- * @param {RoadmapBadge} data - The badge information got from roadmapBadges
- * @param view - True for Resource Provider View, False for Researcher View
- * @param {Boolean} noCriteria - True to not show the criteria column
+ * @param {Array<RoadmapBadge> || Array<CombinedBadge>} data - The badge information got from roadmapBadges
+ * @param {boolean} view - True for Resource Provider View, False for Researcher View
+ * @param {boolean} noCriteria - True to not show the criteria column
  */
 export default function BadgeList({data, view, noCriteria}) {
     const {badges} = useBadges();
+    const graphic = placeholder; // TODO: Replace with the actual badge graphic
 
     const labelTitle = (status) => {
         switch (status) {
@@ -79,6 +82,7 @@ export default function BadgeList({data, view, noCriteria}) {
         return {};
     }
 
+    // combining the badge information from badges with the badge information from roadmapBadges
     const mergedData = data.map(item => {
         const badgeDetails = badges.find(b => b.badge_id === item.badge_id);
         return badgeDetails ? {
@@ -90,7 +94,7 @@ export default function BadgeList({data, view, noCriteria}) {
     return (
         <div className="container-fluid resource-badge-list-wrapper">
             {mergedData.length === 0 ?
-                <EmptyPage text={"No Prerequisite Badges"} style={{ minHeight: "240px" }}/> :
+                <EmptyPage text={"No Available Badges"} style={{ minHeight: "240px" }}/> :
                 <table className="table table-hover resource-badge-list">
                     <thead>
                     <tr>
@@ -107,7 +111,7 @@ export default function BadgeList({data, view, noCriteria}) {
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td className="col-1" style={{textAlign: 'center'}}>
-                                <img src={placeholder} className="badge-list-img" alt={item.name}/>
+                                <img src={graphic} className="badge-list-img" alt={item.name}/>
                             </td>
                             <td className="col-2">
                                 <div className="badge-list-name">
@@ -132,8 +136,7 @@ export default function BadgeList({data, view, noCriteria}) {
                             <td className="col-2">
                                 <ListAction data={item}
                                             view={view}
-                                            state={item.state}
-                                            resource_name={item.resource_name}/>
+                                            state={item.state}/>
                             </td>
                         </tr>
                     ))}

@@ -1,9 +1,16 @@
 import React, {useEffect, useState} from "react";
 import ResourceCardBadgeList from "./ResourceCardBadgeList";
 
+/**
+ * A modal that displays all available badges for a resource. It only appears
+ * when there are more badges than can be displayed in the resource card.
+ * @param {string} id - The id of the modal.
+ * @param {Array<ResourceListResourceBadge>} badges - The available (Verified) badges for the resource.
+ */
 export default function ResourceCardBadgeModal({id, badges}) {
     const [modifiedBadges, setModifiedBadges] = useState([]);
 
+    // bring up the badge object to be at the same level as the rest of the badge data to imitate a RoadmapBadge object
     useEffect(() => {
         const processedBadges = badges.map(({ badge, ...rest }) => ({
             ...badge,

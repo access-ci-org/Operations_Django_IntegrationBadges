@@ -9,8 +9,8 @@ import {workflow_states} from "../../../../../App";
  * @param {Array<RoadmapBadge>} recommendedBadges - not planned or deprecated badges
  * @param {Array<RoadmapBadge>} plannedBadges - planned, task completed, or verification failed badges
  * @param {Array<RoadmapBadge>} achievedBadges - verified badges
- * @param selectedView - True for Resource Provider View, False for Researcher View
- * @param activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
+ * @param {boolean} selectedView - True for Resource Provider View, False for Researcher View
+ * @param {string} activeTab - Can be 'recommended' (default), 'planned', or 'achieved' (available)
  */
 export default function DashboardView({
                                           recommendedBadges,

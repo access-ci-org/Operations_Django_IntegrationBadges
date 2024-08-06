@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
  * The 'required' and 'available' shares the same style with different text.
  * ResourceBadgeTopTag extends to this component.
  * @param {string} title - the text to display
- * @param {Boolean} verified - if the badge is verified
+ * @param {boolean} verified - if the badge is verified
  * @param {Object} style - optional style
  */
 export default function LabelTag({title, verified, style}) {

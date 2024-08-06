@@ -22,17 +22,17 @@ const supportContacts=[
 
 /**
  * A section that displays the implementor roles of the badge
- * @param {Object} tasks - The tasks related to the badge
+ * @param {Object} implementorRoles - The implementor roles object created in BadgeDetailSideBar
  */
-function ImplementorRoleSection({ tasks }) {
+function ImplementorRoleSection({ implementorRoles }) {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
         // Flatten the roles, split by commas, and remove duplicates
-        const allRoles = tasks.flatMap(task => task.roles.split(',').map(role => role.trim()));
+        const allRoles = implementorRoles.flatMap(task => task.roles.split(',').map(role => role.trim()));
         const uniqueRoles = [...new Set(allRoles)];
         setRoles(uniqueRoles);
-    }, [tasks]);
+    }, [implementorRoles]);
 
     return (
         <div className="sidebar-section">
@@ -53,8 +53,8 @@ function ImplementorRoleSection({ tasks }) {
  * A general sidebar section that displays a title and a list of links.
  * @param {string} title - The title of the section
  * @param {Object} links - The list of links to display
- * @param {Boolean} icon - Whether to show an icon next to each link
- * @param {Boolean} justText - Whether to show only text without links
+ * @param {boolean} icon - Whether to show an icon next to each link
+ * @param {boolean} justText - Whether to show only text without links
  */
 function SidebarSection({title, links, icon, justText}) {
     return (
@@ -84,14 +84,15 @@ function SidebarSection({title, links, icon, justText}) {
 /**
  * The sidebar of the badge detail page. It shows the badge status,
  * roadmap links, implementor roles, and support contacts.
- * @param {Object} resource - The current resource that associates with the badge
+ * @param {Resource} resource - The current resource that associates with the badge
  * @param {Function} setResource - The function to update the resource
- * @param {Object} badge - The badge object
- * @param {Object} tasks - The tasks related to the badge
+ * @param {CombinedBadge} badge - The badge object
+ * @param {Array<Task>} tasks - The tasks related to the badge
  */
 export default function BadgeDetailSideBar({resource, setResource, badge, tasks}) {
     const [roadmapLinks, setRoadmapLinks] = useState([]);
     const [implementorRoles, setImplementorRoles] = useState([]);
+    const graphic = placeholder; // TODO: Replace with actual badge graphic
 
     useEffect(() => {
         const links = resource.roadmaps.map(roadmap => ({
@@ -111,7 +112,7 @@ export default function BadgeDetailSideBar({resource, setResource, badge, tasks}
 
     return (
         <div className="sidebar-wrapper">
-        <img src={placeholder} alt="badge"/>
+        <img src={graphic} alt="badge"/>
             {
                 badge.state !== workflow_states.NOT_PLANNED &&
                 <div className="badge-status-wrapper">
@@ -127,7 +128,7 @@ export default function BadgeDetailSideBar({resource, setResource, badge, tasks}
                 </div>
             }
             <SidebarSection title="Roadmaps" links={roadmapLinks} justText/>
-            <ImplementorRoleSection tasks={implementorRoles}/>
+            <ImplementorRoleSection implementorRoles={implementorRoles}/>
             <SidebarSection title="Resource Integration Support" links={supportContacts} icon/>
             {(badge.state && badge.state !== workflow_states.NOT_PLANNED) &&
                 <BadgeEditingSection label={badge.badge_access_url_label}

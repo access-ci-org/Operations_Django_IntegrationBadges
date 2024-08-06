@@ -8,10 +8,10 @@ import {workflow_states} from "../../../App";
 
 /**
  * The main content of the badge detail page.
- * @param {Object} resource - The resource that the badge is associated with.
+ * @param {Resource} resource - The resource that the badge is associated with.
  * @param {Function} setResource - The function to set the resource.
- * @param {Object} badge - The info of the current badge, including resource-badge model info.
- * @param {Array} tasks - The tasks associated with the badge. Default is empty array.
+ * @param {CombinedBadge} badge - The info of the current badge, including resource-badge model info.
+ * @param {Array<Task>} tasks - The tasks associated with the badge. Default is empty array.
  */
 export default function BadgeDetailContent({resource, setResource, badge, tasks}) {
     const {badges} = useBadges();
@@ -26,7 +26,8 @@ export default function BadgeDetailContent({resource, setResource, badge, tasks}
             const fullBadge = badges.find(b => b.badge_id === prerequisite.prerequisite_badge_id);
 
             // Find the status of the badge from resource.badge_status
-            const statusInfo = resource.badge_status.find(status => status.badge_id === prerequisite.prerequisite_badge_id);
+            const statusInfo = resource.badge_status.find(status =>
+                status.badge_id === prerequisite.prerequisite_badge_id);
 
             return {
                 ...fullBadge,
@@ -43,7 +44,11 @@ export default function BadgeDetailContent({resource, setResource, badge, tasks}
         <div className="content-wrapper">
             <BadgeDetailBasicInfo resource_id={resource.cider_resource_id} badge={badge} setResource={setResource}/>
             {loading ? <LoadingPage/> : <PrerequisiteBadgesContainer badges={prerequisiteBadges}/>}
-            <TaskContainer resource_id={resource.cider_resource_id} badge={badge} tasks={tasks} setResource={setResource}/>
+            <TaskContainer resource_id={resource.cider_resource_id}
+                           resource_name={resource.resource_descriptive_name}
+                           badge={badge}
+                           tasks={tasks}
+                           setResource={setResource}/>
         </div>
     );
 }

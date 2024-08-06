@@ -14,8 +14,10 @@ import ReactDOM from "react-dom";
  * @param {string} resource_name - The name of the resource
  */
 function ListAction({data, state, resource_name}) {
+    const resourceNameWithoutSpaces = resource_name.replace(/\s+/g, '');
+
     const modal = (
-        <ResearcherModal id={`ResourceCardBadgeListModal${data.badge_id}`} name={data.name}
+        <ResearcherModal id={`ResourceCardBadgeListModal${resourceNameWithoutSpaces}${data.badge_id}`} name={data.name}
                          state={state} actionText={data.default_badge_access_url_label}
                          description={data.researcher_summary}
                          actionUrl={data.default_badge_access_url} resourceName={resource_name}/>
@@ -25,7 +27,7 @@ function ListAction({data, state, resource_name}) {
         <div>
             <button className="btn list-action"
                     data-bs-toggle="modal"
-                    data-bs-target={`#ResourceCardBadgeListModal${data.badge_id}`}>
+                    data-bs-target={`#ResourceCardBadgeListModal${resourceNameWithoutSpaces}${data.badge_id}`}>
                 Badge Action
                 <ArrowRightIcon style={{color: '#107180'}}/>
             </button>
@@ -40,6 +42,7 @@ function ListAction({data, state, resource_name}) {
  */
 export default function ResourceCardBadgeList({data}) {
     const {badges} = useBadges();
+    const graphic = placeholder; // TODO: replace with badge graphic
 
     const labelTitle = (status) => {
         switch (status) {
@@ -74,7 +77,7 @@ export default function ResourceCardBadgeList({data}) {
     return (
         <div className="container-fluid resource-badge-list-wrapper">
             {mergedData.length === 0 ?
-                <EmptyPage text={"No Prerequisite Badges"} style={{minHeight: "240px"}}/> :
+                <EmptyPage text={"No Resource Badges"} style={{minHeight: "240px"}}/> :
                 <table className="table table-hover resource-badge-list">
                     <thead>
                     <tr>
@@ -90,7 +93,7 @@ export default function ResourceCardBadgeList({data}) {
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td className="col-1" style={{textAlign: 'center'}}>
-                                <img src={placeholder} className="badge-list-img" alt={item.name}/>
+                                <img src={graphic} className="badge-list-img" alt={item.name}/>
                             </td>
                             <td className="col-2">
                                 <div className="badge-list-name">

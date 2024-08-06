@@ -10,7 +10,8 @@ import ResourceCardBadgeModal from "./ResourceCardBadgeModal";
  * The header of the resource card displaying the organization logo.
  * @param {string} name - Name of the organization.
  * @param {string} type - Type of the resource. Currently only for compute and storage.
- * @param {string} url - URL of the organization logo.
+ * @param {string} url - URL of the organization logo. If not available, a placeholder icon
+ * is displayed depending on the type.
  */
 function ResourceCardHeader({name, type, url}) {
 
@@ -25,7 +26,6 @@ function ResourceCardHeader({name, type, url}) {
                     {type === 'Compute' ?
                         <ComputeIcon style={{width: '100%', height: '60%'}}/> :
                         <StorageIcon style={{width: '100%', height: '60%'}}/>}
-                    {/*<p>Logo Not Available</p>*/}
                 </div>
             }
         </div>
@@ -34,7 +34,7 @@ function ResourceCardHeader({name, type, url}) {
 
 /**
  * A card that displays a single resource.
- * @param {CatalogResource} resource - The single resource to display.
+ * @param {ResourceListResource} resource - The single resource to display.
  */
 export default function ResourceCard({resource}) {
     const {badges} = useBadges();
@@ -57,17 +57,16 @@ export default function ResourceCard({resource}) {
         const processedBadges = resource.badges.map((badge) => {
             const badgeData = badges.find(b => b.badge_id === badge.badge_id);
             return {
+                ...badge,
+                resource_name: resource.resource_descriptive_name,
                 badge: {
                     ...badgeData,
                 },
-                ...(badge.state ? {state: badge.state} : {}),
-                ...(badge.badge_access_url ? {badge_access_url: badge.badge_access_url} : {}),
-                ...(badge.badge_access_url_label ? {badge_access_url_label: badge.badge_access_url_label} : {})
             };
         });
         setDisplayedBadges(processedBadges);
         setAdditionalBadgeCount(resource.badges.length - 5);
-    }, [resource.badges, badges]);
+    }, [resource.badges, badges, resource.resource_descriptive_name]);
 
     const handleCardClick = () => {
         navigate(`/resourceDetail/${resource.cider_resource_id}`);
@@ -94,9 +93,7 @@ export default function ResourceCard({resource}) {
                 </div>
                 <div className={badgeContainerName} onClick={handleBadgeContainerClick}>
                     {displayedBadges.slice(0, 5).map((badge, index) => (
-                        <ResourceCardBadge key={index}
-                                           resourceName={resource.resource_descriptive_name}
-                                           badge={badge} index={index}/>
+                        <ResourceCardBadge key={index} badge={badge} index={index}/>
                     ))}
                     {additionalBadgeCount > 0 && (
                         <div>

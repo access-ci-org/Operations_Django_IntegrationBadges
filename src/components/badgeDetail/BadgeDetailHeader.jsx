@@ -5,7 +5,7 @@ import {useBadges} from "../../contexts/BadgeContext";
 /**
  * The header of the badge detail page that includes the resource
  * name/type and a dropdown of all badges in the roadmaps of the resource.
- * @param {Object} resource - the resource that the badge is associated with
+ * @param {Resource} resource - the resource that the badge is associated with
  * @param {string} name - the name of the current badge
  */
 export default function BadgeDetailHeader({ resource, name }) {
