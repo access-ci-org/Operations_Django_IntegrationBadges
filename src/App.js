@@ -11,7 +11,8 @@ import {ResourcesProvider} from "./contexts/ResourcesContext";
 import BreadCrumb from "./components/fragments/BreadCrumb";
 
 // Setting the default baseURL
-axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
+// axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
+axios.defaults.baseURL = "https://opsapi3.access-ci.org/wh2/integration_badges/v1/"
 
 // define the workflow states
 export const workflow_states = {
@@ -24,6 +25,10 @@ export const workflow_states = {
 };
 
 function App() {
+    // if (!oauthSignIn()) {
+    //     return null;
+    // }
+
     return (
         <ResourcesProvider>
             <BadgeProvider>
