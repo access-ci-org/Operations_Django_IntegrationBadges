@@ -1,4 +1,6 @@
 import arrow from '../../../assets/img/arrow-forward.svg';
+import {Link} from "react-router-dom";
+import React from "react";
 
 const firstLink = {
     text: "Need access to computing, data analysis, or storage resources?",
@@ -31,7 +33,10 @@ function LinkSection({data}) {
                 {data.text}
             </div>
             <div className={"expand-button"}>
-                <a href={data.url} role="button">{data.urlText}</a>
+                {/*<a href={data.url} role="button">{data.urlText}</a>*/}
+                <Link path={data.url}  role="button">
+                    {data.urlText}
+                </Link>
                 <img src={arrow} alt="Expand" style={{maxHeight: '20px', maxWidth: '20px'}}/>
             </div>
         </div>

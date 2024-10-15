@@ -8,8 +8,8 @@
 ## How to integrate on your website
 
 ```html
-    <script defer="defer" src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@0.1.3/build/static/js/main.js"></script>
-    <link href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@0.1.3/build/static/css/main.css" rel="stylesheet">
+    <script defer="defer" src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@0.0.6/build/static/js/main.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@0.0.6/build/static/css/main.css" rel="stylesheet">
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="Operations_WebApp_IntegrationBadges"></div>

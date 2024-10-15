@@ -1,7 +1,7 @@
 import './App.css';
 import './styles/style.scss';
 import ResourceCatalog from "./pages/ResourceCatalog";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, createMemoryRouter, RouterProvider, Outlet} from 'react-router-dom';
 import ResourceDetail from "./pages/ResourceDetail";
 import BadgeDetail from "./pages/BadgeDetail";
 import Demo from "./pages/Demo";
@@ -24,6 +24,38 @@ export const workflow_states = {
     DEPRECATED: "Deprecated"
 };
 
+
+const RouterLayout = () => {
+  return (
+    <div>
+        <BreadCrumb/>
+        <Outlet/>
+    </div>
+  );
+};
+
+
+const router = createMemoryRouter([
+  {
+    path: '/',
+    element: <RouterLayout/>,
+      children: [
+          {
+            path: '/',
+            element: <ResourceCatalog/>,
+          },
+          {
+            path: '/resourceDetail/:resourceId',
+            element: <ResourceDetail/>,
+          },
+          {
+            path: '/resourceBadge/:resourceId/:badgeId',
+            element: <BadgeDetail/>,
+          }
+      ]
+  }
+]);
+
 function App() {
     // if (!oauthSignIn()) {
     //     return null;
@@ -33,18 +65,7 @@ function App() {
         <ResourcesProvider>
             <BadgeProvider>
                 <div className={"main"}>
-                    <BrowserRouter>
-                        <BreadCrumb/>
-                        <Routes>
-                            <Route path="/" element={<ResourceCatalog/>}/>
-                            <Route path="/resourceDetail/:resourceId" element={<ResourceDetail/>}/>
-                            <Route path="/resourceBadge/:resourceId/:badgeId" element={<BadgeDetail/>}/>
-
-                            {process.env.NODE_ENV === "production" ? null : (
-                                <Route path="/demo" element={<Demo/>}/>
-                            )}
-                        </Routes>
-                    </BrowserRouter>
+                    <RouterProvider router={router} element={RouterLayout} />
                 </div>
             </BadgeProvider>
         </ResourcesProvider>

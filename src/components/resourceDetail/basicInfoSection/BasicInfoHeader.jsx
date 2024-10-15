@@ -1,6 +1,7 @@
 import {ReactComponent as ComputeIcon} from "../../../assets/img/icons/cpu.svg";
 import {ReactComponent as StorageIcon} from "../../../assets/img/icons/hdd.svg";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import React from "react";
 
 /**
  * The header section of the resource detail page.
@@ -19,7 +20,13 @@ export default function BasicInfoHeader({resource}) {
                 <div className="resource-detail-header-title">
                     <h1>{resource.resource_descriptive_name}</h1>
                     <div className="resource-detail-header-title-subtitle">
-                        <h3>By <a href={resource.organization_url}>{resource.organization_name}</a></h3>
+                        <h3>
+                            By
+                            {/*<a href={resource.organization_url}>{resource.organization_name}</a>*/}
+                            <Link path={resource.organization_url}>
+                                {resource.organization_name}
+                            </Link>
+                        </h3>
                         <span className="badge text-bg-medium resource-detail-header-badge"
                               onClick={handleBadgeClick}>Back to Full List</span>
                     </div>

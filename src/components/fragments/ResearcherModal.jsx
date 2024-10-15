@@ -1,6 +1,8 @@
 import placeholderBadge from "../../assets/img/placeholder_badge.png";
 import LabelTag from "./LabelTag";
 import {workflow_states} from "../../App";
+import {Link} from "react-router-dom";
+import React from "react";
 
 /**
  * A modal that displays the badge information for a researcher.
@@ -52,7 +54,10 @@ export default function ResearcherModal({
                         <div className="badge-modal-footer">
                             <a type="button" className="btn" data-bs-dismiss="modal"
                                aria-label="Close">CLOSE</a>
-                            <a href={actionUrl} type="button" className={"btn btn-medium"}>{actionText}</a>
+                            {/*<a href={actionUrl} type="button" className={"btn btn-medium"}>{actionText}</a>*/}
+                            <Link path={actionUrl} className={"btn btn-medium"}>
+                                {actionText}
+                            </Link>
                         </div>
                     </div>
                 </div>

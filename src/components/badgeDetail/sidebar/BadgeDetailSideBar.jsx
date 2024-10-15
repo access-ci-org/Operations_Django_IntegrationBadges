@@ -4,9 +4,10 @@ import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-tri
 import BadgeEditingSection from "./BadgeEditingSection";
 import StatusTag from "../../fragments/StatusTag";
 import Stepper from "../../fragments/Stepper";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import BadgeCommentModal from "./BadgeCommentModal";
 import {workflow_states} from "../../../App";
+import {Link} from "react-router-dom";
 
 // The support contacts for the badge, static
 const supportContacts=[
@@ -71,10 +72,15 @@ function SidebarSection({title, links, icon, justText}) {
                             {link.text}
                             {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
                         </li>
-                        : <a key={index} href={link.url}>
+                        : <Link path={link.url}>
                             {link.text}
                             {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
-                        </a>
+                        </Link>
+
+                        // <a key={index} href={link.url}>
+                        //     {link.text}
+                        //     {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
+                        // </a>
                 ))}
             </div>
         </div>

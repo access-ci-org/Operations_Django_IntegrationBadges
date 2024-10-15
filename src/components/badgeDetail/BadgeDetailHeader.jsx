@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useBadges} from "../../contexts/BadgeContext";
 
 /**
@@ -44,7 +44,8 @@ export default function BadgeDetailHeader({ resource, name }) {
         <div className="header-wrapper">
             <div className="title-wrapper">
                 <h1 onClick={() => handleSelectTitle()}>{resource.resource_descriptive_name}</h1>
-                <a href={resource.organization_url}>{resource.cider_type} Resource</a>
+                <Link path={resource.organization_url}>Resource</Link>
+                {/*<a href={resource.organization_url}>{resource.cider_type} Resource</a>*/}
             </div>
             <div className="btn-group">
                 <p>All Badges: </p>
