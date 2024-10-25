@@ -27,7 +27,7 @@ export const workflow_states = {
 
 const RouterLayout = () => {
   return (
-    <div>
+    <div className="access-operations-integration-badges">
         <BreadCrumb/>
         <Outlet/>
     </div>
