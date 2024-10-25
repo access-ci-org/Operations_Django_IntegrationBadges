@@ -29,7 +29,7 @@ function ListAction({data, state, resource_name}) {
                     data-bs-toggle="modal"
                     data-bs-target={`#ResourceCardBadgeListModal${resourceNameWithoutSpaces}${data.badge_id}`}>
                 Badge Action
-                <ArrowRightIcon style={{color: '#107180'}}/>
+                <img src={ArrowRightIcon} style={{color: '#107180'}}/>
             </button>
             {ReactDOM.createPortal(modal, document.body)}
         </div>

@@ -70,11 +70,11 @@ function SidebarSection({title, links, icon, justText}) {
                     justText ?
                         <li key={index}>
                             {link.text}
-                            {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
+                            {icon && <img src={ArrowUpRightIcon} className="sidebar-section-icon"/>}
                         </li>
                         : <Link path={link.url}>
                             {link.text}
-                            {icon && <ArrowUpRightIcon className="sidebar-section-icon"/>}
+                            {icon && <img src={ArrowUpRightIcon} className="sidebar-section-icon"/>}
                         </Link>
 
                         // <a key={index} href={link.url}>
@@ -128,7 +128,7 @@ export default function BadgeDetailSideBar({resource, setResource, badge, tasks}
                     {badge.state === workflow_states.VERIFICATION_FAILED &&
                         <button className="btn btn-medium planned-style badge-status-comment-btn" data-bs-toggle="modal"
                                 data-bs-target={`#BadgeCommentModal${resource.cider_resource_id}${badge.badge_id}`}>
-                            <span><WarningIcon/></span> View Comments
+                            <span><img src={WarningIcon}/></span> View Comments
                         </button>
                     }
                 </div>

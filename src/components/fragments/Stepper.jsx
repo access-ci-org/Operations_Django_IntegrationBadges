@@ -41,22 +41,22 @@ export default function Stepper({state}) {
             <div className="stepper">
                 <div className="stepper-content">
                     {isStepChecked(2) ?
-                        <CheckedCircleIcon className={`stepper-circle ${getStepClass(1)}`} />
-                        : <RecordCircleIcon className={`stepper-circle ${getStepClass(1)}`} />}
+                        <img src={CheckedCircleIcon} className={`stepper-circle ${getStepClass(1)}`} />
+                        : <img src={RecordCircleIcon} className={`stepper-circle ${getStepClass(1)}`} />}
                     <p className="stepper-text">Complete Badge Tasks</p>
                 </div>
                 <ProgressBar className={`progress-bar ${getStepClass(2)}`}/>
                 <div className="stepper-content">
                     {isStepChecked(3) ?
-                        <CheckedCircleIcon className={`stepper-circle ${getStepClass(2)}`} />
-                        : <RecordCircleIcon className={`stepper-circle ${getStepClass(2)}`} />}
+                        <img src={CheckedCircleIcon} className={`stepper-circle ${getStepClass(2)}`} />
+                        : <img src={RecordCircleIcon} className={`stepper-circle ${getStepClass(2)}`} />}
                     <p className="stepper-text">Await Badge Verification</p>
                 </div>
-                <ProgressBar className={`progress-bar ${getStepClass(3)}`}/>
+                <img src={ProgressBar} className={`progress-bar ${getStepClass(3)}`}/>
                 <div className="stepper-content">
                     {isStepChecked(3) ?
-                        <CheckedCircleIcon className={`stepper-circle ${getStepClass(3)}`} />
-                        : <RecordCircleIcon className={`stepper-circle ${getStepClass(3)}`} />}
+                        <img src={CheckedCircleIcon} className={`stepper-circle ${getStepClass(3)}`} />
+                        : <img src={RecordCircleIcon} className={`stepper-circle ${getStepClass(3)}`} />}
                     <p className="stepper-text">Badge Available</p>
                 </div>
             </div>

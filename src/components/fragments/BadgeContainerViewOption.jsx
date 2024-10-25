@@ -28,10 +28,10 @@ export default function BadgeContainerViewOption({badgeDisplay, toggleBadgeDispl
     return (
         <div style={{display: 'flex'}}>
             <BadgeContainerViewOptionButton isActive={!badgeDisplay} onClick={toggleBadgeDisplay}>
-                <ListIcon style={{fill: !badgeDisplay ? 'white' : '#107180'}}/>
+                <img src={ListIcon} style={{fill: !badgeDisplay ? 'white' : '#107180'}}/>
             </BadgeContainerViewOptionButton>
             <BadgeContainerViewOptionButton isActive={badgeDisplay} onClick={toggleBadgeDisplay}>
-                <DashboardIcon style={{fill: badgeDisplay ? 'white' : '#107180'}}/>
+                <img src={DashboardIcon} style={{fill: badgeDisplay ? 'white' : '#107180'}}/>
             </BadgeContainerViewOptionButton>
         </div>
     );

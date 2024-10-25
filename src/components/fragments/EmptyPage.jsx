@@ -12,8 +12,8 @@ export default function EmptyPage({text, style, task}) {
     return (
         <div className="empty-page-wrapper" style={style}>
             {task ?
-                <BookmarkIcon className="empty-page-icon" style={{width: '40px', height: '40px'}}/> :
-                <ExclamationIcon className="empty-page-icon" style={{width: '40px', height: '40px'}}/>
+                <img src={BookmarkIcon} className="empty-page-icon" style={{width: '40px', height: '40px'}}/> :
+                <img src={ExclamationIcon} className="empty-page-icon" style={{width: '40px', height: '40px'}}/>
             }
             <p>{text}</p>
         </div>

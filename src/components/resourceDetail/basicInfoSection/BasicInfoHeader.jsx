@@ -50,8 +50,8 @@ export default function BasicInfoHeader({resource}) {
                 {resource.organization_logo_url ?
                     <img src={resource.organization_logo_url} alt={resource.organization_name}/> :
                     resource.cider_type === 'Compute' ?
-                        <ComputeIcon style={{width: '100%', height: '100%'}}/> :
-                        <StorageIcon style={{width: '100%', height: '100%'}}/>
+                        <img src={ComputeIcon} style={{width: '100%', height: '100%'}}/> :
+                        <img src={StorageIcon} style={{width: '100%', height: '100%'}}/>
                 }
             </div>
         </div>

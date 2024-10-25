@@ -23,7 +23,7 @@ export default function BadgeEditingSection({
                 <p className="sidebar-section-title">Badge Action and Url</p>
                 <button className="btn sidebar-section-title-icon" data-bs-toggle="modal"
                         data-bs-target={`#BadgeEditingModal${resource_id}${badge_id}`}>
-                    <EditIcon/>
+                    <img src={EditIcon}/>
                 </button>
             </div>
             <div className="sidebar-section-edit-wrapper">

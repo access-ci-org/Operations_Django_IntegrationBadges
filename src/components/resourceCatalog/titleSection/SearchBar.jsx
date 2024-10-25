@@ -11,7 +11,7 @@ export default function SearchBar({onSearch}) {
     return (
         <div className="input-group search-bar-wrapper">
             <span className="input-group-text" id="inputGroup-icon">
-                <SearchIcon className="search-icon"/>
+                <img src={SearchIcon} className="search-icon"/>
             </span>
             <input
                 type="text"

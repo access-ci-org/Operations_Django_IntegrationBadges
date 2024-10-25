@@ -45,7 +45,7 @@ function BadgeTitle({title, state, resource_id, badge_id, setResource}) {
             }
             <button className={className} data-bs-toggle="modal"
                     data-bs-target={`#PlanBadgeModal${resource_id}${badge_id}`}>
-                {state === workflow_states.NOT_PLANNED ? <BookmarkIcon/> : <BookmarkXIcon/>}
+                {state === workflow_states.NOT_PLANNED ? <img src={BookmarkIcon}/> : <img src={BookmarkXIcon}/>}
                 {state === workflow_states.NOT_PLANNED ? "Plan this Badge" : "Unplan this Badge"}
             </button>
         </div>

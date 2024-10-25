@@ -28,7 +28,7 @@ function ListAction({data, view, state}) {
             {view ? (
                 <button className="btn list-action" onClick={handleBadgeClick}>
                     Badge Details
-                    <ArrowRightIcon style={{color: '#107180'}}/>
+                    <img src={ArrowRightIcon} style={{color: '#107180'}}/>
                 </button>
             ) : (
                 <div>
@@ -36,7 +36,7 @@ function ListAction({data, view, state}) {
                             data-bs-toggle="modal"
                             data-bs-target={`#ResourceBadgeModal${resourceNameWithoutSpaces}${data.badge_id}`}>
                         Badge Action
-                        <ArrowRightIcon style={{color: '#107180'}}/>
+                        <img src={ArrowRightIcon} style={{color: '#107180'}}/>
                     </button>
                     <ResearcherModal id={`ResourceBadgeModal${resourceNameWithoutSpaces}${data.badge_id}`} name={data.name}
                                      state={state}

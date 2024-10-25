@@ -135,7 +135,7 @@ export default function TaskContainer({resource_id, resource_name, badge, tasks,
                 <div className="task-container-title">
                     <h4>Associated Tasks</h4>
                     {(!badge.state || badge.state === workflow_states.NOT_PLANNED) &&
-                        <p><span><WarningIcon/></span> Please plan the badge first to mark tasks as completed.</p>
+                        <p><span><img src={WarningIcon}/></span> Please plan the badge first to mark tasks as completed.</p>
                     }
                 </div>
                 <button className={`btn btn-medium ` + planned} style={{minHeight: '36px'}}

@@ -24,8 +24,8 @@ function ResourceCardHeader({name, type, url}) {
                 :
                 <div className="card-header-placeholder">
                     {type === 'Compute' ?
-                        <ComputeIcon style={{width: '100%', height: '60%'}}/> :
-                        <StorageIcon style={{width: '100%', height: '60%'}}/>}
+                        <img src={ComputeIcon} style={{width: '100%', height: '60%'}}/> :
+                        <img src={StorageIcon} style={{width: '100%', height: '60%'}}/>}
                 </div>
             }
         </div>
