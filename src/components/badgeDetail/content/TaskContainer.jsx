@@ -1,4 +1,4 @@
-import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-triangle.svg';
+import WarningIcon from '../../../assets/img/icons/alert-triangle.svg';
 import EmptyPage from "../../fragments/EmptyPage";
 import {useEffect, useState} from "react";
 import axios from "axios";

@@ -1,5 +1,5 @@
-import {ReactComponent as ListIcon} from '../../assets/img/icons/list_2.svg';
-import {ReactComponent as DashboardIcon} from '../../assets/img/icons/dashboard_2.svg';
+import ListIcon from '../../assets/img/icons/list_2.svg';
+import DashboardIcon from '../../assets/img/icons/dashboard_2.svg';
 
 /**
  * The button for the badge container view option.

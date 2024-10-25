@@ -1,7 +1,7 @@
 import placeholder from "../../../../assets/img/placeholder_badge.png";
 import LabelTag from "../../../fragments/LabelTag";
 import ResearcherModal from "../../../fragments/ResearcherModal";
-import {ReactComponent as ArrowRightIcon} from "../../../../assets/img/icons/arrow-up-right.svg";
+import ArrowRightIcon from "../../../../assets/img/icons/arrow-up-right.svg";
 import {useBadges} from "../../../../contexts/BadgeContext";
 import EmptyPage from "../../../fragments/EmptyPage";
 import {workflow_states} from "../../../../App";

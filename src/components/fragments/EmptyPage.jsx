@@ -1,5 +1,5 @@
-import {ReactComponent as ExclamationIcon} from '../../assets/img/icons/patch-exclamation.svg';
-import {ReactComponent as BookmarkIcon} from '../../assets/img/icons/bookmark-x.svg';
+import ExclamationIcon from '../../assets/img/icons/patch-exclamation.svg';
+import BookmarkIcon from '../../assets/img/icons/bookmark-x.svg';
 
 /**
  * The component that displays an empty page with a message and an icon.

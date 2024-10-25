@@ -1,4 +1,4 @@
-import {ReactComponent as EditIcon} from '../../../assets/img/icons/edit.svg';
+import EditIcon from '../../../assets/img/icons/edit.svg';
 import BadgeEditingModal from "./BadgeEditingModal";
 
 /**

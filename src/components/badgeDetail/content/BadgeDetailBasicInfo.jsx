@@ -1,5 +1,5 @@
-import {ReactComponent as BookmarkIcon} from "../../../assets/img/icons/bookmark.svg";
-import {ReactComponent as BookmarkXIcon} from '../../../assets/img/icons/bookmark-x.svg';
+import BookmarkIcon from "../../../assets/img/icons/bookmark.svg";
+import BookmarkXIcon from '../../../assets/img/icons/bookmark-x.svg';
 import StatusTag from "../../fragments/StatusTag";
 import {useEffect, useState} from "react";
 import PlanModal from "./PlanModal";

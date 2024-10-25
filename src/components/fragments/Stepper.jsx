@@ -1,6 +1,6 @@
-import {ReactComponent as RecordCircleIcon} from "../../assets/img/icons/record-circle.svg";
-import {ReactComponent as CheckedCircleIcon} from "../../assets/img/icons/check-circle-fill.svg";
-import {ReactComponent as ProgressBar} from "../../assets/img/icons/progress-bar.svg";
+import RecordCircleIcon from "../../assets/img/icons/record-circle.svg";
+import CheckedCircleIcon from "../../assets/img/icons/check-circle-fill.svg";
+import ProgressBar from "../../assets/img/icons/progress-bar.svg";
 import {workflow_states} from "../../App";
 
 /**

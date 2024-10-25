@@ -1,6 +1,6 @@
 import placeholder from '../../../assets/img/placeholder_badge.png';
-import {ReactComponent as ArrowUpRightIcon} from '../../../assets/img/icons/arrow-up-right.svg';
-import {ReactComponent as WarningIcon} from '../../../assets/img/icons/alert-triangle.svg';
+import ArrowUpRightIcon from '../../../assets/img/icons/arrow-up-right.svg';
+import WarningIcon from '../../../assets/img/icons/alert-triangle.svg';
 import BadgeEditingSection from "./BadgeEditingSection";
 import StatusTag from "../../fragments/StatusTag";
 import Stepper from "../../fragments/Stepper";

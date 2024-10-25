@@ -1,5 +1,5 @@
-import {ReactComponent as ComputeIcon} from "../../../assets/img/icons/cpu.svg";
-import {ReactComponent as StorageIcon} from "../../../assets/img/icons/hdd.svg";
+import ComputeIcon from "../../../assets/img/icons/cpu.svg";
+import StorageIcon from "../../../assets/img/icons/hdd.svg";
 import {Link, useNavigate} from "react-router-dom";
 import React from "react";
 
