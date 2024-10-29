@@ -45,7 +45,7 @@ export default function Stepper({state}) {
                         : <img src={RecordCircleIcon} className={`stepper-circle ${getStepClass(1)}`} />}
                     <p className="stepper-text">Complete Badge Tasks</p>
                 </div>
-                <ProgressBar className={`progress-bar ${getStepClass(2)}`}/>
+                <img src={ProgressBar} className={`progress-bar ${getStepClass(2)}`}/>
                 <div className="stepper-content">
                     {isStepChecked(3) ?
                         <img src={CheckedCircleIcon} className={`stepper-circle ${getStepClass(2)}`} />

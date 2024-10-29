@@ -46,17 +46,17 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
             <div>
                 <ul className="nav resource-badge-container-options" id="resource-badges-options" role="tablist">
                     <li className="nav-item" role="presentation">
-                        <button className={`nav-link ${activeTab === 'recommended' ? 'active' : ''}`}
+                        <a className={`nav-link ${activeTab === 'recommended' ? 'active' : ''}`}
                                 id="resource-badge-container-recommended"
                                 data-bs-toggle="pill" data-bs-target="#resource-badge-container-recommended-tab"
                                 type="button" role="tab" aria-controls="resource-badge-container-recommended-tab"
                                 aria-selected="true" onClick={() => setActiveTab('recommended')}>
                             {selectedView ?
                                 `Recommended (${recommendedBadges.length})` : `Available (${achievedBadges.length})`}
-                        </button>
+                        </a>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className={`nav-link ${activeTab === 'planned' ? 'active' : ''}`}
+                        <a className={`nav-link ${activeTab === 'planned' ? 'active' : ''}`}
                                 id="resource-badge-container-planned" data-bs-toggle="pill"
                                 data-bs-target="#resource-badge-container-planned-tab"
                                 type="button" role="tab" aria-controls="resource-badge-container-planned-tab"
@@ -65,17 +65,17 @@ export default function BadgeContainer({roadmapBadges, selectedView, activeTab, 
                                 `Planned (${plannedBadges.length})` :
                                 `Planned (${plannedBadges.length + 
                                 recommendedBadges.filter(badge => badge.state !== workflow_states.NOT_PLANNED).length})`}
-                        </button>
+                        </a>
                     </li>
                     {selectedView &&
                         <li className="nav-item" role="presentation">
-                            <button className={`nav-link ${activeTab === 'achieved' ? 'active' : ''}`}
+                            <a className={`nav-link ${activeTab === 'achieved' ? 'active' : ''}`}
                                     id="resource-badge-container-achieved" data-bs-toggle="pill"
                                     data-bs-target="#resource-badge-container-achieved-tab"
                                     type="button" role="tab" aria-controls="resource-badge-container-achieved-tab"
                                     aria-selected="false" onClick={() => setActiveTab('achieved')}>
                                 Available ({achievedBadges.length})
-                            </button>
+                            </a>
                         </li>
                     }
                 </ul>

@@ -72,7 +72,7 @@ function SidebarSection({title, links, icon, justText}) {
                             {link.text}
                             {icon && <img src={ArrowUpRightIcon} className="sidebar-section-icon"/>}
                         </li>
-                        : <Link path={link.url}>
+                        : <Link path={link.url} key={index}>
                             {link.text}
                             {icon && <img src={ArrowUpRightIcon} className="sidebar-section-icon"/>}
                         </Link>
