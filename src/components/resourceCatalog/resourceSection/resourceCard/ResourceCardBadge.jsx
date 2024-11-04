@@ -1,6 +1,7 @@
 import placeholderBadge from "../../../../assets/img/placeholder_badge.png";
 import ResearcherModal from "../../../fragments/ResearcherModal";
 import {useEffect} from "react";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 /**
  * A badge displayed on a resource card, showing an available badge for the resource.
@@ -20,13 +21,15 @@ export default function ResourceCardBadge({badge, index}) {
 
     // Initialize Bootstrap tooltips
     useEffect(() => {
-        // Initialize Bootstrap tooltips
-        import('bootstrap/dist/js/bootstrap.bundle.min.js').then((bootstrap) => {
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.forEach((tooltipTriggerEl) => {
-                new bootstrap.Tooltip(tooltipTriggerEl);
-            });
-        }).catch(err => console.error("Failed to load Bootstrap JavaScript", err));
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach((tooltipTriggerEl) => {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+        dropdownElementList.map(function (dropdownToggleEl) {
+          return new bootstrap.Dropdown(dropdownToggleEl)
+        })
     }, []);
 
     return (

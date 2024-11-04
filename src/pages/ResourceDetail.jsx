@@ -1,6 +1,5 @@
 import BasicInfoHeader from "../components/resourceDetail/basicInfoSection/BasicInfoHeader";
 import BadgeSection from "../components/resourceDetail/badgeSection/BadgeSection";
-import BasicInfoFeatures from "../components/resourceDetail/basicInfoSection/BasicInfoFeatures";
 import {useParams} from "react-router-dom";
 import {useBadges} from "../contexts/BadgeContext";
 import React, {useEffect, useState} from "react";

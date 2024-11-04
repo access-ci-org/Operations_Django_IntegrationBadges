@@ -1,10 +1,9 @@
 import './App.css';
 import './styles/style.scss';
 import ResourceCatalog from "./pages/ResourceCatalog";
-import {BrowserRouter, Routes, Route, createMemoryRouter, RouterProvider, Outlet} from 'react-router-dom';
+import { createMemoryRouter, RouterProvider, Outlet} from 'react-router-dom';
 import ResourceDetail from "./pages/ResourceDetail";
 import BadgeDetail from "./pages/BadgeDetail";
-import Demo from "./pages/Demo";
 import axios from "axios";
 import {BadgeProvider} from "./contexts/BadgeContext";
 import {ResourcesProvider} from "./contexts/ResourcesContext";

@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import ResourceSection from "../components/resourceCatalog/resourceSection/ResourceSection";
 import LoadingPage from "../components/fragments/LoadingPage";
 import EmptyPage from "../components/fragments/EmptyPage";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 /**
  * The initial page that displays al resources.
@@ -25,6 +26,18 @@ export default function ResourceCatalog() {
         setUpdatedResources(groupedData);
         setDisplayedResources(groupedData);
     }, [resources]);
+
+    useEffect(() => {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach((tooltipTriggerEl) => {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+        dropdownElementList.map(function (dropdownToggleEl) {
+          return new bootstrap.Dropdown(dropdownToggleEl)
+        })
+    }, []);
 
     // group resources by organization name
     const groupByOrganization = (resources) => {
