@@ -1,0 +1,59 @@
+// ACCESS variables override
+
+//$body-font-family: Archivo;
+
+//$access-dark: #1A5B6E;
+//$access-dark-rgb: 26, 91, 110;
+//$access-medium: #138597;
+//$access-medium-rgb: 19, 133, 151;
+//$access-teal: #48C0B9;
+//$access-teal-rgb: 72, 192, 185;
+//$access-light: #ECF9F8;
+//$access-light-rgb: 236, 249, 248;
+//$access-yellow: #FFC42D;
+//$access-yellow-rgb: 255, 196, 45;
+//$access-orange: #F07537;
+//$access-orange-rgb: 240, 117, 56;
+$access-secondary: #6c757d;
+
+// Color variables for Integrated Badges Project
+// Color codes according to the ACCESS Style Guide 9
+$access-dark: #1a5b6e;
+$access-dark-rgb: 26, 91, 110;
+$access-medium: #107180;
+$access-medium-rgb: 16, 113, 128;
+$access-teal: #48C0B9;
+$access-teal-rgb: 72, 192, 185;
+$access-light: #ECF9F8;
+$access-light-rgb: 236, 249, 248;
+$access-yellow: #FFC42D;
+$access-yellow-rgb: 255, 196, 45;
+$access-orange: #F07537;
+$access-orange-rgb: 240, 117, 56;
+
+$access-black: #232323;
+$access-black-rgb: 35, 35, 35;
+$access-black-medium: #3F3F3F;
+$access-black-medium-rgb: 63, 63, 63;
+$access-grey: #707070;
+$access-grey-rgb: 112, 112, 112;
+$access-grey-medium: #d2d2d2;
+$access-grey-medium-rgb: 210, 210, 210;
+$access-grey-light: #f2f2f2;
+$access-grey-light-rgb: 242, 242, 242;
+
+$container-max-widths: (
+  sm: 1180px,
+  md: 680px,
+  lg: 1180px,
+  xl: 1203px,
+  xxl: 1203px
+) !default;
+
+$theme-colors: (
+  "dark": $access-dark,
+  "medium": $access-medium,
+  "light": $access-light,
+  "primary": $access-yellow,
+  "secondary": $access-secondary
+);
