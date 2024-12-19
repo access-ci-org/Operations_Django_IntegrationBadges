@@ -1,13 +1,18 @@
-import './App.css';
+import './App.scss';
 import './styles/style.scss';
+import "bootstrap-icons/font/bootstrap-icons.min.css"
 import ResourceCatalog from "./pages/ResourceCatalog";
-import { createMemoryRouter, RouterProvider, Outlet} from 'react-router-dom';
+import {createMemoryRouter, RouterProvider, Outlet, Route, Routes, BrowserRouter} from 'react-router-dom';
 import ResourceDetail from "./pages/ResourceDetail";
 import BadgeDetail from "./pages/BadgeDetail";
 import axios from "axios";
 import {BadgeProvider} from "./contexts/BadgeContext";
 import {ResourcesProvider} from "./contexts/ResourcesContext";
 import BreadCrumb from "./components/fragments/BreadCrumb";
+import NewResource from "./pages/NewResource";
+import IntegrationDashboard from "./pages/IntegrationDashboard";
+import {OrganizationsProvider} from "./contexts/OrganizationsContext";
+import Organization from "./pages/Organization";
 
 // Setting the default baseURL
 // axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
@@ -25,35 +30,13 @@ export const workflow_states = {
 
 
 const RouterLayout = () => {
-  return (
-    <div className="p-2 access-operations-integration-badges">
-        <BreadCrumb/>
-        <Outlet/>
-    </div>
-  );
+    return (
+        <div className="p-2 access-operations-integration-badges">
+            <BreadCrumb/>
+            <Outlet/>
+        </div>
+    );
 };
-
-
-const router = createMemoryRouter([
-  {
-    path: '/',
-    element: <RouterLayout/>,
-      children: [
-          {
-            path: '/',
-            element: <ResourceCatalog/>,
-          },
-          {
-            path: '/resourceDetail/:resourceId',
-            element: <ResourceDetail/>,
-          },
-          {
-            path: '/resourceBadge/:resourceId/:badgeId',
-            element: <BadgeDetail/>,
-          }
-      ]
-  }
-]);
 
 function App() {
     // if (!oauthSignIn()) {
@@ -63,9 +46,27 @@ function App() {
     return (
         <ResourcesProvider>
             <BadgeProvider>
-                <div className={"main"}>
-                    <RouterProvider router={router} element={RouterLayout} />
-                </div>
+                <OrganizationsProvider>
+                    <div className="container">
+                        <div className="row">
+                            <BrowserRouter>
+                                <Routes>
+                                    <Route path="/" element={<RouterLayout/>}>
+                                        <Route index element={<IntegrationDashboard/>}/>
+                                        <Route path="/organizations" element={<IntegrationDashboard/>}/>
+                                        <Route path="/organizations/:organizationId" element={<Organization/>}/>
+                                        <Route path="/organizations-new" element={<NewResource/>}/>
+
+
+                                        <Route path="/resources/:resourceId" element={<Organization/>}/>
+                                        <Route path="/resources/:resourceId/badges/:badgeId" element={<Organization/>}/>
+
+                                    </Route>
+                                </Routes>
+                            </BrowserRouter>
+                        </div>
+                    </div>
+                </OrganizationsProvider>
             </BadgeProvider>
         </ResourcesProvider>
     );

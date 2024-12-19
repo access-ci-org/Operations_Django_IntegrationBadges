@@ -34,15 +34,15 @@ export const BadgeProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        fetchBadges().then(r => {
-            if (r instanceof Error) {
-                console.log('Failed to fetch badges:', r);
-            } else {
-                console.log('Badges fetched:', r);
-            }
-        });
-    }, []);
+    // useEffect(() => {
+    //     fetchBadges().then(r => {
+    //         if (r instanceof Error) {
+    //             console.log('Failed to fetch badges:', r);
+    //         } else {
+    //             console.log('Badges fetched:', r);
+    //         }
+    //     });
+    // }, []);
 
     return (
         <BadgeContext.Provider value={{ badges, resetBadges }}>

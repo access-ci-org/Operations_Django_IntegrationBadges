@@ -34,15 +34,15 @@ export const ResourcesProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        fetchResources().then(r => {
-            if (r instanceof Error) {
-                console.log('Failed to fetch resources:', r);
-            } else {
-                console.log('Resources fetched:', r);
-            }
-        });
-    }, []);
+    // useEffect(() => {
+    //     fetchResources().then(r => {
+    //         if (r instanceof Error) {
+    //             console.log('Failed to fetch resources:', r);
+    //         } else {
+    //             console.log('Resources fetched:', r);
+    //         }
+    //     });
+    // }, []);
 
     return (
         <ResourcesContext.Provider value={{ resources, resetResources }}>

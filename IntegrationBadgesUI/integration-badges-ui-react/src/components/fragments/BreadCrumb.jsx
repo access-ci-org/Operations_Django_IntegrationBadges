@@ -44,9 +44,12 @@ export default function Breadcrumbs() {
         <nav className="breadcrumb-wrapper" aria-label="breadcrumb">
             <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                    <Link to="/">Resource List</Link>
+                    <Link to="/">Home</Link>
                 </li>
-                {pathname[0] === 'resourceDetail' && resourceName && (
+                <li className="breadcrumb-item">
+                    <Link to="/">ACCESS Infrastructure Integration</Link>
+                </li>
+                {pathname[0] === 'organizations' && resourceName && (
                     <li className="breadcrumb-item active" aria-current="page">
                         {resourceName}
                     </li>
