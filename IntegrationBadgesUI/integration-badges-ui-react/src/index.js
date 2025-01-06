@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+console.log("Haai");
 const root = ReactDOM.createRoot(document.getElementById('Operations_WebApp_IntegrationBadges'));
+
+console.log("Haai root", root);
 root.render(
   <React.StrictMode>
     <App />

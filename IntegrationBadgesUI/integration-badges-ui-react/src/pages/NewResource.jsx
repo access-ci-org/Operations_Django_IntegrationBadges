@@ -1,10 +1,5 @@
-import CatalogFooter from "../components/resourceCatalog/footerSection/CatalogFooter";
-import CatalogSearch from "../components/resourceCatalog/titleSection/CatalogSearch";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
-import ResourceSection from "../components/resourceCatalog/resourceSection/ResourceSection";
-import LoadingPage from "../components/fragments/LoadingPage";
-import EmptyPage from "../components/fragments/EmptyPage";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import roadmapsBanner from "../assets/roadmaps-banner.jpeg"

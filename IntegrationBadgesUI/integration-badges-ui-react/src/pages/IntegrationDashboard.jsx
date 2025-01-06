@@ -14,7 +14,7 @@ export default function IntegrationDashboard() {
     }, [])
 
     return (
-        <div className="row">
+        <div className="container">
             <div className="row">
                 <h1>Integration Dashboard</h1>
                 <p className="mt-3">

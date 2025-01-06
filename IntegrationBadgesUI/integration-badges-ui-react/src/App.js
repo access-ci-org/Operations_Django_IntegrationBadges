@@ -1,18 +1,16 @@
 import './App.scss';
 import './styles/style.scss';
-import "bootstrap-icons/font/bootstrap-icons.min.css"
-import ResourceCatalog from "./pages/ResourceCatalog";
-import {createMemoryRouter, RouterProvider, Outlet, Route, Routes, BrowserRouter} from 'react-router-dom';
-import ResourceDetail from "./pages/ResourceDetail";
-import BadgeDetail from "./pages/BadgeDetail";
+import "bootstrap-icons/font/bootstrap-icons.min.css";
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import {Outlet, Route, Routes, BrowserRouter} from 'react-router-dom';
 import axios from "axios";
 import {BadgeProvider} from "./contexts/BadgeContext";
 import {ResourcesProvider} from "./contexts/ResourcesContext";
-import BreadCrumb from "./components/fragments/BreadCrumb";
 import NewResource from "./pages/NewResource";
 import IntegrationDashboard from "./pages/IntegrationDashboard";
 import {OrganizationsProvider} from "./contexts/OrganizationsContext";
 import Organization from "./pages/Organization";
+import Home from "./pages/Home";
 
 // Setting the default baseURL
 // axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
@@ -31,8 +29,7 @@ export const workflow_states = {
 
 const RouterLayout = () => {
     return (
-        <div className="p-2 access-operations-integration-badges">
-            <BreadCrumb/>
+        <div className="w-100 access-operations-integration-badges">
             <Outlet/>
         </div>
     );
@@ -47,15 +44,15 @@ function App() {
         <ResourcesProvider>
             <BadgeProvider>
                 <OrganizationsProvider>
-                    <div className="container">
-                        <div className="row">
-                            <BrowserRouter>
+                    <div className="w-100 pt-3">
+                        <div className="w-100">
+                            <BrowserRouter basename={window.SETTINGS.PUBLIC_URL}>
                                 <Routes>
                                     <Route path="/" element={<RouterLayout/>}>
-                                        <Route index element={<IntegrationDashboard/>}/>
+                                        <Route index element={<Home/>}/>
                                         <Route path="/organizations" element={<IntegrationDashboard/>}/>
                                         <Route path="/organizations/:organizationId" element={<Organization/>}/>
-                                        <Route path="/organizations-new" element={<NewResource/>}/>
+                                        <Route path="/organizations/new" element={<NewResource/>}/>
 
 
                                         <Route path="/resources/:resourceId" element={<Organization/>}/>
