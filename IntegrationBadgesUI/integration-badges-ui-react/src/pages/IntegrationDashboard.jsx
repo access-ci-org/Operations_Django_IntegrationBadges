@@ -1,5 +1,7 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect} from "react";
+import {Link} from "react-router-dom";
+import {useResources} from "../contexts/ResourcesContext";
 
 /**
  * The initial page that displays al resources.
@@ -7,11 +9,17 @@ import {useEffect} from "react";
  * Sort resources by organization name and group them by organization.
  */
 export default function IntegrationDashboard() {
-    const {organizations, resetOrganizations} = useOrganizations();
+    const {resourceOrgMap, fetchResources} = useResources();
+    const {organizations, fetchOrganizations} = useOrganizations();
 
     useEffect(() => {
-        resetOrganizations();
+        fetchResources();
+        fetchOrganizations();
     }, [])
+
+    const filteredOrganizations = organizations.filter(organization => {
+        return resourceOrgMap[organization.organization_name];
+    });
 
     return (
         <div className="container">
@@ -33,7 +41,7 @@ export default function IntegrationDashboard() {
 
             <div className="w-100 d-flex mt-5">
                 <div className="flex-fill bd-highlight">
-                    <h2>Resource Providers {organizations && `(${organizations.length})`}</h2>
+                    <h2>Resource Providers {filteredOrganizations && `(${filteredOrganizations.length})`}</h2>
                 </div>
                 <div className="p-1">
                     <button type="button" className="btn btn-light">
@@ -48,7 +56,7 @@ export default function IntegrationDashboard() {
             </div>
 
             <div className="row mt-2 row-cols-4">
-                {organizations && organizations.map((organization, organizationIndex) => {
+                {filteredOrganizations && filteredOrganizations.map((organization, organizationIndex) => {
                     return <div key={organizationIndex} className="col p-3">
                         <div className="organization-card w-100 h-100">
                             <div className="w-100 p-3"></div>
@@ -61,9 +69,9 @@ export default function IntegrationDashboard() {
                                 {/*<img className="w-100" src={organization.other_attributes.organization_logo_url}/>*/}
                             </div>
                             <div className="w-100 p-3 text-center">
-                                <a href={"organizations/" + organization.organization_id}>
+                                <Link className="btn btn-link" to={"/organizations/" + organization.organization_id}>
                                     {organization.organization_name}
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

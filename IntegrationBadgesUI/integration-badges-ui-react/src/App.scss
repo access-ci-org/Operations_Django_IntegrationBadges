@@ -10,7 +10,26 @@ body {
 }
 
 .organization-card {
-  border-radius: 16px;
+  border-radius: 10px;
   border: 1px solid rgba(49, 148, 164, 0.10);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.organization-card .btn.btn-link,
+.organization-card .btn.btn-link:hover {
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.search-input .input-group-text {
+  background: transparent;
+}
+
+.search-input input.form-control {
+  border-left: none;
 }

@@ -1,11 +1,14 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios';
+import {useResources} from "./ResourcesContext";
 
 const OrganizationsContext = createContext({
     organizations: [],
     organizationMap: {},
-    resetOrganizations: () => {},
-    fetchOrganization: ({organizationId}) => {}
+    fetchOrganizations: () => {
+    },
+    fetchOrganization: ({organizationId}) => {
+    }
 });
 
 export const useOrganizations = () => useContext(OrganizationsContext);
@@ -17,14 +20,44 @@ export const useOrganizations = () => useContext(OrganizationsContext);
 export const OrganizationsProvider = ({children}) => {
     const [organizations, setOrganizations] = useState([]);
     const [organizationMap, setOrganizationMap] = useState({});
+    const {resources, fetchResources, fetchResource} = useResources();
 
     const fetchOrganization = async ({organizationId}) => {
         try {
             const response = await axios.get(`https://operations-api.access-ci.org/wh2/cider/v1/organizations/organization_id/${organizationId}`);
+            const organization = response.data.results;
             setOrganizationMap({
                 ...organizationMap,
-                [organizationId]: response.data.results
+                [organizationId]: organization
             });
+
+
+            const fetchRequestsForIndividualResources = [];
+            const orgResourceIds = [];
+
+            for (let i = 0; i < resources.length; i++) {
+                let resource = resources[i];
+                if (resource.organization_name === organization.organization_name) {
+                    orgResourceIds.push(resource.cider_resource_id);
+                    // await fetchResource({
+                    //     resourceId: resource.cider_resource_id
+                    // });
+                    // fetchRequestsForIndividualResources.push(fetchResource({
+                    //     resourceId: resource.cider_resource_id
+                    // }));
+                }
+            }
+
+            //await Promise.all(fetchRequestsForIndividualResources);
+
+            setOrganizationMap({
+                ...organizationMap,
+                [organizationId]: {
+                    ...organization,
+                    resourceIds: orgResourceIds
+                }
+            });
+
             return response.data.results;
         } catch (error) {
             return error;
@@ -39,6 +72,7 @@ export const OrganizationsProvider = ({children}) => {
             return error;
         }
     };
+
 
     const resetOrganizations = async () => {
         try {
@@ -60,7 +94,7 @@ export const OrganizationsProvider = ({children}) => {
     // }, []);
 
     return (
-        <OrganizationsContext.Provider value={{organizations, organizationMap, resetOrganizations, fetchOrganization}}>
+        <OrganizationsContext.Provider value={{organizations, organizationMap, fetchOrganizations, fetchOrganization}}>
             {children}
         </OrganizationsContext.Provider>
     );

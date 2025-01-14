@@ -1,6 +1,12 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useParams, useSearchParams} from "react-router-dom";
+import {useResources} from "../contexts/ResourcesContext";
+
+
+const filters = ["All Resources", "In Progress", "Complete - Active Integration", "Pending Verification",
+    "Verification Failed"];
+
 
 /**
  * The initial page that displays al resources.
@@ -10,33 +16,101 @@ import {useParams, useSearchParams} from "react-router-dom";
 export default function Organization() {
     const {organizationId} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
-
-    useEffect(() => {
-        fetchOrganization({organizationId});
-    }, [])
+    const {resources, resourceMap, fetchResources, fetchResource, fetchSelectedResources} = useResources();
+    const [filterSelection, setFilterSelection] = useState({});
 
     const organization = organizationMap[organizationId];
 
-    return (
-        <div className="row">
-            Organization by ID
-            {(() => {
-                if (organization) {
-                    return <div className="organization-card w-100 h-100">
-                        <div className="w-100 p-3"></div>
-                        <div className="w-100 p-5 bg-light" style={{
-                            backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundSize: "contain",
-                            backgroundPosition: "center"
-                        }}>
-                        </div>
-                        <div className="w-100 p-3 text-center">
-                            {organization.organization_name}
-                        </div>
-                    </div>
+    useEffect(() => {
+        fetchResources();
+    }, []);
+
+    useEffect(() => {
+        if (resources) {
+            fetchOrganization({organizationId});
+        }
+    }, [resources]);
+
+    useEffect(() => {
+        if (organization && organization.resourceIds && organization.resourceIds.length > 1) {
+            fetchSelectedResources({resourceIds: organization.resourceIds});
+        }
+    }, [organization])
+
+    if (organization) {
+        let inProgressResources = []
+        let establishedResources = []
+        if (organization.resourceIds) {
+            for (let i = 0; i<organization.resourceIds.length; i++){
+                let resourceId = organization.resourceIds[i];
+                let resource = resourceMap[resourceId];
+                if (resource.roadmaps && resource.roadmaps.length > 0) {
+                    establishedResources.push(resource);
+                } else if (resource.roadmaps) {
+                    inProgressResources.push(resource);
                 }
-            })()}
+            }
+        }
+
+        return <div className="container">
+            <div className="row">
+                <h1 className="col-lg-12">
+                    {organization.organization_name}
+                </h1>
+                <div className="col-lg-2 col-m-3 col-sm-4 bg-white" style={{
+                    backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "contain",
+                    backgroundPosition: "center",
+                    height: 200
+                }}>
+                </div>
+                <p className="col">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <div className="col-12">
+                    <div className="input-group mb-3 search-input">
+                        <span className="input-group-text">
+                            <i className="bi bi-search"></i>
+                        </span>
+                        <input type="text" className="form-control"
+                               placeholder="Search Resource by Name, Type, Badge, etc" aria-label="Search keywords"/>
+                    </div>
+                </div>
+                <div className="w-12">
+                    Filters :
+                    {filters.map((filter, filterIndex) => {
+                        let badgeClassName = "badge rounded-pill";
+                        if (!filterSelection[filter]) {
+                            badgeClassName += " bg-light text-dark";
+                        } else {
+                            badgeClassName += " text-light bg-dark";
+                        }
+                        return <a key={filterIndex} className={badgeClassName}>{filter}</a>
+                    })}
+                </div>
+                <div className="col-12 pt-4">
+                    <h2>In Progress</h2>
+                    {inProgressResources.map((resource, resourceIndex) => {
+                        return <div key={resourceIndex}>{resource.resource_descriptive_name}</div>
+                    })}
+                </div>
+                <div className="col-12 pt-4">
+                    <h2>Current Integrations</h2>
+                    {establishedResources.map((resource, resourceIndex) => {
+                        return <div key={resourceIndex}>{resource.resource_descriptive_name}</div>
+                    })}
+                </div>
+            </div>
         </div>
-    );
+
+    } else {
+        return <div>Loading</div>
+    }
 }

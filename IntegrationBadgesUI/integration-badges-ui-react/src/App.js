@@ -11,6 +11,7 @@ import IntegrationDashboard from "./pages/IntegrationDashboard";
 import {OrganizationsProvider} from "./contexts/OrganizationsContext";
 import Organization from "./pages/Organization";
 import Home from "./pages/Home";
+import CustomizedBreadcrumb from "./components/CustomizedBreadcrumb";
 
 // Setting the default baseURL
 // axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
@@ -30,6 +31,9 @@ export const workflow_states = {
 const RouterLayout = () => {
     return (
         <div className="w-100 access-operations-integration-badges">
+            <div className="container">
+                <CustomizedBreadcrumb/>
+            </div>
             <Outlet/>
         </div>
     );

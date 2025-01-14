@@ -1,9 +1,16 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 
 const ResourcesContext = createContext({
     resources: [],
-    resetResources: () => {}
+    resourceMap: {},
+    resourceOrgMap: {},
+    fetchResources: ({resourceIds = null} = {}) => {
+    },
+    fetchSelectedResources: ({resourceIds = null} = {}) => {
+    },
+    fetchResource: ({resourceId}) => {
+    }
 });
 
 export const useResources = () => useContext(ResourcesContext);
@@ -12,40 +19,82 @@ export const useResources = () => useContext(ResourcesContext);
  * Context provider for resources
  * @param children
  */
-export const ResourcesProvider = ({ children }) => {
+export const ResourcesProvider = ({children}) => {
     const [resources, setResources] = useState([]);
+    const [resourceMap, setResourceMap] = useState({});
+    const [resourceOrgMap, setResourceOrgMap] = useState({});
 
-    const fetchResources = async () => {
+    const fetchResource = async ({resourceId}) => {
         try {
-            const response = await axios.get('/resources');
-            setResources(response.data.results);
-            return response.data.results;
+            return fetchSelectedResources({resourceIds: [resourceId]})
         } catch (error) {
             return error;
         }
     };
 
-    const resetResources = async () => {
+
+    const fetchSelectedResources = async ({resourceIds}) => {
         try {
-            const result = await fetchResources();
-            console.log('Resources fetched:', result);
+            let responseList = await Promise.all(resourceIds.map(resourceId => {
+                return axios.get(`/resource/${resourceId}`);
+            }));
+            const _resourceMap = {};
+            for (let i = 0; i < resourceIds.length; i++) {
+                let resourceId = resourceIds[i];
+                let response = responseList[i].data.results;
+                _resourceMap[resourceId] = {
+                    ...resourceMap[resourceId],
+                    ...response
+                };
+            }
+
+            setResourceMap({
+                ...resourceMap,
+                ..._resourceMap
+            });
+
+            return responseList;
         } catch (error) {
-            console.error('Failed to fetch resources:', error);
+            return error;
         }
     };
 
-    // useEffect(() => {
-    //     fetchResources().then(r => {
-    //         if (r instanceof Error) {
-    //             console.log('Failed to fetch resources:', r);
-    //         } else {
-    //             console.log('Resources fetched:', r);
-    //         }
-    //     });
-    // }, []);
+    const fetchResources = async ({resourceIds = null} = {}) => {
+        try {
+            if (resourceIds) {
+                return fetchSelectedResources({resourceIds});
+            } else {
+                const response = await axios.get('/resources');
+                const _resources = response.data.results;
+                setResources(_resources);
+                const _resourceMap = {};
+                const _resourceOrgMap = {};
+                for (let i = 0; i < _resources.length; i++) {
+                    let resource = _resources[i];
+                    let resourceId = resource.cider_resource_id;
+                    _resourceMap[resourceId] = resource;
+
+                    let resourceOrg = resource.organization_name;
+                    if (_resourceOrgMap[resourceOrg]) {
+                        _resourceOrgMap[resourceOrg].push(resourceId);
+                    } else {
+                        _resourceOrgMap[resourceOrg] = [resourceId];
+                    }
+                }
+
+                setResourceMap(_resourceMap);
+                setResourceOrgMap(_resourceOrgMap);
+
+                return response.data.results;
+            }
+        } catch (error) {
+            return error;
+        }
+    };
 
     return (
-        <ResourcesContext.Provider value={{ resources, resetResources }}>
+        <ResourcesContext.Provider
+            value={{resources, resourceMap, resourceOrgMap, fetchResources, fetchResource, fetchSelectedResources}}>
             {children}
         </ResourcesContext.Provider>
     );

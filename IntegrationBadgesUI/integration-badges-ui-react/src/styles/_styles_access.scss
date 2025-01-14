@@ -26,8 +26,16 @@ body {
   color: $access-orange;
 }
 
+.bg-orange {
+  background-color: $access-orange;
+}
+
 .text-yellow, .btn.btn-link.text-yellow {
   color: $access-yellow;
+}
+
+.bg-yellow {
+  background-color: $access-yellow;
 }
 
 .bg-dark {
@@ -249,4 +257,8 @@ h4, .h4 {
   .btn-outline-dark {
 
   }
+}
+
+a.badge {
+  text-decoration: none;
 }
