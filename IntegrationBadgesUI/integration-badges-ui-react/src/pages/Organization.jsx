@@ -26,7 +26,7 @@ export default function Organization() {
     }, []);
 
     useEffect(() => {
-        if (resources) {
+        if (resources && resources.length > 0) {
             fetchOrganization({organizationId});
         }
     }, [resources]);
@@ -143,7 +143,7 @@ function getResourceCard(organization, resource, resourceIndex) {
                 {resource.resource_description}
             </p>
         </div>
-        <Link to="#" className="btn btn-dark w-100">
+        <Link to={`/resources/${resource.cider_resource_id}`} className="btn btn-dark w-100">
             View
         </Link>
     </div>

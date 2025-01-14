@@ -5,6 +5,7 @@ import {useResources} from "./ResourcesContext";
 const OrganizationsContext = createContext({
     organizations: [],
     organizationMap: {},
+    organizationMapByName: {},
     fetchOrganizations: () => {
     },
     fetchOrganization: ({organizationId}) => {
@@ -20,6 +21,7 @@ export const useOrganizations = () => useContext(OrganizationsContext);
 export const OrganizationsProvider = ({children}) => {
     const [organizations, setOrganizations] = useState([]);
     const [organizationMap, setOrganizationMap] = useState({});
+    const [organizationMapByName, setOrganizationMapByName] = useState({});
     const {resources, fetchResources, fetchResource} = useResources();
 
     const fetchOrganization = async ({organizationId}) => {
@@ -31,6 +33,10 @@ export const OrganizationsProvider = ({children}) => {
                 [organizationId]: organization
             });
 
+            setOrganizationMapByName({
+                ...organizationMapByName,
+                [organization.organization_name]: organization
+            });
 
             const fetchRequestsForIndividualResources = [];
             const orgResourceIds = [];
@@ -66,7 +72,23 @@ export const OrganizationsProvider = ({children}) => {
     const fetchOrganizations = async () => {
         try {
             const response = await axios.get('https://operations-api.access-ci.org/wh2/cider/v1/organizations/');
-            setOrganizations(response.data.results);
+            const _organizations = response.data.results;
+            setOrganizations(_organizations);
+
+            for (let i = 0; i < _organizations; i++) {
+                let _organization = _organizations[i];
+
+                setOrganizationMap({
+                    ...organizationMap,
+                    [_organization.organizationId]: _organization
+                });
+
+                setOrganizationMapByName({
+                    ...organizationMapByName,
+                    [_organization.organization_name]: _organization
+                });
+            }
+
             return response.data.results;
         } catch (error) {
             return error;
@@ -94,7 +116,7 @@ export const OrganizationsProvider = ({children}) => {
     // }, []);
 
     return (
-        <OrganizationsContext.Provider value={{organizations, organizationMap, fetchOrganizations, fetchOrganization}}>
+        <OrganizationsContext.Provider value={{organizations, organizationMap, organizationMapByName, fetchOrganizations, fetchOrganization}}>
             {children}
         </OrganizationsContext.Provider>
     );

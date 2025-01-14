@@ -12,6 +12,7 @@ import {OrganizationsProvider} from "./contexts/OrganizationsContext";
 import Organization from "./pages/Organization";
 import Home from "./pages/Home";
 import CustomizedBreadcrumb from "./components/CustomizedBreadcrumb";
+import Resource from "./pages/Resource";
 
 // Setting the default baseURL
 // axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
@@ -59,7 +60,7 @@ function App() {
                                         <Route path="/organizations/new" element={<NewResource/>}/>
 
 
-                                        <Route path="/resources/:resourceId" element={<Organization/>}/>
+                                        <Route path="/resources/:resourceId" element={<Resource/>}/>
                                         <Route path="/resources/:resourceId/badges/:badgeId" element={<Organization/>}/>
 
                                     </Route>

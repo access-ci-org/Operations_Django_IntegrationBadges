@@ -25,6 +25,19 @@ function CustomizedBreadcrumb() {
         }
     }
 
+
+    if (pathSegments[1] === "resources") {
+        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{to: "/organizations"}}>
+            Dashboard
+        </Breadcrumb.Item>)
+        if (pathSegments[2]) {
+            breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}
+                                                  linkProps={{to: `/resources/${pathSegments[2]}`}}>
+                {pathSegments[2]}
+            </Breadcrumb.Item>)
+        }
+    }
+
     return (
         <Breadcrumb>
             {breadcrumbLinks}
