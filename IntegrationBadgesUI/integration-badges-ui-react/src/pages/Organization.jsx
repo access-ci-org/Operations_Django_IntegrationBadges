@@ -1,6 +1,6 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
-import {useParams, useSearchParams} from "react-router-dom";
+import {Link, useParams, useSearchParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 
 
@@ -41,7 +41,7 @@ export default function Organization() {
         let inProgressResources = []
         let establishedResources = []
         if (organization.resourceIds) {
-            for (let i = 0; i<organization.resourceIds.length; i++){
+            for (let i = 0; i < organization.resourceIds.length; i++) {
                 let resourceId = organization.resourceIds[i];
                 let resource = resourceMap[resourceId];
                 if (resource.roadmaps && resource.roadmaps.length > 0) {
@@ -97,15 +97,24 @@ export default function Organization() {
                 </div>
                 <div className="col-12 pt-4">
                     <h2>In Progress</h2>
-                    {inProgressResources.map((resource, resourceIndex) => {
-                        return <div key={resourceIndex}>{resource.resource_descriptive_name}</div>
-                    })}
+                    <div className="w-100 row row-cols-3">
+                        {inProgressResources.map((resource, resourceIndex) => {
+                            return <div className="col p-3">
+                                {getResourceCard(organization, resource, resourceIndex)}
+                            </div>
+                        })}
+                    </div>
                 </div>
                 <div className="col-12 pt-4">
                     <h2>Current Integrations</h2>
-                    {establishedResources.map((resource, resourceIndex) => {
-                        return <div key={resourceIndex}>{resource.resource_descriptive_name}</div>
-                    })}
+
+                    <div className="w-100 row row-cols-3">
+                        {establishedResources.map((resource, resourceIndex) => {
+                            return <div className="col p-3">
+                                {getResourceCard(organization, resource, resourceIndex)}
+                            </div>
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
@@ -113,4 +122,29 @@ export default function Organization() {
     } else {
         return <div>Loading</div>
     }
+}
+
+function getResourceCard(organization, resource, resourceIndex) {
+    return <div className="col resource-card p-2" key={resourceIndex}>
+        <div className="w-100 bg-light p-1 resource-card-header">
+            <div className="w-100 ps-2">
+                <a href="#" className="btn btn-link">Edit</a>
+            </div>
+            <h3 className="w-100">{resource.resource_descriptive_name}</h3>
+            <div className="resource-card-header-thumbnail">
+                <div className="bg-white resource-card-header-icon"
+                     style={{backgroundImage: `url(${organization.other_attributes.organization_logo_url})`}}>
+                </div>
+                <div className="p-2 text-secondary">{resource.cider_type}</div>
+            </div>
+        </div>
+        <div className="w-100 resource-card-body">
+            <p className="w-100">
+                {resource.resource_description}
+            </p>
+        </div>
+        <Link to="#" className="btn btn-dark w-100">
+            View
+        </Link>
+    </div>
 }
