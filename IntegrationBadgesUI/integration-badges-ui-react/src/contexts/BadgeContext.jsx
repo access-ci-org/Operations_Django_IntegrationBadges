@@ -1,9 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 
 const BadgeContext = createContext({
-    badges: [],
-    resetBadges: () => {}
+    badgeMap: {},
+    fetchBadges: () => {
+    },
+    fetchBadge: ({badgeId}) => {
+    }
 });
 
 export const useBadges = () => useContext(BadgeContext);
@@ -12,40 +15,48 @@ export const useBadges = () => useContext(BadgeContext);
  * Context provider for badges
  * @param children
  */
-export const BadgeProvider = ({ children }) => {
-    const [badges, setBadges] = useState([]);
+export const BadgeProvider = ({children}) => {
+    const [badgeMap, setBadgeMap] = useState({});
 
     const fetchBadges = async () => {
         try {
             const response = await axios.get('/badge');
-            setBadges(response.data.results);
+            const _badges = response.data.results;
+            console.log("_badges : ", _badges)
+            const _badgeMap = {};
+            for (let i = 0; i < _badges.length; i++) {
+                const _badge = _badges[i];
+                _badgeMap[_badge.badge_id] = {...badgeMap[_badge.badge_id], ..._badge};
+            }
+            setBadgeMap(_badgeMap);
+
             return response.data.results;
         } catch (error) {
             return error;
         }
     };
 
-    const resetBadges = async () => {
+    const fetchBadge = async ({badgeId}) => {
         try {
-            const result = await fetchBadges();
-            console.log('Badges fetched:', result);
+            const response = await axios.get(`/badge/${badgeId}`);
+            const _badge = response.data.results;
+            console.log("_badge : ", _badge)
+            setBadgeMap({
+                ...badgeMap,
+                [badgeId]: {
+                    ...badgeMap[_badge.badge_id],
+                    ..._badge
+                }
+            });
+
+            return response.data.results;
         } catch (error) {
-            console.error('Failed to fetch badges:', error);
+            return error;
         }
     };
 
-    // useEffect(() => {
-    //     fetchBadges().then(r => {
-    //         if (r instanceof Error) {
-    //             console.log('Failed to fetch badges:', r);
-    //         } else {
-    //             console.log('Badges fetched:', r);
-    //         }
-    //     });
-    // }, []);
-
     return (
-        <BadgeContext.Provider value={{ badges, resetBadges }}>
+        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge}}>
             {children}
         </BadgeContext.Provider>
     );

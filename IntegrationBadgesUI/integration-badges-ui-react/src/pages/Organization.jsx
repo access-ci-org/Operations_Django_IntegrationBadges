@@ -80,7 +80,7 @@ export default function Organization() {
                             <i className="bi bi-search"></i>
                         </span>
                         <input type="text" className="form-control"
-                               placeholder="Search Resource by Name, Type, Badge, etc" aria-label="Search keywords"/>
+                               placeholder="Search Resource by Name, Type, ResourceBadge, etc" aria-label="Search keywords"/>
                     </div>
                 </div>
                 <div className="w-12">
@@ -99,7 +99,7 @@ export default function Organization() {
                     <h2>In Progress</h2>
                     <div className="w-100 row row-cols-3">
                         {inProgressResources.map((resource, resourceIndex) => {
-                            return <div className="col p-3">
+                            return <div className="col p-3" key={resourceIndex}>
                                 {getResourceCard(organization, resource, resourceIndex)}
                             </div>
                         })}
@@ -110,7 +110,7 @@ export default function Organization() {
 
                     <div className="w-100 row row-cols-3">
                         {establishedResources.map((resource, resourceIndex) => {
-                            return <div className="col p-3">
+                            return <div className="col p-3" key={resourceIndex}>
                                 {getResourceCard(organization, resource, resourceIndex)}
                             </div>
                         })}
@@ -124,8 +124,8 @@ export default function Organization() {
     }
 }
 
-function getResourceCard(organization, resource, resourceIndex) {
-    return <div className="col resource-card p-2" key={resourceIndex}>
+function getResourceCard(organization, resource) {
+    return <div className="w-100 resource-card p-2">
         <div className="w-100 bg-light p-1 resource-card-header">
             <div className="w-100 ps-2">
                 <a href="#" className="btn btn-link">Edit</a>

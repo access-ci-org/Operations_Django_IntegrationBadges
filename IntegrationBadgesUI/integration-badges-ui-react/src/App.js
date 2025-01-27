@@ -13,6 +13,8 @@ import Organization from "./pages/Organization";
 import Home from "./pages/Home";
 import CustomizedBreadcrumb from "./components/CustomizedBreadcrumb";
 import Resource from "./pages/Resource";
+import ResourceBadge from "./pages/ResourceBadge";
+import {TaskProvider} from "./contexts/TaskContext";
 
 // Setting the default baseURL
 // axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
@@ -49,25 +51,28 @@ function App() {
         <ResourcesProvider>
             <BadgeProvider>
                 <OrganizationsProvider>
-                    <div className="w-100 pt-3">
-                        <div className="w-100">
-                            <BrowserRouter basename={window.SETTINGS.PUBLIC_URL}>
-                                <Routes>
-                                    <Route path="/" element={<RouterLayout/>}>
-                                        <Route index element={<Home/>}/>
-                                        <Route path="/organizations" element={<IntegrationDashboard/>}/>
-                                        <Route path="/organizations/:organizationId" element={<Organization/>}/>
-                                        <Route path="/organizations/new" element={<NewResource/>}/>
+                    <TaskProvider>
+                        <div className="w-100 pt-3">
+                            <div className="w-100">
+                                <BrowserRouter basename={window.SETTINGS.PUBLIC_URL}>
+                                    <Routes>
+                                        <Route path="/" element={<RouterLayout/>}>
+                                            <Route index element={<Home/>}/>
+                                            <Route path="/organizations" element={<IntegrationDashboard/>}/>
+                                            <Route path="/organizations/:organizationId" element={<Organization/>}/>
+                                            <Route path="/organizations/new" element={<NewResource/>}/>
 
 
-                                        <Route path="/resources/:resourceId" element={<Resource/>}/>
-                                        <Route path="/resources/:resourceId/badges/:badgeId" element={<Organization/>}/>
+                                            <Route path="/resources/:resourceId" element={<Resource/>}/>
+                                            <Route path="/resources/:resourceId/badges/:badgeId"
+                                                   element={<ResourceBadge/>}/>
 
-                                    </Route>
-                                </Routes>
-                            </BrowserRouter>
+                                        </Route>
+                                    </Routes>
+                                </BrowserRouter>
+                            </div>
                         </div>
-                    </div>
+                    </TaskProvider>
                 </OrganizationsProvider>
             </BadgeProvider>
         </ResourcesProvider>

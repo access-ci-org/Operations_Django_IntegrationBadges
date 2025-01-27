@@ -75,19 +75,24 @@ export const OrganizationsProvider = ({children}) => {
             const _organizations = response.data.results;
             setOrganizations(_organizations);
 
-            for (let i = 0; i < _organizations; i++) {
+            const _organizationMap = {};
+            const _organizationMapByName = {};
+            for (let i = 0; i < _organizations.length; i++) {
                 let _organization = _organizations[i];
-
-                setOrganizationMap({
-                    ...organizationMap,
-                    [_organization.organizationId]: _organization
-                });
-
-                setOrganizationMapByName({
-                    ...organizationMapByName,
-                    [_organization.organization_name]: _organization
-                });
+                _organizationMap[_organization.organizationId] = _organization;
+                _organizationMapByName[_organization.organization_name] = _organization;
             }
+
+
+            setOrganizationMap({
+                ...organizationMap,
+                ..._organizationMap
+            });
+
+            setOrganizationMapByName({
+                ...organizationMapByName,
+                ..._organizationMapByName
+            });
 
             return response.data.results;
         } catch (error) {
@@ -116,7 +121,8 @@ export const OrganizationsProvider = ({children}) => {
     // }, []);
 
     return (
-        <OrganizationsContext.Provider value={{organizations, organizationMap, organizationMapByName, fetchOrganizations, fetchOrganization}}>
+        <OrganizationsContext.Provider
+            value={{organizations, organizationMap, organizationMapByName, fetchOrganizations, fetchOrganization}}>
             {children}
         </OrganizationsContext.Provider>
     );
