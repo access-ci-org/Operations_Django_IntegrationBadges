@@ -119,6 +119,13 @@ body {
   }
 }
 
+.resource_badge_prerequisite_card,
+.resource_badge_task_card {
+  border: 1px solid #F5F5F5;
+  border-radius: 10px;
+  border-left-width: 30px;
+}
+
 .background-image-center-no-repeat {
   background-repeat: no-repeat;
   background-size: contain;
