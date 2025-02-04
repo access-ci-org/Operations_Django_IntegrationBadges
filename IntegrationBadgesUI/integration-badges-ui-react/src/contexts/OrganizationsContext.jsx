@@ -1,6 +1,7 @@
-import React, {createContext, useContext, useState, useEffect} from 'react';
+import React, {createContext, useContext, useReducer} from 'react';
 import axios from 'axios';
 import {useResources} from "./ResourcesContext";
+import DefaultReducer from "./reducers/DefaultReducer";
 
 const OrganizationsContext = createContext({
     organizations: [],
@@ -19,9 +20,9 @@ export const useOrganizations = () => useContext(OrganizationsContext);
  * @param children
  */
 export const OrganizationsProvider = ({children}) => {
-    const [organizations, setOrganizations] = useState([]);
-    const [organizationMap, setOrganizationMap] = useState({});
-    const [organizationMapByName, setOrganizationMapByName] = useState({});
+    const [organizations, setOrganizations] = useReducer(DefaultReducer, []);
+    const [organizationMap, setOrganizationMap] = useReducer(DefaultReducer, {});
+    const [organizationMapByName, setOrganizationMapByName] = useReducer(DefaultReducer, {});
     const {resources, fetchResources, fetchResource} = useResources();
 
     const fetchOrganization = async ({organizationId}) => {

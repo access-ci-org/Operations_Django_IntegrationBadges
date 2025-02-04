@@ -1,5 +1,6 @@
-import React, {createContext, useContext, useState, useEffect} from 'react';
+import React, {createContext, useContext, useReducer} from 'react';
 import axios from 'axios';
+import DefaultReducer from "./reducers/DefaultReducer";
 
 const ResourcesContext = createContext({
     resources: [],
@@ -20,9 +21,9 @@ export const useResources = () => useContext(ResourcesContext);
  * @param children
  */
 export const ResourcesProvider = ({children}) => {
-    const [resources, setResources] = useState([]);
-    const [resourceMap, setResourceMap] = useState({});
-    const [resourceOrgMap, setResourceOrgMap] = useState({});
+    const [resources, setResources] = useReducer(DefaultReducer, []);
+    const [resourceMap, setResourceMap] = useReducer(DefaultReducer, {});
+    const [resourceOrgMap, setResourceOrgMap] = useReducer(DefaultReducer, {});
 
     const fetchResource = async ({resourceId}) => {
         try {

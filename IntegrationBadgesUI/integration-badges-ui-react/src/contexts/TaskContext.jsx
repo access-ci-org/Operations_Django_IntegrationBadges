@@ -1,5 +1,6 @@
-import React, {createContext, useContext, useState, useEffect} from 'react';
+import React, {createContext, useContext, useReducer} from 'react';
 import axios from 'axios';
+import DefaultReducer from "./reducers/DefaultReducer";
 
 const TaskContext = createContext({
     taskMap: {},
@@ -15,8 +16,8 @@ export const useTasks = () => useContext(TaskContext);
  * @param children
  */
 export const TaskProvider = ({children}) => {
-    const [taskMap, setTaskMap] = useState({});
-    const [badgeTaskMap, setBadgeTaskMap] = useState({});
+    const [taskMap, setTaskMap] = useReducer(DefaultReducer, {});
+    const [badgeTaskMap, setBadgeTaskMap] = useReducer(DefaultReducer, {});
 
     const fetchTasks = async ({badgeId}) => {
         try {

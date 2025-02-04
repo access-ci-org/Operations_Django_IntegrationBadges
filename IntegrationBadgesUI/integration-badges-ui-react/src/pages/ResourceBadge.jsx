@@ -25,6 +25,8 @@ export default function ResourceBadge() {
     }, []);
 
 
+
+
     const resource = resourceMap[resourceId];
 
     let organization;
@@ -41,22 +43,31 @@ export default function ResourceBadge() {
 
     let tasks;
     if (badgeTaskMap && badgeTaskMap[badgeId]) {
-        tasks = badgeTaskMap[badgeId].map(taskId => {
+        const _tasks = badgeTaskMap[badgeId].map(taskId => {
             return taskMap[taskId];
         });
+        if (_tasks.indexOf(undefined) < 0) {
+            tasks = _tasks;
+        }
     }
     console.log("tasks ", tasks)
 
 
     let prerequisiteBadges;
     if (badge && badge.prerequisites && badgeMap) {
-        prerequisiteBadges = badge.prerequisites.map(prerequisiteBadge => {
+        const _prerequisiteBadges = badge.prerequisites.map(prerequisiteBadge => {
             return badgeMap[prerequisiteBadge.prerequisite_badge_id];
         });
+        console.log("badge.prerequisites ", badge.prerequisites)
+        console.log("badgeMap ", badgeMap)
+        console.log("_prerequisiteBadges ", _prerequisiteBadges)
+        if (_prerequisiteBadges.indexOf(undefined) < 0) {
+            prerequisiteBadges = _prerequisiteBadges;
+        }
     }
     console.log("prerequisiteBadges ", prerequisiteBadges)
 
-    if (resource && organization && badge) {
+    if (resource && organization && badge && prerequisiteBadges && tasks) {
         return <div className="container">
             <div className="row">
                 <div className="col-lg-9">
@@ -115,6 +126,7 @@ export default function ResourceBadge() {
                 <h3>Pre-Requisite Badges</h3>
                 <div className="w-100 pb-3">
                     {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
+                        console.log("###### WAIT prerequisiteBadge ", prerequisiteBadge)
                         return <div key={taskIndex} className="w-100 pt-2">
                             <div className="row resource_badge_prerequisite_card">
                                 <div className="col-lg-4 d-flex flex-row">
@@ -142,16 +154,14 @@ export default function ResourceBadge() {
                                 <div className="col-lg-4 d-flex flex-row">
                                     <h4 className="col-lg-3 h-100 flex-fill ps-2 pe-2 pt-3 text-center">{task.name}</h4>
                                 </div>
-                                <p className="col-lg-5 h-100 pt-3 pb-2">{task.technical_summary}</p>
+                                <p className="col-lg-5 h-100 pt-3 pb-2">
+                                    {task.technical_summary}
+                                    <a className="btn btn-link" href={task.detailed_instructions_url}>View Details</a>
+                                </p>
                                 <div className="col-lg-3 h-100 pt-3">
                                     <button className="btn btn-dark btn-sm">Mark as Complete</button>
                                 </div>
                             </div>
-                        </div>
-
-                        return <div key={taskIndex}>
-                            <h4>{task.name}</h4>
-                            <p>{task.technical_summary}</p>
                         </div>
                     })}
                 </div>
