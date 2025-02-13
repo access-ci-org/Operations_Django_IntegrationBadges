@@ -6,11 +6,20 @@ import {Nav} from "react-bootstrap";
 import {useBadges} from "../contexts/BadgeContext";
 
 import defaultBadgeIcon from "../assets/badge_icon_default.png"
+import {useTranslation} from "react-i18next";
 
 export default function Resource() {
+    const {t} = useTranslation();
     const {resourceId} = useParams();
     const {organizations, organizationMap, organizationMapByName, fetchOrganizations} = useOrganizations();
-    const {resources, resourceMap, fetchResources, fetchResource, fetchSelectedResources} = useResources();
+    const {
+        resources,
+        resourceMap,
+        resourceBadgeStatusMap,
+        fetchResources,
+        fetchResource,
+        fetchSelectedResources
+    } = useResources();
     const {badgeMap, fetchBadges} = useBadges();
     const [filterSelection, setFilterSelection] = useState({});
 
@@ -24,9 +33,24 @@ export default function Resource() {
 
     let organization;
     if (resource) {
-        console.log("organizationMapByName : ", organizationMapByName)
-        console.log("resource : ", resource)
         organization = organizationMapByName[resource.organization_name];
+    }
+
+    let badges = [];
+    if (resource && badgeMap && resourceBadgeStatusMap) {
+
+        for (let i = 0; i < resource.roadmaps.length; i++) {
+            const roadmap = resource.roadmaps[i].roadmap;
+            for (let j = 0; j < roadmap.badges.length; j++) {
+                const badgeId = roadmap.badges[j].badge.badge_id;
+                if (badgeMap[badgeId]) {
+                    badges.push({
+                        ...badgeMap[badgeId],
+                        ...resourceBadgeStatusMap[resourceId][badgeId]
+                    });
+                }
+            }
+        }
     }
 
     if (resource && organization) {
@@ -85,9 +109,9 @@ export default function Resource() {
                 </Nav>
 
                 <div className="w-100 pt-2 pb-5 row row-cols-3">
-                    {resource.roadmaps[0].roadmap.badges.map(({badge: {badge_id}}) => {
-                        return <div className="col p-3" key={badge_id}>
-                            {getBadgeCard(organization, resource, badgeMap[badge_id])}
+                    {badges && badges.map((badge) => {
+                        return <div className="col p-3" key={badge.badge_id}>
+                            {getBadgeCard(organization, resource, badge, t)}
                         </div>
                     })}
                 </div>
@@ -99,7 +123,8 @@ export default function Resource() {
 
 }
 
-function getBadgeCard(organization, resource, badge) {
+function getBadgeCard(organization, resource, badge, t) {
+
     if (organization && resource && badge) {
         return <div className="w-100 badge-card p-2">
             <div className="w-100 p-1 badge-card-header">
@@ -114,6 +139,13 @@ function getBadgeCard(organization, resource, badge) {
                 <p className="w-100">
                     {badge.resource_provider_summary}
                 </p>
+
+
+                <div className="w-100 text-center">
+                    <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStateClass.${badge.state}`)}`}>
+                       {badge.state ? t(`badgeWorkflowState.${badge.state}`) : "  "}
+                    </small>
+                </div>
             </div>
             <Link to={`/resources/${resource.cider_resource_id}/badges/${badge.badge_id}`}
                   className="btn btn-dark w-100">

@@ -21,6 +21,8 @@ export default function Organization() {
 
     const organization = organizationMap[organizationId];
 
+
+
     useEffect(() => {
         fetchResources();
     }, []);
@@ -32,7 +34,7 @@ export default function Organization() {
     }, [resources]);
 
     useEffect(() => {
-        if (organization && organization.resourceIds && organization.resourceIds.length > 1) {
+        if (organization && organization.resourceIds && organization.resourceIds.length > 0) {
             fetchSelectedResources({resourceIds: organization.resourceIds});
         }
     }, [organization])
@@ -40,6 +42,7 @@ export default function Organization() {
     if (organization) {
         let inProgressResources = []
         let establishedResources = []
+
         if (organization.resourceIds) {
             for (let i = 0; i < organization.resourceIds.length; i++) {
                 let resourceId = organization.resourceIds[i];

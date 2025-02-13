@@ -15,6 +15,8 @@ import CustomizedBreadcrumb from "./components/CustomizedBreadcrumb";
 import Resource from "./pages/Resource";
 import ResourceBadge from "./pages/ResourceBadge";
 import {TaskProvider} from "./contexts/TaskContext";
+import {I18nextProvider} from 'react-i18next';
+import i18n from './i18n';
 
 // Setting the default baseURL
 // axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
@@ -48,34 +50,38 @@ function App() {
     // }
 
     return (
-        <ResourcesProvider>
-            <BadgeProvider>
-                <OrganizationsProvider>
-                    <TaskProvider>
-                        <div className="w-100 pt-3">
-                            <div className="w-100">
-                                <BrowserRouter basename={window.SETTINGS.PUBLIC_URL}>
-                                    <Routes>
-                                        <Route path="/" element={<RouterLayout/>}>
-                                            <Route index element={<Home/>}/>
-                                            <Route path="/organizations" element={<IntegrationDashboard/>}/>
-                                            <Route path="/organizations/:organizationId" element={<Organization/>}/>
-                                            <Route path="/organizations/new" element={<NewResource/>}/>
+
+            <ResourcesProvider>
+                <BadgeProvider>
+                    <OrganizationsProvider>
+                        <TaskProvider>
+
+        <I18nextProvider i18n={i18n}>
+                            <div className="w-100 pt-3">
+                                <div className="w-100">
+                                    <BrowserRouter basename={window.SETTINGS.PUBLIC_URL}>
+                                        <Routes>
+                                            <Route path="/" element={<RouterLayout/>}>
+                                                <Route index element={<Home/>}/>
+                                                <Route path="/organizations" element={<IntegrationDashboard/>}/>
+                                                <Route path="/organizations/:organizationId" element={<Organization/>}/>
+                                                <Route path="/organizations/new" element={<NewResource/>}/>
 
 
-                                            <Route path="/resources/:resourceId" element={<Resource/>}/>
-                                            <Route path="/resources/:resourceId/badges/:badgeId"
-                                                   element={<ResourceBadge/>}/>
+                                                <Route path="/resources/:resourceId" element={<Resource/>}/>
+                                                <Route path="/resources/:resourceId/badges/:badgeId"
+                                                       element={<ResourceBadge/>}/>
 
-                                        </Route>
-                                    </Routes>
-                                </BrowserRouter>
+                                            </Route>
+                                        </Routes>
+                                    </BrowserRouter>
+                                </div>
                             </div>
-                        </div>
-                    </TaskProvider>
-                </OrganizationsProvider>
-            </BadgeProvider>
-        </ResourcesProvider>
+        </I18nextProvider>
+                        </TaskProvider>
+                    </OrganizationsProvider>
+                </BadgeProvider>
+            </ResourcesProvider>
     );
 }
 

@@ -5,6 +5,7 @@ import DefaultReducer from "./reducers/DefaultReducer";
 const ResourcesContext = createContext({
     resources: [],
     resourceMap: {},
+    resourceBadgeStatusMap: {},
     resourceOrgMap: {},
     fetchResources: ({resourceIds = null} = {}) => {
     },
@@ -23,6 +24,7 @@ export const useResources = () => useContext(ResourcesContext);
 export const ResourcesProvider = ({children}) => {
     const [resources, setResources] = useReducer(DefaultReducer, []);
     const [resourceMap, setResourceMap] = useReducer(DefaultReducer, {});
+    const [resourceBadgeStatusMap, setResourceBadgeStatusMap] = useReducer(DefaultReducer, {});
     const [resourceOrgMap, setResourceOrgMap] = useReducer(DefaultReducer, {});
 
     const fetchResource = async ({resourceId}) => {
@@ -47,6 +49,16 @@ export const ResourcesProvider = ({children}) => {
                     ...resourceMap[resourceId],
                     ...response
                 };
+
+                const _resourceBadgeStatusMap = {};
+                const badgeStatus = response.badge_status
+                for (let j = 0; j < badgeStatus.length; j++) {
+                    _resourceBadgeStatusMap[badgeStatus[j].badge_id] = badgeStatus[j];
+                }
+                setResourceBadgeStatusMap({
+                    ...resourceBadgeStatusMap,
+                    [resourceId]: _resourceBadgeStatusMap
+                })
             }
 
             setResourceMap({
@@ -95,7 +107,7 @@ export const ResourcesProvider = ({children}) => {
 
     return (
         <ResourcesContext.Provider
-            value={{resources, resourceMap, resourceOrgMap, fetchResources, fetchResource, fetchSelectedResources}}>
+            value={{resources, resourceMap, resourceBadgeStatusMap, resourceOrgMap, fetchResources, fetchResource, fetchSelectedResources}}>
             {children}
         </ResourcesContext.Provider>
     );

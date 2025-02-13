@@ -31,8 +31,6 @@ export default function ResourceBadge() {
 
     let organization;
     if (resource) {
-        console.log("organizationMapByName : ", organizationMapByName)
-        console.log("resource : ", resource)
         organization = organizationMapByName[resource.organization_name];
     }
 
@@ -50,7 +48,6 @@ export default function ResourceBadge() {
             tasks = _tasks;
         }
     }
-    console.log("tasks ", tasks)
 
 
     let prerequisiteBadges;
@@ -58,14 +55,10 @@ export default function ResourceBadge() {
         const _prerequisiteBadges = badge.prerequisites.map(prerequisiteBadge => {
             return badgeMap[prerequisiteBadge.prerequisite_badge_id];
         });
-        console.log("badge.prerequisites ", badge.prerequisites)
-        console.log("badgeMap ", badgeMap)
-        console.log("_prerequisiteBadges ", _prerequisiteBadges)
         if (_prerequisiteBadges.indexOf(undefined) < 0) {
             prerequisiteBadges = _prerequisiteBadges;
         }
     }
-    console.log("prerequisiteBadges ", prerequisiteBadges)
 
     if (resource && organization && badge && prerequisiteBadges && tasks) {
         return <div className="container">
@@ -126,7 +119,6 @@ export default function ResourceBadge() {
                 <h3>Pre-Requisite Badges</h3>
                 <div className="w-100 pb-3">
                     {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
-                        console.log("###### WAIT prerequisiteBadge ", prerequisiteBadge)
                         return <div key={taskIndex} className="w-100 pt-2">
                             <div className="row resource_badge_prerequisite_card">
                                 <div className="col-lg-4 d-flex flex-row">

@@ -24,7 +24,6 @@ export const BadgeProvider = ({children}) => {
         try {
             const response = await axios.get('/badge');
             const _badges = response.data.results;
-            console.log("_badges : ", _badges)
             const _badgeMap = {};
             for (let i = 0; i < _badges.length; i++) {
                 const _badge = _badges[i];
@@ -36,7 +35,6 @@ export const BadgeProvider = ({children}) => {
             });
 
 
-            console.log("$$$$$$$ _badgeMap 1 ", _badgeMap)
 
             return response.data.results;
         } catch (error) {
@@ -48,7 +46,6 @@ export const BadgeProvider = ({children}) => {
         try {
             const response = await axios.get(`/badge/${badgeId}`);
             const _badge = response.data.results;
-            console.log("_badge : ", _badge)
 
             const _badgeMap = {
                 ...badgeMap,
@@ -60,7 +57,6 @@ export const BadgeProvider = ({children}) => {
             setBadgeMap(_badgeMap);
 
 
-            console.log("$$$$$$$ _badgeMap 2 ", _badgeMap)
 
             return response.data.results;
         } catch (error) {

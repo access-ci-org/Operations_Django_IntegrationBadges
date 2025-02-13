@@ -1,0 +1,18 @@
+{
+  "badgeWorkflowState": {
+    "Not Planned": "Not Started",
+    "Planned": "In Progress",
+    "Task Completed":  "Verification Pending",
+    "Verification Failed":  "Verification Failed",
+    "Verified":  "Verification Approved",
+    "Deprecated": "Deprecated"
+  },
+  "badgeWorkflowStateClass": {
+    "Not Planned": "",
+    "Planned": "bg-light",
+    "Task Completed":  "bg-warning-subtle",
+    "Verification Failed":  "bg-danger-subtle",
+    "Verified":  "bg-light",
+    "Deprecated": "bg-secondary-subtle"
+  }
+}

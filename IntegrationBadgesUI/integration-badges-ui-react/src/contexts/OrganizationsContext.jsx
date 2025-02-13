@@ -23,7 +23,7 @@ export const OrganizationsProvider = ({children}) => {
     const [organizations, setOrganizations] = useReducer(DefaultReducer, []);
     const [organizationMap, setOrganizationMap] = useReducer(DefaultReducer, {});
     const [organizationMapByName, setOrganizationMapByName] = useReducer(DefaultReducer, {});
-    const {resources, fetchResources, fetchResource} = useResources();
+    const {resources} = useResources();
 
     const fetchOrganization = async ({organizationId}) => {
         try {
@@ -105,7 +105,6 @@ export const OrganizationsProvider = ({children}) => {
     const resetOrganizations = async () => {
         try {
             const result = await fetchOrganizations();
-            console.log('Organizations fetched:', result);
         } catch (error) {
             console.error('Failed to fetch organizations:', error);
         }
@@ -114,9 +113,7 @@ export const OrganizationsProvider = ({children}) => {
     // useEffect(() => {
     //     fetchOrganizations().then(r => {
     //         if (r instanceof Error) {
-    //             console.log('Failed to fetch organizations:', r);
     //         } else {
-    //             console.log('Organizations fetched:', r);
     //         }
     //     });
     // }, []);

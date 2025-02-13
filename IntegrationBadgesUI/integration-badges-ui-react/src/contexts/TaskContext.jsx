@@ -23,7 +23,6 @@ export const TaskProvider = ({children}) => {
         try {
             const response = await axios.get(`/task/${badgeId}`);
             const _tasks = response.data.results;
-            console.log("_tasks : ", _tasks)
             const _taskMap = {}
             const _taskIds = [];
             for (let i = 0; i < _tasks.length; i++) {
@@ -31,8 +30,6 @@ export const TaskProvider = ({children}) => {
                 _taskMap[_task.task_id] = _task;
                 _taskIds.push(_task.task_id)
             }
-            console.log("_taskMap", _taskMap)
-            console.log("_taskIds", _taskIds)
             setTaskMap({...taskMap, ..._taskMap});
             setBadgeTaskMap({...badgeTaskMap, [badgeId]: _taskIds});
 
