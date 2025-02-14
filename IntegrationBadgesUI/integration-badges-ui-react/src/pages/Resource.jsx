@@ -38,7 +38,7 @@ export default function Resource() {
 
     let badges = [];
     if (resource && badgeMap && resourceBadgeStatusMap) {
-
+        console.log("#### resourceBadgeStatusMap ", resourceBadgeStatusMap)
         for (let i = 0; i < resource.roadmaps.length; i++) {
             const roadmap = resource.roadmaps[i].roadmap;
             for (let j = 0; j < roadmap.badges.length; j++) {

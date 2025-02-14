@@ -6,6 +6,7 @@ const ResourcesContext = createContext({
     resources: [],
     resourceMap: {},
     resourceBadgeStatusMap: {},
+    resourceBadgeTaskStatusMap: {},
     resourceOrgMap: {},
     fetchResources: ({resourceIds = null} = {}) => {
     },
@@ -25,6 +26,7 @@ export const ResourcesProvider = ({children}) => {
     const [resources, setResources] = useReducer(DefaultReducer, []);
     const [resourceMap, setResourceMap] = useReducer(DefaultReducer, {});
     const [resourceBadgeStatusMap, setResourceBadgeStatusMap] = useReducer(DefaultReducer, {});
+    const [resourceBadgeTaskStatusMap, setResourceBadgeTaskStatusMap] = useReducer(DefaultReducer, {});
     const [resourceOrgMap, setResourceOrgMap] = useReducer(DefaultReducer, {});
 
     const fetchResource = async ({resourceId}) => {
@@ -51,13 +53,26 @@ export const ResourcesProvider = ({children}) => {
                 };
 
                 const _resourceBadgeStatusMap = {};
+                const _resourceBadgeTaskStatusMap = {};
                 const badgeStatus = response.badge_status
                 for (let j = 0; j < badgeStatus.length; j++) {
-                    _resourceBadgeStatusMap[badgeStatus[j].badge_id] = badgeStatus[j];
+                    const badgeId = badgeStatus[j].badge_id;
+                    _resourceBadgeStatusMap[badgeId] = badgeStatus[j];
+
+                    _resourceBadgeTaskStatusMap[badgeId] = {}
+                    const badgeTaskStatus = badgeStatus[j].task_status
+                    for (let k = 0; k < badgeTaskStatus.length; k++) {
+                        const taskId = badgeTaskStatus[k].task_id;
+                        _resourceBadgeTaskStatusMap[badgeId][taskId] = badgeTaskStatus[k];
+                    }
                 }
                 setResourceBadgeStatusMap({
                     ...resourceBadgeStatusMap,
                     [resourceId]: _resourceBadgeStatusMap
+                })
+                setResourceBadgeTaskStatusMap({
+                    ...resourceBadgeTaskStatusMap,
+                    [resourceId]: _resourceBadgeTaskStatusMap
                 })
             }
 
@@ -107,7 +122,7 @@ export const ResourcesProvider = ({children}) => {
 
     return (
         <ResourcesContext.Provider
-            value={{resources, resourceMap, resourceBadgeStatusMap, resourceOrgMap, fetchResources, fetchResource, fetchSelectedResources}}>
+            value={{resources, resourceMap, resourceBadgeStatusMap, resourceBadgeTaskStatusMap, resourceOrgMap, fetchResources, fetchResource, fetchSelectedResources}}>
             {children}
         </ResourcesContext.Provider>
     );

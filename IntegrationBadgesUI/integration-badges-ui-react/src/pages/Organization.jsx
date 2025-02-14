@@ -43,6 +43,7 @@ export default function Organization() {
         let inProgressResources = []
         let establishedResources = []
 
+        console.log("organization.resourceIds ", organization.resourceIds)
         if (organization.resourceIds) {
             for (let i = 0; i < organization.resourceIds.length; i++) {
                 let resourceId = organization.resourceIds[i];
@@ -54,6 +55,9 @@ export default function Organization() {
                 }
             }
         }
+
+        console.log("inProgressResources : ", inProgressResources)
+        console.log("establishedResources : ", establishedResources)
 
         return <div className="container">
             <div className="row">

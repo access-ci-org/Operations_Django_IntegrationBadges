@@ -1,18 +1,22 @@
 {
   "badgeWorkflowState": {
-    "Not Planned": "Not Started",
-    "Planned": "In Progress",
-    "Task Completed":  "Verification Pending",
-    "Verification Failed":  "Verification Failed",
-    "Verified":  "Verification Approved",
-    "Deprecated": "Deprecated"
+    "not-planned": "Not Started",
+    "planned": "In Progress",
+    "task-completed":  "Verification Pending",
+    "verification-failed":  "Verification Failed",
+    "verified":  "Verification Approved",
+    "deprecated": "Deprecated"
   },
   "badgeWorkflowStateClass": {
-    "Not Planned": "",
-    "Planned": "bg-light",
-    "Task Completed":  "bg-warning-subtle",
-    "Verification Failed":  "bg-danger-subtle",
-    "Verified":  "bg-light",
-    "Deprecated": "bg-secondary-subtle"
+    "not-planned": "",
+    "planned": "bg-light",
+    "task-completed":  "bg-warning-subtle",
+    "verification-failed":  "bg-danger-subtle",
+    "verified":  "bg-light",
+    "deprecated": "bg-secondary-subtle"
+  },
+  "badgeTaskWorkflowState": {
+    "completed": "Completed",
+    "not-completed": "Not Completed"
   }
 }

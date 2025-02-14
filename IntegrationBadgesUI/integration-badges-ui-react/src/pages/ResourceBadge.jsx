@@ -5,15 +5,15 @@ import {useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
 
 import defaultBadgeIcon from "../assets/badge_icon_default.png"
-import {useTasks} from "../contexts/TaskContext";
+import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import Accordion from "react-bootstrap/Accordion";
 
 export default function ResourceBadge() {
     const {resourceId, badgeId} = useParams();
     const {organizations, organizationMap, organizationMapByName, fetchOrganizations} = useOrganizations();
-    const {resources, resourceMap, fetchResources, fetchResource, fetchSelectedResources} = useResources();
+    const {resources, resourceMap, fetchResources, fetchResource, resourceBadgeTaskStatusMap} = useResources();
     const {badgeMap, fetchBadges, fetchBadge} = useBadges();
-    const {taskMap, badgeTaskMap, fetchTasks} = useTasks();
+    const {taskMap, badgeTaskMap, fetchTasks, setBadgeTaskWorkflowStatus} = useTasks();
     const [filterSelection, setFilterSelection] = useState({});
 
     useEffect(() => {
@@ -24,7 +24,9 @@ export default function ResourceBadge() {
         fetchTasks({badgeId});
     }, []);
 
-
+    const clickTaskAction = (taskId, status) => {
+        setBadgeTaskWorkflowStatus({resourceId, badgeId, taskId, status})
+    }
 
 
     const resource = resourceMap[resourceId];
@@ -40,9 +42,12 @@ export default function ResourceBadge() {
     }
 
     let tasks;
-    if (badgeTaskMap && badgeTaskMap[badgeId]) {
+    if (badgeTaskMap && badgeTaskMap[badgeId] && resourceBadgeTaskStatusMap && resourceBadgeTaskStatusMap[resourceId]) {
         const _tasks = badgeTaskMap[badgeId].map(taskId => {
-            return taskMap[taskId];
+            return {
+                ...taskMap[taskId],
+                ...resourceBadgeTaskStatusMap[resourceId][badgeId][taskId]
+            };
         });
         if (_tasks.indexOf(undefined) < 0) {
             tasks = _tasks;
@@ -59,6 +64,8 @@ export default function ResourceBadge() {
             prerequisiteBadges = _prerequisiteBadges;
         }
     }
+
+    console.log("#### tasks ", tasks)
 
     if (resource && organization && badge && prerequisiteBadges && tasks) {
         return <div className="container">
@@ -141,6 +148,8 @@ export default function ResourceBadge() {
                 <h3>To-Do Tasks</h3>
                 <div className="w-100">
                     {tasks && tasks.map((task, taskIndex) => {
+                        const taskId = task.task_id;
+
                         return <div key={taskIndex} className="w-100 pt-2">
                             <div className="row resource_badge_prerequisite_card">
                                 <div className="col-lg-4 d-flex flex-row">
@@ -151,7 +160,19 @@ export default function ResourceBadge() {
                                     <a className="btn btn-link" href={task.detailed_instructions_url}>View Details</a>
                                 </p>
                                 <div className="col-lg-3 h-100 pt-3">
-                                    <button className="btn btn-dark btn-sm">Mark as Complete</button>
+                                    {(() => {
+                                        if (task.state === BadgeTaskWorkflowStatus.NOT_COMPLETED) {
+                                            return <button className="btn btn-dark btn-sm"
+                                                    onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
+                                                Mark as Complete
+                                            </button>
+                                        } else if (task.state === BadgeTaskWorkflowStatus.COMPLETED) {
+                                            return <button className="btn btn-outline-dark btn-sm"
+                                                    onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
+                                                Marked as Complete
+                                            </button>
+                                        }
+                                    })()}
                                 </div>
                             </div>
                         </div>
