@@ -1,5 +1,5 @@
 {
-  "badgeWorkflowState": {
+  "badgeWorkflowStatus": {
     "undefined": "Not Started",
     "not-planned": "Not Started",
     "planned": "In Progress",
@@ -8,7 +8,7 @@
     "verified":  "Verification Approved",
     "deprecated": "Deprecated"
   },
-  "badgeWorkflowStateClass": {
+  "badgeWorkflowStatusClass": {
     "undefined": "",
     "not-planned": "",
     "planned": "bg-light",
@@ -17,7 +17,7 @@
     "verified":  "bg-light",
     "deprecated": "bg-secondary-subtle"
   },
-  "badgeTaskWorkflowState": {
+  "badgeTaskWorkflowStatus": {
     "completed": "Completed",
     "not-completed": "Not Completed"
   }

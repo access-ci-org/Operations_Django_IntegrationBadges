@@ -54,7 +54,7 @@
  * @property {number} badge_id - The badge id.
  * @property {string} badge_access_url - The URL to access the badge.
  * @property {string} badge_access_url_label - The label for the badge access URL.
- * @property {string} state - The current badge status.
+ * @property {string} status - The current badge status.
  * @property {string} comment - The concierge comment for the current badge status.
  ***** Acquired in ResourceCard after searching across the badge context list ******
  * @property {string} resource_name - The name of the resource.
@@ -78,7 +78,7 @@
  * @property {string} resource_descriptive_name - The descriptive name of the resource.
  * @property {string} user_guide_url - The URL of the user guide for the resource.
  * @property {Array<BadgeWorkflow>} badge_status - The list of badge workflow models associated with the resource. It
- * shows the states of badges that are at least planned for the current resource.
+ * shows the statuses of badges that are at least planned for the current resource.
  * @property {Array<Roadmap>} roadmaps - The list of roadmaps associated with the resource.
  */
 
@@ -88,9 +88,9 @@
  * @property {string} badge_access_url - The URL to access the badge.
  * @property {string} badge_access_url_label - The label for the badge access URL.
  * @property {string} comment - The concierge comment for the current badge status.
- * @property {string} state - The current badge status.
- * @property {Date} state_updated_at - The date when the badge status was last updated.
- * @property {string} state_updated_by - The user who last updated the badge status.
+ * @property {string} status - The current badge status.
+ * @property {Date} status_updated_at - The date when the badge status was last updated.
+ * @property {string} status_updated_by - The user who last updated the badge status.
  */
 
 /**
@@ -126,7 +126,7 @@
  * @property {string} name - The name of the badge.
  * @property {boolean} required - True if the badge is required for the roadmap.
  * @property {string} resource_name - The name of the resource.
- * @property {string} state - The status of the badge.
+ * @property {string} status - The status of the badge.
  * @property {string} badge_access_url - The URL to access the badge.
  * @property {string} badge_access_url_label - The label for the badge access URL.
  */
@@ -148,9 +148,9 @@
  * not available from the resource-badge model, this is used.
  * @property {string} verification_method - The method used to verify the badge.
  * @property {string} verification_summary - The summary of the verification method.
- * @property {string} state - The status of the badge.
- * @property {string} state_updated_at - The date when the badge status was last updated.
- * @property {string} state_updated_by - The user who last updated the badge status.
+ * @property {string} status - The status of the badge.
+ * @property {string} status_updated_at - The date when the badge status was last updated.
+ * @property {string} status_updated_by - The user who last updated the badge status.
  * @property {string} comment - The concierge comment for the current badge status.
  * @property {string} badge_access_url - The URL to access the badge.
  * @property {string} badge_access_url_label - The label for the badge access URL.

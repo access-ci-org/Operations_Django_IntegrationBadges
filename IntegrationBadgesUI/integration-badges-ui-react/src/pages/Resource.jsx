@@ -115,8 +115,8 @@ function getBadgeCard(organization, resource, badge, t) {
 
 
                 <div className="w-100 text-center">
-                    <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStateClass.${badge.state}`)}`}>
-                        {badge.state ? t(`badgeWorkflowState.${badge.state}`) : "  "}
+                    <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStatusClass.${badge.status}`)}`}>
+                        {badge.status ? t(`badgeWorkflowStatus.${badge.status}`) : "  "}
                     </small>
                 </div>
             </div>

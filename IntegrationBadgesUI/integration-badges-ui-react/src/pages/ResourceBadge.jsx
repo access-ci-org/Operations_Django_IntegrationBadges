@@ -66,7 +66,7 @@ export default function ResourceBadge() {
 
     function getLatestStatus(resource) {
         if (badge) {
-            return resource.badge_status[resource.badge_status.length - 1].state;
+            return resource.badge_status[resource.badge_status.length - 1].status;
         } else {
             return "Not Started"
         }
@@ -102,8 +102,8 @@ export default function ResourceBadge() {
                                     <label className="text-secondary">Latest Status</label>
                                     <div>
                                         <small
-                                            className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStateClass.${badge.state}`)}`}>
-                                            {t(`badgeWorkflowState.${badge.state}`)}
+                                            className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStatusClass.${badge.status}`)}`}>
+                                            {t(`badgeWorkflowStatus.${badge.status}`)}
                                         </small>
                                     </div>
                                 </div>
@@ -180,13 +180,13 @@ export default function ResourceBadge() {
                                                       aria-hidden="true"></span>
                                                 Loading...
                                             </button>
-                                        } else if (task.state === BadgeTaskWorkflowStatus.NOT_COMPLETED) {
+                                        } else if (task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED) {
                                             return <button className="w-100 btn btn-dark btn-sm"
                                                            onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
                                                 <i className="bi bi-exclamation-triangle-fill text-orange me-3"></i>
                                                 Mark as Complete
                                             </button>
-                                        } else if (task.state === BadgeTaskWorkflowStatus.COMPLETED) {
+                                        } else if (task.status === BadgeTaskWorkflowStatus.COMPLETED) {
                                             return <button className="w-100 btn btn-outline-dark btn-sm"
                                                            onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
                                                 <i className="bi bi-check-square me-3"></i>
@@ -211,19 +211,19 @@ export default function ResourceBadge() {
                                                       aria-hidden="true"></span>
                                 Loading...
                             </button>
-                        }  else if (!badge.state || badge.state === BadgeWorkflowStatus.NOT_PLANNED) {
+                        }  else if (!badge.status || badge.status === BadgeWorkflowStatus.NOT_PLANNED) {
                             return <button className="w-100 btn btn-outline-dark"
                                            onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                 <i className="bi bi-check-square me-3"></i>
                                 Add this badge to the resource
                             </button>
-                        } else if (badge.state === BadgeWorkflowStatus.PLANNED || badge.state === BadgeWorkflowStatus.VERIFICATION_FAILED) {
+                        } else if (badge.status === BadgeWorkflowStatus.PLANNED || badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
                             return <button className="w-100 btn btn-outline-dark"
                                            onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
                                 <i className="bi bi-check-square me-3"></i>
                                 Submit for Verification
                             </button>
-                        }  else if (badge.state === BadgeWorkflowStatus.TASK_COMPLETED) {
+                        }  else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED) {
                             return <button className="w-100 btn btn-outline-dark"
                                            onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                 <i className="bi bi-check-square me-3"></i>

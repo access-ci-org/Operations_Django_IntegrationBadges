@@ -19,19 +19,8 @@ import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
 
 // Setting the default baseURL
-// axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
-axios.defaults.baseURL = "https://opsapi3.access-ci.org/wh2/integration_badges/v1/"
-
-// define the workflow states
-export const workflow_states = {
-    NOT_PLANNED: "Not Planned",
-    PLANNED: "Planned",
-    TASK_COMPLETED: "Task Completed",
-    VERIFICATION_FAILED: "Verification Failed",
-    VERIFIED: "Verified",
-    DEPRECATED: "Deprecated"
-};
-
+axios.defaults.baseURL = "http://127.0.0.1:8000/wh2/integration_badges/v1";
+// axios.defaults.baseURL = "https://opsapi3.access-ci.org/wh2/integration_badges/v1/"
 
 const RouterLayout = () => {
     return (
