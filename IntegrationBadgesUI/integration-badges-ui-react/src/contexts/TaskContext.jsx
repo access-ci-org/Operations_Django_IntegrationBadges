@@ -5,10 +5,8 @@ import {useResources} from "./ResourcesContext";
 
 const TaskContext = createContext({
     taskMap: {},
-    badgeTaskMap: {},
+    badgeTaskIdMap: {},
     fetchTasks: ({badgeId}) => {
-    },
-    setBadgeTaskWorkflowStatus: ({resourceId, badgeId, taskId, status}) => {
     }
 });
 
@@ -27,7 +25,7 @@ export const TaskProvider = ({children}) => {
     const {fetchResource} = useResources();
 
     const [taskMap, setTaskMap] = useReducer(DefaultReducer, {});
-    const [badgeTaskMap, setBadgeTaskMap] = useReducer(DefaultReducer, {});
+    const [badgeTaskIdMap, setBadgeTaskIdMap] = useReducer(DefaultReducer, {});
 
     const fetchTasks = async ({badgeId}) => {
         try {
@@ -41,7 +39,7 @@ export const TaskProvider = ({children}) => {
                 _taskIds.push(_task.task_id)
             }
             setTaskMap({...taskMap, ..._taskMap});
-            setBadgeTaskMap({...badgeTaskMap, [badgeId]: _taskIds});
+            setBadgeTaskIdMap({...badgeTaskIdMap, [badgeId]: _taskIds});
 
             return response.data.results;
         } catch (error) {
@@ -49,24 +47,8 @@ export const TaskProvider = ({children}) => {
         }
     };
 
-    const markBadgeTaskAsCompleted = async ({badgeId, taskId}) => {
-    }
-
-    const setBadgeTaskWorkflowStatus = async ({resourceId, badgeId, taskId, status}) => {
-        try {
-            const response = await axios.post(
-                `/resource/${resourceId}/badge/${badgeId}/task/${taskId}/workflow/${status}`,
-            );
-            fetchResource({resourceId})
-
-            return response.data.results;
-        } catch (error) {
-            return error;
-        }
-    }
-
     return (
-        <TaskContext.Provider value={{taskMap, badgeTaskMap, fetchTasks, setBadgeTaskWorkflowStatus}}>
+        <TaskContext.Provider value={{taskMap, badgeTaskIdMap, fetchTasks}}>
             {children}
         </TaskContext.Provider>
     );

@@ -50,13 +50,11 @@ function App() {
     // }
 
     return (
-
-            <ResourcesProvider>
+        <OrganizationsProvider>
+            <TaskProvider>
                 <BadgeProvider>
-                    <OrganizationsProvider>
-                        <TaskProvider>
-
-        <I18nextProvider i18n={i18n}>
+                    <ResourcesProvider>
+                        <I18nextProvider i18n={i18n}>
                             <div className="w-100 pt-3">
                                 <div className="w-100">
                                     <BrowserRouter basename={window.SETTINGS.PUBLIC_URL}>
@@ -77,11 +75,11 @@ function App() {
                                     </BrowserRouter>
                                 </div>
                             </div>
-        </I18nextProvider>
-                        </TaskProvider>
-                    </OrganizationsProvider>
+                        </I18nextProvider>
+                    </ResourcesProvider>
                 </BadgeProvider>
-            </ResourcesProvider>
+            </TaskProvider>
+        </OrganizationsProvider>
     );
 }
 

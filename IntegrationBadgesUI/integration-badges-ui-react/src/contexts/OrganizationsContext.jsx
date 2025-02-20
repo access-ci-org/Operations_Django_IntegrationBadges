@@ -10,6 +10,8 @@ const OrganizationsContext = createContext({
     fetchOrganizations: () => {
     },
     fetchOrganization: ({organizationId}) => {
+    },
+    getOrganization: ({organizationName}) => {
     }
 });
 
@@ -23,7 +25,6 @@ export const OrganizationsProvider = ({children}) => {
     const [organizations, setOrganizations] = useReducer(DefaultReducer, []);
     const [organizationMap, setOrganizationMap] = useReducer(DefaultReducer, {});
     const [organizationMapByName, setOrganizationMapByName] = useReducer(DefaultReducer, {});
-    const {resources} = useResources();
 
     const fetchOrganization = async ({organizationId}) => {
         try {
@@ -39,29 +40,10 @@ export const OrganizationsProvider = ({children}) => {
                 [organization.organization_name]: organization
             });
 
-            const fetchRequestsForIndividualResources = [];
-            const orgResourceIds = [];
-
-            for (let i = 0; i < resources.length; i++) {
-                let resource = resources[i];
-                if (resource.organization_name === organization.organization_name) {
-                    orgResourceIds.push(resource.cider_resource_id);
-                    // await fetchResource({
-                    //     resourceId: resource.cider_resource_id
-                    // });
-                    // fetchRequestsForIndividualResources.push(fetchResource({
-                    //     resourceId: resource.cider_resource_id
-                    // }));
-                }
-            }
-
-            //await Promise.all(fetchRequestsForIndividualResources);
-
             setOrganizationMap({
                 ...organizationMap,
                 [organizationId]: {
-                    ...organization,
-                    resourceIds: orgResourceIds
+                    ...organization
                 }
             });
 
@@ -101,26 +83,24 @@ export const OrganizationsProvider = ({children}) => {
         }
     };
 
-
-    const resetOrganizations = async () => {
-        try {
-            const result = await fetchOrganizations();
-        } catch (error) {
-            console.error('Failed to fetch organizations:', error);
+    const getOrganization = ({organizationName}) => {
+        if (organizationMapByName[organizationName]) {
+            return {
+                ...organizationMapByName[organizationName]
+            };
         }
     };
 
-    // useEffect(() => {
-    //     fetchOrganizations().then(r => {
-    //         if (r instanceof Error) {
-    //         } else {
-    //         }
-    //     });
-    // }, []);
-
     return (
         <OrganizationsContext.Provider
-            value={{organizations, organizationMap, organizationMapByName, fetchOrganizations, fetchOrganization}}>
+            value={{
+                organizations,
+                organizationMap,
+                organizationMapByName,
+                fetchOrganizations,
+                fetchOrganization,
+                getOrganization
+            }}>
             {children}
         </OrganizationsContext.Provider>
     );

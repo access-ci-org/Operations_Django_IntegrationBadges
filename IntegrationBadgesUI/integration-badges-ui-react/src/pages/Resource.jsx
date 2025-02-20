@@ -11,16 +11,9 @@ import {useTranslation} from "react-i18next";
 export default function Resource() {
     const {t} = useTranslation();
     const {resourceId} = useParams();
-    const {organizations, organizationMap, organizationMapByName, fetchOrganizations} = useOrganizations();
-    const {
-        resources,
-        resourceMap,
-        resourceBadgeStatusMap,
-        fetchResources,
-        fetchResource,
-        fetchSelectedResources
-    } = useResources();
-    const {badgeMap, fetchBadges} = useBadges();
+    const {fetchOrganizations} = useOrganizations();
+    const {fetchResource, getResource, getResourceBadges, getResourceOrganization} = useResources();
+    const {fetchBadges} = useBadges();
     const [filterSelection, setFilterSelection] = useState({});
 
     useEffect(() => {
@@ -29,29 +22,9 @@ export default function Resource() {
         fetchBadges();
     }, []);
 
-    const resource = resourceMap[resourceId];
-
-    let organization;
-    if (resource) {
-        organization = organizationMapByName[resource.organization_name];
-    }
-
-    let badges = [];
-    if (resource && badgeMap && resourceBadgeStatusMap) {
-        console.log("#### resourceBadgeStatusMap ", resourceBadgeStatusMap)
-        for (let i = 0; i < resource.roadmaps.length; i++) {
-            const roadmap = resource.roadmaps[i].roadmap;
-            for (let j = 0; j < roadmap.badges.length; j++) {
-                const badgeId = roadmap.badges[j].badge.badge_id;
-                if (badgeMap[badgeId]) {
-                    badges.push({
-                        ...badgeMap[badgeId],
-                        ...resourceBadgeStatusMap[resourceId][badgeId]
-                    });
-                }
-            }
-        }
-    }
+    const resource = getResource({resourceId});
+    let organization = getResourceOrganization({resourceId})
+    let badges = getResourceBadges({resourceId});
 
     if (resource && organization) {
         return <div className="container">
@@ -143,7 +116,7 @@ function getBadgeCard(organization, resource, badge, t) {
 
                 <div className="w-100 text-center">
                     <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStateClass.${badge.state}`)}`}>
-                       {badge.state ? t(`badgeWorkflowState.${badge.state}`) : "  "}
+                        {badge.state ? t(`badgeWorkflowState.${badge.state}`) : "  "}
                     </small>
                 </div>
             </div>

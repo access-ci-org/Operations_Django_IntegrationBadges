@@ -1,20 +1,35 @@
 import {Link, useParams} from "react-router-dom";
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useResources} from "../contexts/ResourcesContext";
-import {useBadges} from "../contexts/BadgeContext";
+import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
 
 import defaultBadgeIcon from "../assets/badge_icon_default.png"
 import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import Accordion from "react-bootstrap/Accordion";
+import {useTranslation} from "react-i18next";
+import {Modal} from "react-bootstrap";
 
 export default function ResourceBadge() {
+    const {t} = useTranslation();
     const {resourceId, badgeId} = useParams();
-    const {organizations, organizationMap, organizationMapByName, fetchOrganizations} = useOrganizations();
-    const {resources, resourceMap, fetchResources, fetchResource, resourceBadgeTaskStatusMap} = useResources();
-    const {badgeMap, fetchBadges, fetchBadge} = useBadges();
-    const {taskMap, badgeTaskMap, fetchTasks, setBadgeTaskWorkflowStatus} = useTasks();
+    const {fetchOrganizations} = useOrganizations();
+    const {
+        fetchResource,
+        getResource,
+        getResourceBadge,
+        getResourceBadgePrerequisites,
+        getResourceOrganization,
+        getResourceBadgeTasks,
+        setResourceBadgeWorkflowStatus,
+        setResourceBadgeTaskWorkflowStatus
+    } = useResources();
+    const {fetchBadges, fetchBadge, getBadge} = useBadges();
+    const {fetchTasks} = useTasks();
     const [filterSelection, setFilterSelection] = useState({});
+
+    const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
+    const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
 
     useEffect(() => {
         fetchResource({resourceId});
@@ -24,48 +39,38 @@ export default function ResourceBadge() {
         fetchTasks({badgeId});
     }, []);
 
-    const clickTaskAction = (taskId, status) => {
-        setBadgeTaskWorkflowStatus({resourceId, badgeId, taskId, status})
-    }
-
-
-    const resource = resourceMap[resourceId];
-
-    let organization;
-    if (resource) {
-        organization = organizationMapByName[resource.organization_name];
-    }
-
-    let badge;
-    if (badgeMap) {
-        badge = badgeMap[badgeId]
-    }
-
-    let tasks;
-    if (badgeTaskMap && badgeTaskMap[badgeId] && resourceBadgeTaskStatusMap && resourceBadgeTaskStatusMap[resourceId]) {
-        const _tasks = badgeTaskMap[badgeId].map(taskId => {
-            return {
-                ...taskMap[taskId],
-                ...resourceBadgeTaskStatusMap[resourceId][badgeId][taskId]
-            };
+    const clickTaskAction = async (taskId, status) => {
+        setTaskActionStatusProcessing({
+            ...taskActionStatusProcessing,
+            [taskId]: true
         });
-        if (_tasks.indexOf(undefined) < 0) {
-            tasks = _tasks;
+        await setResourceBadgeTaskWorkflowStatus({resourceId, badgeId, taskId, status})
+        setTaskActionStatusProcessing({
+            ...taskActionStatusProcessing,
+            [taskId]: false
+        });
+    };
+
+    const clickBadgeAction = async () => {
+        setBadgeActionStatusProcessing(true);
+        await setResourceBadgeWorkflowStatus({resourceId, badgeId, status: badgeActionStatusProcessing})
+        setBadgeActionStatusProcessing(false);
+    };
+
+
+    const resource = getResource({resourceId});
+    const organization = getResourceOrganization({resourceId});
+    let badge = getResourceBadge({resourceId, badgeId});
+    let tasks = getResourceBadgeTasks({resourceId, badgeId});
+    let prerequisiteBadges = getResourceBadgePrerequisites({resourceId, badgeId});
+
+    function getLatestStatus(resource) {
+        if (badge) {
+            return resource.badge_status[resource.badge_status.length - 1].state;
+        } else {
+            return "Not Started"
         }
     }
-
-
-    let prerequisiteBadges;
-    if (badge && badge.prerequisites && badgeMap) {
-        const _prerequisiteBadges = badge.prerequisites.map(prerequisiteBadge => {
-            return badgeMap[prerequisiteBadge.prerequisite_badge_id];
-        });
-        if (_prerequisiteBadges.indexOf(undefined) < 0) {
-            prerequisiteBadges = _prerequisiteBadges;
-        }
-    }
-
-    console.log("#### tasks ", tasks)
 
     if (resource && organization && badge && prerequisiteBadges && tasks) {
         return <div className="container">
@@ -95,7 +100,12 @@ export default function ResourceBadge() {
                                 </div>
                                 <div className="col">
                                     <label className="text-secondary">Latest Status</label>
-                                    <div>{getLatestStatus(resource)}</div>
+                                    <div>
+                                        <small
+                                            className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStateClass.${badge.state}`)}`}>
+                                            {t(`badgeWorkflowState.${badge.state}`)}
+                                        </small>
+                                    </div>
                                 </div>
                                 <div className="col">
                                     <label className="text-secondary">Implementor Roles</label>
@@ -136,7 +146,10 @@ export default function ResourceBadge() {
                                 </div>
                                 <p className="col-lg-5 h-100 pt-3 pb-2">{prerequisiteBadge.resource_provider_summary}</p>
                                 <div className="col-lg-3 h-100 pt-3">
-                                    <button className="btn btn-dark btn-sm">Mark as Complete</button>
+                                    <button className="w-100 btn btn-outline-dark btn-sm">
+                                        <i className="bi bi-box-arrow-up-right me-3"></i>
+                                        View Badge Details
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -161,14 +174,22 @@ export default function ResourceBadge() {
                                 </p>
                                 <div className="col-lg-3 h-100 pt-3">
                                     {(() => {
-                                        if (task.state === BadgeTaskWorkflowStatus.NOT_COMPLETED) {
-                                            return <button className="btn btn-dark btn-sm"
-                                                    onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
+                                        if (taskActionStatusProcessing[taskId]) {
+                                            return <button className="w-100 btn btn-dark btn-sm">
+                                                <span className="spinner-border spinner-border-sm me-3" role="status"
+                                                      aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+                                        } else if (task.state === BadgeTaskWorkflowStatus.NOT_COMPLETED) {
+                                            return <button className="w-100 btn btn-dark btn-sm"
+                                                           onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
+                                                <i className="bi bi-exclamation-triangle-fill text-orange me-3"></i>
                                                 Mark as Complete
                                             </button>
                                         } else if (task.state === BadgeTaskWorkflowStatus.COMPLETED) {
-                                            return <button className="btn btn-outline-dark btn-sm"
-                                                    onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
+                                            return <button className="w-100 btn btn-outline-dark btn-sm"
+                                                           onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
+                                                <i className="bi bi-check-square me-3"></i>
                                                 Marked as Complete
                                             </button>
                                         }
@@ -183,7 +204,61 @@ export default function ResourceBadge() {
             <div className="w-100 d-flex flex-row pt-5 pb-5">
                 <div className="flex-fill"></div>
                 <div style={{maxWidth: 400}}>
-                    <button className="btn btn-outline-dark">Submit for Verification</button>
+                    {(() => {
+                        if (badgeActionStatusProcessing) {
+                            return <button className="w-100 btn btn-dark">
+                                                <span className="spinner-border spinner-border-sm me-3" role="status"
+                                                      aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                        }  else if (!badge.state || badge.state === BadgeWorkflowStatus.NOT_PLANNED) {
+                            return <button className="w-100 btn btn-outline-dark"
+                                           onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.PLANNED)}>
+                                <i className="bi bi-check-square me-3"></i>
+                                Add this badge to the resource
+                            </button>
+                        } else if (badge.state === BadgeWorkflowStatus.PLANNED || badge.state === BadgeWorkflowStatus.VERIFICATION_FAILED) {
+                            return <button className="w-100 btn btn-outline-dark"
+                                           onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
+                                <i className="bi bi-check-square me-3"></i>
+                                Submit for Verification
+                            </button>
+                        }  else if (badge.state === BadgeWorkflowStatus.TASK_COMPLETED) {
+                            return <button className="w-100 btn btn-outline-dark"
+                                           onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.PLANNED)}>
+                                <i className="bi bi-check-square me-3"></i>
+                                Reopen
+                            </button>
+                        }
+                    })()}
+
+
+                    <Modal show={badgeActionStatusProcessing} onHide={setBadgeActionStatusProcessing.bind(this, false)}>
+                        <Modal.Header closeButton className="bg-light">
+                            <Modal.Title>
+                                <span hidden={true}>Badge Submit for Verification Confirmation</span>
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="text-center text-dark" style={{fontSize: 100}}>
+                                <i className="bi bi-question-square-fill"></i>
+                            </div>
+                            <div className="lead">
+                                Are you sure that you want to submit this badge for verification?
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <button className="btn btn-outline-dark"
+                                    onClick={setBadgeActionStatusProcessing.bind(this, false)}>
+                                No
+                            </button>
+                            <button className="btn btn-dark"
+                                    onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
+                                Yes
+                            </button>
+                        </Modal.Footer>
+                    </Modal>
+
                     <div className="pt-3 d-flex flex-row">
                         <div>
                             <i className="bi bi-info-circle-fill text-yellow"></i>
@@ -200,13 +275,6 @@ export default function ResourceBadge() {
     }
 }
 
-function getLatestStatus(resource) {
-    if (resource.badge_status && resource.badge_status.length > 0) {
-        return resource.badge_status[resource.badge_status.length - 1].state;
-    } else {
-        return "Not Started"
-    }
-}
 
 function getImplementorRoles(tasks) {
     let implementorRoles = [];

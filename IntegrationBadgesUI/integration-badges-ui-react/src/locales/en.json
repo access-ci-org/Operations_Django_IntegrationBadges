@@ -1,5 +1,6 @@
 {
   "badgeWorkflowState": {
+    "undefined": "Not Started",
     "not-planned": "Not Started",
     "planned": "In Progress",
     "task-completed":  "Verification Pending",
@@ -8,6 +9,7 @@
     "deprecated": "Deprecated"
   },
   "badgeWorkflowStateClass": {
+    "undefined": "",
     "not-planned": "",
     "planned": "bg-light",
     "task-completed":  "bg-warning-subtle",

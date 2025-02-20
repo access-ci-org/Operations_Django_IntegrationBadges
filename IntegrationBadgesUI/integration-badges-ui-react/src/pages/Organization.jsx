@@ -16,38 +16,41 @@ const filters = ["All Resources", "In Progress", "Complete - Active Integration"
 export default function Organization() {
     const {organizationId} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
-    const {resources, resourceMap, fetchResources, fetchResource, fetchSelectedResources} = useResources();
+    const {
+        fetchResources,
+        fetchSelectedResources,
+        getResource,
+        getOrganizationResourceIds
+    } = useResources();
     const [filterSelection, setFilterSelection] = useState({});
 
     const organization = organizationMap[organizationId];
 
 
-
     useEffect(() => {
         fetchResources();
+        fetchOrganization({organizationId});
     }, []);
 
-    useEffect(() => {
-        if (resources && resources.length > 0) {
-            fetchOrganization({organizationId});
-        }
-    }, [resources]);
+    let resourceIds;
+    if (organization) {
+        resourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
+    }
 
     useEffect(() => {
-        if (organization && organization.resourceIds && organization.resourceIds.length > 0) {
-            fetchSelectedResources({resourceIds: organization.resourceIds});
+        if (organization && resourceIds) {
+            fetchSelectedResources({resourceIds});
         }
-    }, [organization])
+    }, [organization, resourceIds])
 
     if (organization) {
         let inProgressResources = []
         let establishedResources = []
 
-        console.log("organization.resourceIds ", organization.resourceIds)
-        if (organization.resourceIds) {
-            for (let i = 0; i < organization.resourceIds.length; i++) {
-                let resourceId = organization.resourceIds[i];
-                let resource = resourceMap[resourceId];
+        if (resourceIds) {
+            for (let i = 0; i < resourceIds.length; i++) {
+                let resourceId = resourceIds[i];
+                let resource = getResource({resourceId})
                 if (resource.roadmaps && resource.roadmaps.length > 0) {
                     establishedResources.push(resource);
                 } else if (resource.roadmaps) {
@@ -55,9 +58,6 @@ export default function Organization() {
                 }
             }
         }
-
-        console.log("inProgressResources : ", inProgressResources)
-        console.log("establishedResources : ", establishedResources)
 
         return <div className="container">
             <div className="row">
@@ -87,7 +87,8 @@ export default function Organization() {
                             <i className="bi bi-search"></i>
                         </span>
                         <input type="text" className="form-control"
-                               placeholder="Search Resource by Name, Type, ResourceBadge, etc" aria-label="Search keywords"/>
+                               placeholder="Search Resource by Name, Type, ResourceBadge, etc"
+                               aria-label="Search keywords"/>
                     </div>
                 </div>
                 <div className="w-12">

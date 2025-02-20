@@ -1,12 +1,15 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import axios from 'axios';
 import DefaultReducer from "./reducers/DefaultReducer";
+import {useResources} from "./ResourcesContext";
 
 const BadgeContext = createContext({
     badgeMap: {},
     fetchBadges: () => {
     },
     fetchBadge: ({badgeId}) => {
+    },
+    getBadge: ({badgeId}) => {
     }
 });
 
@@ -70,8 +73,14 @@ export const BadgeProvider = ({children}) => {
         }
     };
 
+
+    const getBadge = ({badgeId}) => {
+        return badgeMap[badgeId];
+    };
+
+
     return (
-        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge}}>
+        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge, getBadge}}>
             {children}
         </BadgeContext.Provider>
     );
