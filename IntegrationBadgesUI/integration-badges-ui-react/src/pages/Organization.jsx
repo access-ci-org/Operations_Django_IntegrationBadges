@@ -23,6 +23,7 @@ export default function Organization() {
         getOrganizationResourceIds
     } = useResources();
     const [filterSelection, setFilterSelection] = useState({});
+    const [resourceIds, setResourceIds] = useState([]);
 
     const organization = organizationMap[organizationId];
 
@@ -32,10 +33,11 @@ export default function Organization() {
         fetchOrganization({organizationId});
     }, []);
 
-    let resourceIds;
-    if (organization) {
-        resourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
-    }
+    useEffect(() => {
+        if (organization) {
+            setResourceIds(getOrganizationResourceIds({organizationName: organization.organization_name}));
+        }
+    }, [organization]);
 
     useEffect(() => {
         if (organization && resourceIds) {
