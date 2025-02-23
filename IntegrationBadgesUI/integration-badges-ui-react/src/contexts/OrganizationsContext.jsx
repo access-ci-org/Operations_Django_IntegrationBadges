@@ -4,14 +4,9 @@ import {useResources} from "./ResourcesContext";
 import DefaultReducer from "./reducers/DefaultReducer";
 
 const OrganizationsContext = createContext({
-    organizations: [],
-    organizationMap: {},
-    organizationMapByName: {},
-    fetchOrganizations: () => {
-    },
-    fetchOrganization: ({organizationId}) => {
-    },
-    getOrganization: ({organizationName}) => {
+    organizations: [], organizationMap: {}, organizationMapByName: {}, fetchOrganizations: () => {
+    }, fetchOrganization: ({organizationId}) => {
+    }, getOrganization: ({organizationName}) => {
     }
 });
 
@@ -28,21 +23,18 @@ export const OrganizationsProvider = ({children}) => {
 
     const fetchOrganization = async ({organizationId}) => {
         try {
-            const response = await axios.get(`https://operations-api.access-ci.org/wh2/cider/v1/organizations/organization_id/${organizationId}`);
+            const response = await axios.get(`${process.env.REACT_APP_ORGANIZATION_API_URL}organizations/organization_id/${organizationId}`);
             const organization = response.data.results;
             setOrganizationMap({
-                ...organizationMap,
-                [organizationId]: organization
+                ...organizationMap, [organizationId]: organization
             });
 
             setOrganizationMapByName({
-                ...organizationMapByName,
-                [organization.organization_name]: organization
+                ...organizationMapByName, [organization.organization_name]: organization
             });
 
             setOrganizationMap({
-                ...organizationMap,
-                [organizationId]: {
+                ...organizationMap, [organizationId]: {
                     ...organization
                 }
             });
@@ -54,7 +46,7 @@ export const OrganizationsProvider = ({children}) => {
     };
     const fetchOrganizations = async () => {
         try {
-            const response = await axios.get('https://operations-api.access-ci.org/wh2/cider/v1/organizations/');
+            const response = await axios.get(`${process.env.REACT_APP_ORGANIZATION_API_URL}organizations/`);
             const _organizations = response.data.results;
             setOrganizations(_organizations);
 
@@ -68,13 +60,11 @@ export const OrganizationsProvider = ({children}) => {
 
 
             setOrganizationMap({
-                ...organizationMap,
-                ..._organizationMap
+                ...organizationMap, ..._organizationMap
             });
 
             setOrganizationMapByName({
-                ...organizationMapByName,
-                ..._organizationMapByName
+                ...organizationMapByName, ..._organizationMapByName
             });
 
             return response.data.results;
@@ -91,8 +81,7 @@ export const OrganizationsProvider = ({children}) => {
         }
     };
 
-    return (
-        <OrganizationsContext.Provider
+    return (<OrganizationsContext.Provider
             value={{
                 organizations,
                 organizationMap,
@@ -102,6 +91,5 @@ export const OrganizationsProvider = ({children}) => {
                 getOrganization
             }}>
             {children}
-        </OrganizationsContext.Provider>
-    );
+        </OrganizationsContext.Provider>);
 };

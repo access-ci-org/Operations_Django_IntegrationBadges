@@ -19,8 +19,7 @@ import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
 
 // Setting the default baseURL
-// axios.defaults.baseURL = "http://0.0.0.0:8000/wh2/integration_badges/v1";
-axios.defaults.baseURL = "https://opsapi3.access-ci.org/wh2/integration_badges/v1/"
+axios.defaults.baseURL = process.env.REACT_APP_OPERATIONS_API_URL;
 
 const RouterLayout = () => {
     return (

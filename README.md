@@ -1,8 +1,8 @@
 # Build the Django App
 
-`python manage.py runserver`
+`./runserver.sh`
 
-(http://127.0.0.1:8000/IntegrationBadgesUI/)[http://127.0.0.1:8000/IntegrationBadgesUI/]
+http://127.0.0.1:8081/IntegrationBadgesUI/
 
 # Build the React Code
 
