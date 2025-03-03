@@ -64,7 +64,7 @@ export default function ResourceBadge() {
     let tasks = getResourceBadgeTasks({resourceId, badgeId});
     let prerequisiteBadges = getResourceBadgePrerequisites({resourceId, badgeId});
 
-    if (resource && organization && badge && prerequisiteBadges && tasks) {
+    if (resource && organization && badge && tasks) {
         return <div className="container">
             <div className="row">
                 <div className="col-lg-9">
