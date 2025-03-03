@@ -5,6 +5,7 @@ import {useResources} from "../contexts/ResourcesContext";
 
 import defaultBadgeIcon from "../assets/badge_icon_default.png"
 import {useBadges} from "../contexts/BadgeContext";
+import LoadingBlock from "../components/LoadingBlock";
 
 const filters = ["All Resources", "In Progress", "Complete - Active Integration", "Pending Verification",
     "Verification Failed"];
@@ -54,8 +55,9 @@ export default function Organization() {
     if (organization) {
         let inProgressResources = []
         let establishedResources = []
+        let processing = false;
 
-        if (resourceIds) {
+        if (resourceIds && resourceIds.length > 0) {
             for (let i = 0; i < resourceIds.length; i++) {
                 let resourceId = resourceIds[i];
                 let resource = getResource({resourceId})
@@ -63,9 +65,14 @@ export default function Organization() {
                     establishedResources.push(resource);
                 } else if (resource.roadmaps) {
                     inProgressResources.push(resource);
+                } else {
+                    processing = true;
                 }
             }
+        } else {
+            processing = true;
         }
+
 
         return <div className="container">
             <div className="row">
@@ -111,35 +118,42 @@ export default function Organization() {
                         return <a key={filterIndex} className={badgeClassName}>{filter}</a>
                     })}
                 </div>
-                <div className="col-12 pt-4">
-                    <h2>In Progress</h2>
-                    <div className="w-100 row row-cols-3">
-                        {inProgressResources.map((resource, resourceIndex) => {
-                            let badges = getResourceBadges({resourceId: resource.cider_resource_id});
 
-                            return <div className="col p-3" key={resourceIndex}>
-                                {getResourceCard(organization, resource, badges)}
-                            </div>
-                        })}
-                    </div>
-                </div>
-                <div className="col-12 pt-4">
-                    <h2>Current Integrations</h2>
+                <div className="container">
+                    <LoadingBlock processing={processing} className="pt-4 pb-5">
+                        <div className="col-12 pt-4">
+                            <h2>In Progress</h2>
+                            <div className="w-100 row row-cols-3">
+                                {inProgressResources.map((resource, resourceIndex) => {
+                                    let badges = getResourceBadges({resourceId: resource.cider_resource_id});
 
-                    <div className="w-100 row row-cols-3">
-                        {establishedResources.map((resource, resourceIndex) => {
-                            let badges = getResourceBadges({resourceId: resource.cider_resource_id});
-                            return <div className="col p-3" key={resourceIndex}>
-                                {getResourceCard(organization, resource, badges)}
+                                    return <div className="col p-3" key={resourceIndex}>
+                                        {getResourceCard(organization, resource, badges)}
+                                    </div>
+                                })}
                             </div>
-                        })}
-                    </div>
+                        </div>
+                        <div className="col-12 pt-4">
+                            <h2>Current Integrations</h2>
+
+                            <div className="w-100 row row-cols-3">
+                                {establishedResources.map((resource, resourceIndex) => {
+                                    let badges = getResourceBadges({resourceId: resource.cider_resource_id});
+                                    return <div className="col p-3" key={resourceIndex}>
+                                        {getResourceCard(organization, resource, badges)}
+                                    </div>
+                                })}
+                            </div>
+                        </div>
+                    </LoadingBlock>
                 </div>
             </div>
         </div>
 
     } else {
-        return <div>Loading</div>
+        return <div className="container">
+            <LoadingBlock/>
+        </div>
     }
 }
 
@@ -166,7 +180,8 @@ function getResourceCard(organization, resource, badges) {
                     </div>
                 })}
                 {badges && badges.length > 3 && <div>
-                    <Link to={`/resources/${resource.cider_resource_id}`} className="btn btn-link text-secondary p-2 text-decoration-none">
+                    <Link to={`/resources/${resource.cider_resource_id}`}
+                          className="btn btn-link text-secondary p-2 text-decoration-none">
                         +{badges.length - 3}
                     </Link>
                 </div>}
