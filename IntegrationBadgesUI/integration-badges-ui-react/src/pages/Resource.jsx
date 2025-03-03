@@ -52,7 +52,7 @@ export default function Resource() {
         badgeGroups[BadgeWorkflowStatus.VERIFIED],
 
         // All
-        badges,
+        badges ? badges : [],
 
         // Waiting for Verification
         badgeGroups[BadgeWorkflowStatus.TASK_COMPLETED],
