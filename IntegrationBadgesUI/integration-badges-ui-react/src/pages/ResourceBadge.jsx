@@ -64,14 +64,6 @@ export default function ResourceBadge() {
     let tasks = getResourceBadgeTasks({resourceId, badgeId});
     let prerequisiteBadges = getResourceBadgePrerequisites({resourceId, badgeId});
 
-    function getLatestStatus(resource) {
-        if (badge) {
-            return resource.badge_status[resource.badge_status.length - 1].status;
-        } else {
-            return "Not Started"
-        }
-    }
-
     if (resource && organization && badge && prerequisiteBadges && tasks) {
         return <div className="container">
             <div className="row">
