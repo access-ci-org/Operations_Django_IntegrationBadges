@@ -35,8 +35,8 @@ export default function Organization() {
     const organization = organizationMap[organizationId];
 
     useEffect(() => {
-        fetchBadges();
-        fetchResources();
+        // fetchBadges();
+        // fetchResources();
         fetchOrganization({organizationId});
     }, []);
 
@@ -152,7 +152,7 @@ export default function Organization() {
 
     } else {
         return <div className="container">
-            <LoadingBlock/>
+            <LoadingBlock processing={true}/>
         </div>
     }
 }

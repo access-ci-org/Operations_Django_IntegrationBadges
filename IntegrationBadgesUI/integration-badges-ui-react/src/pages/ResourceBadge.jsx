@@ -33,8 +33,8 @@ export default function ResourceBadge() {
 
     useEffect(() => {
         fetchResource({resourceId});
-        fetchOrganizations();
-        fetchBadges();
+        // fetchOrganizations();
+        // fetchBadges();
         fetchBadge({badgeId});
         fetchTasks({badgeId});
     }, []);

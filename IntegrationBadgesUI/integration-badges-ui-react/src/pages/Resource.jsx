@@ -21,8 +21,8 @@ export default function Resource() {
 
     useEffect(() => {
         fetchResource({resourceId});
-        fetchOrganizations();
-        fetchBadges();
+        // fetchOrganizations();
+        // fetchBadges();
     }, []);
 
     const resource = getResource({resourceId});
@@ -141,7 +141,7 @@ export default function Resource() {
             </div>
         </div>
     } else {
-        return <LoadingBlock/>
+        return <LoadingBlock processing={true}/>
     }
 
 }
