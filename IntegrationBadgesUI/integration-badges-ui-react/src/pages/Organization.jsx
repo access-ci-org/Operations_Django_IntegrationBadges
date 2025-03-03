@@ -17,6 +17,8 @@ export default function Organization() {
     const {organizationId} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
+        resources,
+        resourceMap,
         fetchResources,
         fetchSelectedResources,
         getResource,
@@ -27,23 +29,22 @@ export default function Organization() {
 
     const organization = organizationMap[organizationId];
 
-
     useEffect(() => {
         fetchResources();
         fetchOrganization({organizationId});
     }, []);
 
     useEffect(() => {
-        if (organization) {
+        if (organization && resources) {
             setResourceIds(getOrganizationResourceIds({organizationName: organization.organization_name}));
         }
-    }, [organization]);
+    }, [organization, resources]);
 
     useEffect(() => {
-        if (organization && resourceIds) {
+        if (resourceIds) {
             fetchSelectedResources({resourceIds});
         }
-    }, [organization, resourceIds])
+    }, [resourceIds])
 
     if (organization) {
         let inProgressResources = []
