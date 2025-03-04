@@ -5,7 +5,6 @@ import {useEffect, useState} from "react";
 import {Collapse, Fade, Nav} from "react-bootstrap";
 import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 
-import defaultBadgeIcon from "../assets/badge_icon_default.png"
 import {useTranslation} from "react-i18next";
 import LoadingBlock from "../components/LoadingBlock";
 
@@ -153,7 +152,7 @@ function getBadgeCard(organization, resource, badge, t) {
             <div className="w-100 p-1 badge-card-header">
                 <div className="badge-card-header-thumbnail">
                     <div className="badge-card-header-icon"
-                         style={{backgroundImage: `url(${defaultBadgeIcon})`}}>
+                         style={{backgroundImage: `url(${badge.graphic})`}}>
                     </div>
                 </div>
                 <h3 className="w-100">{badge.name}</h3>
