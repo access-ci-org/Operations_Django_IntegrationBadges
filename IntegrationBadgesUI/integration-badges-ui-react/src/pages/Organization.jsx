@@ -37,7 +37,7 @@ export default function Organization() {
         // fetchBadges();
         // fetchResources();
         fetchOrganization({organizationId});
-    }, []);
+    }, [organizationId]);
 
     useEffect(() => {
         if (organization && resources) {
