@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "rm -rf ../static/integration-badges-ui-react && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
