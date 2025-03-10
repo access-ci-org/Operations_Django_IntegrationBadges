@@ -5,19 +5,22 @@ from django.conf import settings
 import os
 import json
 
+
 # /Volumes/T7-Shield-Dinuka/iub-access/repo/Operations_Django_IntegrationBadges/static/integration-badges-ui-react/asset-manifest.json
 # /Volumes/T7-Shield-Dinuka/iub-access/repo/Operations_Django_IntegrationBadges/static/integration-badges-ui-react/asset-manifest.json
 def index(request, rest_of_path=None):
-    with open(os.path.join(settings.BASE_DIR, 'IntegrationBadgesUI', 'static', 'integration-badges-ui-react/.vite/manifest.json'), 'r') as f:
+    django_app_name = "IntegrationBadgesUI"
+    react_app_name = "integration-badges-ui-react"
+
+    with open(os.path.join(settings.BASE_DIR,
+                           f"{django_app_name}/static/{react_app_name}/.vite/manifest.json"), 'r') as f:
+
         manifest_json = json.load(f)
-        print("###### manifest_json : ", manifest_json)
 
         main_js = manifest_json["index.html"]["file"]
         main_css = manifest_json["index.html"]["css"][0]
 
     return render(request, 'IntegrationBadgesUI/index.html', {
-        "main_js": "integration-badges-ui-react/%s" % main_js,
-        "main_css": "integration-badges-ui-react/%s" % main_css
+        "main_js": f"{react_app_name}/{main_js}",
+        "main_css": f"{react_app_name}/{main_css}"
     })
-
-
