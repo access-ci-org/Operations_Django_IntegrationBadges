@@ -6,8 +6,6 @@ import os
 import json
 
 
-# /Volumes/T7-Shield-Dinuka/iub-access/repo/Operations_Django_IntegrationBadges/static/integration-badges-ui-react/asset-manifest.json
-# /Volumes/T7-Shield-Dinuka/iub-access/repo/Operations_Django_IntegrationBadges/static/integration-badges-ui-react/asset-manifest.json
 def index(request, rest_of_path=None):
     django_app_name = "IntegrationBadgesUI"
     react_app_name = "integration-badges-ui-react"
