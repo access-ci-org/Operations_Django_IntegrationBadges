@@ -19,6 +19,7 @@ import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
 import {useEffect, useState} from "react";
 import LoadingBlock from "./components/LoadingBlock";
+import ResourceEdit from "./pages/ResourceEdit.jsx";
 
 // Setting the default baseURL
 axios.defaults.baseURL = import.meta.env.VITE_OPERATIONS_API_URL;
@@ -67,6 +68,7 @@ function App() {
 
 
                                                 <Route path="/resources/:resourceId" element={<Resource/>}/>
+                                                <Route path="/resources/:resourceId/edit" element={<ResourceEdit/>}/>
                                                 <Route path="/resources/:resourceId/badges/:badgeId"
                                                        element={<ResourceBadge/>}/>
 
