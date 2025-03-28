@@ -1,4 +1,5 @@
 import {Link, useParams} from "react-router-dom";
+import Form from 'react-bootstrap/Form';
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
@@ -8,61 +9,102 @@ import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useTranslation} from "react-i18next";
 import LoadingBlock from "../components/LoadingBlock";
 import {BadgeTaskWorkflowStatus} from "../contexts/TaskContext.jsx";
+import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 export default function ResourceEdit() {
     const {t} = useTranslation();
     const {resourceId} = useParams();
-    const {fetchOrganizations} = useOrganizations();
-    const {fetchResource, getResource, getResourceBadges, getResourceOrganization} = useResources();
-    const {fetchBadges} = useBadges();
+    const {fetchResource, getResource, getResourceBadges, getResourceOrganization, setResource} = useResources();
+    const {getBadge} = useBadges();
+    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
 
-    const [filterSelection, setFilterSelection] = useState({});
-    const [activeTabIndex, setActiveTabIndex] = useState(1);
+    const [recommendedBadgeIds, setRecommendedBadgeIds] = useState([]);
+    const [selectedRoadmapIdMap, setSelectedRoadmapIdMap] = useState({});
+    const [selectedBadgeIdMap, setSelectedBadgeIdMap] = useState({});
+    const [saveProcessing, setSaveProcessing] = useState(false);
+
+    useEffect(() => {
+        fetchRoadmaps();
+    }, []);
 
     useEffect(() => {
         fetchResource({resourceId});
-        // fetchOrganizations();
-        // fetchBadges();
     }, [resourceId]);
+
+    const toggleRoadmapSelection = ({roadmapId}) => {
+        setSelectedRoadmapIdMap({
+            ...selectedRoadmapIdMap, [roadmapId]: !selectedRoadmapIdMap[roadmapId]
+        });
+    };
+    const toggleBadgeSelection = ({badgeId}) => {
+        setSelectedBadgeIdMap({
+            ...selectedBadgeIdMap, [badgeId]: !selectedBadgeIdMap[badgeId]
+        });
+    };
+
+    const handleSave = async () => {
+        const roadmapIds = [];
+        for (let roadmapId in selectedRoadmapIdMap) {
+            if (selectedRoadmapIdMap[roadmapId]) {
+                roadmapIds.push(roadmapId);
+            }
+        }
+
+        const badgeIds = recommendedBadgeIds.filter(badgeId => selectedBadgeIdMap[badgeId]);
+
+        setSaveProcessing(true);
+        await setResource({resourceId, roadmapIds, badgeIds});
+        setSaveProcessing(false);
+    };
 
     const resource = getResource({resourceId});
     let organization = getResourceOrganization({resourceId})
-    let badges = getResourceBadges({resourceId});
 
-    let badgeGroups = {
-        [BadgeWorkflowStatus.NOT_PLANNED]: [],
-        [BadgeWorkflowStatus.PLANNED]: [],
-        [BadgeWorkflowStatus.TASK_COMPLETED]: [],
-        [BadgeWorkflowStatus.VERIFICATION_FAILED]: [],
-        [BadgeWorkflowStatus.VERIFIED]: [],
-        [BadgeWorkflowStatus.DEPRECATED]: [],
-    };
+    let roadmaps = getRoadmaps();
+    let badges = recommendedBadgeIds.map(badgeId => getBadge({badgeId}));
 
-    if (badges && badges.length > 0) {
-        for (let i = 0; i < badges.length; i++) {
-            const badge = badges[i];
-            if (badge.status) {
-                badgeGroups[badge.status].push(badge);
+    useEffect(() => {
+        if (roadmaps.length > 0) {
+            let badgeIds = [];
+            for (let i = 0; i < roadmaps.length; i++) {
+                const roadmapId = roadmaps[i].roadmap_id;
+
+                if (selectedRoadmapIdMap[roadmapId]) {
+                    for (let j = 0; j < roadmaps[i].badges.length; j++) {
+                        const badgeId = roadmaps[i].badges[j].badge.badge_id;
+                        badgeIds.push(badgeId);
+                    }
+                }
             }
+
+            badgeIds = Array.from(new Set(badgeIds));
+            setRecommendedBadgeIds(badgeIds);
         }
-    }
+    }, [roadmaps.length, selectedRoadmapIdMap]);
 
-    const tabs = [
-        // Verified
-        badgeGroups[BadgeWorkflowStatus.VERIFIED],
 
-        // All
-        badges ? badges : [],
+    useEffect(() => {
+        if (resource && resource.roadmaps) {
+            const _selectedRoadmapIdMap = {};
+            for (let i = 0; i < resource.roadmaps.length; i++) {
+                _selectedRoadmapIdMap[resource.roadmaps[i].roadmap_id] = true;
+            }
+            setSelectedRoadmapIdMap(_selectedRoadmapIdMap);
+        }
 
-        // Waiting for Verification
-        badgeGroups[BadgeWorkflowStatus.TASK_COMPLETED],
+        if (resource && resource.badge_status) {
+            const _selectedBadgeIdMap = {};
+            for (let i = 0; i < resource.badge_status.length; i++) {
+                _selectedBadgeIdMap[resource.badge_status[i].badge_id] = true;
+            }
 
-        // Verification Failed
-        badgeGroups[BadgeWorkflowStatus.VERIFICATION_FAILED]
-    ];
+            setSelectedBadgeIdMap(_selectedBadgeIdMap);
+        }
+    }, [resource]);
 
 
     if (resource && organization) {
+
         return <div className="container">
             <div className="row">
                 <h1>{resource.resource_descriptive_name}</h1>
@@ -90,28 +132,35 @@ export default function ResourceEdit() {
                     </div>
                 </div>
             </div>
-            {/*<div className="w-100 pt-3 pb-3">*/}
-            {/*    <p>{resource.resource_description}</p>*/}
-            {/*    /!*<Link to={resource.user_guide_url} className="btn btn-dark">View User Guide</Link>*!/*/}
-            {/*</div>*/}
-            {/*<div className=" w-100 pt-5 pb-5 text-medium lead fst-italic fs-3">*/}
-            {/*    Review the list of badges waiting for completion and start completing tasks to earn badges and track*/}
-            {/*    your progress!*/}
-            {/*</div>*/}
 
-            <div className="row">
-                <h2>Badges</h2>
-
-                <div className="w-100 pt-2 pb-5 row row-cols-3">
-                    {badges && badges.map((badge) => {
-                        return <div className="w-100 pt-2" key={badge.badge_id}>
-                            {getBadgeCard(organization, resource, badge, t)}
+            <div className="row pt-5">
+                <h2>Roadmaps</h2>
+                <div className="w-100 pt-2 pb-5">
+                    {roadmaps && roadmaps.map((roadmap) => {
+                        const roadmapId = roadmap.roadmap_id;
+                        return <div className="w-100 pt-2" key={roadmapId}>
+                            {getRoadmapCard(organization, resource, roadmap, selectedRoadmapIdMap[roadmapId], toggleRoadmapSelection.bind(this, {roadmapId}), t)}
                         </div>
                     })}
-                    {badges && badges.length === 0 &&
-                        <div className="w-100 p-3 text-center lead">
-                            No badges available
-                        </div>}
+                    {roadmaps && roadmaps.length === 0 && <div className="w-100 p-3 text-center lead">
+                        No roadmaps available
+                    </div>}
+                </div>
+            </div>
+
+            <div className="row pt-5">
+                <h2>Badges</h2>
+
+                <div className="w-100 pt-2 pb-5">
+                    {badges && badges.map((badge) => {
+                        const badgeId = badge.badge_id;
+                        return <div className="w-100 pt-2" key={badgeId}>
+                            {getBadgeCard(organization, resource, badge, selectedBadgeIdMap[badgeId], toggleBadgeSelection.bind(this, {badgeId}), t)}
+                        </div>
+                    })}
+                    {badges && badges.length === 0 && <div className="w-100 p-3 text-center lead">
+                        No badges available
+                    </div>}
                 </div>
 
             </div>
@@ -121,9 +170,20 @@ export default function ResourceEdit() {
                 <button className="btn btn-outline-dark m-1">
                     Cancel
                 </button>
-                <button className="btn btn-dark m-1">
-                    Save details
-                </button>
+
+                {
+                    saveProcessing ?
+                        <button className="btn btn-dark m-1">
+                                                <span className="spinner-border spinner-border-sm me-3" role="status"
+                                                      aria-hidden="true"></span>
+                            Loading...
+                        </button> :
+                        <button className="btn btn-dark m-1" onClick={handleSave}>
+                            Save details
+                        </button>
+                }
+
+
             </div>
         </div>
     } else {
@@ -132,17 +192,43 @@ export default function ResourceEdit() {
 
 }
 
-function getBadgeCard(organization, resource, badge, t) {
-
-    if (organization && resource && badge) {
-
+function getRoadmapCard(organization, resource, roadmap, selected, toggle, t) {
+    if (organization && resource && roadmap) {
         return <div className="row rounded-3 border-gray-200 border border-1">
             <div className="col-lg-4 ps-0 d-flex flex-row align-items-center">
                 <div
                     className="p-3 h-100 bg-light rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
-                    role="button">
-                    <input className="form-check-input" type="checkbox" id="checkboxNoLabel" role="button" value=""
-                           aria-label="..."/>
+                    role="button" onClick={toggle}>
+                    <Form.Check name="roadmaps" type="checkbox" id={`roadmap-${roadmap.roadmap_id}`}
+                                checked={!!selected} onChange={toggle}/>
+                </div>
+                <div className="mt-3 mb-3 ms-2 me-2 background-image-center-no-repeat badge-icon-small"
+                     style={{backgroundImage: `url(${roadmap.graphic})`}}>
+                </div>
+                <h4 className="flex-fill p-2 m-0">{roadmap.name}</h4>
+            </div>
+            <p className="col-lg-5 pt-2 pb-2 m-0 align-content-center">
+                {roadmap.executive_summary}
+            </p>
+            <div className="col-lg-3 pt-2 pb-2 align-content-center">
+                <Link to={`/roadmaps/${roadmap.roadmap_id}`}
+                      className="w-100 btn btn-outline-dark btn-sm">
+                    View Additional Roadmap Details
+                </Link>
+            </div>
+        </div>
+    }
+}
+
+function getBadgeCard(organization, resource, badge, selected, toggle, t) {
+    if (organization && resource && badge) {
+        return <div className="row rounded-3 border-gray-200 border border-1">
+            <div className="col-lg-4 ps-0 d-flex flex-row align-items-center">
+                <div
+                    className="p-3 h-100 bg-light rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
+                    role="button" onClick={toggle}>
+                    <Form.Check name="badges" type="checkbox" id={`badge-${badge.badge_id}`}
+                                checked={!!selected} onChange={toggle}/>
                 </div>
                 <div className="mt-3 mb-3 ms-2 me-2 background-image-center-no-repeat badge-icon-small"
                      style={{backgroundImage: `url(${badge.graphic})`}}>
@@ -158,35 +244,6 @@ function getBadgeCard(organization, resource, badge, t) {
                     View Additional Badge Details
                 </Link>
             </div>
-        </div>
-
-
-        return
-        <div className="row p-2">
-            <div className="w-100 p-1 badge-card-header">
-                <div className="badge-card-header-thumbnail">
-                    <div className="background-image-center-no-repeat badge-icon-small"
-                         style={{backgroundImage: `url(${badge.graphic})`}}>
-                    </div>
-                </div>
-                <h3 className="w-100">{badge.name}</h3>
-            </div>
-            <div className="w-100 badge-card-body">
-                <p className="w-100">
-                    {badge.resource_provider_summary}
-                </p>
-
-
-                <div className="w-100 text-center">
-                    <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStatusClass.${badge.status}`)}`}>
-                        {badge.status ? t(`badgeWorkflowStatus.${badge.status}`) : "  "}
-                    </small>
-                </div>
-            </div>
-            <Link to={`/resources/${resource.cider_resource_id}/badges/${badge.badge_id}`}
-                  className="btn btn-secondary w-100">
-                View Additional Badge Details
-            </Link>
         </div>
     }
 }
