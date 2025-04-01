@@ -10,6 +10,11 @@ import {useTranslation} from "react-i18next";
 import LoadingBlock from "../components/LoadingBlock";
 import {BadgeTaskWorkflowStatus} from "../contexts/TaskContext.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
+import {
+    BadgeCardRowWithAddRemove,
+    BadgeCardRowWithCheckboxes,
+    RoadmapCard
+} from "../components/resource-edit/resource-edit-page-cards.jsx";
 
 export default function ResourceEdit() {
     const {t} = useTranslation();
@@ -22,6 +27,7 @@ export default function ResourceEdit() {
     const [selectedRoadmapIdMap, setSelectedRoadmapIdMap] = useState({});
     const [selectedBadgeIdMap, setSelectedBadgeIdMap] = useState({});
     const [saveProcessing, setSaveProcessing] = useState(false);
+    const [wizardIndex, setWizardIndex] = useState(0);
 
     useEffect(() => {
         fetchRoadmaps();
@@ -33,7 +39,8 @@ export default function ResourceEdit() {
 
     const toggleRoadmapSelection = ({roadmapId}) => {
         setSelectedRoadmapIdMap({
-            ...selectedRoadmapIdMap, [roadmapId]: !selectedRoadmapIdMap[roadmapId]
+            // ...selectedRoadmapIdMap,
+            [roadmapId]: !selectedRoadmapIdMap[roadmapId]
         });
     };
     const toggleBadgeSelection = ({badgeId}) => {
@@ -61,7 +68,20 @@ export default function ResourceEdit() {
     let organization = getResourceOrganization({resourceId})
 
     let roadmaps = getRoadmaps();
-    let badges = recommendedBadgeIds.map(badgeId => getBadge({badgeId}));
+    const selectedBadges = [];
+    const notSelectedBadges = [];
+    let badges = recommendedBadgeIds.map(badgeId => {
+        const badge = getBadge({badgeId});
+
+        if (selectedBadgeIdMap[badgeId]) {
+            selectedBadges.push(badge);
+        } else {
+            notSelectedBadges.push(badge);
+        }
+
+        return badge;
+    });
+
 
     useEffect(() => {
         if (roadmaps.length > 0) {
@@ -88,6 +108,9 @@ export default function ResourceEdit() {
             const _selectedRoadmapIdMap = {};
             for (let i = 0; i < resource.roadmaps.length; i++) {
                 _selectedRoadmapIdMap[resource.roadmaps[i].roadmap_id] = true;
+
+                // Skip the roadmap selection if it's already enrolled.
+                setWizardIndex(1);
             }
             setSelectedRoadmapIdMap(_selectedRoadmapIdMap);
         }
@@ -133,38 +156,73 @@ export default function ResourceEdit() {
                 </div>
             </div>
 
-            <div className="row pt-5">
-                <h2>Roadmaps</h2>
-                <div className="w-100 pt-2 pb-5">
+            {wizardIndex === 0 && <div className="row pt-5">
+                <h2>Select the appropriate Roadmap</h2>
+                <div className="row pt-2 pb-5 row-cols-2">
                     {roadmaps && roadmaps.map((roadmap) => {
                         const roadmapId = roadmap.roadmap_id;
-                        return <div className="w-100 pt-2" key={roadmapId}>
-                            {getRoadmapCard(organization, resource, roadmap, selectedRoadmapIdMap[roadmapId], toggleRoadmapSelection.bind(this, {roadmapId}), t)}
+                        return <div className="col pt-2" key={roadmapId}>
+                            <RoadmapCard organization={organization} resource={resource} roadmap={roadmap}
+                                         selected={selectedRoadmapIdMap[roadmapId]}
+                                         toggle={toggleRoadmapSelection.bind(this, {roadmapId})}/>
                         </div>
                     })}
                     {roadmaps && roadmaps.length === 0 && <div className="w-100 p-3 text-center lead">
                         No roadmaps available
                     </div>}
                 </div>
-            </div>
+            </div>}
 
-            <div className="row pt-5">
-                <h2>Badges</h2>
-
+            {wizardIndex === 1 && <div className="row pt-5">
+                <h2>Recommended badges for your resource</h2>
                 <div className="w-100 pt-2 pb-5">
                     {badges && badges.map((badge) => {
                         const badgeId = badge.badge_id;
                         return <div className="w-100 pt-2" key={badgeId}>
-                            {getBadgeCard(organization, resource, badge, selectedBadgeIdMap[badgeId], toggleBadgeSelection.bind(this, {badgeId}), t)}
+                            <BadgeCardRowWithCheckboxes organization={organization} resource={resource}
+                                                        badge={badge}
+                                                        selected={selectedBadgeIdMap[badgeId]}
+                                                        toggle={toggleBadgeSelection.bind(this, {badgeId})}/>
                         </div>
                     })}
                     {badges && badges.length === 0 && <div className="w-100 p-3 text-center lead">
                         No badges available
                     </div>}
                 </div>
+            </div>}
 
-            </div>
+            {wizardIndex === 2 && <div className="row pt-5">
+                <h2>Confirm the Following Badges and Assignments</h2>
+                <div className="w-100 pt-2 pb-5">
+                    {selectedBadges && selectedBadges.map((badge) => {
+                        const badgeId = badge.badge_id;
+                        return <div className="w-100 pt-2" key={badgeId}>
+                            <BadgeCardRowWithAddRemove organization={organization} resource={resource} badge={badge}
+                                                       selected={selectedBadgeIdMap[badgeId]}
+                                                       toggle={toggleBadgeSelection.bind(this, {badgeId})}/>
+                        </div>
+                    })}
+                    {selectedBadges && selectedBadges.length === 0 && <div className="w-100 p-3 text-center lead">
+                        No badges available
+                    </div>}
+                </div>
 
+                <h2>Recommended Badges Skipped for Integration ({notSelectedBadges.length})</h2>
+                <div className="w-100 pt-2 pb-5">
+                    {notSelectedBadges && notSelectedBadges.map((badge) => {
+                        const badgeId = badge.badge_id;
+                        return <div className="w-100 pt-2" key={badgeId}>
+                            <BadgeCardRowWithAddRemove organization={organization} resource={resource} badge={badge}
+                                                       selected={selectedBadgeIdMap[badgeId]}
+                                                       toggle={toggleBadgeSelection.bind(this, {badgeId})}/>
+                        </div>
+                    })}
+                    {notSelectedBadges && notSelectedBadges.length === 0 &&
+                        <div className="w-100 p-3 text-center lead">
+                            No badges available
+                        </div>}
+                </div>
+            </div>}
 
             <div className="w-100 text-end pt-3 pb-5">
                 <button className="btn btn-outline-dark m-1">
@@ -172,15 +230,20 @@ export default function ResourceEdit() {
                 </button>
 
                 {
-                    saveProcessing ?
+                    wizardIndex === 2 && saveProcessing ?
                         <button className="btn btn-dark m-1">
                                                 <span className="spinner-border spinner-border-sm me-3" role="status"
                                                       aria-hidden="true"></span>
                             Loading...
                         </button> :
-                        <button className="btn btn-dark m-1" onClick={handleSave}>
-                            Save details
-                        </button>
+                        wizardIndex === 2 ?
+                            <button className="btn btn-dark m-1" onClick={handleSave}>
+                                Save details
+                            </button> :
+                            <button className="btn btn-dark m-1"
+                                    onClick={setWizardIndex.bind(this, wizardIndex + 1)}>
+                                Continue
+                            </button>
                 }
 
 
@@ -190,60 +253,4 @@ export default function ResourceEdit() {
         return <LoadingBlock processing={true}/>
     }
 
-}
-
-function getRoadmapCard(organization, resource, roadmap, selected, toggle, t) {
-    if (organization && resource && roadmap) {
-        return <div className="row rounded-3 border-gray-200 border border-1">
-            <div className="col-lg-4 ps-0 d-flex flex-row align-items-center">
-                <div
-                    className="p-3 h-100 bg-light rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
-                    role="button" onClick={toggle}>
-                    <Form.Check name="roadmaps" type="checkbox" id={`roadmap-${roadmap.roadmap_id}`}
-                                checked={!!selected} onChange={toggle}/>
-                </div>
-                <div className="mt-3 mb-3 ms-2 me-2 background-image-center-no-repeat badge-icon-small"
-                     style={{backgroundImage: `url(${roadmap.graphic})`}}>
-                </div>
-                <h4 className="flex-fill p-2 m-0">{roadmap.name}</h4>
-            </div>
-            <p className="col-lg-5 pt-2 pb-2 m-0 align-content-center">
-                {roadmap.executive_summary}
-            </p>
-            <div className="col-lg-3 pt-2 pb-2 align-content-center">
-                <Link to={`/roadmaps/${roadmap.roadmap_id}`}
-                      className="w-100 btn btn-outline-dark btn-sm">
-                    View Additional Roadmap Details
-                </Link>
-            </div>
-        </div>
-    }
-}
-
-function getBadgeCard(organization, resource, badge, selected, toggle, t) {
-    if (organization && resource && badge) {
-        return <div className="row rounded-3 border-gray-200 border border-1">
-            <div className="col-lg-4 ps-0 d-flex flex-row align-items-center">
-                <div
-                    className="p-3 h-100 bg-light rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
-                    role="button" onClick={toggle}>
-                    <Form.Check name="badges" type="checkbox" id={`badge-${badge.badge_id}`}
-                                checked={!!selected} onChange={toggle}/>
-                </div>
-                <div className="mt-3 mb-3 ms-2 me-2 background-image-center-no-repeat badge-icon-small"
-                     style={{backgroundImage: `url(${badge.graphic})`}}>
-                </div>
-                <h4 className="flex-fill p-2 m-0">{badge.name}</h4>
-            </div>
-            <p className="col-lg-5 pt-2 pb-2 m-0 align-content-center">
-                {badge.resource_provider_summary}
-            </p>
-            <div className="col-lg-3 pt-2 pb-2 align-content-center">
-                <Link to={`/resources/${resource.cider_resource_id}/badges/${badge.badge_id}`}
-                      className="w-100 btn btn-outline-dark btn-sm">
-                    View Additional Badge Details
-                </Link>
-            </div>
-        </div>
-    }
 }

@@ -66,7 +66,7 @@ export default function ResourceBadge() {
     if (resource && organization && badge && tasks && prerequisiteBadges) {
         return <div className="container">
             <div className="row">
-                <div className="col-lg-12">
+                <div className="col-sm-12">
                     <div className="row">
                         <h1>{resource.resource_descriptive_name}</h1>
                         <div>
@@ -78,11 +78,11 @@ export default function ResourceBadge() {
                         </div>
                     </div>
                     <div className="row pt-5">
-                        <div className="col-lg-2 background-image-center-no-repeat"
+                        <div className="col-sm-2 background-image-center-no-repeat"
                              style={{backgroundImage: `url(${badge.graphic})`}}>
 
                         </div>
-                        <div className="col-lg-10">
+                        <div className="col-sm-10">
                             <h2>{badge.name}</h2>
                             <div className="row">
                                 <div className="col">
@@ -121,17 +121,17 @@ export default function ResourceBadge() {
                         return <div key={taskIndex} className="w-100 pt-2">
                             <div className="row p-2 rounded-3 border-gray-200 border border-1 border-left-wide">
 
-                                <div className="col-lg-4 ps-0 d-flex flex-row align-items-center">
+                                <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                                     <div
                                         className="p-4 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
                                         role="button">
                                     </div>
                                     <h4 className="flex-fill p-2 ps-3 m-0">{prerequisiteBadge.name}</h4>
                                 </div>
-                                <p className="col-lg-5 pt-2 pb-2 m-0 align-content-center">
+                                <p className="col-sm-5 pt-2 pb-2 m-0 align-content-center">
                                     {prerequisiteBadge.resource_provider_summary}
                                 </p>
-                                <div className="col-lg-3 pt-2 pb-2 align-content-center">
+                                <div className="col-sm-3 pt-2 pb-2 align-content-center">
                                     <Link
                                         to={`/resources/${resource.cider_resource_id}/badges/${prerequisiteBadge.badge_id}`}
                                         className="w-100 btn btn-outline-dark btn-sm">
@@ -161,7 +161,7 @@ export default function ResourceBadge() {
                             <div className="row rounded-3 border-gray-200 border border-1">
 
 
-                                <div className="col-lg-4 ps-0 d-flex flex-row align-items-center">
+                                <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                                     <div
                                         className="p-4 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
                                         role="button">
@@ -169,11 +169,11 @@ export default function ResourceBadge() {
                                     <h4 className="flex-fill p-2 ps-3 m-0">{task.name}</h4>
                                 </div>
 
-                                <p className="col-lg-5 pt-2 pb-2 m-0 align-content-center">
+                                <p className="col-sm-5 pt-2 pb-2 m-0 align-content-center">
                                     {task.technical_summary}
                                     <a className="btn btn-link" href={task.detailed_instructions_url}>View Details</a>
                                 </p>
-                                <div className="col-lg-3 pt-2 pb-2 align-content-center">
+                                <div className="col-sm-3 pt-2 pb-2 align-content-center">
                                     {(() => {
                                         if (taskActionStatusProcessing[taskId]) {
                                             return <button className="w-100 btn btn-dark btn-sm">

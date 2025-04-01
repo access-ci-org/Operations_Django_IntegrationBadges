@@ -83,7 +83,7 @@ export default function Organization() {
 
         return <div className="container">
             <div className="row">
-                <div className="col-lg-2 col-m-3 col-sm-4 bg-white" style={{
+                <div className="col-sm-2 col-m-3 col-sm-4 bg-white" style={{
                     backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
