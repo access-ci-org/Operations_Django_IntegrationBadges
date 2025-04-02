@@ -133,7 +133,7 @@ export default function Organization() {
                                     let badges = getResourceBadges({resourceId: resource.cider_resource_id});
 
                                     return <div className="col p-3" key={resourceIndex}>
-                                        {getResourceCard(organization, resource, badges)}
+                                        {getResourceCard(organization, resource, badges, true)}
                                     </div>
                                 })}
                             </div>
@@ -166,14 +166,14 @@ export default function Organization() {
     }
 }
 
-function getResourceCard(organization, resource, badges) {
+function getResourceCard(organization, resource, badges, inProgress = false) {
     return <div className="w-100 resource-card p-2">
         <div className="w-100 bg-light p-1 resource-card-header">
             <div className="w-100 ps-2">
-                <Link to={`/resources/${resource.cider_resource_id}/edit`}
+                {!inProgress && <Link to={`/resources/${resource.cider_resource_id}/edit`}
                       className="btn btn-link">
                     Edit
-                </Link>
+                </Link>}
             </div>
             <h3 className="w-100">{resource.resource_descriptive_name}</h3>
             <div className="resource-card-header-thumbnail">
@@ -203,9 +203,12 @@ function getResourceCard(organization, resource, badges) {
                 {resource.resource_description}
             </p>
         </div>
-        <Link to={`/resources/${resource.cider_resource_id}`} className="btn btn-dark w-100">
+        {inProgress ? <Link to={`/resources/${resource.cider_resource_id}/edit`} className="btn btn-dark w-100">
+            Continue Setup
+        </Link> : <Link to={`/resources/${resource.cider_resource_id}`} className="btn btn-dark w-100">
             View
-        </Link>
+        </Link>}
+
     </div>
 }
 
