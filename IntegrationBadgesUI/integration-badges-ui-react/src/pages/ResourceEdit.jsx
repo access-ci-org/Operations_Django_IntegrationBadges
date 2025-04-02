@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useResources} from "../contexts/ResourcesContext";
@@ -17,6 +17,8 @@ import {
 } from "../components/resource-edit/resource-edit-page-cards.jsx";
 
 export default function ResourceEdit() {
+    const navigate = useNavigate();
+
     const {t} = useTranslation();
     const {resourceId} = useParams();
     const {fetchResource, getResource, getResourceBadges, getResourceOrganization, setResource} = useResources();
@@ -36,33 +38,6 @@ export default function ResourceEdit() {
     useEffect(() => {
         fetchResource({resourceId});
     }, [resourceId]);
-
-    const toggleRoadmapSelection = ({roadmapId}) => {
-        setSelectedRoadmapIdMap({
-            // ...selectedRoadmapIdMap,
-            [roadmapId]: !selectedRoadmapIdMap[roadmapId]
-        });
-    };
-    const toggleBadgeSelection = ({badgeId}) => {
-        setSelectedBadgeIdMap({
-            ...selectedBadgeIdMap, [badgeId]: !selectedBadgeIdMap[badgeId]
-        });
-    };
-
-    const handleSave = async () => {
-        const roadmapIds = [];
-        for (let roadmapId in selectedRoadmapIdMap) {
-            if (selectedRoadmapIdMap[roadmapId]) {
-                roadmapIds.push(roadmapId);
-            }
-        }
-
-        const badgeIds = recommendedBadgeIds.filter(badgeId => selectedBadgeIdMap[badgeId]);
-
-        setSaveProcessing(true);
-        await setResource({resourceId, roadmapIds, badgeIds});
-        setSaveProcessing(false);
-    };
 
     const resource = getResource({resourceId});
     let organization = getResourceOrganization({resourceId})
@@ -126,6 +101,33 @@ export default function ResourceEdit() {
         }
     }, [resource]);
 
+    const toggleRoadmapSelection = ({roadmapId}) => {
+        setSelectedRoadmapIdMap({
+            // ...selectedRoadmapIdMap,
+            [roadmapId]: !selectedRoadmapIdMap[roadmapId]
+        });
+    };
+    const toggleBadgeSelection = ({badgeId}) => {
+        setSelectedBadgeIdMap({
+            ...selectedBadgeIdMap, [badgeId]: !selectedBadgeIdMap[badgeId]
+        });
+    };
+
+    const handleSave = async () => {
+        const roadmapIds = [];
+        for (let roadmapId in selectedRoadmapIdMap) {
+            if (selectedRoadmapIdMap[roadmapId]) {
+                roadmapIds.push(roadmapId);
+            }
+        }
+
+        const badgeIds = recommendedBadgeIds.filter(badgeId => selectedBadgeIdMap[badgeId]);
+
+        setSaveProcessing(true);
+        await setResource({resourceId, roadmapIds, badgeIds});
+        setSaveProcessing(false);
+        navigate(`/resources/${resource.cider_resource_id}`)
+    };
 
     if (resource && organization) {
 
@@ -226,28 +228,25 @@ export default function ResourceEdit() {
             </div>}
 
             <div className="w-100 text-end pt-3 pb-5">
-                <button className="btn btn-outline-dark m-1">
-                    Cancel
-                </button>
+                {wizardIndex > 0 &&
+                    <button className="btn btn-outline-dark m-1" onClick={setWizardIndex.bind(this, wizardIndex - 1)}>
+                        Back
+                    </button>}
 
-                {
-                    wizardIndex === 2 && saveProcessing ?
-                        <button className="btn btn-dark m-1">
+                {wizardIndex === 2 && saveProcessing ?
+                    <button className="btn btn-dark m-1">
                                                 <span className="spinner-border spinner-border-sm me-3" role="status"
                                                       aria-hidden="true"></span>
-                            Loading...
+                        Loading...
+                    </button> :
+                    wizardIndex === 2 ?
+                        <button className="btn btn-dark m-1" onClick={handleSave}>
+                            Save details
                         </button> :
-                        wizardIndex === 2 ?
-                            <button className="btn btn-dark m-1" onClick={handleSave}>
-                                Save details
-                            </button> :
-                            <button className="btn btn-dark m-1"
-                                    onClick={setWizardIndex.bind(this, wizardIndex + 1)}>
-                                Continue
-                            </button>
-                }
-
-
+                        <button className="btn btn-dark m-1"
+                                onClick={setWizardIndex.bind(this, wizardIndex + 1)}>
+                            Continue
+                        </button>}
             </div>
         </div>
     } else {
