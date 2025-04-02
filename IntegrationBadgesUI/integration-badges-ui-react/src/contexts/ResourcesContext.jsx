@@ -286,7 +286,7 @@ export const ResourcesProvider = ({children}) => {
     const setResourceBadgeWorkflowStatus = async ({resourceId, badgeId, status}) => {
         try {
             const response = await axios.post(
-                `/resource/${resourceId}/badge/${badgeId}/workflow/${status}`,
+                `/resource/${resourceId}/badge/${badgeId}/workflow/${status}/`,
             );
             await fetchResource({resourceId})
 
@@ -299,7 +299,7 @@ export const ResourcesProvider = ({children}) => {
     const setResourceBadgeTaskWorkflowStatus = async ({resourceId, badgeId, taskId, status}) => {
         try {
             const response = await axios.post(
-                `/resource/${resourceId}/badge/${badgeId}/task/${taskId}/workflow/${status}`,
+                `/resource/${resourceId}/badge/${badgeId}/task/${taskId}/workflow/${status}/`,
             );
             await fetchResource({resourceId})
 
