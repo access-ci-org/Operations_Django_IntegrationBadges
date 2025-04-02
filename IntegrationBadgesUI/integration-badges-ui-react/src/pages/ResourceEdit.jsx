@@ -110,7 +110,8 @@ export default function ResourceEdit() {
                 _selectedRoadmapIdMap[resource.roadmaps[i].roadmap_id] = true;
 
                 // Skip the roadmap selection if it's already enrolled.
-                setWizardIndex(1);
+                // TODO uncomment later
+                // setWizardIndex(1);
             }
             setSelectedRoadmapIdMap(_selectedRoadmapIdMap);
         }
