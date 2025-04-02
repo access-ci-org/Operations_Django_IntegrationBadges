@@ -128,7 +128,7 @@ export default function Organization() {
                                 <div className="w-100 p-3 text-center lead">
                                     There are no resource waiting to be integrated
                                 </div>}
-                            <div className="w-100 row row-cols-3">
+                            <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                                 {inProgressResources.map((resource, resourceIndex) => {
                                     let badges = getResourceBadges({resourceId: resource.cider_resource_id});
 
@@ -145,7 +145,7 @@ export default function Organization() {
                                 <div className="w-100 p-3 text-center lead">
                                     There are no resources integrated
                                 </div>}
-                            <div className="w-100 row row-cols-3">
+                            <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                                 {establishedResources.map((resource, resourceIndex) => {
                                     let badges = getResourceBadges({resourceId: resource.cider_resource_id});
                                     return <div className="col p-3" key={resourceIndex}>

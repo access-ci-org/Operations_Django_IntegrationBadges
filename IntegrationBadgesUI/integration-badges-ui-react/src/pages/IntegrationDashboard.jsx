@@ -67,7 +67,7 @@ export default function IntegrationDashboard() {
                 <div className="w-100 p-3 text-center lead">
                     No organisations available
                 </div>}
-            <div className="row mt-2 row-cols-4">
+            <div className="row mt-2 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
                 {filteredOrganizations && filteredOrganizations.map((organization, organizationIndex) => {
                     return <div key={organizationIndex} className="col p-3">
                         <div className="organization-card w-100 h-100">

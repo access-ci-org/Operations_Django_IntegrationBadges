@@ -123,7 +123,7 @@ export default function Resource() {
 
                 {tabs.map((tabBadges, tabIndex) => {
                     return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
-                        <div className="w-100 pt-2 pb-5 row row-cols-3">
+                        <div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                             {tabBadges && tabBadges.map((badge) => {
                                 return <div className="col p-3" key={badge.badge_id}>
                                     {getBadgeCard(organization, resource, badge, t)}
