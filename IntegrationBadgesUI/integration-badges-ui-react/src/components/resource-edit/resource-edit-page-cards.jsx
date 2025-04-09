@@ -2,9 +2,9 @@ import Form from "react-bootstrap/Form";
 import {Link} from "react-router-dom";
 
 export function RoadmapCard(props) {
-    const {organization, resource, roadmap, selected, toggle} = props;
+    const {roadmap, selected, toggle} = props;
 
-    if (organization && resource && roadmap) {
+    if (roadmap) {
         return <div className="row rounded-3 border-gray-200 border border-1 m-4 mt-5 position-relative roadmap-card">
             <div className="w-100 position-absolute text-center roadmap-card-icon-row">
                 <div className="rounded-circle p-3 border d-inline-block bg-white">
@@ -32,8 +32,8 @@ export function RoadmapCard(props) {
     }
 }
 
-export function BadgeCardRow(organization, resource, badge, selected, toggle, toggleComponent) {
-    if (organization && resource && badge) {
+export function BadgeCardRow(resource, badge, selected, toggle, toggleComponent) {
+    if (resource && badge) {
         return <div className="row rounded-3 border-gray-200 border border-1">
             <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                 {toggleComponent}
@@ -57,9 +57,9 @@ export function BadgeCardRow(organization, resource, badge, selected, toggle, to
 
 
 export function BadgeCardRowWithCheckboxes(props) {
-    const {organization, resource, badge, selected, toggle} = props;
+    const {resource, badge, selected, toggle} = props;
 
-    return BadgeCardRow(organization, resource, badge, selected, toggle,
+    return BadgeCardRow(resource, badge, selected, toggle,
         <div
             className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center ${selected ? 'bg-light' : 'bg-gray-100'}`}
             role="button" onClick={toggle}>
@@ -69,9 +69,9 @@ export function BadgeCardRowWithCheckboxes(props) {
 }
 
 export function BadgeCardRowWithAddRemove(props) {
-    const {organization, resource, badge, selected, toggle} = props;
+    const {resource, badge, selected, toggle} = props;
 
-    return BadgeCardRow(organization, resource, badge, selected, toggle,
+    return BadgeCardRow(resource, badge, selected, toggle,
         <div
             className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center bg-gray-100 fs-4`}
             role="button" onClick={toggle}>

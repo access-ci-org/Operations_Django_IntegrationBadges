@@ -5,6 +5,7 @@ import {useResources} from "../contexts/ResourcesContext";
 
 import {useBadges} from "../contexts/BadgeContext";
 import LoadingBlock from "../components/LoadingBlock";
+import ResourceCard from "../components/resource/ResourceCard.jsx";
 
 const filters = ["All Resources", "In Progress", "Complete - Active Integration", "Pending Verification",
     "Verification Failed"];
@@ -133,7 +134,8 @@ export default function Organization() {
                                     let badges = getResourceBadges({resourceId: resource.cider_resource_id});
 
                                     return <div className="col p-3" key={resourceIndex}>
-                                        {getResourceCard(organization, resource, badges, true)}
+                                        <ResourceCard organization={organization} resource={resource} badges={badges}
+                                                      inProgress={true}/>
                                     </div>
                                 })}
                             </div>
@@ -149,7 +151,7 @@ export default function Organization() {
                                 {establishedResources.map((resource, resourceIndex) => {
                                     let badges = getResourceBadges({resourceId: resource.cider_resource_id});
                                     return <div className="col p-3" key={resourceIndex}>
-                                        {getResourceCard(organization, resource, badges)}
+                                        <ResourceCard organization={organization} resource={resource} badges={badges}/>
                                     </div>
                                 })}
                             </div>
@@ -171,7 +173,7 @@ function getResourceCard(organization, resource, badges, inProgress = false) {
         <div className="w-100 bg-light p-1 resource-card-header">
             <div className="w-100 ps-2">
                 {!inProgress && <Link to={`/resources/${resource.cider_resource_id}/edit`}
-                      className="btn btn-link">
+                                      className="btn btn-link">
                     Edit
                 </Link>}
             </div>

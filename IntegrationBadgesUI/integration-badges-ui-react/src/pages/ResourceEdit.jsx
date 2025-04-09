@@ -17,6 +17,35 @@ import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {
     BadgeCardRowWithAddRemove, BadgeCardRowWithCheckboxes, RoadmapCard
 } from "../components/resource-edit/resource-edit-page-cards.jsx";
+import RoadmapSelection from "../components/resource-edit/RoadmapSelection.jsx";
+import BadgeSelection from "../components/resource-edit/BadgeSelection.jsx";
+import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelectionConfirmation.jsx";
+import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSelectionConfirmation.jsx";
+
+
+const infrastructureTypeDetails = [
+    {
+        name: "Compute",
+        title: "High Performance Computing",
+        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
+    },
+    {
+        name: "Storage",
+        title: "Storage",
+        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
+    },
+    {
+        name: "Online Service",
+        title: "Online Service",
+        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
+    },
+    {
+        name: "Science Gateway",
+        title: "Science Gateway",
+        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
+    }
+];
+
 
 export default function ResourceEdit() {
     const navigate = useNavigate();
@@ -43,9 +72,9 @@ export default function ResourceEdit() {
     }, [resourceId]);
 
     const resource = getResource({resourceId});
-    let organization = getResourceOrganization({resourceId})
+    let organization = getResourceOrganization({resourceId});
 
-    let roadmaps = getRoadmaps();
+    let roadmaps = getRoadmaps().filter(({infrastructure_types}) => infrastructure_types === resource.cider_type);
     const selectedBadges = [];
     const notSelectedBadges = [];
     let badges = recommendedBadgeIds.map(badgeId => {
@@ -85,7 +114,6 @@ export default function ResourceEdit() {
         if (resource && resource.roadmaps) {
             const _selectedRoadmapIdMap = {};
             for (let i = 0; i < resource.roadmaps.length; i++) {
-                console.log("#### resource.roadmaps[i].roadmap. ", resource.roadmaps[i].roadmap)
                 _selectedRoadmapIdMap[resource.roadmaps[i].roadmap.roadmap_id] = true;
 
                 // Skip the roadmap selection if it's already enrolled.
@@ -131,9 +159,6 @@ export default function ResourceEdit() {
             }
         }
     }
-    console.log("selectedRoadmapIdMap : ", selectedRoadmapIdMap)
-    console.log("selectedRoadmapIds : ", selectedRoadmapIds)
-    console.log("selectedRoadmaps : ", selectedRoadmaps)
 
     const selectedBadgeIds = recommendedBadgeIds.filter(badgeId => selectedBadgeIdMap[badgeId]);
 
@@ -144,261 +169,45 @@ export default function ResourceEdit() {
         navigate(`/resources/${resource.cider_resource_id}`)
     };
 
-    console.log("accordionActiveKeys : ", accordionActiveKeys)
-    function AccordionSection({children, eventKey, nextEventKey, sectionTitle}) {
-        const {activeEventKey} = useContext(AccordionContext);
-
-        const isActive = activeEventKey.indexOf(eventKey) >= 0;
-
-        const decoratedOnClick = (eventKey) => useAccordionButton(eventKey, () => console.log('totally custom!'),);
-
-        const clickToggle = useAccordionButton(eventKey, () => console.log('totally custom!'),);
-
-        const clickNext = (evt) => {
-            clickToggle(evt);
-            useAccordionButton(eventKey, () => console.log('totally custom!'),);
+    const handlePrev = () => {
+        setWizardIndex(wizardIndex - 1);
+    };
+    const handleNext = async () => {
+        if (wizardIndex === 3) {
+            await handleSave();
+        } else {
+            setWizardIndex(wizardIndex + 1);
         }
-
-        const show = (eventKey) => (evt) => setAccordionActiveKeys(Array.from(new Set([...activeEventKey, eventKey])));
-        const hide = (eventKey) => (evt) => setAccordionActiveKeys(activeEventKey.filter(k => k !== eventKey));
-        const toggle = (eventKey) => activeEventKey.indexOf(eventKey) < 0 ? show(eventKey) : hide(eventKey);
-        const next = (eventKey, nextEventKey) => (evt) => {
-            let _activeEventKey = activeEventKey.filter(k => k !== eventKey);
-            _activeEventKey = nextEventKey ? Array.from(new Set([..._activeEventKey, nextEventKey])) : _activeEventKey;
-            setAccordionActiveKeys(_activeEventKey);
-        }
-
-        // return (
-        //     <button
-        //         type="button"
-        //         style={{backgroundColor: 'pink'}}
-        //         onClick={decoratedOnClick}
-        //     >
-        //         {children}
-        //     </button>
-        // );
-
-        return <Accordion.Item eventKey={eventKey} className="border-0">
-            <div className="row pt-5">
-                <button className="btn btn-link text-decoration-none d-flex flex-row align-items-center"
-                        onClick={toggle(eventKey)}>
-                    <div>
-                        <AccordionButton as="div" className="accordion-button border-0 shadow-none bg-white"/>
-                    </div>
-                    <h2 className="flex-fill m-0">{sectionTitle}</h2>
-                </button>
-
-                {children}
-
-                {isActive && <div className="w-100 p-2 text-end">
-                    <button className="btn btn-dark" onClick={next(eventKey, nextEventKey)}>
-                        Save & Continue
-                    </button>
-                </div>}
-            </div>
-        </Accordion.Item>
-    }
+    };
 
     if (resource && organization) {
 
         return <div className="container">
-            <div className="row">
-                <h1>{resource.resource_descriptive_name}</h1>
-                <div>
-                    By&nbsp;&nbsp;
-                    <Link to={`/organizations/${organization.organization_id}`} className="btn btn-link text-dark">
-                        {organization.organization_name}
-                    </Link>
-                </div>
-            </div>
-            <div className="row pt-5">
-                <h2>Overview</h2>
-                <div className="row">
-                    <div className="col">
-                        <label className="text-secondary">Resource Type</label>
-                        <div>{resource.cider_type}</div>
-                    </div>
-                    <div className="col">
-                        <label className="text-secondary">Latest Status</label>
-                        <div>{resource.latest_status}</div>
-                    </div>
-                    <div className="col">
-                        <label className="text-secondary">Global Resource ID</label>
-                        <div>{resource.info_resourceid}</div>
-                    </div>
-                </div>
-            </div>
+            {wizardIndex === 0 &&
+                <RoadmapSelection resource={resource} roadmaps={roadmaps}
+                                  selected={(roadmapId) => selectedRoadmapIdMap[roadmapId]}
+                                  toggle={(roadmapId) => toggleRoadmapSelection({roadmapId})}
+                                  prev={handlePrev} next={handleNext}/>}
 
+            {wizardIndex === 1 &&
+                <RoadmapSelectionConfirmation organization={organization} resource={resource}
+                                              selectedRoadmaps={selectedRoadmaps} prev={handlePrev} next={handleNext}/>}
 
-            <Accordion activeKey={accordionActiveKeys} alwaysOpen className="pt-5">
-                <AccordionSection eventKey="0" nextEventKey="1" sectionTitle="Select the appropriate Roadmap">
-                    <div className="w-100">
-                        <Accordion.Collapse eventKey="0">
-                            <div className="row pt-2 pb-5 row-cols-2">
-                                {roadmaps && roadmaps.map((roadmap) => {
-                                    const roadmapId = roadmap.roadmap_id;
-                                    return <div className="col pt-2" key={roadmapId}>
-                                        <RoadmapCard organization={organization} resource={resource} roadmap={roadmap}
-                                                     selected={selectedRoadmapIdMap[roadmapId]}
-                                                     toggle={toggleRoadmapSelection.bind(this, {roadmapId})}/>
-                                    </div>
-                                })}
-                                {roadmaps && roadmaps.length === 0 && <div className="w-100 p-3 text-center lead">
-                                    No roadmaps available
-                                </div>}
-                            </div>
-                        </Accordion.Collapse>
-                        {accordionActiveKeys.indexOf("0") < 0 ? <div className="w-100 ps-5">
-                            {selectedRoadmaps && selectedRoadmaps.map((roadmap) => {
-                                const roadmapId = roadmap.roadmap_id;
-                                return <div className="w-100 ps-3 d-flex flex-row align-items-center" key={roadmapId}>
+            {wizardIndex === 2 &&
+                <BadgeSelection organization={organization} resource={resource} selectedRoadmaps={selectedRoadmaps} badges={badges}
+                                selected={(badgeId) => selectedBadgeIdMap[badgeId]}
+                                toggle={(badgeId) => toggleBadgeSelection({badgeId})}
+                                prev={handlePrev} next={handleNext}/>}
 
-                                    <i className="bi bi-check-circle-fill text-medium fs-4"></i>
-                                    <div className="p-2">{roadmap.name}</div>
-                                </div>
-                            })}
-                            {selectedRoadmaps && selectedRoadmaps.length === 0 &&
-                                <div className="w-100 ps-3 d-flex flex-row align-items-center">
-                                    <i className="bi bi-exclamation-triangle-fill text-yellow fs-4"></i>
-                                    <div className="p-2">No Roadmaps Selected</div>
-                                </div>}
-                        </div> : ""}
-                    </div>
-                </AccordionSection>
-
-                <AccordionSection eventKey="1" sectionTitle="Recommended badges for your resource">
-                    <div className="w-100">
-                        <Accordion.Collapse eventKey="1">
-                            <div className="w-100 pt-2 pb-5 ps-3 pe-3">
-                                {badges && badges.map((badge) => {
-                                    const badgeId = badge.badge_id;
-                                    return <div className="w-100 pt-2" key={badgeId}>
-                                        <BadgeCardRowWithCheckboxes organization={organization} resource={resource}
-                                                                    badge={badge}
-                                                                    selected={selectedBadgeIdMap[badgeId]}
-                                                                    toggle={toggleBadgeSelection.bind(this, {badgeId})}/>
-                                    </div>
-                                })}
-                                {badges && badges.length === 0 && <div className="w-100 p-3 text-center lead">
-                                    No badges available
-                                </div>}
-                            </div>
-                        </Accordion.Collapse>
-                        {accordionActiveKeys.indexOf("1") < 0 ? <div className="w-100 ps-5">
-                            {selectedBadges && selectedBadges.map((badge) => {
-                                const badgeId = badge.badge_id;
-                                return <div className="w-100 ps-3 d-flex flex-row align-items-center" key={badgeId}>
-
-                                    <i className="bi bi-check-circle-fill text-medium fs-4"></i>
-                                    <div className="p-2">{badge.name}</div>
-                                </div>
-                            })}
-                            {selectedBadges && selectedBadges.length === 0 &&
-                                <div className="w-100 ps-3 d-flex flex-row align-items-center">
-                                    <i className="bi bi-exclamation-triangle-fill text-yellow fs-4"></i>
-                                    <div className="p-2">No Badges Selected</div>
-                                </div>}
-                        </div> : ""}
-                    </div>
-
-
-                </AccordionSection>
-
-            </Accordion>
-
-
-            {/*{wizardIndex === 0 && <div className="row pt-5">*/}
-            {/*    <h2>Select the appropriate Roadmap</h2>*/}
-            {/*    <div className="row pt-2 pb-5 row-cols-2">*/}
-            {/*        {roadmaps && roadmaps.map((roadmap) => {*/}
-            {/*            const roadmapId = roadmap.roadmap_id;*/}
-            {/*            return <div className="col pt-2" key={roadmapId}>*/}
-            {/*                <RoadmapCard organization={organization} resource={resource} roadmap={roadmap}*/}
-            {/*                             selected={selectedRoadmapIdMap[roadmapId]}*/}
-            {/*                             toggle={toggleRoadmapSelection.bind(this, {roadmapId})}/>*/}
-            {/*            </div>*/}
-            {/*        })}*/}
-            {/*        {roadmaps && roadmaps.length === 0 && <div className="w-100 p-3 text-center lead">*/}
-            {/*            No roadmaps available*/}
-            {/*        </div>}*/}
-            {/*    </div>*/}
-            {/*</div>}*/}
-
-            {/*{wizardIndex === 1 && <div className="row pt-5">*/}
-            {/*    <h2>Recommended badges for your resource</h2>*/}
-            {/*    <div className="w-100 pt-2 pb-5">*/}
-            {/*        {badges && badges.map((badge) => {*/}
-            {/*            const badgeId = badge.badge_id;*/}
-            {/*            return <div className="w-100 pt-2" key={badgeId}>*/}
-            {/*                <BadgeCardRowWithCheckboxes organization={organization} resource={resource}*/}
-            {/*                                            badge={badge}*/}
-            {/*                                            selected={selectedBadgeIdMap[badgeId]}*/}
-            {/*                                            toggle={toggleBadgeSelection.bind(this, {badgeId})}/>*/}
-            {/*            </div>*/}
-            {/*        })}*/}
-            {/*        {badges && badges.length === 0 && <div className="w-100 p-3 text-center lead">*/}
-            {/*            No badges available*/}
-            {/*        </div>}*/}
-            {/*    </div>*/}
-            {/*</div>}*/}
-
-            {/*{wizardIndex === 2 && <div className="row pt-5">*/}
-            {/*    <h2>Confirm the Following Badges and Assignments</h2>*/}
-            {/*    <div className="w-100 pt-2 pb-5">*/}
-            {/*        {selectedBadges && selectedBadges.map((badge) => {*/}
-            {/*            const badgeId = badge.badge_id;*/}
-            {/*            return <div className="w-100 pt-2" key={badgeId}>*/}
-            {/*                <BadgeCardRowWithAddRemove organization={organization} resource={resource} badge={badge}*/}
-            {/*                                           selected={selectedBadgeIdMap[badgeId]}*/}
-            {/*                                           toggle={toggleBadgeSelection.bind(this, {badgeId})}/>*/}
-            {/*            </div>*/}
-            {/*        })}*/}
-            {/*        {selectedBadges && selectedBadges.length === 0 && <div className="w-100 p-3 text-center lead">*/}
-            {/*            No badges available*/}
-            {/*        </div>}*/}
-            {/*    </div>*/}
-
-            {/*    <h2>Recommended Badges Skipped for Integration ({notSelectedBadges.length})</h2>*/}
-            {/*    <div className="w-100 pt-2 pb-5">*/}
-            {/*        {notSelectedBadges && notSelectedBadges.map((badge) => {*/}
-            {/*            const badgeId = badge.badge_id;*/}
-            {/*            return <div className="w-100 pt-2" key={badgeId}>*/}
-            {/*                <BadgeCardRowWithAddRemove organization={organization} resource={resource} badge={badge}*/}
-            {/*                                           selected={selectedBadgeIdMap[badgeId]}*/}
-            {/*                                           toggle={toggleBadgeSelection.bind(this, {badgeId})}/>*/}
-            {/*            </div>*/}
-            {/*        })}*/}
-            {/*        {notSelectedBadges && notSelectedBadges.length === 0 &&*/}
-            {/*            <div className="w-100 p-3 text-center lead">*/}
-            {/*                No badges available*/}
-            {/*            </div>}*/}
-            {/*    </div>*/}
-            {/*</div>}*/}
-
-            <div className="w-100 text-end pt-3 pb-5">
-                {/*{wizardIndex > 0 &&*/}
-                {/*    <button className="btn btn-outline-dark m-1" onClick={setWizardIndex.bind(this, wizardIndex - 1)}>*/}
-                {/*        Back*/}
-                {/*    </button>}*/}
-
-                {/*{wizardIndex === 2 && saveProcessing ? <button className="btn btn-dark m-1">*/}
-                {/*                                <span className="spinner-border spinner-border-sm me-3" role="status"*/}
-                {/*                                      aria-hidden="true"></span>*/}
-                {/*    Loading...*/}
-                {/*</button> : wizardIndex === 2 ? <button className="btn btn-dark m-1" onClick={handleSave}>*/}
-                {/*    Save details*/}
-                {/*</button> : <button className="btn btn-dark m-1"*/}
-                {/*                    onClick={setWizardIndex.bind(this, wizardIndex + 1)}>*/}
-                {/*    Continue*/}
-                {/*</button>}*/}
-
-                <button className="btn btn-dark m-1" onClick={handleSave} disabled={accordionActiveKeys.length > 0}>
-                    Save and Submit
-                </button>
-            </div>
+            {wizardIndex === 3 &&
+                <BadgeSelectionConfirmation organization={organization} resource={resource} selectedRoadmaps={selectedRoadmaps}
+                                            selectedBadges={selectedBadges}
+                                            notSelectedBadges={notSelectedBadges}
+                                            selected={(badgeId) => selectedBadgeIdMap[badgeId]}
+                                            toggle={(badgeId) => toggleBadgeSelection({badgeId})}
+                                            prev={handlePrev} next={handleNext}/>}
         </div>
     } else {
         return <LoadingBlock processing={true}/>
     }
-
 }
