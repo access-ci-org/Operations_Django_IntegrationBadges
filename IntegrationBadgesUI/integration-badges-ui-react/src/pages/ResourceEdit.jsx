@@ -22,31 +22,6 @@ import BadgeSelection from "../components/resource-edit/BadgeSelection.jsx";
 import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelectionConfirmation.jsx";
 import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSelectionConfirmation.jsx";
 
-
-const infrastructureTypeDetails = [
-    {
-        name: "Compute",
-        title: "High Performance Computing",
-        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
-    },
-    {
-        name: "Storage",
-        title: "Storage",
-        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
-    },
-    {
-        name: "Online Service",
-        title: "Online Service",
-        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
-    },
-    {
-        name: "Science Gateway",
-        title: "Science Gateway",
-        description: "Here is some text about the  resource that should fit in this area and blah blah bla. "
-    }
-];
-
-
 export default function ResourceEdit() {
     const navigate = useNavigate();
 
@@ -118,9 +93,7 @@ export default function ResourceEdit() {
 
                 // Skip the roadmap selection if it's already enrolled.
                 // TODO uncomment later
-                // setWizardIndex(1);
-
-                setAccordionActiveKeys(["1"])
+                setWizardIndex(2);
             }
             setSelectedRoadmapIdMap(_selectedRoadmapIdMap);
         }

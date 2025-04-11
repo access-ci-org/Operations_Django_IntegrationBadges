@@ -2,6 +2,15 @@ import {RoadmapCard} from "./resource-edit-page-cards.jsx";
 import {Link} from "react-router-dom";
 
 export default function RoadmapSelection({resource, roadmaps, selected, toggle, prev, next}) {
+
+    const handleRoadmapSelect = (roadmapId) => {
+        if (!selected(roadmapId)) {
+            toggle(roadmapId);
+        }
+
+        next();
+    };
+
     return <>
         <div className="row pt-4">
             <h1>Welcome to the ACCESS Integration Roadmaps.</h1>
@@ -20,7 +29,7 @@ export default function RoadmapSelection({resource, roadmaps, selected, toggle, 
                     const roadmapId = roadmap.roadmap_id;
                     return <div className="col pt-2" key={roadmapId}>
                         <RoadmapCard roadmap={roadmap} selected={selected(roadmapId)}
-                                     toggle={() => toggle(roadmapId) & next()}/>
+                                     toggle={handleRoadmapSelect.bind(this, roadmapId)}/>
                     </div>
                 })}
                 {roadmaps && roadmaps.length === 0 && <div className="w-100 p-3 text-center lead">
