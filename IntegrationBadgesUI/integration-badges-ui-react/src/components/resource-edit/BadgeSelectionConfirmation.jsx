@@ -58,7 +58,7 @@ export default function BadgeSelectionConfirmation({
                 Cancel
             </button>
             <button className="btn btn-dark m-1 ${}" disabled={selectedBadges.length === 0} onClick={next}>
-                Save Details
+                Save Selection
             </button>
         </div>
     </>
