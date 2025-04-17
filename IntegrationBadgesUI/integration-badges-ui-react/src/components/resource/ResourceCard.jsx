@@ -4,7 +4,7 @@ export default function ResourceCard({organization, resource, badges = [], inPro
     return <div className="w-100 resource-card p-2">
         <div className="w-100 bg-light p-1 resource-card-header">
             <div className="w-100 ps-2 resource-card-header-actions">
-                {!inProgress && <Link to={`/resources/${resource.cider_resource_id}/edit`}
+                {!inProgress && <Link to={`/resources/${resource.info_resourceid}/edit`}
                                       className="btn btn-link">
                     Edit
                 </Link>}
@@ -26,7 +26,7 @@ export default function ResourceCard({organization, resource, badges = [], inPro
                     </div>
                 })}
                 {badges && badges.length > 3 && <div>
-                    <Link to={`/resources/${resource.cider_resource_id}`}
+                    <Link to={`/resources/${resource.info_resourceid}`}
                           className="btn btn-link text-secondary p-2 text-decoration-none">
                         +{badges.length - 3}
                     </Link>
@@ -39,12 +39,12 @@ export default function ResourceCard({organization, resource, badges = [], inPro
         </div>
 
         {showViewButton && !!inProgress &&
-            <Link to={`/resources/${resource.cider_resource_id}/edit`} className="btn btn-dark w-100">
+            <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-dark w-100">
                 Continue Setup
             </Link>}
 
         {showViewButton && !inProgress &&
-            <Link to={`/resources/${resource.cider_resource_id}`} className="btn btn-dark w-100">
+            <Link to={`/resources/${resource.info_resourceid}`} className="btn btn-dark w-100">
                 View
             </Link>}
 

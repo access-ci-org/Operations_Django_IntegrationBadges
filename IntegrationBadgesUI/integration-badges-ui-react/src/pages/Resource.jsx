@@ -169,7 +169,7 @@ function getBadgeCard(organization, resource, badge, t) {
                     </small>
                 </div>
             </div>
-            <Link to={`/resources/${resource.cider_resource_id}/badges/${badge.badge_id}`}
+            <Link to={`/resources/${resource.info_resourceid}/badges/${badge.badge_id}`}
                   className="btn btn-dark w-100">
                 View
             </Link>

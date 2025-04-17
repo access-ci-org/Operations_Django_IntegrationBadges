@@ -139,7 +139,7 @@ export default function ResourceEdit() {
         setSaveProcessing(true);
         await setResource({resourceId, roadmapIds: selectedRoadmapIds, badgeIds: selectedBadgeIds});
         setSaveProcessing(false);
-        navigate(`/resources/${resource.cider_resource_id}`)
+        navigate(`/resources/${resource.info_resourceid}`)
     };
 
     const handlePrev = () => {

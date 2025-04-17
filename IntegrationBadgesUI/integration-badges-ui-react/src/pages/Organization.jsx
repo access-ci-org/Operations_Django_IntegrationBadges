@@ -63,7 +63,7 @@ export default function Organization() {
             for (let i = 0; i < resourceIds.length; i++) {
                 let resourceId = resourceIds[i];
                 let resource = getResource({resourceId})
-                let badges = getResourceBadges({resourceId: resource.cider_resource_id});
+                let badges = getResourceBadges({resourceId: resource.info_resourceid});
 
                 if (resource.roadmaps && resource.roadmaps.length > 0) {
                     if (hasSearchCriteria(organization, resource, badges, searchText)) {
@@ -131,7 +131,7 @@ export default function Organization() {
                                 </div>}
                             <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                                 {inProgressResources.map((resource, resourceIndex) => {
-                                    let badges = getResourceBadges({resourceId: resource.cider_resource_id});
+                                    let badges = getResourceBadges({resourceId: resource.info_resourceid});
 
                                     return <div className="col p-3" key={resourceIndex}>
                                         <ResourceCard organization={organization} resource={resource} badges={badges}
@@ -149,7 +149,7 @@ export default function Organization() {
                                 </div>}
                             <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                                 {establishedResources.map((resource, resourceIndex) => {
-                                    let badges = getResourceBadges({resourceId: resource.cider_resource_id});
+                                    let badges = getResourceBadges({resourceId: resource.info_resourceid});
                                     return <div className="col p-3" key={resourceIndex}>
                                         <ResourceCard organization={organization} resource={resource} badges={badges}/>
                                     </div>
@@ -172,7 +172,7 @@ function getResourceCard(organization, resource, badges, inProgress = false) {
     return <div className="w-100 resource-card p-2">
         <div className="w-100 bg-light p-1 resource-card-header">
             <div className="w-100 ps-2">
-                {!inProgress && <Link to={`/resources/${resource.cider_resource_id}/edit`}
+                {!inProgress && <Link to={`/resources/${resource.info_resourceid}/edit`}
                                       className="btn btn-link">
                     Edit
                 </Link>}
@@ -194,7 +194,7 @@ function getResourceCard(organization, resource, badges, inProgress = false) {
                     </div>
                 })}
                 {badges && badges.length > 3 && <div>
-                    <Link to={`/resources/${resource.cider_resource_id}`}
+                    <Link to={`/resources/${resource.info_resourceid}`}
                           className="btn btn-link text-secondary p-2 text-decoration-none">
                         +{badges.length - 3}
                     </Link>
@@ -205,9 +205,9 @@ function getResourceCard(organization, resource, badges, inProgress = false) {
                 {resource.resource_description}
             </p>
         </div>
-        {inProgress ? <Link to={`/resources/${resource.cider_resource_id}/edit`} className="btn btn-dark w-100">
+        {inProgress ? <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-dark w-100">
             Continue Setup
-        </Link> : <Link to={`/resources/${resource.cider_resource_id}`} className="btn btn-dark w-100">
+        </Link> : <Link to={`/resources/${resource.info_resourceid}`} className="btn btn-dark w-100">
             View
         </Link>}
 

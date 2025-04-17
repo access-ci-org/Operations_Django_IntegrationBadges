@@ -133,7 +133,7 @@ export default function ResourceBadge() {
                                 </p>
                                 <div className="col-sm-3 pt-2 pb-2 align-content-center">
                                     <Link
-                                        to={`/resources/${resource.cider_resource_id}/badges/${prerequisiteBadge.badge_id}`}
+                                        to={`/resources/${resource.info_resourceid}/badges/${prerequisiteBadge.badge_id}`}
                                         className="w-100 btn btn-outline-dark btn-sm">
                                         <i className="bi bi-box-arrow-up-right me-3"></i>
                                         View Badge Details

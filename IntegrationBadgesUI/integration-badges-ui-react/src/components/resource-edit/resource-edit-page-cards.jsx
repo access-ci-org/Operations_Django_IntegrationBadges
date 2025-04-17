@@ -46,7 +46,7 @@ export function BadgeCardRow(resource, badge, selected, toggle, toggleComponent)
                 {badge.resource_provider_summary}
             </p>
             <div className="col-sm-3 pt-2 pb-2 align-content-center">
-                <Link to={`/resources/${resource.cider_resource_id}/badges/${badge.badge_id}`}
+                <Link to={`/resources/${resource.info_resourceid}/badges/${badge.badge_id}`}
                       className="w-100 btn btn-outline-dark btn-sm">
                     View Additional Badge Details
                 </Link>

@@ -160,7 +160,7 @@ export const ResourcesProvider = ({children}) => {
                 const _resourceOrgMap = {};
                 for (let i = 0; i < _resources.length; i++) {
                     let resource = _resources[i];
-                    let resourceId = resource.cider_resource_id;
+                    let resourceId = resource.info_resourceid;
 
                     _resourceMap[resourceId] = {
                         ...getResource({resourceId}),
@@ -276,7 +276,7 @@ export const ResourcesProvider = ({children}) => {
         for (let i = 0; i < resources.length; i++) {
             let resource = resources[i];
             if (resource.organization_name === organizationName) {
-                orgResourceIds.push(resource.cider_resource_id);
+                orgResourceIds.push(resource.info_resourceid);
             }
         }
 
