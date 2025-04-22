@@ -42,7 +42,6 @@ p {
 
   .resource-card-header {
     border-radius: 10px;
-    position: relative;
     text-overflow: ellipsis;
 
     .resource-card-header-actions {
@@ -50,9 +49,9 @@ p {
     }
 
     h3 {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+      //text-overflow: ellipsis;
+      //overflow: hidden;
+      //white-space: nowrap;
       padding: 20px;
       padding-top: 10px;
       padding-bottom: 35px;
@@ -60,12 +59,17 @@ p {
       padding-right: 15px;
     }
 
+
+  }
+
+  .resource-card-sub-header {
+    position: relative;
+
     .resource-card-header-thumbnail {
       position: absolute;
-      top: 72px;
-      right: 30px;
+      top: -46px;
+      right: 18px;
     }
-
   }
 
   .resource-card-body {

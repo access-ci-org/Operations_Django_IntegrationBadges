@@ -10,15 +10,14 @@ export default function ResourceCard({organization, resource, inProgress = false
                 </Link>}
             </div>
             <h3 className="w-100 text-black">{resource.resource_descriptive_name}</h3>
-
+        </div>
+        <div className="w-100 p-1 resource-card-sub-header">
+            <strong className="text-medium">{resource.cider_type}</strong>
             <div className="resource-card-header-thumbnail">
                 <div className="bg-white background-image-center-no-repeat resource-icon-circle-small"
                      style={{backgroundImage: `url(${organization.other_attributes.organization_logo_url})`}}>
                 </div>
             </div>
-        </div>
-        <div className="w-100 p-1 resource-card-sub-header">
-            <strong className="text-medium">{resource.cider_type}</strong>
         </div>
         <div className="w-100 p-1 pt-4 flex-fill resource-card-body">
             <p className="w-100">
