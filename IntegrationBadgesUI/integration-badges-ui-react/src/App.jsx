@@ -69,11 +69,13 @@ function App() {
                                                            element={<Organization/>}/>
                                                     <Route path="/organizations/new" element={<NewResource/>}/>
 
-
                                                     <Route path="/resources/:resourceId" element={<Resource/>}/>
-                                                    <Route path="/resources/:resourceId/edit"
-                                                           element={<ResourceEdit/>}/>
-                                                    <Route path="/resources/:resourceId/badges/:badgeId"
+                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId" element={<Resource/>}/>
+
+                                                    <Route path="/resources/:resourceId/edit" element={<ResourceEdit/>}/>
+                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId/edit" element={<ResourceEdit/>}/>
+
+                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
                                                            element={<ResourceBadge/>}/>
 
                                                 </Route>

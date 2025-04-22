@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
@@ -7,26 +7,51 @@ import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 
 import {useTranslation} from "react-i18next";
 import LoadingBlock from "../components/LoadingBlock";
+import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 export default function Resource() {
+    const navigate = useNavigate();
+
     const {t} = useTranslation();
-    const {resourceId} = useParams();
+    const {resourceId, roadmapId} = useParams();
     const {fetchOrganizations} = useOrganizations();
-    const {fetchResource, getResource, getResourceBadges, getResourceOrganization} = useResources();
+    const {fetchRoadmap, getRoadmap} = useRoadmaps();
+    const {fetchResource, fetchResourceRoadmapBadges, getResource, getResourceRoadmapBadges, getResourceOrganization} = useResources();
     const {fetchBadges} = useBadges();
 
     const [filterSelection, setFilterSelection] = useState({});
     const [activeTabIndex, setActiveTabIndex] = useState(1);
 
-    useEffect(() => {
-        fetchResource({resourceId});
-        // fetchOrganizations();
-        // fetchBadges();
-    }, [resourceId]);
-
     const resource = getResource({resourceId});
     let organization = getResourceOrganization({resourceId})
-    let badges = getResourceBadges({resourceId});
+    let badges = getResourceRoadmapBadges({resourceId, roadmapId});
+    let roadmap = getRoadmap({roadmapId});
+
+    useEffect(() => {
+        fetchResource({resourceId});
+    }, [resourceId]);
+
+
+    useEffect(() => {
+        resourceId && roadmapId && fetchResourceRoadmapBadges({resourceId, roadmapId});
+    }, [resourceId, roadmapId]);
+
+
+
+    useEffect(() => {
+        if (!!resource && !!resource.roadmaps && !roadmapId) {
+            if (resource.roadmaps.length > 0) {
+                navigate(`/resources/${resourceId}/roadmaps/${resource.roadmaps[0].roadmap.roadmap_id}`);
+            } else {
+                navigate(`/resources/${resource.info_resourceid}/edit`)
+            }
+        }
+    }, [resource, roadmapId]);
+
+    useEffect(() => {
+        !!roadmapId && fetchRoadmap({roadmapId});
+    }, [roadmapId]);
+
 
     let badgeGroups = {
         [BadgeWorkflowStatus.NOT_PLANNED]: [],

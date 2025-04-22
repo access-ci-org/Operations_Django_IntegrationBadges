@@ -4,6 +4,7 @@ import {useResources} from "../contexts/ResourcesContext";
 import {useBadges} from "../contexts/BadgeContext";
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import LoadingBlock from "./LoadingBlock.jsx";
+import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 const defaultLinkProps = {className: "btn btn-link text-medium"}
 
@@ -12,8 +13,8 @@ function CustomizedBreadcrumb() {
     const pathSegments = location.pathname.split("/")
     const breadcrumbLinks = []
     const {organizationMap, organizationMapByName} = useOrganizations();
-    const {resourceMap} = useResources();
-    const {badgeMap} = useBadges();
+    const {getResource} = useResources();
+    const {getRoadmap} = useRoadmaps();
 
     let key = 1;
     if (pathSegments[1] && pathSegments[1].length > 0) {
@@ -48,7 +49,7 @@ function CustomizedBreadcrumb() {
             Dashboard
         </Breadcrumb.Item>)
         if (pathSegments[2]) {
-            const resource = resourceMap[pathSegments[2]];
+            const resource = getResource({resourceId: pathSegments[2]});
 
             if (resource) {
                 const organization = organizationMapByName[resource.organization_name];
@@ -74,6 +75,21 @@ function CustomizedBreadcrumb() {
             >
                 {resource ? resource.resource_descriptive_name : <LoadingBlock processing={true}/>}
             </Breadcrumb.Item>)
+
+            if (pathSegments[3] === "roadmaps" && pathSegments[4]) {
+                const roadmap = getRoadmap({roadmapId: pathSegments[4]});
+
+                breadcrumbLinks.push(<Breadcrumb.Item
+                    key={key++} linkAs={Link}
+                    linkProps={{
+                        ...defaultLinkProps,
+                        to: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}`
+                    }}
+                >
+                    {roadmap ? roadmap.name : <LoadingBlock processing={true}/>}
+                </Breadcrumb.Item>)
+            }
+
         }
     }
 
