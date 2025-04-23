@@ -41,9 +41,9 @@ export default function Resource() {
     useEffect(() => {
         if (!!resource && !!resource.roadmaps && !roadmapId) {
             if (resource.roadmaps.length > 0) {
-                navigate(`/resources/${resourceId}/roadmaps/${resource.roadmaps[0].roadmap.roadmap_id}`);
+                navigate(`/resources/${resourceId}/roadmaps/${resource.roadmaps[0].roadmap.roadmap_id}`, {replace: true});
             } else {
-                navigate(`/resources/${resource.info_resourceid}/edit`)
+                navigate(`/resources/${resource.info_resourceid}/edit`, {replace: true})
             }
         }
     }, [resource, roadmapId]);
