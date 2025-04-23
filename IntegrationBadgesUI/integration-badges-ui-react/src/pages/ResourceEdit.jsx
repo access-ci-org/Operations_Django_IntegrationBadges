@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Accordion from 'react-bootstrap/Accordion';
 import {useAccordionButton} from 'react-bootstrap/AccordionButton';
@@ -23,20 +23,35 @@ import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelecti
 import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSelectionConfirmation.jsx";
 
 export default function ResourceEdit() {
+    const location = useLocation();
     const navigate = useNavigate();
-
     const {t} = useTranslation();
-    const {resourceId} = useParams();
-    const {fetchResource, getResource, getResourceBadges, getResourceOrganization, setResource} = useResources();
-    const {getBadge} = useBadges();
-    const {fetchRoadmaps, getRoadmaps, getRoadmap} = useRoadmaps();
 
-    const [recommendedBadgeIds, setRecommendedBadgeIds] = useState([]);
-    const [selectedRoadmapIdMap, setSelectedRoadmapIdMap] = useState({});
+    let {resourceId, roadmapId} = useParams();
+    roadmapId = parseInt(roadmapId);
+
+    const {
+        fetchResource,
+        fetchResourceRoadmapBadges,
+        getResource,
+        getResourceRoadmapBadges,
+        getResourceOrganization,
+        setResource, isResourceRoadmapSelected
+    } = useResources();
+    const {getBadge} = useBadges();
+    const {fetchRoadmaps, fetchRoadmap, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
+
     const [selectedBadgeIdMap, setSelectedBadgeIdMap] = useState({});
     const [saveProcessing, setSaveProcessing] = useState(false);
     const [wizardIndex, setWizardIndex] = useState(0);
     const [accordionActiveKeys, setAccordionActiveKeys] = useState(["0"]);
+
+
+    const resource = getResource({resourceId});
+    const organization = getResourceOrganization({resourceId});
+    const roadmap = getRoadmap({roadmapId});
+    const roadmapBadges = getRoadmapBadges({roadmapId});
+    const resourceRoadmapBadges = getResourceRoadmapBadges({resourceId, roadmapId});
 
     useEffect(() => {
         fetchRoadmaps();
@@ -46,100 +61,49 @@ export default function ResourceEdit() {
         fetchResource({resourceId});
     }, [resourceId]);
 
-    const resource = getResource({resourceId});
-    let organization = getResourceOrganization({resourceId});
-
-    let roadmaps = getRoadmaps().filter(({infrastructure_types}) => infrastructure_types === resource.cider_type);
-    const selectedBadges = [];
-    const notSelectedBadges = [];
-    let badges = recommendedBadgeIds.map(badgeId => {
-        const badge = getBadge({badgeId});
-
-        if (selectedBadgeIdMap[badgeId]) {
-            selectedBadges.push(badge);
-        } else {
-            notSelectedBadges.push(badge);
-        }
-
-        return badge;
-    });
-
-
     useEffect(() => {
-        if (roadmaps.length > 0) {
-            let badgeIds = [];
-            for (let i = 0; i < roadmaps.length; i++) {
-                const roadmapId = roadmaps[i].roadmap_id;
-
-                if (selectedRoadmapIdMap[roadmapId]) {
-                    for (let j = 0; j < roadmaps[i].badges.length; j++) {
-                        const badgeId = roadmaps[i].badges[j].badge.badge_id;
-                        badgeIds.push(badgeId);
-                    }
-                }
-            }
-
-            badgeIds = Array.from(new Set(badgeIds));
-            setRecommendedBadgeIds(badgeIds);
-        }
-    }, [roadmaps.length, selectedRoadmapIdMap]);
+        resourceId && roadmapId && fetchResourceRoadmapBadges({resourceId, roadmapId});
+    }, [resourceId, roadmapId]);
 
 
+    const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId})
     useEffect(() => {
-        if (resource && resource.roadmaps) {
-            const _selectedRoadmapIdMap = {};
-            for (let i = 0; i < resource.roadmaps.length; i++) {
-                _selectedRoadmapIdMap[resource.roadmaps[i].roadmap.roadmap_id] = true;
-
-                // Skip the roadmap selection if it's already enrolled.
-                // TODO uncomment later
+        if (!!resourceId && !!roadmapId) {
+            if (isRoadmapNew) {
+                setWizardIndex(1);
+            } else {
                 setWizardIndex(2);
             }
-            setSelectedRoadmapIdMap(_selectedRoadmapIdMap);
+        } else {
+            setWizardIndex(0);
         }
+    }, [resourceId, roadmapId, isRoadmapNew]);
 
-        if (resource && resource.badge_status) {
+    useEffect(() => {
+        !!roadmapId && fetchRoadmap({roadmapId});
+    }, [roadmapId]);
+
+    useEffect(() => {
+        if (resourceRoadmapBadges) {
             const _selectedBadgeIdMap = {};
-            for (let i = 0; i < resource.badge_status.length; i++) {
-                _selectedBadgeIdMap[resource.badge_status[i].badge_id] = true;
+            for (let i = 0; i < resourceRoadmapBadges.length; i++) {
+                _selectedBadgeIdMap[resourceRoadmapBadges[i].badge_id] = true;
             }
 
             setSelectedBadgeIdMap(_selectedBadgeIdMap);
         }
-    }, [resource]);
+    }, [resource, !!resourceRoadmapBadges]);
 
-    const toggleRoadmapSelection = ({roadmapId}) => {
-        setSelectedRoadmapIdMap({
-            // ...selectedRoadmapIdMap,
-            [roadmapId]: !selectedRoadmapIdMap[roadmapId]
-        });
-    };
     const toggleBadgeSelection = ({badgeId}) => {
         setSelectedBadgeIdMap({
             ...selectedBadgeIdMap, [badgeId]: !selectedBadgeIdMap[badgeId]
         });
     };
-
-    const selectedRoadmapIds = [];
-    const selectedRoadmaps = [];
-    for (let roadmapId in selectedRoadmapIdMap) {
-        if (selectedRoadmapIdMap[roadmapId]) {
-            selectedRoadmapIds.push(roadmapId);
-
-            const roadmap = getRoadmap({roadmapId});
-            if (roadmap) {
-                selectedRoadmaps.push(roadmap)
-            }
-        }
-    }
-
-    const selectedBadgeIds = recommendedBadgeIds.filter(badgeId => selectedBadgeIdMap[badgeId]);
-
     const handleSave = async () => {
         setSaveProcessing(true);
-        await setResource({resourceId, roadmapIds: selectedRoadmapIds, badgeIds: selectedBadgeIds});
+        await setResource({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
         setSaveProcessing(false);
-        navigate(`/resources/${resource.info_resourceid}`)
+        navigate(`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}`)
     };
 
     const handlePrev = () => {
@@ -157,25 +121,22 @@ export default function ResourceEdit() {
 
         return <div className="container">
             {wizardIndex === 0 &&
-                <RoadmapSelection resource={resource} roadmaps={roadmaps}
-                                  selected={(roadmapId) => selectedRoadmapIdMap[roadmapId]}
-                                  toggle={(roadmapId) => toggleRoadmapSelection({roadmapId})}
+                <RoadmapSelection resourceId={resourceId}
                                   prev={handlePrev} next={handleNext}/>}
 
             {wizardIndex === 1 &&
-                <RoadmapSelectionConfirmation organization={organization} resource={resource}
-                                              selectedRoadmaps={selectedRoadmaps} prev={handlePrev} next={handleNext}/>}
+                <RoadmapSelectionConfirmation resourceId={resourceId}
+                                              roadmapId={roadmapId} prev={handlePrev} next={handleNext}/>}
 
             {wizardIndex === 2 &&
-                <BadgeSelection organization={organization} resource={resource} selectedRoadmaps={selectedRoadmaps} badges={badges}
+                <BadgeSelection resourceId={resourceId} roadmapId={roadmapId}
                                 selected={(badgeId) => selectedBadgeIdMap[badgeId]}
                                 toggle={(badgeId) => toggleBadgeSelection({badgeId})}
                                 prev={handlePrev} next={handleNext}/>}
 
             {wizardIndex === 3 &&
-                <BadgeSelectionConfirmation organization={organization} resource={resource} selectedRoadmaps={selectedRoadmaps}
-                                            selectedBadges={selectedBadges}
-                                            notSelectedBadges={notSelectedBadges}
+                <BadgeSelectionConfirmation resourceId={resourceId}
+                                            roadmapId={roadmapId}
                                             selected={(badgeId) => selectedBadgeIdMap[badgeId]}
                                             toggle={(badgeId) => toggleBadgeSelection({badgeId})}
                                             prev={handlePrev} next={handleNext}/>}

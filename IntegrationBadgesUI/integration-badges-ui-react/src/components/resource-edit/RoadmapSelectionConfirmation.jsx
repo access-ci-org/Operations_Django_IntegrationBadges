@@ -1,13 +1,21 @@
 import {RoadmapCard} from "./resource-edit-page-cards.jsx";
 import {Link} from "react-router-dom";
 import ResourceCard from "../resource/ResourceCard.jsx";
+import {useResources} from "../../contexts/ResourcesContext.jsx";
+import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import LoadingBlock from "../LoadingBlock.jsx";
 
-export default function RoadmapSelectionConfirmation({organization, resource, selectedRoadmaps, prev, next}) {
-    if (selectedRoadmaps && selectedRoadmaps.length > 0) {
+export default function RoadmapSelectionConfirmation({resourceId, roadmapId, prev, next}) {
+    const {getResource, getResourceOrganization} = useResources();
+    const {getRoadmap} = useRoadmaps();
 
-        // TODO fix later when multiple roadmaps are allowed
-        const roadmap = selectedRoadmaps[0];
+    let resource = getResource({resourceId});
+    let roadmap = getRoadmap({roadmapId});
+    let organization = getResourceOrganization({resourceId});
 
+    console.log("RoadmapSelectionConfirmation ", {resourceId, roadmapId, resource, roadmap})
+
+    if (!!resource && !! roadmap && !!organization) {
         return <>
             <div className="row pt-4">
                 <div className="col-lg-8 d-flex flex-column pe-5">
@@ -18,7 +26,8 @@ export default function RoadmapSelectionConfirmation({organization, resource, se
                     </div>
                 </div>
                 <div className="col-lg-4 p-5">
-                    <ResourceCard organization={organization} resource={resource} inProgress={true} showViewButton={false}/>
+                    <ResourceCard organization={organization} resource={resource} inProgress={true}
+                                  showViewButton={false}/>
                 </div>
             </div>
             <div className="w-100 pt-5">
@@ -29,12 +38,6 @@ export default function RoadmapSelectionConfirmation({organization, resource, se
             </div>
         </>
     } else {
-        return <>
-            <div className="row pt-5">
-                <div className="w-100 p-3 text-center lead">
-                    No roadmaps selected.
-                </div>
-            </div>
-        </>
+        <LoadingBlock />
     }
 }

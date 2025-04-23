@@ -33,7 +33,7 @@ export default function ResourceCard({organization, resource, inProgress = false
                 </div>}
 
             {showViewButton && !inProgress && resource.roadmaps && resource.roadmaps.map((roadmap, roadmapIndex) => {
-                return <div className="p-1">
+                return <div className="p-1" key={roadmapIndex}>
                     <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmap.roadmap.roadmap_id}`}
                           className={`btn ${roadmapIndex === 0 ? 'btn-dark' : 'btn-outline-dark'} rounded-5 w-100`}>
                         {roadmap.roadmap.name}

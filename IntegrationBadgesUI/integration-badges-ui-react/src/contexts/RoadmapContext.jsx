@@ -2,6 +2,7 @@ import React, {createContext, useContext, useReducer} from 'react';
 import axios from 'axios';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {useResources} from "./ResourcesContext";
+import {useBadges} from "./BadgeContext.jsx";
 
 const RoadmapContext = createContext({
     roadmapIds: [],
@@ -11,6 +12,8 @@ const RoadmapContext = createContext({
     fetchRoadmap: ({roadmapId}) => {
     },
     getRoadmap: ({roadmapId}) => {
+    },
+    getRoadmapBadges: ({roadmapId}) => {
     },
     getRoadmaps: () => {
     }
@@ -23,6 +26,8 @@ export const useRoadmaps = () => useContext(RoadmapContext);
  * @param children
  */
 export const RoadmapProvider = ({children}) => {
+    const {getBadge} = useBadges();
+
     const [roadmapIds, setRoadmapIds] = useReducer(DefaultReducer, []);
     const [roadmapMap, setRoadmapMap] = useReducer(DefaultReducer, {});
 
@@ -76,13 +81,22 @@ export const RoadmapProvider = ({children}) => {
         return roadmapMap[roadmapId];
     };
 
+    const getRoadmapBadges = ({roadmapId}) => {
+        const roadmap = getRoadmap(({roadmapId}));
+        if (roadmap && roadmap.badges) {
+            return roadmap.badges.map(badge => {
+                return getBadge({badgeId: badge.badge.badge_id});
+            });
+        }
+    };
+
     const getRoadmaps = () => {
         return roadmapIds.map(roadmapId => getRoadmap({roadmapId}));
     };
 
 
     return (
-        <RoadmapContext.Provider value={{roadmapMap, fetchRoadmaps, fetchRoadmap, getRoadmap, getRoadmaps}}>
+        <RoadmapContext.Provider value={{roadmapMap, fetchRoadmaps, fetchRoadmap, getRoadmap, getRoadmapBadges, getRoadmaps}}>
             {children}
         </RoadmapContext.Provider>
     );

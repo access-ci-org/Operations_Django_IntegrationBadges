@@ -1,7 +1,16 @@
 import {BadgeCardRowWithCheckboxes, RoadmapCard} from "./resource-edit-page-cards.jsx";
 import {Link} from "react-router-dom";
+import {useResources} from "../../contexts/ResourcesContext.jsx";
+import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 
-export default function BadgeSelectionHeader({organization, resource, selectedRoadmaps}) {
+export default function BadgeSelectionHeader({resourceId, roadmapId}) {
+    const {getResource, getResourceOrganization} = useResources();
+    const {getRoadmap} = useRoadmaps();
+
+    const resource = getResource({resourceId});
+    const organization = getResourceOrganization({resourceId});
+    const roadmap = getRoadmap({roadmapId});
+
     return <>
         <div className="w-100 border-gray-200 border-top">
             <div className="row bg-gray-100 rounded-3 mt-4 p-2">
@@ -23,7 +32,7 @@ export default function BadgeSelectionHeader({organization, resource, selectedRo
                 </div>
                 <div className="col p-2">
                     <label className="text-secondary">Roadmap</label>
-                    <div>{selectedRoadmaps.map(roadmap => roadmap.name).join(", ")}</div>
+                    <div>{roadmap.name}</div>
                 </div>
             </div>
         </div>

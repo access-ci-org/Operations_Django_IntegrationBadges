@@ -1,11 +1,17 @@
 import Form from "react-bootstrap/Form";
 import {Link} from "react-router-dom";
+import {useResources} from "../../contexts/ResourcesContext.jsx";
+import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 
-export function RoadmapCard(props) {
-    const {roadmap, selected, toggle} = props;
+export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
+    const {getResource} = useResources();
+    const {getRoadmap} = useRoadmaps();
+
+    const resource = getResource({resourceId});
+    const roadmap = getRoadmap({roadmapId});
 
     if (roadmap) {
-        return <div className="row rounded-3 border-gray-200 border border-1 m-4 mt-5 position-relative roadmap-card">
+        return <div className="w-100 rounded-3 border-gray-200 border border-1 m-4 mt-5 position-relative roadmap-card">
             <div className="w-100 position-absolute text-center roadmap-card-icon-row">
                 <div className="rounded-circle p-3 border d-inline-block bg-white">
                     <div className="background-image-center-no-repeat roadmap-card-icon"
@@ -17,6 +23,14 @@ export function RoadmapCard(props) {
             <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4">
                 {roadmap.executive_summary}
             </p>
+
+            {selected &&
+                <div className="w-100 p-3 text-center">
+                    <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}`}
+                          className="btn btn-link m-2">View</Link>
+                    <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/edit`}
+                          className="btn btn-link m-2">Edit</Link>
+                </div>}
 
             <button
                 className={`btn btn-link w-100 p-3 text-center rounded-bottom-3 text-decoration-none ${selected ? 'bg-dark' : 'bg-light'}`}

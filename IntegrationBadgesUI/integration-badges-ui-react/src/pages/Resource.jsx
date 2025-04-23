@@ -86,7 +86,7 @@ export default function Resource() {
     ];
 
 
-    if (resource && organization) {
+    if (resource && roadmap && organization) {
         return <div className="container">
             <div className="row">
                 <h1>{resource.resource_descriptive_name}</h1>
@@ -111,6 +111,10 @@ export default function Resource() {
                     <div className="col">
                         <label className="text-secondary">Global Resource ID</label>
                         <div>{resource.info_resourceid}</div>
+                    </div>
+                    <div className="col">
+                        <label className="text-secondary">Roadmap</label>
+                        <div>{roadmap.name}</div>
                     </div>
                 </div>
             </div>

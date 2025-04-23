@@ -20,7 +20,7 @@ import i18n from './i18n';
 import {useEffect, useState} from "react";
 import LoadingBlock from "./components/LoadingBlock";
 import ResourceEdit from "./pages/ResourceEdit.jsx";
-import {RoadmapProvider} from "./contexts/RoadmapContext.jsx";
+import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 
 // Setting the default baseURL
 axios.defaults.baseURL = import.meta.env.VITE_OPERATIONS_API_URL;
@@ -28,11 +28,13 @@ axios.defaults.baseURL = import.meta.env.VITE_OPERATIONS_API_URL;
 const RouterLayout = () => {
     const {fetchOrganizations, organizations} = useOrganizations();
     const {fetchResources, resources} = useResources();
+    const {fetchRoadmaps} = useRoadmaps();
     const {fetchBadges} = useBadges();
 
     useEffect(() => {
-        fetchResources();
         fetchOrganizations();
+        fetchResources();
+        fetchRoadmaps();
         fetchBadges();
     }, []);
 
@@ -53,9 +55,9 @@ function App() {
 
     return (
         <OrganizationsProvider>
-            <RoadmapProvider>
-                <TaskProvider>
-                    <BadgeProvider>
+            <TaskProvider>
+                <BadgeProvider>
+                    <RoadmapProvider>
                         <ResourcesProvider>
                             <I18nextProvider i18n={i18n}>
                                 <div className="w-100 pt-3">
@@ -70,13 +72,17 @@ function App() {
                                                     <Route path="/organizations/new" element={<NewResource/>}/>
 
                                                     <Route path="/resources/:resourceId" element={<Resource/>}/>
-                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId" element={<Resource/>}/>
+                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId"
+                                                           element={<Resource/>}/>
 
-                                                    <Route path="/resources/:resourceId/edit" element={<ResourceEdit/>}/>
-                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId/edit" element={<ResourceEdit/>}/>
+                                                    <Route path="/resources/:resourceId/edit"
+                                                           element={<ResourceEdit/>}/>
+                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId/edit"
+                                                           element={<ResourceEdit/>}/>
 
-                                                    <Route path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
-                                                           element={<ResourceBadge/>}/>
+                                                    <Route
+                                                        path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
+                                                        element={<ResourceBadge/>}/>
 
                                                 </Route>
                                             </Routes>
@@ -85,9 +91,9 @@ function App() {
                                 </div>
                             </I18nextProvider>
                         </ResourcesProvider>
-                    </BadgeProvider>
-                </TaskProvider>
-            </RoadmapProvider>
+                    </RoadmapProvider>
+                </BadgeProvider>
+            </TaskProvider>
         </OrganizationsProvider>
     );
 }
