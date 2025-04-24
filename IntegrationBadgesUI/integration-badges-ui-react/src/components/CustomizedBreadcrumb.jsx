@@ -76,6 +76,18 @@ function CustomizedBreadcrumb() {
                 {resource ? resource.resource_descriptive_name : <LoadingBlock processing={true}/>}
             </Breadcrumb.Item>)
 
+            if (pathSegments[3] === "edit") {
+                breadcrumbLinks.push(<Breadcrumb.Item
+                    key={key++} linkAs={Link}
+                    linkProps={{
+                        ...defaultLinkProps,
+                        to: `/resources/${pathSegments[2]}/edit`
+                    }}
+                >
+                    Edit
+                </Breadcrumb.Item>)
+            }
+
             if (pathSegments[3] === "roadmaps" && pathSegments[4]) {
                 const roadmap = getRoadmap({roadmapId: pathSegments[4]});
 
@@ -88,6 +100,18 @@ function CustomizedBreadcrumb() {
                 >
                     {roadmap ? roadmap.name : <LoadingBlock processing={true}/>}
                 </Breadcrumb.Item>)
+
+                if (pathSegments[5] === "edit") {
+                    breadcrumbLinks.push(<Breadcrumb.Item
+                        key={key++} linkAs={Link}
+                        linkProps={{
+                            ...defaultLinkProps,
+                            to: `/resources/${pathSegments[2]}/roadmaps/${pathSegments[4]}/edit`
+                        }}
+                    >
+                        Edit
+                    </Breadcrumb.Item>)
+                }
             }
 
         }

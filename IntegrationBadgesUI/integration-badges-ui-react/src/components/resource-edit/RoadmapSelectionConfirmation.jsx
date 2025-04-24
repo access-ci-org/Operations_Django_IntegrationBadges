@@ -22,7 +22,7 @@ export default function RoadmapSelectionConfirmation({resourceId, roadmapId, pre
                     <h1>{roadmap.name}</h1>
                     <p className="flex-fill">{roadmap.executive_summary}</p>
                     <div>
-                        <button className="btn btn-dark" onClick={next}>Select Your Resource-Specific Badges</button>
+                        <button className="btn btn-dark rounded-1" onClick={next}>Select Your Resource-Specific Badges</button>
                     </div>
                 </div>
                 <div className="col-lg-4 p-5">

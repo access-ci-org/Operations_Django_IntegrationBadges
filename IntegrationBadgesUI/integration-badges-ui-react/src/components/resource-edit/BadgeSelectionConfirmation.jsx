@@ -60,10 +60,10 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
             </div>
 
             <div className="w-100 text-end pt-3 pb-5">
-                <button className="btn btn-outline-dark m-1" onClick={prev}>
+                <button className="btn btn-outline-dark rounded-1 m-1" onClick={prev}>
                     Cancel
                 </button>
-                <button className="btn btn-dark m-1 ${}" disabled={selectedBadges.length === 0} onClick={next}>
+                <button className="btn btn-dark rounded-1 m-1 ${}" disabled={selectedBadges.length === 0} onClick={next}>
                     Save Selection
                 </button>
             </div>
