@@ -13,8 +13,6 @@ export default function RoadmapSelectionConfirmation({resourceId, roadmapId, pre
     let roadmap = getRoadmap({roadmapId});
     let organization = getResourceOrganization({resourceId});
 
-    console.log("RoadmapSelectionConfirmation ", {resourceId, roadmapId, resource, roadmap})
-
     if (!!resource && !! roadmap && !!organization) {
         return <>
             <div className="row pt-4">

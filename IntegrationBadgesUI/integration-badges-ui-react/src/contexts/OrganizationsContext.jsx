@@ -4,9 +4,14 @@ import {useResources} from "./ResourcesContext";
 import DefaultReducer from "./reducers/DefaultReducer";
 
 const OrganizationsContext = createContext({
-    organizations: [], organizationMap: {}, organizationMapByName: {}, fetchOrganizations: () => {
-    }, fetchOrganization: ({organizationId}) => {
-    }, getOrganization: ({organizationName}) => {
+    // organizations: [],
+    // organizationMap: {},
+    // organizationMapByName: {},
+    fetchOrganizations: () => {
+    },
+    fetchOrganization: ({organizationId}) => {
+    },
+    getOrganization: ({organizationName}) => {
     }
 });
 
@@ -82,14 +87,14 @@ export const OrganizationsProvider = ({children}) => {
     };
 
     return (<OrganizationsContext.Provider
-            value={{
-                organizations,
-                organizationMap,
-                organizationMapByName,
-                fetchOrganizations,
-                fetchOrganization,
-                getOrganization
-            }}>
-            {children}
-        </OrganizationsContext.Provider>);
+        value={{
+            organizations,
+            organizationMap,
+            organizationMapByName,
+            fetchOrganizations,
+            fetchOrganization,
+            getOrganization
+        }}>
+        {children}
+    </OrganizationsContext.Provider>);
 };

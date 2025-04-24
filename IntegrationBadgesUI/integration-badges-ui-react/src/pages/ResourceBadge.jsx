@@ -11,20 +11,25 @@ import {Modal} from "react-bootstrap";
 
 export default function ResourceBadge() {
     const {t} = useTranslation();
-    const {resourceId, badgeId} = useParams();
+    let {resourceId, roadmapId, badgeId} = useParams();
+    roadmapId = parseInt(roadmapId);
+    badgeId = parseInt(badgeId);
+
     const {fetchOrganizations} = useOrganizations();
     const {
         fetchResource,
+        fetchResourceRoadmapBadge,
+        fetchResourceRoadmapBadgeTasks,
         getResource,
-        getResourceBadge,
-        getResourceBadgePrerequisites,
+        getResourceRoadmapBadge,
+        getResourceRoadmapBadgePrerequisites,
         getResourceOrganization,
-        getResourceBadgeTasks,
+        getResourceRoadmapBadgeTasks,
         setResourceBadgeWorkflowStatus,
         setResourceBadgeTaskWorkflowStatus
     } = useResources();
     const {fetchBadges, fetchBadge, getBadge} = useBadges();
-    const {fetchTasks} = useTasks();
+    const {fetchBadgeTasks} = useTasks();
     const [filterSelection, setFilterSelection] = useState({});
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
@@ -32,10 +37,10 @@ export default function ResourceBadge() {
 
     useEffect(() => {
         fetchResource({resourceId});
-        // fetchOrganizations();
-        // fetchBadges();
+        fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+        fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
         fetchBadge({badgeId});
-        fetchTasks({badgeId});
+        fetchBadgeTasks({badgeId});
     }, [resourceId, badgeId]);
 
     const clickTaskAction = async (taskId, status) => {
@@ -59,9 +64,9 @@ export default function ResourceBadge() {
 
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
-    let badge = getResourceBadge({resourceId, badgeId});
-    let tasks = getResourceBadgeTasks({resourceId, badgeId});
-    let prerequisiteBadges = getResourceBadgePrerequisites({resourceId, badgeId});
+    let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+    let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
+    let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
         return <div className="container">

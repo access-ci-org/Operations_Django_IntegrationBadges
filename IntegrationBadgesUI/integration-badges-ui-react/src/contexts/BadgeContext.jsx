@@ -4,7 +4,7 @@ import DefaultReducer from "./reducers/DefaultReducer";
 import {useResources} from "./ResourcesContext";
 
 const BadgeContext = createContext({
-    badgeMap: {},
+    // badgeMap: {},
     fetchBadges: () => {
     },
     fetchBadge: ({badgeId}) => {

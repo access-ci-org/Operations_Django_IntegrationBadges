@@ -155,7 +155,7 @@ export default function Resource() {
                         <div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                             {tabBadges && tabBadges.map((badge) => {
                                 return <div className="col p-3" key={badge.badge_id}>
-                                    {getBadgeCard(organization, resource, badge, t)}
+                                    {getBadgeCard(organization, resource, roadmapId, badge, t)}
                                 </div>
                             })}
                             {tabBadges && tabBadges.length === 0 &&
@@ -174,7 +174,7 @@ export default function Resource() {
 
 }
 
-function getBadgeCard(organization, resource, badge, t) {
+function getBadgeCard(organization, resource, roadmapId, badge, t) {
 
     if (organization && resource && badge) {
         return <div className="w-100 badge-card p-2">
@@ -198,7 +198,7 @@ function getBadgeCard(organization, resource, badge, t) {
                     </small>
                 </div>
             </div>
-            <Link to={`/resources/${resource.info_resourceid}/badges/${badge.badge_id}`}
+            <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${badge.badge_id}`}
                   className="btn btn-dark w-100">
                 View
             </Link>

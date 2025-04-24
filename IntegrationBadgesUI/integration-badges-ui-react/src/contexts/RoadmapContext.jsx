@@ -5,8 +5,8 @@ import {useResources} from "./ResourcesContext";
 import {useBadges} from "./BadgeContext.jsx";
 
 const RoadmapContext = createContext({
-    roadmapIds: [],
-    roadmapMap: {},
+    // roadmapIds: [],
+    // roadmapMap: {},
     fetchRoadmaps: () => {
     },
     fetchRoadmap: ({roadmapId}) => {

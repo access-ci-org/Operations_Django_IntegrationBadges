@@ -4,9 +4,13 @@ import DefaultReducer from "./reducers/DefaultReducer";
 import {useResources} from "./ResourcesContext";
 
 const TaskContext = createContext({
-    taskMap: {},
-    badgeTaskIdMap: {},
-    fetchTasks: ({badgeId}) => {
+    // taskMap: {},
+    // badgeTaskIdMap: {},
+    fetchBadgeTasks: ({badgeId}) => {
+    },
+    getTask: ({taskId}) => {
+    },
+    getBadgeTasks: ({badgeId}) => {
     }
 });
 
@@ -27,7 +31,7 @@ export const TaskProvider = ({children}) => {
     const [taskMap, setTaskMap] = useReducer(DefaultReducer, {});
     const [badgeTaskIdMap, setBadgeTaskIdMap] = useReducer(DefaultReducer, {});
 
-    const fetchTasks = async ({badgeId}) => {
+    const fetchBadgeTasks = async ({badgeId}) => {
         try {
             const response = await axios.get(`/badge/${badgeId}/tasks`);
             const _tasks = response.data.results;
@@ -47,8 +51,18 @@ export const TaskProvider = ({children}) => {
         }
     };
 
+    const getTask = ({taskId}) => {
+        return taskMap[taskId];
+    };
+
+    const getBadgeTasks = ({badgeId}) => {
+        if (badgeTaskIdMap[badgeId]) {
+            return badgeTaskIdMap[badgeId].map(taskId => getTask({taskId}));
+        }
+    };
+
     return (
-        <TaskContext.Provider value={{taskMap, badgeTaskIdMap, fetchTasks}}>
+        <TaskContext.Provider value={{fetchBadgeTasks, getTask, getBadgeTasks}}>
             {children}
         </TaskContext.Provider>
     );
