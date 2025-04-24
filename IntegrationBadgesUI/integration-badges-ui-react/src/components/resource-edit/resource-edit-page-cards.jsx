@@ -2,6 +2,7 @@ import Form from "react-bootstrap/Form";
 import {Link} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     const {getResource} = useResources();
@@ -49,7 +50,15 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     }
 }
 
-export function BadgeCardRow(resource, badge, selected, toggle, toggleComponent) {
+export function BadgeCardRow({resourceId, roadmapId, badgeId, selected, toggle, toggleComponent}) {
+    const {getResource} = useResources();
+    const {getRoadmap} = useRoadmaps();
+    const {getBadge} = useBadges();
+
+    const resource = getResource({resourceId});
+    const badge = getBadge({badgeId});
+    const roadmap = getRoadmap({roadmapId});
+
     if (resource && badge) {
         return <div className="row rounded-3 border-gray-200 border border-1">
             <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
@@ -63,7 +72,7 @@ export function BadgeCardRow(resource, badge, selected, toggle, toggleComponent)
                 {badge.resource_provider_summary}
             </p>
             <div className="col-sm-3 pt-2 pb-2 align-content-center">
-                <Link to={`/resources/${resource.info_resourceid}/badges/${badge.badge_id}`}
+                <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${badge.badge_id}`}
                       className="w-100 btn btn-secondary rounded-1 btn-sm">
                     View Additional Badge Details
                 </Link>
@@ -73,25 +82,25 @@ export function BadgeCardRow(resource, badge, selected, toggle, toggleComponent)
 }
 
 
-export function BadgeCardRowWithCheckboxes(props) {
-    const {resource, badge, selected, toggle} = props;
+export function BadgeCardRowWithCheckboxes({resourceId, roadmapId, badgeId, selected, toggle}) {
+    const toggleComponent = <div
+        className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center ${selected ? 'bg-light' : 'bg-gray-100'}`}
+        role="button" onClick={toggle}>
+        <Form.Check name="badges" type="checkbox" id={`badge-${badgeId}`} checked={!!selected}
+                    onChange={toggle}/>
+    </div>;
 
-    return BadgeCardRow(resource, badge, selected, toggle,
-        <div
-            className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center ${selected ? 'bg-light' : 'bg-gray-100'}`}
-            role="button" onClick={toggle}>
-            <Form.Check name="badges" type="checkbox" id={`badge-${badge.badge_id}`} checked={!!selected}
-                        onChange={toggle}/>
-        </div>)
+    return <BadgeCardRow resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId} selected={selected}
+                         toggle={toggle} toggleComponent={toggleComponent}/>
 }
 
-export function BadgeCardRowWithAddRemove(props) {
-    const {resource, badge, selected, toggle} = props;
+export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selected, toggle}) {
+    const toggleComponent = <div
+        className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center bg-gray-100 fs-4`}
+        role="button" onClick={toggle}>
+        {selected ? <i className="bi bi-dash"></i> : <i className="bi bi-plus"></i>}
+    </div>
 
-    return BadgeCardRow(resource, badge, selected, toggle,
-        <div
-            className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center bg-gray-100 fs-4`}
-            role="button" onClick={toggle}>
-            {selected ? <i className="bi bi-dash"></i> : <i className="bi bi-plus"></i>}
-        </div>)
+    return <BadgeCardRow resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId} selected={selected}
+                         toggle={toggle} toggleComponent={toggleComponent}/>
 }

@@ -30,7 +30,8 @@ export default function BadgeSelection({resourceId, roadmapId, selected, toggle,
                     {roadmapBadges && roadmapBadges.map((badge) => {
                         const badgeId = badge.badge_id;
                         return <div className="w-100 pt-2" key={badgeId}>
-                            <BadgeCardRowWithCheckboxes resource={resource} badge={badge} selected={selected(badgeId)}
+                            <BadgeCardRowWithCheckboxes resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}
+                                                        selected={selected(badgeId)}
                                                         toggle={toggle.bind(null, badgeId)}/>
                         </div>
                     })}
@@ -44,7 +45,8 @@ export default function BadgeSelection({resourceId, roadmapId, selected, toggle,
                 <button className="btn btn-outline-dark rounded-1 m-1" onClick={prev}>
                     Cancel
                 </button>
-                <button className="btn btn-dark rounded-1 m-1 ${}" disabled={selectedBadges.length === 0} onClick={next}>
+                <button className="btn btn-dark rounded-1 m-1 ${}" disabled={selectedBadges.length === 0}
+                        onClick={next}>
                     Continue with {selectedBadges.length} Selected Badges
                 </button>
             </div>
