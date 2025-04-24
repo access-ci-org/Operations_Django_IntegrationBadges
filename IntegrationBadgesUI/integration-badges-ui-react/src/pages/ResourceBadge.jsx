@@ -1,11 +1,8 @@
 import {Link, useParams} from "react-router-dom";
-import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useResources} from "../contexts/ResourcesContext";
 import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
-
 import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
-import Accordion from "react-bootstrap/Accordion";
 import {useTranslation} from "react-i18next";
 import {Modal} from "react-bootstrap";
 
@@ -15,7 +12,6 @@ export default function ResourceBadge() {
     roadmapId = parseInt(roadmapId);
     badgeId = parseInt(badgeId);
 
-    const {fetchOrganizations} = useOrganizations();
     const {
         fetchResource,
         fetchResourceRoadmapBadge,
@@ -28,9 +24,8 @@ export default function ResourceBadge() {
         setResourceRoadmapBadgeWorkflowStatus,
         setResourceRoadmapBadgeTaskWorkflowStatus
     } = useResources();
-    const {fetchBadges, fetchBadge, getBadge} = useBadges();
+    const { fetchBadge} = useBadges();
     const {fetchBadgeTasks} = useTasks();
-    const [filterSelection, setFilterSelection] = useState({});
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
@@ -67,9 +62,6 @@ export default function ResourceBadge() {
     let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
     let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
-
-    console.log("###### tasks ", tasks)
-
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
         return <div className="container">

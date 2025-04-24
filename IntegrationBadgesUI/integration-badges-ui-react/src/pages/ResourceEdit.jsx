@@ -1,29 +1,17 @@
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
-import Form from 'react-bootstrap/Form';
-import Accordion from 'react-bootstrap/Accordion';
-import {useAccordionButton} from 'react-bootstrap/AccordionButton';
-import {useContext} from 'react';
-import AccordionContext from 'react-bootstrap/AccordionContext';
-import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
-import {AccordionButton, Collapse, Fade, Modal, Nav} from "react-bootstrap";
-import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
-
+import {useBadges} from "../contexts/BadgeContext";
 import {useTranslation} from "react-i18next";
-import LoadingBlock from "../components/LoadingBlock";
-import {BadgeTaskWorkflowStatus} from "../contexts/TaskContext.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
-import {
-    BadgeCardRowWithAddRemove, BadgeCardRowWithCheckboxes, RoadmapCard
-} from "../components/resource-edit/resource-edit-page-cards.jsx";
+
+import LoadingBlock from "../components/LoadingBlock";
 import RoadmapSelection from "../components/resource-edit/RoadmapSelection.jsx";
 import BadgeSelection from "../components/resource-edit/BadgeSelection.jsx";
 import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelectionConfirmation.jsx";
 import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSelectionConfirmation.jsx";
 
 export default function ResourceEdit() {
-    const location = useLocation();
     const navigate = useNavigate();
     const {t} = useTranslation();
 
@@ -49,8 +37,6 @@ export default function ResourceEdit() {
 
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
-    const roadmap = getRoadmap({roadmapId});
-    const roadmapBadges = getRoadmapBadges({roadmapId});
     const resourceRoadmapBadges = getResourceRoadmapBadges({resourceId, roadmapId});
 
     useEffect(() => {

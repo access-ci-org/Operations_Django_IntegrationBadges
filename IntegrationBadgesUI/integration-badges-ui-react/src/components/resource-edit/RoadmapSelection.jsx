@@ -1,8 +1,7 @@
 import {RoadmapCard} from "./resource-edit-page-cards.jsx";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
-import {useState} from "react";
 
 export default function RoadmapSelection({resourceId, selected, toggle, prev, next}) {
     const navigate = useNavigate();

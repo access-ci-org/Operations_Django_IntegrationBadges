@@ -1,15 +1,10 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
-import {Link, useParams, useSearchParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 
-import {useBadges} from "../contexts/BadgeContext";
 import LoadingBlock from "../components/LoadingBlock";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
-
-const filters = ["All Resources", "In Progress", "Complete - Active Integration", "Pending Verification",
-    "Verification Failed"];
-
 
 /**
  * The initial page that displays al resources.
@@ -21,23 +16,17 @@ export default function Organization() {
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
         resources,
-        resourceMap,
-        fetchResources,
         fetchSelectedResources,
         getResource,
         getOrganizationResourceIds
     } = useResources();
-    const {fetchBadges} = useBadges();
 
     const [searchText, setSearchText] = useState("");
-    const [searchFilter, setSearchFilter] = useState({});
     const [resourceIds, setResourceIds] = useState([]);
 
     const organization = organizationMap[organizationId];
 
     useEffect(() => {
-        // fetchBadges();
-        // fetchResources();
         fetchOrganization({organizationId});
     }, [organizationId]);
 
@@ -106,18 +95,6 @@ export default function Organization() {
                                aria-label="Search keywords" onChange={(e) => setSearchText(e.target.value)}/>
                     </div>
                 </div>
-                {/*<div className="w-12">*/}
-                {/*    Filters :*/}
-                {/*    {filters.map((filter, filterIndex) => {*/}
-                {/*        let badgeClassName = "badge rounded-pill";*/}
-                {/*        if (!searchFilter[filter]) {*/}
-                {/*            badgeClassName += " bg-light text-dark";*/}
-                {/*        } else {*/}
-                {/*            badgeClassName += " text-light bg-dark";*/}
-                {/*        }*/}
-                {/*        return <a key={filterIndex} className={badgeClassName}>{filter}</a>*/}
-                {/*    })}*/}
-                {/*</div>*/}
 
                 <div className="container">
                     <LoadingBlock processing={processing} className="pt-4 pb-5">

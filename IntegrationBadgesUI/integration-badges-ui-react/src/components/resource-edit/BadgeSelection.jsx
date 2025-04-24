@@ -1,4 +1,4 @@
-import {BadgeCardRowWithCheckboxes, RoadmapCard} from "./resource-edit-page-cards.jsx";
+import {BadgeCardRowWithCheckboxes} from "./resource-edit-page-cards.jsx";
 import BadgeSelectionHeader from "./BadgeSelectionHeader.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";

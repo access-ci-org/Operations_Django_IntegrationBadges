@@ -1,5 +1,5 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Link} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/LoadingBlock";
@@ -10,15 +10,10 @@ import LoadingBlock from "../components/LoadingBlock";
  * Sort resources by organization name and group them by organization.
  */
 export default function IntegrationDashboard() {
-    const {resourceOrgMap, fetchResources} = useResources();
-    const {organizations, fetchOrganizations} = useOrganizations();
+    const {resourceOrgMap} = useResources();
+    const {organizations} = useOrganizations();
 
     const [searchText, setSearchText] = useState("");
-
-    // useEffect(() => {
-    //     fetchResources();
-    //     fetchOrganizations();
-    // }, [])
 
     let filteredOrganizations;
     if (organizations && organizations.length > 0) {

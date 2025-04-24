@@ -1,25 +1,18 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
-import {Collapse, Fade, Nav} from "react-bootstrap";
-import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
-
+import {Collapse, Nav} from "react-bootstrap";
+import {BadgeWorkflowStatus} from "../contexts/BadgeContext";
 import {useTranslation} from "react-i18next";
-import LoadingBlock from "../components/LoadingBlock";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
+import LoadingBlock from "../components/LoadingBlock";
 export default function Resource() {
     const navigate = useNavigate();
-
     const {t} = useTranslation();
     const {resourceId, roadmapId} = useParams();
-    const {fetchOrganizations} = useOrganizations();
     const {fetchRoadmap, getRoadmap} = useRoadmaps();
     const {fetchResource, fetchResourceRoadmapBadges, getResource, getResourceRoadmapBadges, getResourceOrganization} = useResources();
-    const {fetchBadges} = useBadges();
-
-    const [filterSelection, setFilterSelection] = useState({});
     const [activeTabIndex, setActiveTabIndex] = useState(1);
 
     const resource = getResource({resourceId});
@@ -31,12 +24,9 @@ export default function Resource() {
         fetchResource({resourceId});
     }, [resourceId]);
 
-
     useEffect(() => {
         resourceId && roadmapId && fetchResourceRoadmapBadges({resourceId, roadmapId});
     }, [resourceId, roadmapId]);
-
-
 
     useEffect(() => {
         if (!!resource && !!resource.roadmaps && !roadmapId) {

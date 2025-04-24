@@ -1,7 +1,6 @@
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import {Link, useLocation} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
-import {useBadges} from "../contexts/BadgeContext";
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import LoadingBlock from "./LoadingBlock.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
