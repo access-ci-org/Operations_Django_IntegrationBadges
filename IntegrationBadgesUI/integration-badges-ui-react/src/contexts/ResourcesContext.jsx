@@ -123,7 +123,7 @@ export const ResourcesProvider = ({children}) => {
                 [resourceId]: {
                     ...resourceRoadmapBadgeMap[resourceId],
                     [roadmapId]: {
-                        ...(!!resourceRoadmapBadgeMap[resourceId] ? resourceRoadmapBadgeMap[roadmapId][roadmapId] : null),
+                        ...(!!resourceRoadmapBadgeMap[resourceId] ? resourceRoadmapBadgeMap[resourceId][roadmapId] : null),
                         [badgeId]: badgeStatus
                     }
                 }
@@ -148,52 +148,25 @@ export const ResourcesProvider = ({children}) => {
                 taskWorkflowMap[taskId] = taskWorkflow;
             }
 
-            setResourceRoadmapBadgeTaskMap({
+            const _resourceRoadmapBadgeTaskMap = {
                 ...resourceRoadmapBadgeTaskMap,
                 [resourceId]: {
                     ...resourceRoadmapBadgeTaskMap[resourceId],
                     [roadmapId]: {
-                        ...(!!resourceRoadmapBadgeTaskMap[resourceId] ? resourceRoadmapBadgeTaskMap[roadmapId][roadmapId] : null),
+                        ...(!!resourceRoadmapBadgeTaskMap[resourceId] ? resourceRoadmapBadgeTaskMap[resourceId][roadmapId] : null),
                         [badgeId]: taskWorkflowMap
                     }
                 }
-            });
+            }
+
+            setResourceRoadmapBadgeTaskMap(_resourceRoadmapBadgeTaskMap);
 
             return res;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
-
-    function _getBadgeStatusMapFromResourceResponse(resource) {
-        const _badgeStatusMap = {};
-
-        const badgeStatus = resource.badge_status
-        for (let j = 0; j < badgeStatus.length; j++) {
-            const badgeId = badgeStatus[j].badge_id;
-            _badgeStatusMap[badgeId] = badgeStatus[j];
-        }
-
-        return _badgeStatusMap;
-    }
-
-    function _getBadgeTaskStatusMapFromResourceResponse(resource) {
-        const _badgeTaskStatusMap = {};
-
-        const badgeStatus = resource.badge_status
-        for (let j = 0; j < badgeStatus.length; j++) {
-            const badgeId = badgeStatus[j].badge_id;
-
-            _badgeTaskStatusMap[badgeId] = {}
-            const badgeTaskStatus = badgeStatus[j].task_status
-            for (let k = 0; k < badgeTaskStatus.length; k++) {
-                const taskId = badgeTaskStatus[k].task_id;
-                _badgeTaskStatusMap[badgeId][taskId] = badgeTaskStatus[k];
-            }
-        }
-
-        return _badgeTaskStatusMap;
-    }
 
     const fetchSelectedResources = async ({resourceIds}) => {
         try {
@@ -366,8 +339,8 @@ export const ResourcesProvider = ({children}) => {
 
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status}) => {
         try {
-            const response = await axios.post(`/resource/${resourceId}/badge/${badgeId}/workflow/${status}/`,);
-            await fetchResource({resourceId})
+            const response = await axios.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`,);
+            await fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId})
 
             return response.data.results;
         } catch (error) {
@@ -377,8 +350,8 @@ export const ResourcesProvider = ({children}) => {
 
     const setResourceRoadmapBadgeTaskWorkflowStatus = async ({resourceId, roadmapId, badgeId, taskId, status}) => {
         try {
-            const response = await axios.post(`/resource/${resourceId}/badge/${badgeId}/task/${taskId}/workflow/${status}/`,);
-            await fetchResource({resourceId})
+            const response = await axios.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/task/${taskId}/workflow/${status}/`,);
+            await fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId})
 
             return response.data.results;
         } catch (error) {

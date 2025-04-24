@@ -25,8 +25,8 @@ export default function ResourceBadge() {
         getResourceRoadmapBadgePrerequisites,
         getResourceOrganization,
         getResourceRoadmapBadgeTasks,
-        setResourceBadgeWorkflowStatus,
-        setResourceBadgeTaskWorkflowStatus
+        setResourceRoadmapBadgeWorkflowStatus,
+        setResourceRoadmapBadgeTaskWorkflowStatus
     } = useResources();
     const {fetchBadges, fetchBadge, getBadge} = useBadges();
     const {fetchBadgeTasks} = useTasks();
@@ -48,7 +48,7 @@ export default function ResourceBadge() {
             ...taskActionStatusProcessing,
             [taskId]: true
         });
-        await setResourceBadgeTaskWorkflowStatus({resourceId, badgeId, taskId, status})
+        await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
         setTaskActionStatusProcessing({
             ...taskActionStatusProcessing,
             [taskId]: false
@@ -57,7 +57,7 @@ export default function ResourceBadge() {
 
     const clickBadgeAction = async () => {
         setBadgeActionStatusProcessing(true);
-        await setResourceBadgeWorkflowStatus({resourceId, badgeId, status: badgeActionStatusProcessing})
+        await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status: badgeActionStatusProcessing})
         setBadgeActionStatusProcessing(false);
     };
 
@@ -67,6 +67,9 @@ export default function ResourceBadge() {
     let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
     let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
+
+    console.log("###### tasks ", tasks)
+
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
         return <div className="container">
