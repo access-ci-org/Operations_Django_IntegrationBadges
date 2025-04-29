@@ -24,11 +24,13 @@ export default function ResourceBadge() {
         setResourceRoadmapBadgeWorkflowStatus,
         setResourceRoadmapBadgeTaskWorkflowStatus
     } = useResources();
-    const { fetchBadge} = useBadges();
+    const {fetchBadge} = useBadges();
     const {fetchBadgeTasks} = useTasks();
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
+    const [showSaveConfirmationModal, setShowSaveConfirmationModal] = useState(false);
+    const [showSavedModal, setShowSavedModal] = useState(false);
 
     useEffect(() => {
         fetchResource({resourceId});
@@ -50,10 +52,13 @@ export default function ResourceBadge() {
         });
     };
 
-    const clickBadgeAction = async () => {
+    const clickBadgeAction = async (status) => {
+        setShowSaveConfirmationModal(false);
         setBadgeActionStatusProcessing(true);
-        await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status: badgeActionStatusProcessing})
+        await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status})
         setBadgeActionStatusProcessing(false);
+
+        if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
     };
 
 
@@ -119,7 +124,7 @@ export default function ResourceBadge() {
                         </div>}
                     {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
                         return <div key={taskIndex} className="w-100 pt-2">
-                            <div className="row p-2 rounded-3 border-gray-200 border border-1 border-left-wide">
+                            <div className="row rounded-3 border-gray-200 border border-1 border-left-wide">
 
                                 <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                                     <div
@@ -214,45 +219,33 @@ export default function ResourceBadge() {
                             </button>
                         } else if (!badge.status || badge.status === BadgeWorkflowStatus.NOT_PLANNED) {
                             return <button className="w-100 btn btn-outline-dark"
-                                           onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.PLANNED)}>
+                                           onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                 <i className="bi bi-check-square me-3"></i>
                                 Add this badge to the resource
                             </button>
                         } else if (badge.status === BadgeWorkflowStatus.PLANNED || badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
                             return <button className="w-100 btn btn-outline-dark"
-                                           onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
+                                           onClick={setShowSaveConfirmationModal.bind(this, true)}>
                                 <i className="bi bi-check-square me-3"></i>
                                 Submit for Verification
                             </button>
                         } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED) {
                             return <button className="w-100 btn btn-outline-dark"
-                                           onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.PLANNED)}>
+                                           onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                 <i className="bi bi-check-square me-3"></i>
                                 Reopen
-                            </button>
-                        } else if (badge.status === BadgeWorkflowStatus.VERIFIED) {
-                            return <button className="w-100 btn btn-outline-dark"
-                                           onClick={setBadgeActionStatusProcessing.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
-                                <i className="bi bi-check-square me-3"></i>
-                                Submit for Verification
                             </button>
                         }
                     })()}
 
 
-                    <Modal show={badgeActionStatusProcessing} onHide={setBadgeActionStatusProcessing.bind(this, false)}>
+                    <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
                         <Modal.Header closeButton className="bg-light">
                             <Modal.Title>
-                                <span hidden={true}>Badge Submit for Verification Confirmation</span>
+                                Are you sure that you want to submit this badge for verification?
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <div className="text-center text-dark" style={{fontSize: 100}}>
-                                <i className="bi bi-question-square-fill"></i>
-                            </div>
-                            <div className="lead">
-                                Are you sure that you want to submit this badge for verification?
-                            </div>
                         </Modal.Body>
                         <Modal.Footer>
                             <button className="btn btn-outline-dark"
@@ -265,6 +258,23 @@ export default function ResourceBadge() {
                             </button>
                         </Modal.Footer>
                     </Modal>
+
+                    <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
+                        <Modal.Header closeButton className="bg-light">
+                            <Modal.Title>
+                                Badge completion has been sent to a concierge for verification.
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <button className="btn btn-dark"
+                                    onClick={setShowSavedModal.bind(this, false)}>
+                                Exit
+                            </button>
+                        </Modal.Footer>
+                    </Modal>
+
 
                     <div className="pt-3 d-flex flex-row">
                         <div>

@@ -5,6 +5,8 @@ import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../LoadingBlock.jsx";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Modal} from "react-bootstrap";
+import {BadgeWorkflowStatus} from "../../contexts/BadgeContext.jsx";
 
 export default function BadgeSelectionConfirmation({resourceId, roadmapId, selected, toggle, next, prev}) {
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
     const {getRoadmapBadges} = useRoadmaps();
 
     const [saveProcessing, setSaveProcessing] = useState(false);
+    const [showSavedModal, setShowSavedModal] = useState(false);
 
     const resource = getResource({resourceId});
     const roadmapBadges = getRoadmapBadges({roadmapId});
@@ -25,7 +28,15 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
         setSaveProcessing(true);
         await setResourceRoadmap({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
         setSaveProcessing(false);
-        navigate(`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}`)
+        setShowSavedModal(true);
+    };
+
+    const navigateToResourcePage = () => {
+        navigate(`/resources/${resourceId}/roadmaps/${roadmapId}`);
+    };
+
+    const navigateToDashboard = () => {
+        navigate("/organizations");
     };
 
     if (!!resource && !!roadmapBadges) {
@@ -101,6 +112,28 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                             onClick={handleSave}>
                         Save Selection
                     </button>}
+
+                <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}
+                       onExit={navigateToResourcePage}>
+                    <Modal.Header closeButton className="bg-light">
+                        <Modal.Title>
+                            Changes Have Been Successfully Saved
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button className="btn btn-outline-dark"
+                                onClick={navigateToDashboard}>
+                            Go to Dashboard
+                        </button>
+                        <button className="btn btn-dark"
+                                onClick={navigateToResourcePage}>
+                            Resource Overview
+                        </button>
+                    </Modal.Footer>
+                </Modal>
+
             </div>
         </>
     } else {
