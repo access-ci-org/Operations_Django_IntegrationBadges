@@ -27,7 +27,7 @@ export default function ResourceCard({organization, resource, inProgress = false
         <div className="w-100">
             {showViewButton && !!inProgress &&
                 <div className="p-1">
-                    <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-dark w-100">
+                    <Link to={`/resources/${resource.info_resourceid}/edit`} className="btn btn-dark rounded-5 w-100">
                         Continue Setup
                     </Link>
                 </div>}

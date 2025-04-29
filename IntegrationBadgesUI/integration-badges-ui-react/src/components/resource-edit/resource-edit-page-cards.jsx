@@ -73,7 +73,7 @@ export function BadgeCardRow({resourceId, roadmapId, badgeId, selected, toggle, 
             </p>
             <div className="col-sm-3 pt-2 pb-2 align-content-center">
                 <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${badge.badge_id}`}
-                      className="w-100 btn btn-secondary rounded-1 btn-sm">
+                      className="w-100 btn btn-secondary rounded-1 btn-sm disabled">
                     View Additional Badge Details
                 </Link>
             </div>
