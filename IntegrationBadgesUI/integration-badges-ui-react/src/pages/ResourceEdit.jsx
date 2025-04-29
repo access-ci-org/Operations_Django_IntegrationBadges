@@ -1,7 +1,6 @@
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
-import {useBadges} from "../contexts/BadgeContext";
 import {useTranslation} from "react-i18next";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
@@ -19,21 +18,14 @@ export default function ResourceEdit() {
     roadmapId = parseInt(roadmapId);
 
     const {
-        fetchResource,
-        fetchResourceRoadmapBadges,
-        getResource,
-        getResourceRoadmapBadges,
-        getResourceOrganization,
-        setResource, isResourceRoadmapSelected
+        fetchResource, fetchResourceRoadmapBadges,
+        getResource, getResourceRoadmapBadges, getResourceOrganization,
+        isResourceRoadmapSelected
     } = useResources();
-    const {getBadge} = useBadges();
-    const {fetchRoadmaps, fetchRoadmap, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
+    const {fetchRoadmaps, fetchRoadmap} = useRoadmaps();
 
     const [selectedBadgeIdMap, setSelectedBadgeIdMap] = useState({});
-    const [saveProcessing, setSaveProcessing] = useState(false);
     const [wizardIndex, setWizardIndex] = useState(0);
-    const [accordionActiveKeys, setAccordionActiveKeys] = useState(["0"]);
-
 
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
@@ -50,7 +42,6 @@ export default function ResourceEdit() {
     useEffect(() => {
         resourceId && roadmapId && fetchResourceRoadmapBadges({resourceId, roadmapId});
     }, [resourceId, roadmapId]);
-
 
     const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId})
     useEffect(() => {
@@ -80,16 +71,21 @@ export default function ResourceEdit() {
         }
     }, [resource, !!resourceRoadmapBadges]);
 
+    useEffect(() => {
+        if (!!resource && !!resource.roadmaps && !roadmapId) {
+            if (resource.roadmaps.length > 0) {
+                navigate(`/resources/${resourceId}/roadmaps/${resource.roadmaps[0].roadmap.roadmap_id}/edit`, {replace: true});
+            } else {
+                navigate(`/resources/${resource.info_resourceid}/edit`, {replace: true})
+            }
+        }
+    }, [resource, roadmapId]);
+
     const toggleBadgeSelection = ({badgeId}) => {
         setSelectedBadgeIdMap({
-            ...selectedBadgeIdMap, [badgeId]: !selectedBadgeIdMap[badgeId]
+            ...selectedBadgeIdMap,
+            [badgeId]: !selectedBadgeIdMap[badgeId]
         });
-    };
-    const handleSave = async () => {
-        setSaveProcessing(true);
-        await setResource({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
-        setSaveProcessing(false);
-        navigate(`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}`)
     };
 
     const handlePrev = () => {

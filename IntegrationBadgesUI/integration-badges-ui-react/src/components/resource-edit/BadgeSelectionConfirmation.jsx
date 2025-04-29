@@ -3,18 +3,44 @@ import BadgeSelectionHeader from "./BadgeSelectionHeader.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../LoadingBlock.jsx";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function BadgeSelectionConfirmation({resourceId, roadmapId, selected, toggle, next, prev}) {
-    const {getResource} = useResources();
+    const navigate = useNavigate();
+
+    const {getResource, setResourceRoadmap} = useResources();
     const {getRoadmapBadges} = useRoadmaps();
 
-    const resource = getResource({resourceId});
-    const roadmapBadges = getRoadmapBadges({resourceId, roadmapId});
+    const [saveProcessing, setSaveProcessing] = useState(false);
 
+    const resource = getResource({resourceId});
+    const roadmapBadges = getRoadmapBadges({roadmapId});
+
+    const selectedBadgeIds = [];
+    const selectedBadges = [];
+    const notSelectedBadges = [];
+
+    const handleSave = async () => {
+        setSaveProcessing(true);
+        await setResourceRoadmap({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
+        setSaveProcessing(false);
+        navigate(`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}`)
+    };
 
     if (!!resource && !!roadmapBadges) {
-        const selectedBadges = roadmapBadges.filter(badge => selected(badge.badge_id));
-        const notSelectedBadges = roadmapBadges.filter(badge => !selected(badge.badge_id));
+
+        for (let i = 0; i < roadmapBadges.length; i++) {
+            const badge = roadmapBadges[i];
+            const badgeId = badge.badge_id;
+
+            if (!selected(badgeId)) {
+                notSelectedBadges.push(badge);
+            } else {
+                selectedBadgeIds.push(badgeId);
+                selectedBadges.push(badge);
+            }
+        }
 
         return <>
             <div className="row pt-5">
@@ -33,8 +59,9 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                     {selectedBadges && selectedBadges.map((badge) => {
                         const badgeId = badge.badge_id;
                         return <div className="w-100 pt-2" key={badgeId}>
-                            <BadgeCardRowWithAddRemove resource={resource} badge={badge} selected={selected(badgeId)}
-                                                       toggle={toggle.bind(badgeId)}/>
+                            <BadgeCardRowWithAddRemove resourceId={resourceId} badgeId={badgeId}
+                                                       selected={selected(badgeId)}
+                                                       toggle={toggle.bind(null, badgeId)}/>
                         </div>
                     })}
                     {selectedBadges && selectedBadges.length === 0 && <div className="w-100 p-3 text-center lead">
@@ -48,7 +75,8 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                         const badgeId = badge.badge_id;
                         return <div className="w-100 pt-2" key={badgeId}>
                             <BadgeCardRowWithAddRemove resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}
-                                                       selected={selected(badgeId)} toggle={toggle.bind(badgeId)}/>
+                                                       selected={selected(badgeId)}
+                                                       toggle={toggle.bind(null, badgeId)}/>
                         </div>
                     })}
                     {notSelectedBadges && notSelectedBadges.length === 0 &&
@@ -62,10 +90,17 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                 <button className="btn btn-outline-dark rounded-1 m-1" onClick={prev}>
                     Cancel
                 </button>
-                <button className="btn btn-dark rounded-1 m-1 ${}" disabled={selectedBadges.length === 0}
-                        onClick={next}>
-                    Save Selection
-                </button>
+
+
+                {saveProcessing ?
+                    <button className="btn btn-dark rounded-1 m-1">
+                        <span className="spinner-border spinner-border-sm me-3" role="status" aria-hidden="true"></span>
+                        Loading...
+                    </button> :
+                    <button className="btn btn-dark rounded-1 m-1" disabled={selectedBadges.length === 0}
+                            onClick={handleSave}>
+                        Save Selection
+                    </button>}
             </div>
         </>
     } else {
