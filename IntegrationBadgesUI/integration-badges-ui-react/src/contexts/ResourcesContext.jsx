@@ -245,7 +245,7 @@ export const ResourcesProvider = ({children}) => {
 
     const getResourceRoadmaps = ({resourceId}) => {
         if (resourceRoadmapIds[resourceId]) {
-            resourceRoadmapIds[resourceId].map(roadmapId => getRoadmap({roadmapId}))
+            return resourceRoadmapIds[resourceId].map(roadmapId => getRoadmap({roadmapId}))
         }
     }
 

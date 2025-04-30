@@ -33,10 +33,6 @@ export default function ResourceEdit() {
     const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId})
 
     useEffect(() => {
-        fetchRoadmaps();
-    }, []);
-
-    useEffect(() => {
         fetchResource({resourceId});
     }, [resourceId]);
 
