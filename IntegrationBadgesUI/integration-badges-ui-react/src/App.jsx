@@ -26,10 +26,15 @@ import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 axios.defaults.baseURL = import.meta.env.VITE_OPERATIONS_API_URL;
 
 const RouterLayout = () => {
-    const {fetchOrganizations, organizations} = useOrganizations();
-    const {fetchResources, resources} = useResources();
-    const {fetchRoadmaps} = useRoadmaps();
-    const {fetchBadges} = useBadges();
+    const {fetchOrganizations, getOrganizations} = useOrganizations();
+    const {fetchResources, getResources} = useResources();
+    const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
+    const {fetchBadges, getBadges} = useBadges();
+
+    const organizations = getOrganizations();
+    const resources = getResources();
+    const roadmaps = getRoadmaps();
+    const badges = getBadges();
 
     useEffect(() => {
         fetchOrganizations();
@@ -38,12 +43,17 @@ const RouterLayout = () => {
         fetchBadges();
     }, []);
 
+    let isDataReady = (organizations && organizations.length > 0)
+        && (resources && resources.length > 0)
+        && (roadmaps && roadmaps.length > 0)
+        && (badges && badges.length > 0);
+
     return (
         <div className="w-100 access-operations-integration-badges">
             <div className="container">
                 <CustomizedBreadcrumb/>
             </div>
-            {resources && organizations ? <Outlet/> : <LoadingBlock processing={true}/>}
+            {isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
         </div>
     );
 };

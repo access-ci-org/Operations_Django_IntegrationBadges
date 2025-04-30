@@ -4,14 +4,16 @@ import {useResources} from "./ResourcesContext";
 import DefaultReducer from "./reducers/DefaultReducer";
 
 const OrganizationsContext = createContext({
-    // organizations: [],
+    // organizationIds: [],
     // organizationMap: {},
     // organizationMapByName: {},
     fetchOrganizations: () => {
     },
     fetchOrganization: ({organizationId}) => {
     },
-    getOrganization: ({organizationName}) => {
+    getOrganization: ({organizationName = null, organizationId = null}) => {
+    },
+    getOrganizations: () => {
     }
 });
 
@@ -22,7 +24,7 @@ export const useOrganizations = () => useContext(OrganizationsContext);
  * @param children
  */
 export const OrganizationsProvider = ({children}) => {
-    const [organizations, setOrganizations] = useReducer(DefaultReducer, []);
+    const [organizationIds, setOrganizationIds] = useReducer(DefaultReducer, []);
     const [organizationMap, setOrganizationMap] = useReducer(DefaultReducer, {});
     const [organizationMapByName, setOrganizationMapByName] = useReducer(DefaultReducer, {});
 
@@ -46,6 +48,7 @@ export const OrganizationsProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -53,16 +56,20 @@ export const OrganizationsProvider = ({children}) => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_ORGANIZATION_API_URL}organizations/`);
             const _organizations = response.data.results;
-            setOrganizations(_organizations);
 
+            const _organizationIds = [];
             const _organizationMap = {};
             const _organizationMapByName = {};
             for (let i = 0; i < _organizations.length; i++) {
-                let _organization = _organizations[i];
-                _organizationMap[_organization.organizationId] = _organization;
+                const _organization = _organizations[i];
+                const organizationId = _organization.organization_id;
+
+                _organizationIds.push(organizationId);
+                _organizationMap[organizationId] = _organization;
                 _organizationMapByName[_organization.organization_name] = _organization;
             }
 
+            setOrganizationIds(_organizationIds);
 
             setOrganizationMap({
                 ...organizationMap, ..._organizationMap
@@ -74,26 +81,34 @@ export const OrganizationsProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
 
-    const getOrganization = ({organizationName}) => {
+    const getOrganization = ({organizationName = null, organizationId = null}) => {
         if (organizationMapByName[organizationName]) {
-            return {
-                ...organizationMapByName[organizationName]
-            };
+            return organizationMapByName[organizationName];
+        } else if (organizationMap[organizationId]) {
+            return organizationMap[organizationId];
         }
+    };
+
+
+    const getOrganizations = () => {
+        // console.log("###### organizationIds ", organizationIds)
+        return organizationIds.map(organizationId => getOrganization({organizationId}));
     };
 
     return (<OrganizationsContext.Provider
         value={{
-            organizations,
+            organizationIds,
             organizationMap,
             organizationMapByName,
             fetchOrganizations,
             fetchOrganization,
-            getOrganization
+            getOrganization,
+            getOrganizations
         }}>
         {children}
     </OrganizationsContext.Provider>);

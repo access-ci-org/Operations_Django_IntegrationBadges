@@ -28,6 +28,8 @@ const ResourcesContext = createContext({
     },
     getResource: ({resourceId}) => {
     },
+    getResources: () => {
+    },
     getResourceRoadmaps: ({resourceId}) => {
     },
     isResourceRoadmapSelected: ({resourceId, roadmapId}) => {
@@ -64,7 +66,7 @@ export const ResourcesProvider = ({children}) => {
     const {getOrganization} = useOrganizations();
     const {getRoadmap} = useRoadmaps();
 
-    const [resources, setResources] = useReducer(DefaultReducer, null);
+    const [resourceIds, setResourceIds] = useReducer(DefaultReducer, []);
     const [resourceMap, setResourceMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapIds, setResourceRoadmapIds] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeIds, setResourceRoadmapBadgeIds] = useReducer(DefaultReducer, {});
@@ -76,6 +78,7 @@ export const ResourcesProvider = ({children}) => {
         try {
             return fetchSelectedResources({resourceIds: [resourceId]})
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -110,6 +113,7 @@ export const ResourcesProvider = ({children}) => {
 
             return resourceRoadmapStatus;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -131,6 +135,7 @@ export const ResourcesProvider = ({children}) => {
 
             return resourceRoadmapBadge;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -195,6 +200,7 @@ export const ResourcesProvider = ({children}) => {
 
             return responseList;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -206,11 +212,14 @@ export const ResourcesProvider = ({children}) => {
             } else {
                 const response = await axios.get('/resources');
                 const _resources = response.data.results;
+                const _resourceIds = [];
                 const _resourceMap = {};
                 const _resourceOrgMap = {};
                 for (let i = 0; i < _resources.length; i++) {
                     let resource = _resources[i];
                     let resourceId = resource.info_resourceid;
+
+                    _resourceIds.push(resourceId);
 
                     _resourceMap[resourceId] = {
                         ...getResource({resourceId}), ...resource
@@ -226,14 +235,14 @@ export const ResourcesProvider = ({children}) => {
                     }
                 }
 
-
-                setResources(_resources);
+                setResourceIds(_resourceIds);
                 setResourceMap(_resourceMap);
                 setResourceOrgMap(_resourceOrgMap);
 
                 return response.data.results;
             }
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -241,6 +250,10 @@ export const ResourcesProvider = ({children}) => {
 
     const getResource = ({resourceId}) => {
         return resourceMap[resourceId];
+    }
+
+    const getResources = () => {
+        return resourceIds.map(resourceId => getResource({resourceId}));
     }
 
     const getResourceRoadmaps = ({resourceId}) => {
@@ -326,6 +339,7 @@ export const ResourcesProvider = ({children}) => {
 
     const getOrganizationResourceIds = ({organizationName}) => {
         const orgResourceIds = [];
+        const resources = getResources();
 
         for (let i = 0; i < resources.length; i++) {
             let resource = resources[i];
@@ -344,6 +358,7 @@ export const ResourcesProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     }
@@ -355,6 +370,7 @@ export const ResourcesProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     }
@@ -367,13 +383,14 @@ export const ResourcesProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     }
 
     return (<ResourcesContext.Provider
         value={{
-            resources,
+            resourceIds,
             resourceMap,
             resourceRoadmapBadgeMap,
             resourceRoadmapBadgeTaskMap,
@@ -385,6 +402,7 @@ export const ResourcesProvider = ({children}) => {
             fetchResourceRoadmapBadges,
             fetchResourceRoadmapBadgeTasks,
             getResource,
+            getResources,
             isResourceRoadmapSelected,
             getResourceRoadmaps,
             getResourceRoadmapBadges,

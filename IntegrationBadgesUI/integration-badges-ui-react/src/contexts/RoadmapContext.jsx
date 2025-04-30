@@ -51,6 +51,7 @@ export const RoadmapProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -72,6 +73,7 @@ export const RoadmapProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };

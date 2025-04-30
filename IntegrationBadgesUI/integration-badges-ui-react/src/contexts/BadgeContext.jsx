@@ -10,6 +10,8 @@ const BadgeContext = createContext({
     fetchBadge: ({badgeId}) => {
     },
     getBadge: ({badgeId}) => {
+    },
+    getBadges: () => {
     }
 });
 
@@ -29,25 +31,32 @@ export const BadgeWorkflowStatus = {
  * @param children
  */
 export const BadgeProvider = ({children}) => {
+    const [badgeIds, setBadgeIds] = useReducer(DefaultReducer, []);
     const [badgeMap, setBadgeMap] = useReducer(DefaultReducer, {});
 
     const fetchBadges = async () => {
         try {
             const response = await axios.get('/badges');
             const _badges = response.data.results;
+            const _badgeIds = [];
             const _badgeMap = {};
             for (let i = 0; i < _badges.length; i++) {
                 const _badge = _badges[i];
-                _badgeMap[_badge.badge_id] = {...badgeMap[_badge.badge_id], ..._badge};
+                const badgeId = _badge.badge_id;
+                _badgeIds.push(badgeId)
+                _badgeMap[badgeId] = {...badgeMap[badgeId], ..._badge};
             }
+
+            setBadgeIds(_badgeIds);
+
             setBadgeMap({
                 ...badgeMap,
                 ..._badgeMap
             });
 
-
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -69,6 +78,7 @@ export const BadgeProvider = ({children}) => {
 
             return response.data.results;
         } catch (error) {
+            console.log(error)
             return error;
         }
     };
@@ -78,9 +88,13 @@ export const BadgeProvider = ({children}) => {
         return badgeMap[badgeId];
     };
 
+    const getBadges = () => {
+        return badgeIds.map(badgeId => getBadge({badgeId}));
+    };
+
 
     return (
-        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge, getBadge}}>
+        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge, getBadge, getBadges}}>
             {children}
         </BadgeContext.Provider>
     );

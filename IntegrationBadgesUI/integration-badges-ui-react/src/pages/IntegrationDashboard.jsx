@@ -11,9 +11,11 @@ import LoadingBlock from "../components/LoadingBlock";
  */
 export default function IntegrationDashboard() {
     const {resourceOrgMap} = useResources();
-    const {organizations} = useOrganizations();
+    const {getOrganizations} = useOrganizations();
 
     const [searchText, setSearchText] = useState("");
+
+    const organizations = getOrganizations();
 
     let filteredOrganizations;
     if (organizations && organizations.length > 0) {

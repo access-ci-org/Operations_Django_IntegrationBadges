@@ -15,48 +15,61 @@ export default function Organization() {
     const {organizationId} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
-        resources,
         fetchSelectedResources,
-        getResource,
-        getOrganizationResourceIds
+        getResource, getResourceRoadmaps, getOrganizationResourceIds
     } = useResources();
 
     const [searchText, setSearchText] = useState("");
-    const [resourceIds, setResourceIds] = useState([]);
+    const [resourceFetchedMap, setResourceFetchedMap] = useState({});
 
     const organization = organizationMap[organizationId];
+    const orgResourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
 
     useEffect(() => {
         fetchOrganization({organizationId});
     }, [organizationId]);
 
     useEffect(() => {
-        if (organization && resources) {
-            setResourceIds(getOrganizationResourceIds({organizationName: organization.organization_name}));
-        }
-    }, [organization, resources]);
+        if (orgResourceIds) {
+            const _resourceFetchedMap = {};
+            const resourceIds = [];
+            for (let i = 0; i < orgResourceIds.length; i++) {
+                const resourceId = orgResourceIds[i];
+                if (!resourceFetchedMap[resourceId]) {
+                    _resourceFetchedMap[resourceId] = true
+                    resourceIds.push(resourceId);
+                }
+            }
 
-    useEffect(() => {
-        if (resourceIds) {
             fetchSelectedResources({resourceIds});
+            setResourceFetchedMap({
+                ...resourceFetchedMap,
+                ..._resourceFetchedMap
+            })
         }
-    }, [resourceIds])
+    }, [orgResourceIds.length])
 
     if (organization) {
+        let newIntegrations = [];
+        let inProgressIntegrations = [];
+        let productionIntegrations = [];
+        let postProductionIntegrations = [];
+
         let inProgressResources = []
         let establishedResources = []
         let processing = false;
 
-        if (resourceIds && resourceIds.length > 0) {
-            for (let i = 0; i < resourceIds.length; i++) {
-                let resourceId = resourceIds[i];
+        if (orgResourceIds && orgResourceIds.length > 0) {
+            for (let i = 0; i < orgResourceIds.length; i++) {
+                let resourceId = orgResourceIds[i];
                 let resource = getResource({resourceId})
+                let resourceRoadmaps = getResourceRoadmaps({resourceId})
 
-                if (resource.roadmaps && resource.roadmaps.length > 0) {
+                if (resource && resourceRoadmaps && resourceRoadmaps.length > 0) {
                     if (hasSearchCriteria(organization, resource, searchText)) {
                         establishedResources.push(resource);
                     }
-                } else if (resource.roadmaps) {
+                } else if (resource && resourceRoadmaps) {
                     if (hasSearchCriteria(organization, resource, searchText)) {
                         inProgressResources.push(resource);
                     }
@@ -67,7 +80,6 @@ export default function Organization() {
         } else {
             processing = true;
         }
-
 
         return <div className="container">
             <div className="row">
@@ -107,7 +119,8 @@ export default function Organization() {
                             <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                                 {inProgressResources.map((resource, resourceIndex) => {
                                     return <div className="col p-3" key={resourceIndex}>
-                                        <ResourceCard organization={organization} resource={resource} inProgress={true}/>
+                                        <ResourceCard organization={organization} resource={resource}
+                                                      inProgress={true}/>
                                     </div>
                                 })}
                             </div>
