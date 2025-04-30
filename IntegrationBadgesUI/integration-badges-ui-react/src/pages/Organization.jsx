@@ -1,10 +1,11 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {useResources} from "../contexts/ResourcesContext";
+import {ResourceStatus, useResources} from "../contexts/ResourcesContext";
 
 import LoadingBlock from "../components/LoadingBlock";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 /**
  * The initial page that displays al resources.
@@ -49,38 +50,61 @@ export default function Organization() {
         }
     }, [orgResourceIds.length])
 
-    if (organization) {
-        let newIntegrations = [];
-        let inProgressIntegrations = [];
-        let productionIntegrations = [];
-        let postProductionIntegrations = [];
+    let sections = [
+        {
+            title: "New Integrations",
+            description: "Resources described in the CiDeR databased that haven't selected an integration roadmap or badges",
+            showContinueSetup: true,
+            condition: (resource, resourceRoadmaps) => resourceRoadmaps.length === 0,
+            resources: [],
+        },
+        {
+            title: "In-Progress Integrations",
+            description: "Resources that have selected an integration roadmaps and are working on badges but haven't reached their production start date",
+            showContinueSetup: false,
+            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.ANNOUNCEMENT || resource.latest_status === ResourceStatus.PRE_PRODUCTION,
+            resources: [],
+        },
+        {
+            title: "Production Integrations",
+            description: "Resources that have reached their production start date, that may continue to add or remove badges as appropriate",
+            showContinueSetup: false,
+            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.PRODUCTION,
+            resources: [],
+        },
+        {
+            title: "Post-Production Integrations",
+            description: "Resources that have passed their production end date, but continue to offer some service and may be partially available for post production use",
+            showContinueSetup: false,
+            condition: (resource, resourceRoadmaps) => resource.latest_status === ResourceStatus.POST_PRODUCTION,
+            resources: [],
+        }
+    ];
 
-        let inProgressResources = []
-        let establishedResources = []
-        let processing = false;
+    let resourcesProcessing = true;
+    for (let i = 0; i < orgResourceIds.length; i++) {
+        let resourceId = orgResourceIds[i];
+        let resource = getResource({resourceId});
+        let resourceRoadmaps = getResourceRoadmaps({resourceId});
 
-        if (orgResourceIds && orgResourceIds.length > 0) {
-            for (let i = 0; i < orgResourceIds.length; i++) {
-                let resourceId = orgResourceIds[i];
-                let resource = getResource({resourceId})
-                let resourceRoadmaps = getResourceRoadmaps({resourceId})
 
-                if (resource && resourceRoadmaps && resourceRoadmaps.length > 0) {
-                    if (hasSearchCriteria(organization, resource, searchText)) {
-                        establishedResources.push(resource);
-                    }
-                } else if (resource && resourceRoadmaps) {
-                    if (hasSearchCriteria(organization, resource, searchText)) {
-                        inProgressResources.push(resource);
-                    }
-                } else {
-                    processing = true;
+        for (let j = 0; j < sections.length; j++) {
+            const section = sections[j];
+
+            if (resource && resourceRoadmaps) {
+                resourcesProcessing = false;
+
+                if (hasSearchCriteria(organization, resource, searchText) && section.condition(resource, resourceRoadmaps)) {
+                    section.resources.push(resource);
+                    break;
                 }
             }
-        } else {
-            processing = true;
         }
+    }
 
+    sections = sections.filter(section => section.resources.length > 0);
+
+    if (organization && orgResourceIds && orgResourceIds.length > 0) {
         return <div className="container">
             <div className="row">
                 <div className="col-sm-2 col-m-3 col-sm-4 bg-white" style={{
@@ -108,43 +132,41 @@ export default function Organization() {
                     </div>
                 </div>
 
-                <div className="container">
-                    <LoadingBlock processing={processing} className="pt-4 pb-5">
-                        <div className="col-12 pt-4">
-                            <h2>In Progress</h2>
-                            {inProgressResources && inProgressResources.length === 0 &&
-                                <div className="w-100 p-3 text-center lead">
-                                    There are no resource waiting to be integrated
-                                </div>}
+                <div className="w-100">
+                    {resourcesProcessing && <LoadingBlock/>}
+
+                    {!resourcesProcessing && sections.length === 0 &&
+                        <div className="w-100 p-3 text-center lead">
+                            There are no resource in this organization
+                        </div>}
+
+                    {!resourcesProcessing && sections.map((section, sectionIndex) => {
+                        const tooltip = <Tooltip id="tooltip">
+                            {section.description}
+                        </Tooltip>;
+
+                        return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
+                            <div className="w-100 text-start pb-2">
+                                <h2 className="d-inline me-4">{section.title}</h2>
+                                <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
+                                    <button className="btn btn-link text-yellow d-inline"><i
+                                        className="bi bi-question-square-fill"></i></button>
+                                </OverlayTrigger>
+                            </div>
+
                             <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
-                                {inProgressResources.map((resource, resourceIndex) => {
+                                {section.resources.map((resource, resourceIndex) => {
                                     return <div className="col p-3" key={resourceIndex}>
                                         <ResourceCard organization={organization} resource={resource}
-                                                      inProgress={true}/>
+                                                      inProgress={section.showContinueSetup}/>
                                     </div>
                                 })}
                             </div>
                         </div>
-                        <div className="col-12 pt-4">
-                            <h2>Current Integrations</h2>
-
-                            {establishedResources && establishedResources.length === 0 &&
-                                <div className="w-100 p-3 text-center lead">
-                                    There are no resources integrated
-                                </div>}
-                            <div className="w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1">
-                                {establishedResources.map((resource, resourceIndex) => {
-                                    return <div className="col p-3" key={resourceIndex}>
-                                        <ResourceCard organization={organization} resource={resource}/>
-                                    </div>
-                                })}
-                            </div>
-                        </div>
-                    </LoadingBlock>
+                    })}
                 </div>
             </div>
         </div>
-
     } else {
         return <div className="container">
             <LoadingBlock processing={true}/>

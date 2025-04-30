@@ -56,6 +56,14 @@ const ResourcesContext = createContext({
 
 export const useResources = () => useContext(ResourcesContext);
 
+export const ResourceStatus = {
+    ANNOUNCEMENT: "announcement",
+    PRE_PRODUCTION: "pre-production",
+    PRODUCTION: "production",
+    POST_PRODUCTION: "post-production",
+    RETIRED: "retired"
+}
+
 /**
  * Context provider for resources
  * @param children
