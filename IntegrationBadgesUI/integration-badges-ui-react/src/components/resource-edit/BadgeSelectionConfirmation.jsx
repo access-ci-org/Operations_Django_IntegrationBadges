@@ -3,41 +3,17 @@ import BadgeSelectionHeader from "./BadgeSelectionHeader.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../LoadingBlock.jsx";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Modal} from "react-bootstrap";
-import {BadgeWorkflowStatus} from "../../contexts/BadgeContext.jsx";
+import BadgeSelectionActionsFooter from "./BadgeSelectionActionsFooter.jsx";
 
 export default function BadgeSelectionConfirmation({resourceId, roadmapId, selected, toggle, next, prev}) {
-    const navigate = useNavigate();
-
-    const {getResource, setResourceRoadmap} = useResources();
+    const {getResource} = useResources();
     const {getRoadmapBadges} = useRoadmaps();
-
-    const [saveProcessing, setSaveProcessing] = useState(false);
-    const [showSavedModal, setShowSavedModal] = useState(false);
 
     const resource = getResource({resourceId});
     const roadmapBadges = getRoadmapBadges({roadmapId});
 
-    const selectedBadgeIds = [];
     const selectedBadges = [];
     const notSelectedBadges = [];
-
-    const handleSave = async () => {
-        setSaveProcessing(true);
-        await setResourceRoadmap({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
-        setSaveProcessing(false);
-        setShowSavedModal(true);
-    };
-
-    const navigateToResourcePage = () => {
-        navigate(`/resources/${resourceId}/roadmaps/${roadmapId}`);
-    };
-
-    const navigateToDashboard = () => {
-        navigate("/organizations");
-    };
 
     if (!!resource && !!roadmapBadges) {
 
@@ -48,7 +24,6 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
             if (!selected(badgeId)) {
                 notSelectedBadges.push(badge);
             } else {
-                selectedBadgeIds.push(badgeId);
                 selectedBadges.push(badge);
             }
         }
@@ -97,44 +72,8 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                 </div>
             </div>
 
-            <div className="w-100 text-end pt-3 pb-5">
-                <button className="btn btn-outline-dark rounded-1 m-1" onClick={prev}>
-                    Cancel
-                </button>
-
-
-                {saveProcessing ?
-                    <button className="btn btn-dark rounded-1 m-1">
-                        <span className="spinner-border spinner-border-sm me-3" role="status" aria-hidden="true"></span>
-                        Loading...
-                    </button> :
-                    <button className="btn btn-dark rounded-1 m-1" disabled={selectedBadges.length === 0}
-                            onClick={handleSave}>
-                        Save Selection
-                    </button>}
-
-                <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}
-                       onExit={navigateToResourcePage}>
-                    <Modal.Header closeButton className="bg-light">
-                        <Modal.Title>
-                            Changes Have Been Successfully Saved
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button className="btn btn-outline-dark"
-                                onClick={navigateToDashboard}>
-                            Go to Dashboard
-                        </button>
-                        <button className="btn btn-dark"
-                                onClick={navigateToResourcePage}>
-                            Resource Overview
-                        </button>
-                    </Modal.Footer>
-                </Modal>
-
-            </div>
+            <BadgeSelectionActionsFooter resourceId={resourceId} roadmapId={roadmapId} selected={selected} next={next}
+                                         prev={prev} showSave={true}/>
         </>
     } else {
         return <LoadingBlock/>

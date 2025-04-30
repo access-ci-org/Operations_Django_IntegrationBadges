@@ -3,25 +3,35 @@ import BadgeSelectionHeader from "./BadgeSelectionHeader.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../LoadingBlock.jsx";
+import BadgeSelectionActionsFooter from "./BadgeSelectionActionsFooter.jsx";
 
 export default function BadgeSelection({resourceId, roadmapId, selected, toggle, prev, next}) {
-    const {getResource} = useResources();
+    const {getResource, isResourceRoadmapSelected} = useResources();
     const {getRoadmapBadges} = useRoadmaps();
 
     const resource = getResource({resourceId});
     const roadmapBadges = getRoadmapBadges({roadmapId});
+    const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId});
 
     if (!!resource && !!roadmapBadges) {
-        const selectedBadges = roadmapBadges.filter(badge => selected(badge.badge_id))
-
         return <>
             <div className="row pt-5">
-                <h1>Step 1 of 2: Select Resource-Specific Badges</h1>
-                <p>
-                    Choose the integration badges for your team to complete. Each badge represents a key integration
-                    step,
-                    and some badges will have multiple tasks that may need different team members to accomplish.
-                </p>
+                {isRoadmapNew ? <>
+                        <h1>Step 1 of 2: Select Resource-Specific Badges</h1>
+                        <p>
+                            Choose the integration badges for your team to complete. Each badge represents a key integration
+                            step, and some badges will have multiple tasks that may need different team members to
+                            accomplish.
+                        </p>
+                    </> :
+                    <>
+                        <h1>{resource.resource_descriptive_name}: Edit Your Resource</h1>
+                        <p>
+                            Use the form below to review and update your existing resource integration. You can view
+                            your current roadmap and badges, make adjustments, and save your changes. Any modifications
+                            you make will be reviewed by the concierge team as part of the validation process.
+                        </p>
+                    </>}
             </div>
             <BadgeSelectionHeader resourceId={resourceId} roadmapId={roadmapId}/>
             <div className="row pt-5">
@@ -41,15 +51,8 @@ export default function BadgeSelection({resourceId, roadmapId, selected, toggle,
                 </div>
             </div>
 
-            <div className="w-100 text-end pt-3 pb-5">
-                <button className="btn btn-outline-dark rounded-1 m-1" onClick={prev}>
-                    Cancel
-                </button>
-                <button className="btn btn-dark rounded-1 m-1 ${}" disabled={selectedBadges.length === 0}
-                        onClick={next}>
-                    Continue with {selectedBadges.length} Selected Badges
-                </button>
-            </div>
+            <BadgeSelectionActionsFooter resourceId={resourceId} roadmapId={roadmapId} selected={selected} next={next}
+                                         prev={prev} showSave={!isRoadmapNew}/>
         </>
     } else {
         return <LoadingBlock/>

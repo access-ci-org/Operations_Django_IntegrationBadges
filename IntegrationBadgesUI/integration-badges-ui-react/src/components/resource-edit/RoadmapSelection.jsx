@@ -6,7 +6,7 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 export default function RoadmapSelection({resourceId, selected, toggle, prev, next}) {
     const navigate = useNavigate();
 
-    const {getResource, getResourceRoadmaps, isResourceRoadmapSelected} = useResources();
+    const {getResource, isResourceRoadmapSelected} = useResources();
     const {getRoadmaps} = useRoadmaps();
 
     let resource = getResource({resourceId});

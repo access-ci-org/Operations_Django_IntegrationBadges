@@ -30,6 +30,7 @@ export default function ResourceEdit() {
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
     const resourceRoadmapBadges = getResourceRoadmapBadges({resourceId, roadmapId});
+    const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId})
 
     useEffect(() => {
         fetchRoadmaps();
@@ -40,10 +41,11 @@ export default function ResourceEdit() {
     }, [resourceId]);
 
     useEffect(() => {
-        resourceId && roadmapId && fetchResourceRoadmapBadges({resourceId, roadmapId});
-    }, [resourceId, roadmapId]);
+        if (resourceId && roadmapId && !isRoadmapNew) {
+            fetchResourceRoadmapBadges({resourceId, roadmapId});
+        }
+    }, [resourceId, roadmapId, isRoadmapNew]);
 
-    const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId})
     useEffect(() => {
         if (!!resourceId && !!roadmapId) {
             if (isRoadmapNew) {
@@ -89,7 +91,11 @@ export default function ResourceEdit() {
     };
 
     const handlePrev = () => {
-        setWizardIndex(wizardIndex - 1);
+        if (isRoadmapNew) {
+            setWizardIndex(wizardIndex - 1);
+        } else {
+            navigate("/organizations");
+        }
     };
     const handleNext = async () => {
         if (wizardIndex === 3) {
