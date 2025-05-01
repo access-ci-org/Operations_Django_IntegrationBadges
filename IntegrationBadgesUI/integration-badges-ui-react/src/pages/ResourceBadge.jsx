@@ -4,7 +4,7 @@ import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
 import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import {useTranslation} from "react-i18next";
-import {Dropdown, DropdownButton, Modal} from "react-bootstrap";
+import {Dropdown, DropdownButton, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 export default function ResourceBadge() {
     const {t} = useTranslation();
@@ -123,7 +123,7 @@ export default function ResourceBadge() {
                 </div>
             </div>
 
-            <div className="w-100 d-flex flex-row pt-3 pb-3">
+            <div className="w-100 d-flex flex-row pt-3 pb-4">
                 <div className="ps-3 pe-3  text-yellow fs-3">
                     <i className="bi bi-megaphone-fill"></i>
                 </div>
@@ -134,7 +134,19 @@ export default function ResourceBadge() {
             </div>
 
             <div className="row">
-                <h3>Pre-Requisite Badges</h3>
+
+                <div className="w-100 text-start pb-2">
+                    <h3 className="d-inline me-4 text-black">Pre-Requisite Badges</h3>
+                    <OverlayTrigger placement="right" delayShow={300} delayHide={150}
+                                    overlay={<Tooltip id="tooltip-tasks">
+                                        Prerequisite badges must be completed before submitting this badge for concierge
+                                        verification. Click badge details to view and complete the required tasks.
+                                    </Tooltip>}>
+                        <button className="btn btn-link text-yellow d-inline">
+                            <i className="bi bi-question-square-fill"></i></button>
+                    </OverlayTrigger>
+                </div>
+
                 <div className="w-100 pb-3">
                     {prerequisiteBadges && prerequisiteBadges.length === 0 &&
                         <div className="w-100 p-3 text-center lead">
@@ -153,7 +165,7 @@ export default function ResourceBadge() {
                                          style={{backgroundImage: `url(${prerequisiteBadge.graphic})`}}>
 
                                     </div>
-                                    <h4 className="flex-fill p-2 ps-3 m-0">{prerequisiteBadge.name}</h4>
+                                    <h4 className="flex-fill p-2 ps-3 m-0 fs-6">{prerequisiteBadge.name}</h4>
                                 </div>
                                 <p className="col-sm-5 pt-2 pb-2 m-0 align-content-center">
                                     {prerequisiteBadge.resource_provider_summary}
@@ -199,7 +211,19 @@ export default function ResourceBadge() {
             </div>
 
             <div className="row pt-4">
-                <h3>Key Tasks & Tips</h3>
+
+                <div className="w-100 text-start pb-2">
+                    <h3 className="d-inline me-4 text-black">Key Tasks & Tips</h3>
+                    <OverlayTrigger placement="right" delayShow={300} delayHide={150}
+                                    overlay={<Tooltip id="tooltip-tasks">
+                                        Some tasks are informational, while others require action. Review them, return
+                                        here, and mark each as Complete or N/A.
+                                    </Tooltip>}>
+                        <button className="btn btn-link text-yellow d-inline">
+                            <i className="bi bi-question-square-fill"></i></button>
+                    </OverlayTrigger>
+                </div>
+
                 <div className="w-100">
                     {tasks && tasks.length === 0 && <div className="w-100 p-3 text-center lead">
                         No Tasks Available
@@ -217,7 +241,7 @@ export default function ResourceBadge() {
                                         className="p-4 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
                                         role="button">
                                     </div>
-                                    <h4 className="flex-fill p-2 ps-3 m-0">{task.name}</h4>
+                                    <h4 className="flex-fill p-2 ps-3 m-0 fs-6">{task.name}</h4>
                                 </div>
 
                                 <p className="col-sm-5 pt-2 pb-2 m-0 align-content-center">
