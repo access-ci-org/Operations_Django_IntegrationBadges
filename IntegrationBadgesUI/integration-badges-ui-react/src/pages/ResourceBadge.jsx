@@ -118,10 +118,21 @@ export default function ResourceBadge() {
                         </div>
                     </div>
                     <div className="w-100 pt-5 pb-3">
-                        <p>{badge.resource_provider_summary}</p>
+                        <p className="lead">{badge.resource_provider_summary}</p>
                     </div>
                 </div>
             </div>
+
+            <div className="w-100 d-flex flex-row pt-3 pb-3">
+                <div className="ps-3 pe-3  text-yellow fs-3">
+                    <i className="bi bi-megaphone-fill"></i>
+                </div>
+                <p className="text-medium flex-fill fs-5">
+                    We recommend completing any prerequisite badges before starting the tasks for this badge. Please
+                    note that some tasks may be informational—review the details, complete them as needed, and update
+                    the status to 'Completed' or 'Not Applicable' based on your situation.</p>
+            </div>
+
             <div className="row">
                 <h3>Pre-Requisite Badges</h3>
                 <div className="w-100 pb-3">
@@ -184,7 +195,7 @@ export default function ResourceBadge() {
             </div>
 
             <div className="row pt-4">
-                <h3>To-Do Tasks</h3>
+                <h3>Key Tasks & Tips</h3>
                 <div className="w-100">
                     {tasks && tasks.length === 0 && <div className="w-100 p-3 text-center lead">
                         No Tasks Available
@@ -221,7 +232,7 @@ export default function ResourceBadge() {
                                                     className="ps-3 pe-3">{!task.status ? "Unknown" : task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED ? "Not Applicable" : "Completed"}</span>
                                             </span>
                                             <span>
-                                                <i className="bi bi-chevron-right"></i>
+                                                <i className="bi bi-chevron-down"></i>
                                             </span>
                                         </Dropdown.Toggle>
 
@@ -307,10 +318,10 @@ export default function ResourceBadge() {
 
 
                     <div className="pt-3 d-flex flex-row">
-                        <div>
-                            <i className="bi bi-info-circle-fill text-yellow"></i>
+                        <div className="text-yellow fs-4 p-2">
+                            <i className="bi bi-megaphone-fill"></i>
                         </div>
-                        <p className="flex-fill ps-1">
+                        <p className="flex-fill ps-1 text-dark">
                             Once you’ve completed the tasks, please submit them for concierge approval. A concierge will
                             review the completed tasks, and you’ll receive a follow-up email with next steps.
                         </p>
