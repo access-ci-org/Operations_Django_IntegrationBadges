@@ -4,7 +4,7 @@ import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
 import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import {useTranslation} from "react-i18next";
-import {Modal} from "react-bootstrap";
+import {Dropdown, DropdownButton, Modal} from "react-bootstrap";
 
 export default function ResourceBadge() {
     const {t} = useTranslation();
@@ -14,7 +14,7 @@ export default function ResourceBadge() {
 
     const {
         fetchResource,
-        fetchResourceRoadmapBadge,
+        fetchResourceRoadmapBadges,
         fetchResourceRoadmapBadgeTasks,
         getResource,
         getResourceRoadmapBadge,
@@ -32,23 +32,37 @@ export default function ResourceBadge() {
     const [showSaveConfirmationModal, setShowSaveConfirmationModal] = useState(false);
     const [showSavedModal, setShowSavedModal] = useState(false);
 
+    const resource = getResource({resourceId});
+    const organization = getResourceOrganization({resourceId});
+    let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+    let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
+    let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
+
     useEffect(() => {
         fetchResource({resourceId});
-        fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+        fetchResourceRoadmapBadges({resourceId, roadmapId});
         fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
         fetchBadge({badgeId});
         fetchBadgeTasks({badgeId});
     }, [resourceId, badgeId]);
 
+    // useEffect(() => {
+    //     if (prerequisiteBadges) {
+    //         for (let i = 0; i < prerequisiteBadges.length-1; i++) {
+    //             const prerequisiteBadge = prerequisiteBadges[i];
+    //             console.log("#### prerequisiteBadge ", prerequisiteBadge)
+    //             fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId: prerequisiteBadge.badge_id});
+    //         }
+    //     }
+    // }, [prerequisiteBadges.length]);
+
     const clickTaskAction = async (taskId, status) => {
         setTaskActionStatusProcessing({
-            ...taskActionStatusProcessing,
-            [taskId]: true
+            ...taskActionStatusProcessing, [taskId]: true
         });
         await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
         setTaskActionStatusProcessing({
-            ...taskActionStatusProcessing,
-            [taskId]: false
+            ...taskActionStatusProcessing, [taskId]: false
         });
     };
 
@@ -60,13 +74,6 @@ export default function ResourceBadge() {
 
         if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
     };
-
-
-    const resource = getResource({resourceId});
-    const organization = getResourceOrganization({resourceId});
-    let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
-    let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
-    let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
         return <div className="container">
@@ -128,7 +135,7 @@ export default function ResourceBadge() {
 
                                 <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                                     <div
-                                        className="p-4 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
+                                        className="p-4 h-100 bg-warning-subtle rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
                                         role="button">
                                     </div>
                                     <h4 className="flex-fill p-2 ps-3 m-0">{prerequisiteBadge.name}</h4>
@@ -136,13 +143,38 @@ export default function ResourceBadge() {
                                 <p className="col-sm-5 pt-2 pb-2 m-0 align-content-center">
                                     {prerequisiteBadge.resource_provider_summary}
                                 </p>
-                                <div className="col-sm-3 pt-2 pb-2 align-content-center">
-                                    <Link
-                                        to={`/resources/${resource.info_resourceid}/badges/${prerequisiteBadge.badge_id}`}
-                                        className="w-100 btn btn-outline-dark btn-sm">
-                                        <i className="bi bi-box-arrow-up-right me-3"></i>
-                                        View Badge Details
-                                    </Link>
+                                <div className="col-sm-3 pt-2 pb-2 align-content-center text-center">
+                                    {!prerequisiteBadge.status && <span className="text-dark">
+                                                    <i className="bi bi-info-circle"></i>
+                                                    <span className="ps-3 pe-3">Not Planned</span>
+                                                </span>}
+
+                                    {!!prerequisiteBadge.status && <Link
+                                        to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${prerequisiteBadge.badge_id}`}
+                                        className="w-100 btn btn-outline-dark btn-sm rounded-3 d-flex flex-row">
+
+                                        {prerequisiteBadge.status === BadgeWorkflowStatus.VERIFIED &&
+                                            <>
+                                                <span className="flex-fill text-start">
+                                                    <i className="bi bi-check-circle-fill"></i>
+                                                    <span className="ps-3 pe-3">Verification Approved</span>
+                                                </span>
+                                                <span>
+                                                    <i className="bi bi-chevron-right"></i>
+                                                </span>
+                                            </>}
+
+                                        {[BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED].indexOf(prerequisiteBadge.status) >= 0 &&
+                                            <>
+                                                <span className="flex-fill text-start">
+                                                    <i className="bi bi-layers"></i>
+                                                    <span className="ps-3 pe-3">Incomplete Badge - Take Action</span>
+                                                </span>
+                                                <span>
+                                                    <i className="bi bi-chevron-right"></i>
+                                                </span>
+                                            </>}
+                                    </Link>}
                                 </div>
 
                             </div>
@@ -154,10 +186,9 @@ export default function ResourceBadge() {
             <div className="row pt-4">
                 <h3>To-Do Tasks</h3>
                 <div className="w-100">
-                    {tasks && tasks.length === 0 &&
-                        <div className="w-100 p-3 text-center lead">
-                            No Tasks Available
-                        </div>}
+                    {tasks && tasks.length === 0 && <div className="w-100 p-3 text-center lead">
+                        No Tasks Available
+                    </div>}
                     {tasks && tasks.map((task, taskIndex) => {
                         const taskId = task.task_id;
 
@@ -179,27 +210,29 @@ export default function ResourceBadge() {
                                     <a className="btn btn-link" href={task.detailed_instructions_url}>View Details</a>
                                 </p>
                                 <div className="col-sm-3 pt-2 pb-2 align-content-center">
-                                    {(() => {
-                                        if (taskActionStatusProcessing[taskId]) {
-                                            return <button className="w-100 btn btn-dark btn-sm">
-                                                <span className="spinner-border spinner-border-sm me-3" role="status"
-                                                      aria-hidden="true"></span>
-                                                Loading...
-                                            </button>
-                                        } else if (task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED) {
-                                            return <button className="w-100 btn btn-dark btn-sm"
-                                                           onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
-                                                <i className="bi bi-exclamation-triangle-fill text-orange me-3"></i>
-                                                Mark as Complete
-                                            </button>
-                                        } else if (task.status === BadgeTaskWorkflowStatus.COMPLETED) {
-                                            return <button className="w-100 btn btn-outline-dark btn-sm"
-                                                           onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
-                                                <i className="bi bi-check-square me-3"></i>
-                                                Marked as Complete
-                                            </button>
-                                        }
-                                    })()}
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant={task.status ? 'outline-dark' : 'dark'}
+                                                         id="dropdown-basic"
+                                                         bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
+                                            <span className="flex-fill text-start">
+                                                {!task.status ? <i className="bi bi-layers"></i> :
+                                                    <i className="bi bi-check-circle-fill"></i>}
+                                                <span
+                                                    className="ps-3 pe-3">{!task.status ? "Unknown" : task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED ? "Not Applicable" : "Completed"}</span>
+                                            </span>
+                                            <span>
+                                                <i className="bi bi-chevron-right"></i>
+                                            </span>
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.COMPLETED)}>Completed</Dropdown.Item>
+                                            <Dropdown.Item
+                                                onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>Not
+                                                Applicable</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </div>
                             </div>
                         </div>
@@ -212,27 +245,24 @@ export default function ResourceBadge() {
                 <div style={{maxWidth: 400}}>
                     {(() => {
                         if (badgeActionStatusProcessing) {
-                            return <button className="w-100 btn btn-dark">
+                            return <button className="w-100 btn btn-dark rounded-3">
                                                 <span className="spinner-border spinner-border-sm me-3" role="status"
                                                       aria-hidden="true"></span>
                                 Loading...
                             </button>
                         } else if (!badge.status || badge.status === BadgeWorkflowStatus.NOT_PLANNED) {
-                            return <button className="w-100 btn btn-outline-dark"
+                            return <button className="w-100 btn btn-outline-dark rounded-3"
                                            onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
-                                <i className="bi bi-check-square me-3"></i>
                                 Add this badge to the resource
                             </button>
                         } else if (badge.status === BadgeWorkflowStatus.PLANNED || badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
-                            return <button className="w-100 btn btn-outline-dark"
+                            return <button className="w-100 btn btn-outline-dark rounded-3"
                                            onClick={setShowSaveConfirmationModal.bind(this, true)}>
-                                <i className="bi bi-check-square me-3"></i>
                                 Submit for Verification
                             </button>
-                        } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED) {
-                            return <button className="w-100 btn btn-outline-dark"
+                        } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED || badge.status === BadgeWorkflowStatus.VERIFIED) {
+                            return <button className="w-100 btn btn-outline-dark rounded-3"
                                            onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
-                                <i className="bi bi-check-square me-3"></i>
                                 Reopen
                             </button>
                         }
@@ -296,10 +326,7 @@ export default function ResourceBadge() {
 function getImplementorRoles(tasks) {
     let implementorRoles = [];
     for (let i = 0; i < tasks.length; i++) {
-        implementorRoles = [
-            ...implementorRoles,
-            ...tasks[i].implementor_roles.split(/ *, */ig)
-        ]
+        implementorRoles = [...implementorRoles, ...tasks[i].implementor_roles.split(/ *, */ig)]
     }
 
     return Array.from(new Set(implementorRoles))
