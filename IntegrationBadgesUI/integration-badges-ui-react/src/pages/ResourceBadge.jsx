@@ -149,6 +149,10 @@ export default function ResourceBadge() {
                                         className="p-4 h-100 bg-warning-subtle rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
                                         role="button">
                                     </div>
+                                    <div className="mt-2 mb-2 p-4 background-image-center-no-repeat"
+                                         style={{backgroundImage: `url(${prerequisiteBadge.graphic})`}}>
+
+                                    </div>
                                     <h4 className="flex-fill p-2 ps-3 m-0">{prerequisiteBadge.name}</h4>
                                 </div>
                                 <p className="col-sm-5 pt-2 pb-2 m-0 align-content-center">
@@ -321,7 +325,7 @@ export default function ResourceBadge() {
                         <div className="text-yellow fs-4 p-2">
                             <i className="bi bi-megaphone-fill"></i>
                         </div>
-                        <p className="flex-fill ps-1 text-dark">
+                        <p className="flex-fill ps-1 text-medium">
                             Once you’ve completed the tasks, please submit them for concierge approval. A concierge will
                             review the completed tasks, and you’ll receive a follow-up email with next steps.
                         </p>

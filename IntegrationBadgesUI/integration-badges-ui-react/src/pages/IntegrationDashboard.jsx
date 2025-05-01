@@ -31,7 +31,7 @@ export default function IntegrationDashboard() {
             <p className="mt-3">
                 Welcome to the ACCESS Integration Dashboard.
                 <br/><br/>
-                <strong>Click on a Resource Provider (RP)</strong> to view their resources and integration statuses.
+                <strong className="text-medium">Click on a Resource Provider (RP)</strong> to view their resources and integration statuses.
                 You can explore and manage the resources provided by various RPs. Each RP’s integration progress is
                 tracked in real-time, so you can monitor your active and pending integrations as you continue your
                 work.
