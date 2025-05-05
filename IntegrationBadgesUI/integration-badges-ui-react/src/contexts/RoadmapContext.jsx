@@ -1,8 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
-import axios from 'axios';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {useResources} from "./ResourcesContext";
 import {useBadges} from "./BadgeContext.jsx";
+import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const RoadmapContext = createContext({
     // roadmapIds: [],
@@ -33,7 +32,7 @@ export const RoadmapProvider = ({children}) => {
 
     const fetchRoadmaps = async () => {
         try {
-            const response = await axios.get('/roadmaps');
+            const response = await dashboardAxiosInstance.get('/roadmaps');
             const _roadmaps = response.data.results;
             const _roadmapMap = {};
             const _roadmapIds = []
@@ -58,7 +57,7 @@ export const RoadmapProvider = ({children}) => {
 
     const fetchRoadmap = async ({roadmapId}) => {
         try {
-            const response = await axios.get(`/roadmap/${roadmapId}`);
+            const response = await dashboardAxiosInstance.get(`/roadmap/${roadmapId}`);
             const _roadmap = response.data.results;
 
             const _roadmapMap = {

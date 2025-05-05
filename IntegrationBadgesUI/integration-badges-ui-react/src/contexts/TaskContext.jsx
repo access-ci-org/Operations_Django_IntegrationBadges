@@ -1,7 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
-import axios from 'axios';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {useResources} from "./ResourcesContext";
+import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const TaskContext = createContext({
     // taskMap: {},
@@ -26,14 +25,12 @@ export const BadgeTaskWorkflowStatus = {
  * @param children
  */
 export const TaskProvider = ({children}) => {
-    const {fetchResource} = useResources();
-
     const [taskMap, setTaskMap] = useReducer(DefaultReducer, {});
     const [badgeTaskIdMap, setBadgeTaskIdMap] = useReducer(DefaultReducer, {});
 
     const fetchBadgeTasks = async ({badgeId}) => {
         try {
-            const response = await axios.get(`/badge/${badgeId}/tasks`);
+            const response = await dashboardAxiosInstance.get(`/badge/${badgeId}/tasks`);
             const _tasks = response.data.results;
             const _taskMap = {}
             const _taskIds = [];

@@ -1,7 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
-import axios from 'axios';
-import {useResources} from "./ResourcesContext";
 import DefaultReducer from "./reducers/DefaultReducer";
+import {organizationsAxiosInstance} from "./auth/OrganizationsAuthenticator.js";
 
 const OrganizationsContext = createContext({
     // organizationIds: [],
@@ -30,7 +29,7 @@ export const OrganizationsProvider = ({children}) => {
 
     const fetchOrganization = async ({organizationId}) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_ORGANIZATION_API_URL}organizations/organization_id/${organizationId}`);
+            const response = await organizationsAxiosInstance.get(`/organizations/organization_id/${organizationId}`);
             const organization = response.data.results;
             setOrganizationMap({
                 ...organizationMap, [organizationId]: organization
@@ -54,7 +53,7 @@ export const OrganizationsProvider = ({children}) => {
     };
     const fetchOrganizations = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_ORGANIZATION_API_URL}organizations/`);
+            const response = await organizationsAxiosInstance.get(`/organizations/`);
             const _organizations = response.data.results;
 
             const _organizationIds = [];
