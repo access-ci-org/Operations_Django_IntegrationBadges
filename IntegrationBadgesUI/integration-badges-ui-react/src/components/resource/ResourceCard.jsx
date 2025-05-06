@@ -9,7 +9,7 @@ export default function ResourceCard({organization, resource, inProgress = false
                     Edit
                 </Link>}
             </div>
-            <h3 className="w-100 text-black">{resource.resource_descriptive_name}</h3>
+            <h3 className="w-100 text-black">{resource.short_name}</h3>
         </div>
         <div className="w-100 p-1 resource-card-sub-header">
             <strong className="text-medium">{resource.cider_type}</strong>
