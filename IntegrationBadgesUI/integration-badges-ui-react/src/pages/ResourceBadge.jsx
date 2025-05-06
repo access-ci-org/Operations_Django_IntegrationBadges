@@ -89,26 +89,23 @@ export default function ResourceBadge() {
                         </div>
                     </div>
                     <div className="row pt-5">
-                        <div className="col-sm-2 background-image-center-no-repeat"
-                             style={{backgroundImage: `url(${badge.graphic})`}}>
+                        <div className="col-sm-2 background-image-center-no-repeat mb-3"
+                             style={{backgroundImage: `url(${badge.graphic})`, minHeight: 100}}>
 
                         </div>
-                        <div className="col-sm-10">
+                        <div className="col mb-3">
                             <h2>{badge.name}</h2>
                             <div className="row">
-                                <div className="col">
-                                    <label className="text-secondary">Resource Type</label>
-                                    <div>{resource.cider_type}</div>
-                                </div>
-                                <div className="col">
-                                    <label className="text-secondary">Latest Status</label>
-                                    <div>
-                                        <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <label className="text-secondary">Implementor Roles</label>
-                                    <div>{getImplementorRoles(tasks).join(", ")}</div>
+                                <label className="text-secondary">RP Roles</label>
+                                <div>{getImplementorRoles(tasks).join(", ")}</div>
+                            </div>
+                        </div>
+                        <div className="col-sm-3 ps-1 mb-3">
+                            <div className="border-2 border rounded-3 pt-4 pb-4 ps-2 pe-2 text-center">
+                                <label className="text-black d-inline fw-bold">Badge Status : </label>
+                                <div className="ps-2 d-inline">
+                                    <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId}
+                                                         badgeId={badgeId}/>
                                 </div>
                             </div>
                         </div>

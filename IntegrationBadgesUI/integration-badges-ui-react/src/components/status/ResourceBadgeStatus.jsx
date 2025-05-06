@@ -16,7 +16,7 @@ export default function ResourceBadgeStatus({resourceId, roadmapId, badgeId}) {
         "deprecated": "bg-secondary-subtle"
     };
 
-    return <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${badgeWorkflowStatusClass[badge.status]}`}>
-        <Translate>badgeWorkflowStatus.{badge.status}</Translate>
+    return <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap ${badgeWorkflowStatusClass[badge.status]}`}>
+        <Translate >badgeWorkflowStatus.{badge.status}</Translate>
     </small>
 }
