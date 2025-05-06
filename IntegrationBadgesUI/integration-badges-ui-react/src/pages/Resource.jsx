@@ -2,17 +2,23 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import {Collapse, Nav} from "react-bootstrap";
-import {BadgeWorkflowStatus} from "../contexts/BadgeContext";
-import {useTranslation} from "react-i18next";
+import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 import LoadingBlock from "../components/LoadingBlock";
+import ResourceBadgeCard from "../components/resource/ResourceBadgeCard.jsx";
+
 export default function Resource() {
     const navigate = useNavigate();
-    const {t} = useTranslation();
     const {resourceId, roadmapId} = useParams();
     const {fetchRoadmap, getRoadmap} = useRoadmaps();
-    const {fetchResource, fetchResourceRoadmapBadges, getResource, getResourceRoadmapBadges, getResourceOrganization} = useResources();
+    const {
+        fetchResource,
+        fetchResourceRoadmapBadges,
+        getResource,
+        getResourceRoadmapBadges,
+        getResourceOrganization
+    } = useResources();
     const [activeTabIndex, setActiveTabIndex] = useState(1);
 
     const resource = getResource({resourceId});
@@ -146,7 +152,7 @@ export default function Resource() {
                         <div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                             {tabBadges && tabBadges.map((badge) => {
                                 return <div className="col p-3" key={badge.badge_id}>
-                                    {getBadgeCard(organization, resource, roadmapId, badge, t)}
+                                    <ResourceBadgeCard resourceId={resourceId} roadmapId={roadmapId} badgeId={badge.badge_id}/>
                                 </div>
                             })}
                             {tabBadges && tabBadges.length === 0 &&
@@ -165,34 +171,3 @@ export default function Resource() {
 
 }
 
-function getBadgeCard(organization, resource, roadmapId, badge, t) {
-
-    if (organization && resource && badge) {
-        return <div className="w-100 badge-card p-2">
-            <div className="w-100 p-1 badge-card-header">
-                <div className="w-100 badge-card-header-thumbnail">
-                    <div className="w-100 background-image-center-no-repeat badge-icon-small"
-                         style={{backgroundImage: `url(${badge.graphic})`}}>
-                    </div>
-                </div>
-                <h3 className="w-100">{badge.name}</h3>
-            </div>
-            <div className="w-100 badge-card-body">
-                <p className="w-100">
-                    {badge.resource_provider_summary}
-                </p>
-
-
-                <div className="w-100 text-center">
-                    <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStatusClass.${badge.status}`)}`}>
-                        {badge.status ? t(`badgeWorkflowStatus.${badge.status}`) : "  "}
-                    </small>
-                </div>
-            </div>
-            <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${badge.badge_id}`}
-                  className="btn btn-dark w-100">
-                View
-            </Link>
-        </div>
-    }
-}

@@ -67,7 +67,7 @@ export default function IntegrationDashboard() {
             <div className="row mt-2 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
                 {filteredOrganizations && filteredOrganizations.map((organization, organizationIndex) => {
                     return <div key={organizationIndex} className="col p-3">
-                        <div className="organization-card w-100 h-100">
+                        <div className="organization-card rounded-3 w-100 h-100">
                             <div className="w-100 p-3"></div>
                             <div className="w-100 p-5 bg-light" style={{
                                 backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,

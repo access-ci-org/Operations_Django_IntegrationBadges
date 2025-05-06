@@ -1,7 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
-import {useTranslation} from "react-i18next";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 import LoadingBlock from "../components/LoadingBlock";
@@ -12,7 +11,6 @@ import RoadmapSelectionConfirmation from "../components/resource-edit/RoadmapSel
 
 export default function ResourceEdit() {
     const navigate = useNavigate();
-    const {t} = useTranslation();
 
     let {resourceId, roadmapId} = useParams();
     roadmapId = parseInt(roadmapId);

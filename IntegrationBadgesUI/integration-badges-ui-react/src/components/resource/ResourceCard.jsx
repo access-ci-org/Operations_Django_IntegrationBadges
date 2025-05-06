@@ -1,8 +1,8 @@
 import {Link} from "react-router-dom";
 
 export default function ResourceCard({organization, resource, inProgress = false, showViewButton = true}) {
-    return <div className="w-100 h-100 resource-card p-2 d-flex flex-column">
-        <div className="w-100 bg-light p-1 resource-card-header">
+    return <div className="w-100 h-100 resource-card rounded-4 p-2 d-flex flex-column">
+        <div className="w-100 bg-light p-1 resource-card-header rounded-3">
             <div className="w-100 ps-2 resource-card-header-actions">
                 {!inProgress && <Link to={`/resources/${resource.info_resourceid}/edit`}
                                       className="btn btn-link text-medium">

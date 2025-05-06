@@ -8,15 +8,6 @@
     "verified":  "Verification Approved",
     "deprecated": "Deprecated"
   },
-  "badgeWorkflowStatusClass": {
-    "undefined": "",
-    "not-planned": "",
-    "planned": "bg-light",
-    "task-completed":  "bg-warning-subtle",
-    "verification-failed":  "bg-danger-subtle",
-    "verified":  "bg-light",
-    "deprecated": "bg-secondary-subtle"
-  },
   "badgeTaskWorkflowStatus": {
     "completed": "Completed",
     "not-completed": "Not Completed"

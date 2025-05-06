@@ -3,11 +3,10 @@ import {useResources} from "../contexts/ResourcesContext";
 import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
 import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
-import {useTranslation} from "react-i18next";
-import {Dropdown, DropdownButton, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Dropdown, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 
 export default function ResourceBadge() {
-    const {t} = useTranslation();
     let {resourceId, roadmapId, badgeId} = useParams();
     roadmapId = parseInt(roadmapId);
     badgeId = parseInt(badgeId);
@@ -104,10 +103,7 @@ export default function ResourceBadge() {
                                 <div className="col">
                                     <label className="text-secondary">Latest Status</label>
                                     <div>
-                                        <small
-                                            className={`ps-2 pe-2 pt-1 pb-1 rounded-1 ${t(`badgeWorkflowStatusClass.${badge.status}`)}`}>
-                                            {t(`badgeWorkflowStatus.${badge.status}`)}
-                                        </small>
+                                        <ResourceBadgeStatus resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                                     </div>
                                 </div>
                                 <div className="col">
