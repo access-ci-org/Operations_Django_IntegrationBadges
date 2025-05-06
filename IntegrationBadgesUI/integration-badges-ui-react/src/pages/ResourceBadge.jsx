@@ -250,7 +250,7 @@ export default function ResourceBadge() {
                                                 {!task.status ? <i className="bi bi-layers"></i> :
                                                     <i className="bi bi-check-circle-fill"></i>}
                                                 <span
-                                                    className="ps-3 pe-3">{!task.status ? "Unknown" : task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED ? "Not Applicable" : "Completed"}</span>
+                                                    className="ps-3 pe-3">{!task.status ? "Incomplete" : task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED ? "Not Applicable" : "Completed"}</span>
                                             </span>
                                             <span>
                                                 <i className="bi bi-chevron-down"></i>
