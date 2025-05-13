@@ -5,12 +5,16 @@ export const dashboardAxiosInstance = axios.create({
 });
 
 dashboardAxiosInstance.interceptors.request.use(
-    function (config) {
-        // const newToken = "bla bla";
-        // const newToken = getNewToken();
+    async function (config) {
+        let newToken;
+        try{
+            newToken = await getNewToken();
+        } catch (e) {
+            newToken = "<no-valid-token-received-from-dashboard>"
+        }
 
         // Update the Authorization header
-        // config.headers.Authorization = `Bearer ${newToken}`;
+        config.headers.Authorization = `Bearer ${newToken}`;
 
         return config;
     },
@@ -25,7 +29,7 @@ async function getNewToken() {
         const res = await axios.get(`https://dashboard.operations.access-ci.org/badgetoken/v1/token/`);
         return res.data.token;
     } catch (error) {
-        return error;
+        throw error;
     }
 }
 

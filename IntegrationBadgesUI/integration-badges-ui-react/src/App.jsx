@@ -79,7 +79,8 @@ function App() {
                                                     <Route path="/organizations" element={<IntegrationDashboard/>}/>
                                                     <Route path="/organizations/:organizationId"
                                                            element={<Organization/>}/>
-                                                    <Route path="/organizations/new" element={<NewResource/>}/>
+
+                                                    <Route path="/resources/new" element={<NewResource/>}/>
 
                                                     <Route path="/resources/:resourceId" element={<Resource/>}/>
                                                     <Route path="/resources/:resourceId/roadmaps/:roadmapId"
