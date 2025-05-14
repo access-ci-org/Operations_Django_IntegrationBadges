@@ -7,8 +7,8 @@ export default function ResourceBadgeStatus({resourceId, roadmapId, badgeId}) {
     const badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
 
     const badgeWorkflowStatusClass = {
-        "undefined": "",
-        "not-planned": "",
+        "undefined": "bg-secondary-subtle",
+        "not-planned": "bg-secondary-subtle",
         "planned": "bg-warning-subtle",
         "task-completed": "bg-warning-subtle",
         "verification-failed": "bg-danger-subtle",

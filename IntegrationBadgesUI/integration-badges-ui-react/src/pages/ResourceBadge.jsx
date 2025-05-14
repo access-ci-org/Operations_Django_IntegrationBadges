@@ -75,6 +75,10 @@ export default function ResourceBadge() {
     };
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
+
+        const isReadyToSubmit = tasks.filter(t => !t.status).length === 0 &&
+            prerequisiteBadges.filter(pb => pb.status !== BadgeWorkflowStatus.VERIFIED).length === 0;
+
         return <div className="container">
             <div className="row">
                 <div className="col-sm-12">
@@ -164,14 +168,22 @@ export default function ResourceBadge() {
                                     {prerequisiteBadge.resource_provider_summary}
                                 </p>
                                 <div className="col-sm-3 pt-2 pb-2 align-content-center text-center">
-                                    {!prerequisiteBadge.status && <span className="text-dark">
-                                                    <i className="bi bi-info-circle"></i>
-                                                    <span className="ps-3 pe-3">Not Planned</span>
-                                                </span>}
 
-                                    {!!prerequisiteBadge.status && <Link
+
+                                    {!!prerequisiteBadge && <Link
                                         to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${prerequisiteBadge.badge_id}`}
                                         className="w-100 btn btn-outline-dark btn-sm rounded-3 d-flex flex-row">
+
+                                        {!prerequisiteBadge.status &&
+                                            <>
+                                                <span className="flex-fill text-start text-orange">
+                                                    <i className="bi bi-info-circle-fill"></i>
+                                                    <span className="ps-3 pe-3">Not Planned - Take Action</span>
+                                                </span>
+                                                <span className="text-orange">
+                                                    <i className="bi bi-chevron-right"></i>
+                                                </span>
+                                            </>}
 
                                         {prerequisiteBadge.status === BadgeWorkflowStatus.VERIFIED &&
                                             <>
@@ -287,12 +299,14 @@ export default function ResourceBadge() {
                                            onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                 Add this badge to the resource
                             </button>
-                        } else if (badge.status === BadgeWorkflowStatus.PLANNED || badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
-                            return <button className="w-100 btn btn-outline-dark rounded-3"
+                        } else if (badge.status === BadgeWorkflowStatus.PLANNED ||
+                            badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
+                            return <button className="w-100 btn btn-outline-dark rounded-3" disabled={!isReadyToSubmit}
                                            onClick={setShowSaveConfirmationModal.bind(this, true)}>
                                 Submit for Verification
                             </button>
-                        } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED || badge.status === BadgeWorkflowStatus.VERIFIED) {
+                        } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED ||
+                            badge.status === BadgeWorkflowStatus.VERIFIED) {
                             return <button className="w-100 btn btn-outline-dark rounded-3"
                                            onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                 Reopen
