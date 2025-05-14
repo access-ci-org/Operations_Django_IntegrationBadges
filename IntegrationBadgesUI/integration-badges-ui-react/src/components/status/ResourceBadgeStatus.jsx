@@ -17,6 +17,6 @@ export default function ResourceBadgeStatus({resourceId, roadmapId, badgeId}) {
     };
 
     return <small className={`ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap ${badgeWorkflowStatusClass[badge.status]}`}>
-        <Translate >badgeWorkflowStatus.{badge.status}</Translate>
+        <Translate>badgeWorkflowStatus.{badge.status}</Translate>
     </small>
 }

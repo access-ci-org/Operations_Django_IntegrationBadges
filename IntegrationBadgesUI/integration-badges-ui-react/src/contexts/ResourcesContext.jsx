@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
-import {useBadges} from "./BadgeContext";
+import {BadgeWorkflowStatus, useBadges} from "./BadgeContext";
 import {useOrganizations} from "./OrganizationsContext";
 import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
@@ -374,7 +374,12 @@ export const ResourcesProvider = ({children}) => {
     const setResourceRoadmapBadgeTaskWorkflowStatus = async ({resourceId, roadmapId, badgeId, taskId, status}) => {
         try {
             const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/task/${taskId}/workflow/${status}/`,);
-            await fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId})
+            await fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
+
+            let resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+            if ([BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.TASK_COMPLETED].indexOf(resourceRoadmapBadge.status) >= 0) {
+                await fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId})
+            }
 
             return response.data.results;
         } catch (error) {

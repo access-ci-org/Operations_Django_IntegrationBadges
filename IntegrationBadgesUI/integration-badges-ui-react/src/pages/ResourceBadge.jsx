@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import {Dropdown, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
+import Translate from "../locales/Translate.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -30,6 +31,7 @@ export default function ResourceBadge() {
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
     const [showSaveConfirmationModal, setShowSaveConfirmationModal] = useState(false);
     const [showSavedModal, setShowSavedModal] = useState(false);
+    const [showTaskReopenModal, setShowTaskReopenModal] = useState(false);
 
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
@@ -63,6 +65,8 @@ export default function ResourceBadge() {
         setTaskActionStatusProcessing({
             ...taskActionStatusProcessing, [taskId]: false
         });
+
+        setShowTaskReopenModal(false);
     };
 
     const clickBadgeAction = async (status) => {
@@ -269,13 +273,34 @@ export default function ResourceBadge() {
                                             </span>
                                         </Dropdown.Toggle>
 
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item
-                                                onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.COMPLETED)}>Completed</Dropdown.Item>
-                                            <Dropdown.Item
-                                                onClick={() => clickTaskAction(taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>Not
-                                                Applicable</Dropdown.Item>
-                                        </Dropdown.Menu>
+                                        {(badge.status === BadgeWorkflowStatus.VERIFIED ||
+                                                badge.status === BadgeWorkflowStatus.TASK_COMPLETED) &&
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item
+                                                    onClick={setShowTaskReopenModal.bind(this, {
+                                                        taskId,
+                                                        status: BadgeTaskWorkflowStatus.COMPLETED
+                                                    })}>
+                                                    Completed</Dropdown.Item>
+                                                <Dropdown.Item
+                                                    onClick={setShowTaskReopenModal.bind(this, {
+                                                        taskId,
+                                                        status: BadgeTaskWorkflowStatus.NOT_COMPLETED
+                                                    })}>
+                                                    Not Applicable</Dropdown.Item>
+                                            </Dropdown.Menu>}
+
+
+                                        {(badge.status === BadgeWorkflowStatus.PLANNED ||
+                                                badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) &&
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item
+                                                    onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
+                                                    Completed</Dropdown.Item>
+                                                <Dropdown.Item
+                                                    onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
+                                                    Not Applicable</Dropdown.Item>
+                                            </Dropdown.Menu>}
                                     </Dropdown>
                                 </div>
                             </div>
@@ -325,7 +350,7 @@ export default function ResourceBadge() {
                         </Modal.Body>
                         <Modal.Footer>
                             <button className="btn btn-outline-dark"
-                                    onClick={setBadgeActionStatusProcessing.bind(this, false)}>
+                                    onClick={setShowSaveConfirmationModal.bind(this, false)}>
                                 No
                             </button>
                             <button className="btn btn-dark"
@@ -351,6 +376,29 @@ export default function ResourceBadge() {
                         </Modal.Footer>
                     </Modal>
 
+
+                    <Modal show={showTaskReopenModal} onHide={setShowTaskReopenModal.bind(this, false)}>
+                        <Modal.Header closeButton className="bg-light">
+                            <Modal.Title>
+                                You're about to make changes to a
+                                "<Translate>badgeWorkflowStatus.{badge.status}</Translate>" badge.
+                                These changes may require the badge to be re-verified by a concierge.
+                                Do you want to continue?
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <button className="btn btn-outline-dark"
+                                    onClick={setShowTaskReopenModal.bind(this, false)}>
+                                No
+                            </button>
+                            <button className="btn btn-dark"
+                                    onClick={clickTaskAction.bind(this, showTaskReopenModal.taskId, showTaskReopenModal.status)}>
+                                Yes
+                            </button>
+                        </Modal.Footer>
+                    </Modal>
 
                     <div className="pt-3 d-flex flex-row">
                         <div className="text-yellow fs-4 p-2">
