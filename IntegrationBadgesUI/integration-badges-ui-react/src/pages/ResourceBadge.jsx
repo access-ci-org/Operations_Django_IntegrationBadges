@@ -343,17 +343,18 @@ export default function ResourceBadge() {
                     <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
                         <Modal.Header closeButton className="bg-light">
                             <Modal.Title>
-                                Are you sure that you want to submit this badge for verification?
+                                <i className="bi bi-question-octagon-fill"></i>
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                            Are you sure that you want to submit this badge for verification?
                         </Modal.Body>
                         <Modal.Footer>
-                            <button className="btn btn-outline-dark"
+                            <button className="btn btn-outline-dark rounded-1"
                                     onClick={setShowSaveConfirmationModal.bind(this, false)}>
                                 No
                             </button>
-                            <button className="btn btn-dark"
+                            <button className="btn btn-dark rounded-1"
                                     onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
                                 Yes
                             </button>
@@ -363,13 +364,14 @@ export default function ResourceBadge() {
                     <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
                         <Modal.Header closeButton className="bg-light">
                             <Modal.Title>
-                                Badge completion has been sent to a concierge for verification.
+                                <i className="bi bi-floppy-fill"></i>
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                            Badge completion has been sent to a concierge for verification.
                         </Modal.Body>
                         <Modal.Footer>
-                            <button className="btn btn-dark"
+                            <button className="btn btn-dark rounded-1"
                                     onClick={setShowSavedModal.bind(this, false)}>
                                 Exit
                             </button>
@@ -380,20 +382,21 @@ export default function ResourceBadge() {
                     <Modal show={showTaskReopenModal} onHide={setShowTaskReopenModal.bind(this, false)}>
                         <Modal.Header closeButton className="bg-light">
                             <Modal.Title>
-                                You're about to make changes to a
-                                "<Translate>badgeWorkflowStatus.{badge.status}</Translate>" badge.
-                                These changes may require the badge to be re-verified by a concierge.
-                                Do you want to continue?
+                                <i className="bi bi-question-octagon-fill"></i>
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                            You're about to make changes to a
+                            "<Translate>badgeWorkflowStatus.{badge.status}</Translate>" badge.
+                            These changes may require the badge to be re-verified by a concierge.
+                            Do you want to continue?
                         </Modal.Body>
                         <Modal.Footer>
-                            <button className="btn btn-outline-dark"
+                            <button className="btn btn-outline-dark rounded-1"
                                     onClick={setShowTaskReopenModal.bind(this, false)}>
                                 No
                             </button>
-                            <button className="btn btn-dark"
+                            <button className="btn btn-dark rounded-1"
                                     onClick={clickTaskAction.bind(this, showTaskReopenModal.taskId, showTaskReopenModal.status)}>
                                 Yes
                             </button>

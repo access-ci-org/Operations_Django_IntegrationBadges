@@ -68,17 +68,18 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
                    onExit={navigateToResourcePage}>
                 <Modal.Header closeButton className="bg-light">
                     <Modal.Title>
-                        Changes Have Been Successfully Saved
+                        <i className="bi bi-floppy-fill"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    Changes Have Been Successfully Saved
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-outline-dark"
+                    <button className="btn btn-outline-dark rounded-1"
                             onClick={navigateToDashboard}>
                         Go to Dashboard
                     </button>
-                    <button className="btn btn-dark"
+                    <button className="btn btn-dark rounded-1"
                             onClick={navigateToResourcePage}>
                         Resource Overview
                     </button>
