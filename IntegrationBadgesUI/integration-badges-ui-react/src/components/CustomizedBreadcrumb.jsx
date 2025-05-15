@@ -17,8 +17,11 @@ function CustomizedBreadcrumb() {
 
     let key = 1;
     if (pathSegments[1] && pathSegments[1].length > 0) {
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{...defaultLinkProps, to: "/"}}>
-            Home
+        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{
+            ...defaultLinkProps,
+            to: "https://access-ci.org/get-started/for-resource-providers/"
+        }}>
+            RP Home
         </Breadcrumb.Item>)
     }
 
