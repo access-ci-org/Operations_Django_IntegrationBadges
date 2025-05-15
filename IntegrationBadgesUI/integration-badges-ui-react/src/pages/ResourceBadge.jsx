@@ -6,6 +6,7 @@ import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import {Dropdown, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import Translate from "../locales/Translate.jsx";
+import ResourceBadgePrerequisites from "../components/resource/ResourceBadgePrerequisites.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -147,80 +148,10 @@ export default function ResourceBadge() {
                             <i className="bi bi-question-square-fill"></i></button>
                     </OverlayTrigger>
                 </div>
-
-                <div className="w-100 pb-3">
-                    {prerequisiteBadges && prerequisiteBadges.length === 0 &&
-                        <div className="w-100 p-3 text-center lead">
-                            No Prerequisites
-                        </div>}
-                    {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
-                        return <div key={taskIndex} className="w-100 pt-2">
-                            <div className="row rounded-3 border-gray-200 border border-1 border-left-wide">
-
-                                <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
-                                    <div
-                                        className="p-4 h-100 bg-warning-subtle rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
-                                        role="button">
-                                    </div>
-                                    <div className="mt-2 mb-2 p-4 background-image-center-no-repeat"
-                                         style={{backgroundImage: `url(${prerequisiteBadge.graphic})`}}>
-
-                                    </div>
-                                    <h4 className="flex-fill p-2 ps-3 m-0 fs-6">{prerequisiteBadge.name}</h4>
-                                </div>
-                                <p className="col-sm-5 pt-2 pb-2 m-0 align-content-center">
-                                    {prerequisiteBadge.resource_provider_summary}
-                                </p>
-                                <div className="col-sm-3 pt-2 pb-2 align-content-center text-center">
-
-
-                                    {!!prerequisiteBadge && <Link
-                                        to={`/resources/${resource.info_resourceid}/roadmaps/${roadmapId}/badges/${prerequisiteBadge.badge_id}`}
-                                        className="w-100 btn btn-outline-dark btn-sm rounded-3 d-flex flex-row">
-
-                                        {!prerequisiteBadge.status &&
-                                            <>
-                                                <span className="flex-fill text-start text-orange">
-                                                    <i className="bi bi-info-circle-fill"></i>
-                                                    <span className="ps-3 pe-3">Not Planned - Take Action</span>
-                                                </span>
-                                                <span className="text-orange">
-                                                    <i className="bi bi-chevron-right"></i>
-                                                </span>
-                                            </>}
-
-                                        {prerequisiteBadge.status === BadgeWorkflowStatus.VERIFIED &&
-                                            <>
-                                                <span className="flex-fill text-start">
-                                                    <i className="bi bi-check-circle-fill"></i>
-                                                    <span className="ps-3 pe-3">Verification Approved</span>
-                                                </span>
-                                                <span>
-                                                    <i className="bi bi-chevron-right"></i>
-                                                </span>
-                                            </>}
-
-                                        {[BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED].indexOf(prerequisiteBadge.status) >= 0 &&
-                                            <>
-                                                <span className="flex-fill text-start">
-                                                    <i className="bi bi-layers"></i>
-                                                    <span className="ps-3 pe-3">Incomplete Badge - Take Action</span>
-                                                </span>
-                                                <span>
-                                                    <i className="bi bi-chevron-right"></i>
-                                                </span>
-                                            </>}
-                                    </Link>}
-                                </div>
-
-                            </div>
-                        </div>
-                    })}
-                </div>
+                <ResourceBadgePrerequisites resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
             </div>
 
             <div className="row pt-4">
-
                 <div className="w-100 text-start pb-2">
                     <h3 className="d-inline me-4 text-black">Key Tasks & Tips</h3>
                     <OverlayTrigger placement="right" delayShow={300} delayHide={150}

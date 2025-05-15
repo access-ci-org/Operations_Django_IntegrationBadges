@@ -9,6 +9,16 @@
     "verified":  "Available",
     "deprecated": "Deprecated"
   },
+  "badgePrerequisiteActionLabel": {
+    "": "Not Planned",
+    "undefined": "Not Planned",
+    "not-planned": "Not Planned",
+    "planned": "Incomplete - Take Action",
+    "task-completed":  "Pending Verification",
+    "verification-failed":  "RP attention needed",
+    "verified":  "Verified",
+    "deprecated": "Deprecated"
+  },
   "badgeTaskWorkflowStatus": {
     "completed": "Completed",
     "not-completed": "Not Completed"
