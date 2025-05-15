@@ -26,7 +26,7 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
                     No Prerequisites
                 </div>}
             {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
-                return <div key={taskIndex} className="w-100 pt-2">
+                return <div key={taskIndex} className="w-100 p-1">
                     <div className="row rounded-3 border-gray-200 border border-1 border-left-wide">
 
                         <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
