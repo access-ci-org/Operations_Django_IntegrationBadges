@@ -36,6 +36,9 @@ export const TaskProvider = ({children}) => {
             const _taskIds = [];
             for (let i = 0; i < _tasks.length; i++) {
                 const _task = _tasks[i].task;
+                _task.required = _tasks[i].required;
+                _task.sequence_no = _tasks[i].sequence_no;
+
                 _taskMap[_task.task_id] = _task;
                 _taskIds.push(_task.task_id)
             }
