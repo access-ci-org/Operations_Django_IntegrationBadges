@@ -22,9 +22,6 @@ import LoadingBlock from "./components/LoadingBlock";
 import ResourceEdit from "./pages/ResourceEdit.jsx";
 import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 
-// Setting the default baseURL
-axios.defaults.baseURL = import.meta.env.VITE_OPERATIONS_API_URL;
-
 const RouterLayout = () => {
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();

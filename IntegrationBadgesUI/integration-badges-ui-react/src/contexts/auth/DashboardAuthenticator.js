@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const dashboardAxiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_OPERATIONS_API_URL
+    baseURL: window.SETTINGS.OPERATIONS_API_BASE_URL
 });
 
 dashboardAxiosInstance.interceptors.request.use(
@@ -14,7 +14,7 @@ dashboardAxiosInstance.interceptors.request.use(
         }
 
         // Update the Authorization header
-        config.headers.Authorization = `Bearer ${newToken}`;
+        //config.headers.Authorization = `Bearer ${newToken}`;
 
         return config;
     },
@@ -26,7 +26,7 @@ dashboardAxiosInstance.interceptors.request.use(
 
 async function getNewToken() {
     try {
-        const res = await axios.get(`https://dashboard.operations.access-ci.org/badgetoken/v1/token/`);
+        const res = await axios.get(`${window.SETTINGS.DASHBOARD_BASE_URL}/badgetoken/v1/token/`);
         return res.data.token;
     } catch (error) {
         throw error;

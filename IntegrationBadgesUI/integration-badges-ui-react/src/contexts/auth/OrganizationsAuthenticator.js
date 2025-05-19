@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const organizationsAxiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_ORGANIZATION_API_URL
+    baseURL: window.SETTINGS.ORGANIZATIONS_API_BASE_URL
 });
