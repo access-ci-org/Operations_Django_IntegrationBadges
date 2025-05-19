@@ -1,5 +1,3 @@
-
-
 import "./contexts/config/populate-env-variables.js"
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'

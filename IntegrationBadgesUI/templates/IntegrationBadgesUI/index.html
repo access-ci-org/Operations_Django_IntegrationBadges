@@ -48,7 +48,7 @@
         tableOfContents,
         universalMenuItems,
         universalMenus,
-    } from "https://esm.sh/@access-ci/ui@0.8.0-beta1";
+    } from "https://esm.sh/@access-ci/ui@0.8.0";
 
     const siteItems = [
         {
@@ -96,9 +96,9 @@
     ];
 
     universalMenus({
-        isLoggedIn: document.cookie.split("; ").includes("SESSaccesscisso=Operations"),
+        isLoggedIn: document.cookie.split("; ").includes("sessionid"),
         loginUrl: "/login",
-        logoutUrl: "/logout",
+        logoutUrl: "/accounts/logout",
         siteName: "Operations",
         target: document.getElementById("universal-menus"),
     });
