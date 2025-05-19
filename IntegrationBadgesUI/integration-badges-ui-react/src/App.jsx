@@ -2,7 +2,7 @@ import './App.scss';
 import './styles/style.scss';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {Outlet, Route, Routes, BrowserRouter, useParams} from 'react-router-dom';
+import {Outlet, Route, Routes, BrowserRouter, useParams, Navigate} from 'react-router-dom';
 import axios from "axios";
 import {BadgeProvider, useBadges} from "./contexts/BadgeContext";
 import {ResourcesProvider, useResources} from "./contexts/ResourcesContext";
@@ -72,7 +72,6 @@ function App() {
                                         <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
                                             <Routes>
                                                 <Route path="/" element={<RouterLayout/>}>
-                                                    <Route index element={<Home/>}/>
                                                     <Route path="/organizations" element={<IntegrationDashboard/>}/>
                                                     <Route path="/organizations/:organizationId"
                                                            element={<Organization/>}/>
@@ -91,6 +90,9 @@ function App() {
                                                     <Route
                                                         path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
                                                         element={<ResourceBadge/>}/>
+
+                                                    <Route path="/*?"
+                                                           element={<Navigate to="/organizations" replace={true}/>}/>
 
                                                 </Route>
                                             </Routes>
