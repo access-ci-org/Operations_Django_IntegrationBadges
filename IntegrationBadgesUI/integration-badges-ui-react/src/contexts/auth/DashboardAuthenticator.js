@@ -1,20 +1,22 @@
 import axios from "axios";
 
 export const dashboardAxiosInstance = axios.create({
-    baseURL: window.SETTINGS.OPERATIONS_API_BASE_URL
+    baseURL: window.SETTINGS.OPERATIONS_API_BASE_URL + window.SETTINGS.OPERATIONS_API_INTEGRATION_BADGES_PATH
 });
 
 dashboardAxiosInstance.interceptors.request.use(
     async function (config) {
-        let newToken;
-        try{
-            newToken = await getNewToken();
-        } catch (e) {
-            newToken = "<no-valid-token-received-from-dashboard>"
-        }
+        if (window.SETTINGS.DISABLE_DASHBOARD_AUTHENTICATION === false) {
+            let newToken;
+            try {
+                newToken = await getNewToken();
+            } catch (e) {
+                newToken = "<no-valid-token-received-from-dashboard>"
+            }
 
-        // Update the Authorization header
-        //config.headers.Authorization = `Bearer ${newToken}`;
+            // Update the Authorization header
+            config.headers.Authorization = `Bearer ${newToken}`;
+        }
 
         return config;
     },

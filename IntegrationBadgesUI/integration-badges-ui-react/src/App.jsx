@@ -69,7 +69,7 @@ function App() {
                             <I18nextProvider i18n={i18n}>
                                 <div className="w-100 pt-3">
                                     <div className="w-100">
-                                        <BrowserRouter basename={window.SETTINGS.PUBLIC_URL}>
+                                        <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
                                             <Routes>
                                                 <Route path="/" element={<RouterLayout/>}>
                                                     <Route index element={<Home/>}/>
