@@ -20,5 +20,6 @@ def index(request, rest_of_path=None):
 
     return render(request, 'IntegrationBadgesUI/index.html', {
         "main_js": f"{react_app_name}/{main_js}",
-        "main_css": f"{react_app_name}/{main_css}"
+        "main_css": f"{react_app_name}/{main_css}",
+        "OPERATIONS_API_BASE_URL": settings.OPERATIONS_API_BASE_URL
     })
