@@ -50,6 +50,7 @@ export default function Organization() {
         }
     }, [orgResourceIds.length])
 
+    // If conditions in the order
     let sections = [
         {
             title: "New Integrations",

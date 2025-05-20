@@ -57,11 +57,11 @@ const ResourcesContext = createContext({
 export const useResources = () => useContext(ResourcesContext);
 
 export const ResourceStatus = {
-    ANNOUNCEMENT: "announcement",
+    ANNOUNCEMENT: "coming-soon",
     PRE_PRODUCTION: "pre-production",
     PRODUCTION: "production",
     POST_PRODUCTION: "post-production",
-    RETIRED: "retired"
+    RETIRED: "decommissioned"
 }
 
 /**
