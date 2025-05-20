@@ -44,11 +44,9 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                 <div className="w-100 pt-2 pb-5">
                     {selectedBadges && selectedBadges.map((roadmapBadge) => {
                         const badgeId = roadmapBadge.badge_id;
-                        return <div className="w-100 pt-2" key={badgeId}>
-                            <BadgeCardRowWithAddRemove resourceId={resourceId} badgeId={badgeId}
-                                                       selected={selected(badgeId)} required={roadmapBadge.required}
-                                                       toggle={toggle.bind(null, badgeId)}/>
-                        </div>
+                        return <BadgeCardRowWithAddRemove key={badgeId} resourceId={resourceId} badgeId={badgeId}
+                                                          selected={selected(badgeId)} required={roadmapBadge.required}
+                                                          toggle={toggle.bind(null, badgeId)}/>
                     })}
                     {selectedBadges && selectedBadges.length === 0 && <div className="w-100 p-3 text-center lead">
                         No badges available

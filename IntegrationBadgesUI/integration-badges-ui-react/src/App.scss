@@ -78,6 +78,29 @@ p {
   }
 }
 
+.badge-card-row {
+  .badge-card-row-header {
+    h4 {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 66px;
+    }
+  }
+
+  .badge-card-row-description {
+    p {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 66px;
+    }
+  }
+}
 
 .badge-card {
   border: 1px solid rgba(49, 148, 164, 0.10);
