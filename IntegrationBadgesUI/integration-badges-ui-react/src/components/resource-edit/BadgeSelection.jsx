@@ -37,11 +37,11 @@ export default function BadgeSelection({resourceId, roadmapId, selected, toggle,
             <div className="row pt-5">
                 <h2>Recommended badges for your resource</h2>
                 <div className="w-100 pt-2 pb-5">
-                    {roadmapBadges && roadmapBadges.map((badge) => {
-                        const badgeId = badge.badge_id;
+                    {roadmapBadges && roadmapBadges.map((roadmapBadge) => {
+                        const badgeId = roadmapBadge.badge_id;
                         return <div className="w-100 pt-2" key={badgeId}>
                             <BadgeCardRowWithCheckboxes resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}
-                                                        selected={selected(badgeId)}
+                                                        selected={selected(badgeId)} required={roadmapBadge.required}
                                                         toggle={toggle.bind(null, badgeId)}/>
                         </div>
                     })}

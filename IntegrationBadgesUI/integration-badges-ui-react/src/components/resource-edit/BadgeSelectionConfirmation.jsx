@@ -42,11 +42,11 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
             <div className="row pt-5">
                 <h2>Confirm the Following Badges and Assignments</h2>
                 <div className="w-100 pt-2 pb-5">
-                    {selectedBadges && selectedBadges.map((badge) => {
-                        const badgeId = badge.badge_id;
+                    {selectedBadges && selectedBadges.map((roadmapBadge) => {
+                        const badgeId = roadmapBadge.badge_id;
                         return <div className="w-100 pt-2" key={badgeId}>
                             <BadgeCardRowWithAddRemove resourceId={resourceId} badgeId={badgeId}
-                                                       selected={selected(badgeId)}
+                                                       selected={selected(badgeId)}  required={roadmapBadge.required}
                                                        toggle={toggle.bind(null, badgeId)}/>
                         </div>
                     })}

@@ -20,13 +20,14 @@ export default function ResourceEdit() {
         getResource, getResourceRoadmapBadges, getResourceOrganization,
         isResourceRoadmapSelected
     } = useResources();
-    const {fetchRoadmaps, fetchRoadmap} = useRoadmaps();
+    const {fetchRoadmaps, fetchRoadmap, getRoadmapBadges} = useRoadmaps();
 
     const [selectedBadgeIdMap, setSelectedBadgeIdMap] = useState({});
     const [wizardIndex, setWizardIndex] = useState(0);
 
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
+    const roadmapBadges = getRoadmapBadges({roadmapId});
     const resourceRoadmapBadges = getResourceRoadmapBadges({resourceId, roadmapId});
     const isRoadmapNew = !isResourceRoadmapSelected({resourceId, roadmapId})
 
@@ -57,15 +58,24 @@ export default function ResourceEdit() {
     }, [roadmapId]);
 
     useEffect(() => {
+        const _selectedBadgeIdMap = {};
+
         if (resourceRoadmapBadges) {
-            const _selectedBadgeIdMap = {};
             for (let i = 0; i < resourceRoadmapBadges.length; i++) {
                 _selectedBadgeIdMap[resourceRoadmapBadges[i].badge_id] = true;
             }
-
-            setSelectedBadgeIdMap(_selectedBadgeIdMap);
         }
-    }, [resource, !!resourceRoadmapBadges]);
+
+        if (roadmapBadges) {
+            for (let i = 0; i < roadmapBadges.length; i++) {
+                if (roadmapBadges[i].required) {
+                    _selectedBadgeIdMap[roadmapBadges[i].badge_id] = true;
+                }
+            }
+        }
+
+        setSelectedBadgeIdMap(_selectedBadgeIdMap);
+    }, [resource, !!resourceRoadmapBadges, !!roadmapBadges]);
 
     useEffect(() => {
         if (!!resource && !!resource.roadmaps && !roadmapId) {

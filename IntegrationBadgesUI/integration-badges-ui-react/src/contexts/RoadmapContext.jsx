@@ -85,8 +85,16 @@ export const RoadmapProvider = ({children}) => {
     const getRoadmapBadges = ({roadmapId}) => {
         const roadmap = getRoadmap(({roadmapId}));
         if (roadmap && roadmap.badges) {
-            return roadmap.badges.map(badge => {
-                return getBadge({badgeId: badge.badge.badge_id});
+            return roadmap.badges.map(roadmapBadge => {
+                const badgeId = roadmapBadge.badge.badge_id;
+                const required = roadmapBadge.required;
+                const sequence_no = roadmapBadge.sequence_no;
+
+                return {
+                    ...getBadge({badgeId}),
+                    required,
+                    sequence_no
+                };
             });
         }
     };
