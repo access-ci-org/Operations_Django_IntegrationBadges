@@ -46,7 +46,7 @@ export default function BadgeSelectionConfirmation({resourceId, roadmapId, selec
                         const badgeId = roadmapBadge.badge_id;
                         return <div className="w-100 pt-2" key={badgeId}>
                             <BadgeCardRowWithAddRemove resourceId={resourceId} badgeId={badgeId}
-                                                       selected={selected(badgeId)}  required={roadmapBadge.required}
+                                                       selected={selected(badgeId)} required={roadmapBadge.required}
                                                        toggle={toggle.bind(null, badgeId)}/>
                         </div>
                     })}

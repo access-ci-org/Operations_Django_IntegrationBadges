@@ -75,7 +75,7 @@ export default function ResourceEdit() {
         }
 
         setSelectedBadgeIdMap(_selectedBadgeIdMap);
-    }, [resource, !!resourceRoadmapBadges, !!roadmapBadges]);
+    }, [roadmapId, resourceId, !!resourceRoadmapBadges, !!roadmapBadges]);
 
     useEffect(() => {
         if (!!resource && !!resource.roadmaps && !roadmapId) {

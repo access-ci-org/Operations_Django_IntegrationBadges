@@ -84,12 +84,12 @@ export function BadgeCardRow({resourceId, roadmapId, badgeId, selected, required
 
 
 export function BadgeCardRowWithCheckboxes({resourceId, roadmapId, badgeId, selected, required, toggle}) {
-    let toggleComponent = <RequiredBadgeTooltip required={required}>
+    let toggleComponent = <RequiredBadgeTooltip required={!!required}>
         <div
             className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center ${selected ? 'bg-light' : 'bg-gray-100'}`}
             role="button" onClick={!required ? toggle : null}>
-            <Form.Check name="badges" role="button" type="checkbox" id={`badge-${badgeId}`} checked={selected}
-                        onChange={toggle} disabled={required}/>
+            <Form.Check name="badges" type="checkbox" id={`badge-${badgeId}`} checked={!!selected}
+                        onChange={toggle} disabled={!!required}/>
         </div>
     </RequiredBadgeTooltip>;
 
@@ -98,13 +98,13 @@ export function BadgeCardRowWithCheckboxes({resourceId, roadmapId, badgeId, sele
 }
 
 export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selected, required, toggle}) {
-    const toggleComponent = <RequiredBadgeTooltip required={required}>
+    const toggleComponent = <RequiredBadgeTooltip required={!!required}>
         <div
             className={`p-3 h-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center bg-gray-100 fs-4`}
             role="button" onClick={!required ? toggle : null}>
-            {required ?
+            {!!required ?
                 <i className="bi bi-slash-circle text-gray-200"></i> :
-                selected ?
+                !!selected ?
                     <i className="bi bi-dash"></i> :
                     <i className="bi bi-plus"></i>}
         </div>
@@ -115,8 +115,14 @@ export function BadgeCardRowWithAddRemove({resourceId, roadmapId, badgeId, selec
 }
 
 export function RequiredBadgeTooltip({children, required}) {
+    const tooltip = <Tooltip>
+        <i className="bi bi-exclamation-triangle-fill text-yellow"></i>
+        &nbsp;
+        This is a required badge
+    </Tooltip>
+
     if (required) {
-        return <OverlayTrigger placement="right" overlay={<Tooltip>This is a required badge</Tooltip>}>
+        return <OverlayTrigger placement="right" overlay={tooltip}>
             {children}
         </OverlayTrigger>;
     } else {
