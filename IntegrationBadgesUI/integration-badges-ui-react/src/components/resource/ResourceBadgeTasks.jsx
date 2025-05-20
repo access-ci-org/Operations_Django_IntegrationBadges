@@ -7,7 +7,7 @@ import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
 
 
-function TaskAccordionHeader({badge, task, eventKey}) {
+function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
     const {activeEventKey} = useContext(AccordionContext);
     const decoratedOnClick = useAccordionButton(eventKey);
 
@@ -137,7 +137,8 @@ export default function ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
             <Accordion defaultActiveKey={['0']} alwaysOpen>
                 {tasks && tasks.map((task, taskIndex) => {
                     return <div key={taskIndex} className="w-100 p-1">
-                        <TaskAccordionHeader eventKey={taskIndex} badge={badge}
+                        <TaskAccordionHeader resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}
+                                             eventKey={taskIndex} badge={badge}
                                              task={task}>{task.name}</TaskAccordionHeader>
                         <Accordion.Collapse eventKey={taskIndex} bsPrefix="row">
                             <p className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1">

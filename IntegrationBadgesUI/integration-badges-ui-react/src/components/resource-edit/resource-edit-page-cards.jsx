@@ -4,6 +4,7 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import BadgeIcon from "../badge/BadgeIcon.jsx";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     const {getResource} = useResources();
@@ -66,9 +67,7 @@ export function BadgeCardRow({resourceId, roadmapId, badgeId, selected, required
                 <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                     {toggleComponent}
                     <div className="pt-3 pb-3 ps-2 pe-2">
-                        <div className="background-image-center-no-repeat badge-icon-small"
-                             style={{backgroundImage: `url(${badge.graphic})`}}>
-                        </div>
+                        <BadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                     </div>
                     <div className="flex-fill p-2 badge-card-row-header">
                         <h4 className="m-0">{badge.name}</h4>

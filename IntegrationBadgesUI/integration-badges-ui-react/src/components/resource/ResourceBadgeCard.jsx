@@ -1,6 +1,7 @@
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {Link} from "react-router-dom";
 import ResourceBadgeStatus from "../status/ResourceBadgeStatus.jsx";
+import BadgeIcon from "../badge/BadgeIcon.jsx";
 
 export default function ResourceBadgeCard({resourceId, roadmapId, badgeId}) {
     const {getResource, getResourceOrganization, getResourceRoadmapBadge} = useResources();
@@ -13,9 +14,7 @@ export default function ResourceBadgeCard({resourceId, roadmapId, badgeId}) {
         return <div className="w-100 badge-card rounded-4 p-3">
             <div className="w-100 p-1 badge-card-header">
                 <div className="w-100 badge-card-header-thumbnail">
-                    <div className="w-100 background-image-center-no-repeat badge-icon-small"
-                         style={{backgroundImage: `url(${badge.graphic})`}}>
-                    </div>
+                    <BadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                 </div>
                 <h3 className="w-100">{badge.name}</h3>
             </div>
