@@ -1,4 +1,4 @@
-import fiveStepsForNewResourceIntegrationImage from '../assets/five-steps-for-new-resource-integration.png'
+import fiveStepsForNewResourceIntegrationImage from './docs/assets/five-steps-for-new-resource-integration.png'
 
 /**
  * The initial page that displays al resources.

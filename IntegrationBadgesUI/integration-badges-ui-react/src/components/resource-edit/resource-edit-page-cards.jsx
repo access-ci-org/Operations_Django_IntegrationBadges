@@ -47,8 +47,6 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                 </button>
             </div>
         </div>
-    } else {
-        "Nothing"
     }
 }
 

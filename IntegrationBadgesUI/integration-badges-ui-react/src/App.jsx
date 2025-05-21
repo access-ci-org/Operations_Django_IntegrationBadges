@@ -3,24 +3,23 @@ import './styles/style.scss';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import {Outlet, Route, Routes, BrowserRouter, useParams, Navigate} from 'react-router-dom';
-import axios from "axios";
 import {BadgeProvider, useBadges} from "./contexts/BadgeContext";
 import {ResourcesProvider, useResources} from "./contexts/ResourcesContext";
 import NewResource from "./pages/NewResource";
 import IntegrationDashboard from "./pages/IntegrationDashboard";
 import {OrganizationsProvider, useOrganizations} from "./contexts/OrganizationsContext";
 import Organization from "./pages/Organization";
-import Home from "./pages/Home";
 import CustomizedBreadcrumb from "./components/CustomizedBreadcrumb";
 import Resource from "./pages/Resource";
 import ResourceBadge from "./pages/ResourceBadge";
-import {TaskProvider, useTasks} from "./contexts/TaskContext";
+import {TaskProvider} from "./contexts/TaskContext";
 import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import LoadingBlock from "./components/LoadingBlock";
 import ResourceEdit from "./pages/ResourceEdit.jsx";
 import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
+import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
 
 const RouterLayout = () => {
     const {fetchOrganizations, getOrganizations} = useOrganizations();
@@ -90,6 +89,10 @@ function App() {
                                                     <Route
                                                         path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
                                                         element={<ResourceBadge/>}/>
+
+
+                                                    {DocumentationRoute}
+
 
                                                     <Route path="/*?"
                                                            element={<Navigate to="/organizations" replace={true}/>}/>
