@@ -6,8 +6,8 @@ import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import {Dropdown, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import Translate from "../locales/Translate.jsx";
-import ResourceBadgePrerequisites from "../components/resource/ResourceBadgePrerequisites.jsx";
-import ResourceBadgeTasks from "../components/resource/ResourceBadgeTasks.jsx";
+import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
+import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBadgeTasks.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();

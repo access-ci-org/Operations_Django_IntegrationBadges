@@ -64,8 +64,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
                         Save Selection
                     </button>}
 
-            <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}
-                   onExit={navigateToResourcePage}>
+            <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
                 <Modal.Header closeButton className="bg-light">
                     <Modal.Title>
                         <i className="bi bi-floppy-fill"></i>

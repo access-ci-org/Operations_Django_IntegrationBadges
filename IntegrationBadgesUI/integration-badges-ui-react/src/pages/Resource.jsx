@@ -6,7 +6,7 @@ import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 import LoadingBlock from "../components/LoadingBlock";
-import ResourceBadgeCard from "../components/resource/ResourceBadgeCard.jsx";
+import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
 
 export default function Resource() {
     const navigate = useNavigate();

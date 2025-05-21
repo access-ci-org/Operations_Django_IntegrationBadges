@@ -4,7 +4,7 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
-import BadgeIcon from "../badge/BadgeIcon.jsx";
+import ResourceBadgeIcon from "../resource/resource-badge/ResourceBadgeIcon.jsx";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     const {getResource} = useResources();
@@ -67,13 +67,13 @@ export function BadgeCardRow({resourceId, roadmapId, badgeId, selected, required
                 <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                     {toggleComponent}
                     <div className="pt-3 pb-3 ps-2 pe-2">
-                        <BadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
+                        <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                     </div>
                     <div className="flex-fill p-2 badge-card-row-header">
-                        <h4 className="m-0">{badge.name}</h4>
+                        <h4 className="m-0 align-content-center">{badge.name}</h4>
                     </div>
                 </div>
-                <div className="col-sm-5 pt-2 pb-2 badge-card-row-description">
+                <div className="col-sm-5 pt-2 pb-2 badge-card-row-description align-content-center">
                     <p className="m-0 align-content-center">
                         {badge.resource_provider_summary}
                     </p>

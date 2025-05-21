@@ -1,8 +1,8 @@
 import {AccordionContext, Card, Dropdown, Modal, useAccordionButton} from "react-bootstrap";
-import {BadgeTaskWorkflowStatus} from "../../contexts/TaskContext.jsx";
-import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
-import {useResources} from "../../contexts/ResourcesContext.jsx";
-import Translate from "../../locales/Translate.jsx";
+import {BadgeTaskWorkflowStatus} from "../../../contexts/TaskContext.jsx";
+import {BadgeWorkflowStatus, useBadges} from "../../../contexts/BadgeContext.jsx";
+import {useResources} from "../../../contexts/ResourcesContext.jsx";
+import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
 
@@ -36,7 +36,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
         <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
             <div
-                className="p-4 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
+                className="p-4 ps-3 pe-3 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
                 role="button" onClick={decoratedOnClick}>
                 {isCurrentEventKey ? <i className="bi bi-caret-down-fill"></i> :
                     <i className="bi bi-caret-right-fill"></i>}
