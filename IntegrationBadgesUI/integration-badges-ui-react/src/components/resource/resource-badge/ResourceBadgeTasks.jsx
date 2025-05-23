@@ -15,20 +15,27 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
     const [taskActionStatusProcessing, setTaskActionStatusProcessing] = useState({});
     const [showTaskReopenModal, setShowTaskReopenModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const taskId = task.task_id;
 
 
     const clickTaskAction = async (taskId, status) => {
+        setShowTaskReopenModal(false);
+
         setTaskActionStatusProcessing({
             ...taskActionStatusProcessing, [taskId]: true
         });
-        await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
+
+        try {
+            await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
+        } catch (e) {
+            setShowErrorModal(true);x
+        }
+
         setTaskActionStatusProcessing({
             ...taskActionStatusProcessing, [taskId]: false
         });
-
-        setShowTaskReopenModal(false);
     };
 
     const isCurrentEventKey = activeEventKey.indexOf(eventKey) >= 0;
@@ -115,6 +122,29 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                 <button className="btn btn-dark rounded-1"
                         onClick={clickTaskAction.bind(this, showTaskReopenModal.taskId, showTaskReopenModal.status)}>
                     Yes
+                </button>
+            </Modal.Footer>
+        </Modal>
+
+        <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
+            <Modal.Header closeButton className="bg-danger-subtle">
+                <Modal.Title>
+                    <i className="bi bi-exclamation-triangle-fill"></i>
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p>
+                    You don't have permissions to make this change. If you should have it, please submit an
+                    ACCESS ticket requesting:</p>
+
+                <p>
+                    Integration Dashboard <strong>implementor</strong> permission for the
+                    resource <strong>{resourceId}</strong></p>
+            </Modal.Body>
+            <Modal.Footer>
+                <button className="btn btn-outline-dark rounded-1"
+                        onClick={setShowErrorModal.bind(this, false)}>
+                    Cancel
                 </button>
             </Modal.Footer>
         </Modal>

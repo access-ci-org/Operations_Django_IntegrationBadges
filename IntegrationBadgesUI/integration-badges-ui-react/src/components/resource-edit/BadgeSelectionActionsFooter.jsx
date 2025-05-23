@@ -13,6 +13,7 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
 
     const [saveProcessing, setSaveProcessing] = useState(false);
     const [showSavedModal, setShowSavedModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const resource = getResource({resourceId});
     const roadmapBadges = getRoadmapBadges({roadmapId});
@@ -21,9 +22,15 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
 
     const handleSave = async () => {
         setSaveProcessing(true);
-        await setResourceRoadmap({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
+
+        try {
+            await setResourceRoadmap({resourceId, roadmapId: roadmapId, badgeIds: selectedBadgeIds});
+            setShowSavedModal(true);
+        } catch (e) {
+            setShowErrorModal(true);
+        }
+
         setSaveProcessing(false);
-        setShowSavedModal(true);
     };
 
     const navigateToResourcePage = () => {
@@ -81,6 +88,29 @@ export default function BadgeSelectionActionsFooter({resourceId, roadmapId, sele
                     <button className="btn btn-dark rounded-1"
                             onClick={navigateToResourcePage}>
                         Resource Overview
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
+                <Modal.Header closeButton className="bg-danger-subtle">
+                    <Modal.Title>
+                        <i className="bi bi-exclamation-triangle-fill"></i>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>
+                        You don't have permissions to make this change. If you should have it, please submit an ACCESS
+                        ticket requesting:</p>
+
+                    <p>
+                        Integration Dashboard <strong>coordinator</strong> permission for the
+                        resource <strong>{resourceId}</strong></p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn btn-outline-dark rounded-1"
+                            onClick={setShowErrorModal.bind(this, false)}>
+                        Cancel
                     </button>
                 </Modal.Footer>
             </Modal>

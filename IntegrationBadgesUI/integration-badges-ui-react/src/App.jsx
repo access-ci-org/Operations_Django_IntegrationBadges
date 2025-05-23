@@ -1,4 +1,4 @@
-import './App.scss';
+import  './App.scss';
 import './styles/style.scss';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
