@@ -1,6 +1,6 @@
 {
   "index.html": {
-    "file": "assets/index-B6jsU7Vo.js",
+    "file": "assets/index-CcFrQ4N_.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -25,8 +25,8 @@
     "file": "assets/badge-icon-border-blue-CGrRieFH.png",
     "src": "src/assets/badge-icon-border-blue.png"
   },
-  "src/assets/five-steps-for-new-resource-integration.png": {
+  "src/pages/docs/assets/five-steps-for-new-resource-integration.png": {
     "file": "assets/five-steps-for-new-resource-integration-BhQGJIqL.png",
-    "src": "src/assets/five-steps-for-new-resource-integration.png"
+    "src": "src/pages/docs/assets/five-steps-for-new-resource-integration.png"
   }
 }
