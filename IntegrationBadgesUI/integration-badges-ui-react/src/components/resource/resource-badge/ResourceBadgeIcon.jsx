@@ -13,12 +13,12 @@ export default function ResourceBadgeIcon({resourceId, roadmapId, badgeId}) {
     }
 
     const badgeIconStatusClass = {
-        "undefined": "",
-        "not-planned": "",
+        "undefined": "bluescale",
+        "not-planned": "bluescale",
         "planned": "grayscale",
         "task-completed": "grayscale",
         "verification-failed": "grayscale",
-        "verified": "",
+        "verified": "bluescale",
         "deprecated": "grayscale"
     };
 

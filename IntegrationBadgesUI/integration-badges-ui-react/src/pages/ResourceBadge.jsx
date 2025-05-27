@@ -8,6 +8,7 @@ import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import Translate from "../locales/Translate.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
 import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBadgeTasks.jsx";
+import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -89,9 +90,9 @@ export default function ResourceBadge() {
                         </div>
                     </div>
                     <div className="row pt-5">
-                        <div className="col-sm-2 background-image-center-no-repeat mb-3"
-                             style={{backgroundImage: `url(${badge.graphic})`, minHeight: 100}}>
-
+                        <div className="col-sm-2 mb-3"
+                             style={{minHeight: 100}}>
+                            <ResourceBadgeIcon resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
                         </div>
                         <div className="col mb-3">
                             <h2>{badge.name}</h2>

@@ -147,6 +147,11 @@ p {
     filter: grayscale(100%);
   }
 
+  &.bluescale {
+    -webkit-filter: sepia(100%) hue-rotate(151deg) saturate(500%);
+    filter: sepia(100%) hue-rotate(151deg) saturate(500%);
+  }
+
   &.resource-icon-circle-small {
     min-height: 80px;
     min-width: 80px;
