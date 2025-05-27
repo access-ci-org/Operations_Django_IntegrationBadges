@@ -9,6 +9,7 @@ import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {useEffect} from "react";
 import CustomizedBreadcrumb from "../../components/CustomizedBreadcrumb.jsx";
 import LoadingBlock from "../../components/LoadingBlock.jsx";
+import ExistingOrg from "./ExistingOrg.jsx";
 
 const RouterLayout = () => {
 
@@ -29,4 +30,6 @@ export const DocumentationRoute = <Route path="/docs" element={<RouterLayout/>}>
            element={<SelectOrgType/>}/>
     <Route path="/docs/new-org"
            element={<NewOrg/>}/>
+    <Route path="/docs/existing-org"
+           element={<ExistingOrg/>}/>
 </Route>

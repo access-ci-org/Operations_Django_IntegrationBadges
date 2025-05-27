@@ -8,22 +8,23 @@ export default function FiveStepsForNewIntegrations() {
     return <div className="container">
         <div className="w-100 p-3 pt-5">
             <h1>
-                Integration Process is Simple and Intuitive!
+                Integration Process is <br/>
+                Simple and Intuitive!
             </h1>
         </div>
         <div className="row pt-5 p-3">
-            <div className="col-sm-6">
-                <h2>
+            <div className="col-md-4">
+                <h2 className="pb-3">
                     Five Simple Stages
                 </h2>
-                <p>
+                <p className="lead">
                     The process kicks off with a registration. From there, you’ll choose the roadmaps you want to
                     integrate with and specify the badges your team plans to work on. You will then finalize the process
                     by submitting the completed badges for concierge verification. Don’t worry—we’ve got you covered
                     every step of the way! Our concierge team is here to guide you and ensure everything runs smoothly.
                 </p>
             </div>
-            <div className="col-sm-6 ps-5 pe-5 pt-3">
+            <div className="col-md-8 ps-5 pe-5 pt-3">
                 <img className="w-100" alt="Five steps for new resource integraiton"
                      src={fiveStepsForNewIntegrationsPng}/>
             </div>
