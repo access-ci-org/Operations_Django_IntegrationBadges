@@ -10,6 +10,7 @@ import {useEffect} from "react";
 import CustomizedBreadcrumb from "../../components/CustomizedBreadcrumb.jsx";
 import LoadingBlock from "../../components/LoadingBlock.jsx";
 import ExistingOrg from "./ExistingOrg.jsx";
+import WhyBecomeAnRP from "./WhyBecomeAnRP.jsx";
 
 const RouterLayout = () => {
 
@@ -23,13 +24,9 @@ const RouterLayout = () => {
     );
 };
 export const DocumentationRoute = <Route path="/docs" element={<RouterLayout/>}>
-    <Route path="/docs"
-           element={<FiveStepsForNewIntegrations/>}/>
-
-    <Route path="/docs/select-org-type"
-           element={<SelectOrgType/>}/>
-    <Route path="/docs/new-org"
-           element={<NewOrg/>}/>
-    <Route path="/docs/existing-org"
-           element={<ExistingOrg/>}/>
+    <Route path="/docs" element={<FiveStepsForNewIntegrations/>}/>
+    <Route path="/docs/select-org-type" element={<SelectOrgType/>}/>
+    <Route path="/docs/new-org" element={<NewOrg/>}/>
+    <Route path="/docs/existing-org" element={<ExistingOrg/>}/>
+    <Route path="/docs/why-become-an-rp" element={<WhyBecomeAnRP/>}/>
 </Route>
