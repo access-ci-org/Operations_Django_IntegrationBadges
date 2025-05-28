@@ -17,7 +17,7 @@ import HowToChooseRoadmap from "./HowToChooseRoadmap.jsx";
 const RouterLayout = () => {
 
     return (
-        <div className="w-100 access-operations-integration-badges ">
+        <div className="w-100 access-operations-integration-badges" style={{fontSize: 12}}>
             <div className="w-100 bg-dark">
                 <ul>
                     <li className="d-inline-block p-2"><Link className="btn btn-link" to="/">Webapp</Link></li>
