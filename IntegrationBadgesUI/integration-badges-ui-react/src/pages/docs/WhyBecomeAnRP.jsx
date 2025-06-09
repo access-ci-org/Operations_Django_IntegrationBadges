@@ -41,7 +41,7 @@ export default function WhyBecomeAnRP() {
         </div>
 
         <div className="w-100 p-3 pt-5">
-            <Accordion defaultActiveKey={[]} alwaysOpen>
+            <Accordion defaultActiveKey={[]}>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Why should I integrate my resource with ACCESS?</Accordion.Header>
                     <Accordion.Body>

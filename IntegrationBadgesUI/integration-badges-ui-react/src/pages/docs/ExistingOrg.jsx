@@ -41,7 +41,7 @@ export default function ExistingOrg() {
 
         <p className="w-100 p-3 lead fs-6 text-medium fw-bold">
             You have indicated you’re an&nbsp;
-            <span className="text-orange">“Existing Institution!”</span>&nbsp;
+            <span className="text-orange">“Existing Organization!”</span>&nbsp;
             You can skip Steps 1 and 2. Please start with Step 3 below and continue through Step 5 to update or
             add infrastructure details.
         </p>

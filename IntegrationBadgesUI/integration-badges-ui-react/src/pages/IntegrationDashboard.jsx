@@ -38,7 +38,7 @@ export default function IntegrationDashboard() {
             </p>
         </div>
         <div className="row mt-2">
-            <input className="form-control" type="text" placeholder="Search Resource Provider by Institution"
+            <input className="form-control" type="text" placeholder="Search Resource Provider by Organization"
                    aria-label="default input example" onChange={(e) => setSearchText(e.target.value)}/>
         </div>
 
