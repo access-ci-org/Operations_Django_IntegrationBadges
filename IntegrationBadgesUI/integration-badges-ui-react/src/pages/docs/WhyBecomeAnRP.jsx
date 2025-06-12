@@ -23,7 +23,7 @@ export default function WhyBecomeAnRP() {
 
         <div className="row pt-5 p-3 text-dark">
             <div className="col" style={{maxWidth: 250}}>
-                <div className="w-100 border p-4 border-2 rounded-3 border-dark">
+                <div className="w-100 h-100 border p-4 border-2 rounded-3 border-dark">
                     <i className="bi bi-stack fs-1 text-medium"></i>
                     <Link className="btn btn-link text-medium text-center" to="/docs/how-to-integrate-resource">
                         How do I integrate my resource into ACCESS?
@@ -31,7 +31,7 @@ export default function WhyBecomeAnRP() {
                 </div>
             </div>
             <div className="col" style={{maxWidth: 250}}>
-                <div className="w-100 border p-4 border-2 rounded-3 border-dark">
+                <div className="w-100 h-100 border p-4 border-2 rounded-3 border-dark">
                     <i className="bi bi-building-fill-gear fs-1 text-medium"></i>
                     <Link className="btn btn-link text-medium text-center" to="/docs/how-to-choose-roadmap">
                         What is an Integration Roadmap and how do I choose the right one?
