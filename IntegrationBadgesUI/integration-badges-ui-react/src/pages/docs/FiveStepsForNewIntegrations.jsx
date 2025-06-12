@@ -31,8 +31,9 @@ export default function FiveStepsForNewIntegrations() {
         </div>
         <div className="w-100 p-3 pt-5">
             <strong className="text-black d-block">Ready to start the process? </strong>
-            <Link className="btn btn-dark rounded-2 mt-2" to="/docs/select-org-type">Register Your Resource in
-                CiDeR</Link>
+            <Link className="btn btn-dark rounded-2 mt-2"
+                  to="https://access-ci.atlassian.net/servicedesk/customer/portal/2/create/112">
+                Register Your Resource in CiDeR</Link>
         </div>
         <div className="w-100 p-3 pt-5">
             <div className="w-100">

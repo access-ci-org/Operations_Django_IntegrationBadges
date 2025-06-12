@@ -22,9 +22,9 @@ const RouterLayout = () => {
                 <ul>
                     <li className="d-inline-block p-2"><Link className="btn btn-link" to="/">Webapp</Link></li>
                     <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs">Five Steps</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/select-org-type">Select Organization type</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/new-org">New Organization</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/existing-org">Existing Organisation</Link></li>
+                    {/*<li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/select-org-type">Select Organization type</Link></li>*/}
+                    {/*<li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/new-org">New Organization</Link></li>*/}
+                    {/*<li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/existing-org">Existing Organisation</Link></li>*/}
                     <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/why-become-an-rp">Why become an RP</Link></li>
                     <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/how-to-integrate-resource">How Do I Integrate My Resource into ACCESS</Link></li>
                     <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/how-to-choose-roadmap">What is an Integration Roadmap and how do I choose the right one</Link></li>
