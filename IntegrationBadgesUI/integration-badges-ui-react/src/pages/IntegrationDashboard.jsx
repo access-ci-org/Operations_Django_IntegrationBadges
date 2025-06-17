@@ -3,6 +3,7 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/LoadingBlock";
+import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -90,7 +91,7 @@ export default function IntegrationDashboard() {
 
                 <div className="col p-3">
                     <div className="organization-card rounded-3 w-100 h-100">
-                        <Link to="/docs" className="btn btn-link w-100 p-5 text-center">
+                        <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center">
                             <i className="bi bi-plus-lg fs-1"></i>
                             <div className="pb-5">
                                 Create New

@@ -1,18 +1,15 @@
 import {Link, Outlet, Route} from "react-router-dom";
 import FiveStepsForNewIntegrations from "./FiveStepsForNewIntegrations.jsx";
-import SelectOrgType from "./SelectOrgType.jsx";
-import NewOrg from "./NewOrg.jsx";
-import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
-import {useResources} from "../../contexts/ResourcesContext.jsx";
-import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {useBadges} from "../../contexts/BadgeContext.jsx";
-import {useEffect} from "react";
-import CustomizedBreadcrumb from "../../components/CustomizedBreadcrumb.jsx";
-import LoadingBlock from "../../components/LoadingBlock.jsx";
-import ExistingOrg from "./ExistingOrg.jsx";
 import WhyBecomeAnRP from "./WhyBecomeAnRP.jsx";
 import HowToIntegrateResource from "./HowToIntegrateResource.jsx";
 import HowToChooseRoadmap from "./HowToChooseRoadmap.jsx";
+
+export const DocumentationRouteUrls = {
+    INDEX: "/docs",
+    WHY_BECOME_AN_RP: "/docs/why-become-an-rp",
+    HOW_TO_INTEGRATE_RESOURCE: "/docs/how-to-integrate-resource",
+    HOW_TO_CHOOSE_ROADMAP: "/docs/how-to-choose-roadmap",
+};
 
 const RouterLayout = () => {
 
@@ -21,13 +18,10 @@ const RouterLayout = () => {
             <div className="w-100 bg-dark">
                 <ul>
                     <li className="d-inline-block p-2"><Link className="btn btn-link" to="/">Webapp</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs">Five Steps</Link></li>
-                    {/*<li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/select-org-type">Select Organization type</Link></li>*/}
-                    {/*<li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/new-org">New Organization</Link></li>*/}
-                    {/*<li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/existing-org">Existing Organisation</Link></li>*/}
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/why-become-an-rp">Why become an RP</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/how-to-integrate-resource">How Do I Integrate My Resource into ACCESS</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/docs/how-to-choose-roadmap">What is an Integration Roadmap and how do I choose the right one</Link></li>
+                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.INDEX}>Five Steps</Link></li>
+                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.WHY_BECOME_AN_RP}>Why become an RP</Link></li>
+                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE}>How Do I Integrate My Resource into ACCESS</Link></li>
+                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP}>What is an Integration Roadmap and how do I choose the right one</Link></li>
                 </ul>
             </div>
             <Outlet/>
@@ -35,11 +29,8 @@ const RouterLayout = () => {
     );
 };
 export const DocumentationRoute = <Route path="/docs" element={<RouterLayout/>}>
-    <Route path="/docs" element={<FiveStepsForNewIntegrations/>}/>
-    <Route path="/docs/select-org-type" element={<SelectOrgType/>}/>
-    <Route path="/docs/new-org" element={<NewOrg/>}/>
-    <Route path="/docs/existing-org" element={<ExistingOrg/>}/>
-    <Route path="/docs/why-become-an-rp" element={<WhyBecomeAnRP/>}/>
-    <Route path="/docs/how-to-integrate-resource" element={<HowToIntegrateResource/>}/>
-    <Route path="/docs/how-to-choose-roadmap" element={<HowToChooseRoadmap/>}/>
+    <Route path={DocumentationRouteUrls.INDEX} element={<FiveStepsForNewIntegrations/>}/>
+    <Route path={DocumentationRouteUrls.WHY_BECOME_AN_RP} element={<WhyBecomeAnRP/>}/>
+    <Route path={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE} element={<HowToIntegrateResource/>}/>
+    <Route path={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP} element={<HowToChooseRoadmap/>}/>
 </Route>

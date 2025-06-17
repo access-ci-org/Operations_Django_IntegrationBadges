@@ -1,9 +1,10 @@
 import {Link} from "react-router-dom";
+import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
 
 export default function ResourceCard({organization, resource, inProgress = false, showViewButton = true}) {
     if (resource === null) {
         return <div className="w-100 h-100 resource-card rounded-4 p-2 d-flex flex-column bg-gray-200">
-                <Link to="/docs" className="btn btn-link w-100 p-5 text-center">
+                <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center">
                     <i className="bi bi-plus-lg fs-1"></i>
                     <div className="pb-5">
                         Create New
