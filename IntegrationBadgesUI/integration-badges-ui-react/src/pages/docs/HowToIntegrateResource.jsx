@@ -29,40 +29,70 @@ export default function HowToIntegrateResource() {
         </div>
 
         <div className="row mt-5 p-5 bg-light">
+            <h4 className="fs-6">To begin the integration process, you have two options:</h4>
             <p className="fs-6">
-                To begin, click <strong>"Start Integration"</strong> on the landing page. This will take you to our Resource Description
-                catalog (called <strong>CiDeR</strong>), where you’ll register your organization (if it’s not already registered) and
-                then register your resource. This step is quick and simple!
-            </p>
-            <p className="fs-6">
-                Once your registration is complete, <strong>head back to the ACCESS site</strong>. On the homepage, you will find a link
-                to the <strong>Integration Dashboard</strong>. From there, it’s all a step-by-step process. Simply follow the
-                instructions to choose an Integration Roadmap based on the type of resource you’re bringing in, whether
-                it's a compute cluster, cloud environment, storage, or science gateway. These roadmaps are designed to
-                guide you through the integration process and break it down into manageable milestones called badges.
-            </p>
-            <p className="fs-6">
-                Each <strong>Integration Roadmap</strong> will include a list of required and optional badges (integration features or
-                elements), and each badge will have tasks that need to be completed to integrate your resource. You, as
-                the Resource Provider, can select the badges that align with your resource type and goals. Some badges
-                will involve technical tasks for your system administrators, while others may be administrative or
-                operational and handled by other team members.
+                You can click “Start Integration” directly from the ACCESS landing page, or navigate to your Institution
+                Integration Dashboard to get started.
             </p>
         </div>
 
 
         <div className="row mt-5 p-5 bg-light">
+            <h4 className="fs-6">Step 1: Register Your Institution and Resource</h4>
             <p className="fs-6">
-                Once the tasks for each badge are complete, you’ll submit the badge for verification, where our team
-                will ensure everything is set up correctly.
+                If your institution isn’t already in the system, you’ll need to register it first. Then, register the
+                specific resource you’d like to integrate. This involves filling out a short form with a few key
+                details. Once submitted, a member of the concierge team will review your information. If everything
+                looks good, your resource will appear on the Integration Dashboard. it's a quick and easy step!
+            </p>
+        </div>
+
+
+        <div className="row mt-5 p-5 bg-light">
+            <h4 className="fs-6">Step 2: Pick an Integration Roadmap</h4>
+            <p className="fs-6">
+                After registration, return to the ACCESS homepage and click on the Integration Dashboard link. From
+                there, you’ll follow a guided process to select an Integration Roadmap that matches the type of resource
+                you’re integrating, such as a compute cluster, cloud environment, storage, or a science gateway.
             </p>
             <p className="fs-6">
-                And don’t worry, our concierge team is here to help you every step of the way. We’re available to guide
-                you through the process, clarify any questions, and make sure the integration goes smoothly.
+                These roadmaps are designed to break the integration process into manageable steps called badges. Each
+                badge includes tasks that must be completed to successfully integrate your resource.
             </p>
+        </div>
+
+
+        <div className="row mt-5 p-5 bg-light">
+            <h4 className="fs-6">Step 3: Select Resource Specific Badges</h4>
             <p className="fs-6">
-                Ready to get started? Click <strong>“Start Integration”</strong> to begin.<br/>
-                Need help or have questions? Reach out to a concierge, we’re happy to assist!
+                As the Resource Provider, you can choose the badges most relevant to your resource and your team’s
+                goals. Some badges may involve technical setup tasks for your developers, while others may focus on
+                administrative or operational steps handled by different members of your team.
+            </p>
+        </div>
+
+
+        <div className="row mt-5 p-5 bg-light">
+            <h4 className="fs-6">Step 4: Complete Badges</h4>
+            <p className="fs-6">
+                Each badge in your selected Integration Roadmap represents a specific milestone in the integration
+                process. Badges are designed to help you and your team stay organized by breaking the work into focused,
+                achievable tasks. Some badges will involve setting up technical components like configuring access
+                policies or setting up monitoring while others may cover documentation, support planning, or onboarding
+                workflows. Each badge includes guidance, resources, and links to help you complete the required tasks.
+                As you complete a badge, simply mark it as done on the Integration Dashboard. This allows both your team
+                and the ACCESS support team to track progress.
+            </p>
+        </div>
+
+
+        <div className="row mt-5 p-5 bg-light">
+            <h4 className="fs-6">Step 5: Submit for Verification</h4>
+            <p className="fs-6">
+                Once your badges are finished, you’ll submit them for verification, where our team will ensure
+                everything is set up correctly. And don’t worry, our team is here to help you every step of the way.
+                We’re available to guide you through the process, clarify any questions, and make sure the integration
+                goes smoothly.
             </p>
         </div>
 

@@ -33,7 +33,7 @@ export default function FiveStepsForNewIntegrations() {
             <strong className="text-black d-block">Ready to start the process? </strong>
             <Link className="btn btn-dark rounded-2 mt-2"
                   to="https://access-ci.atlassian.net/servicedesk/customer/portal/2/create/112">
-                Register Your Resource in CiDeR</Link>
+                Register Your Resource</Link>
         </div>
         <div className="w-100 p-3 pt-5">
             <div className="w-100">
@@ -41,10 +41,9 @@ export default function FiveStepsForNewIntegrations() {
                 <i className="d-inline ps-3 pe-3  text-yellow fs-3 bi bi-megaphone-fill"></i>
             </div>
             <p className="ps-5 pt-3 text-medium">
-                CiDeR is an external system where you will register your resource. Once registration is complete, be
-                sure to return to your integration dashboard in ACCESS to continue the process. Once your resource is
-                registered in CiDeR, it will appear in your integration dashboard, where you'll find guidance on the
-                next steps.
+                Once registration is complete, be sure to return to your integration dashboard in ACCESS to continue the
+                process. Once your resource is registered, it will appear in your integration dashboard, where you'll
+                find guidance on the next steps.
             </p>
         </div>
 
