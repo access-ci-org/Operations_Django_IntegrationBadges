@@ -16,7 +16,7 @@ function CustomizedBreadcrumb() {
     const {getRoadmap} = useRoadmaps();
 
     let key = 1;
-    if (pathSegments[1] && pathSegments[1].length > 0) {
+    if (pathSegments[1] && pathSegments[1].length > 0 && pathSegments[1] !== "docs") {
         breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{
             ...defaultLinkProps,
             to: "https://access-ci.org/get-started/for-resource-providers/"

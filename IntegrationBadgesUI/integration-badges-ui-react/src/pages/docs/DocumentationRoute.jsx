@@ -14,17 +14,24 @@ export const DocumentationRouteUrls = {
 const RouterLayout = () => {
 
     return (
-        <div className="w-100 access-operations-integration-badges" style={{fontSize: 12}}>
-            <div className="w-100 bg-dark">
-                <ul>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to="/">Webapp</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.INDEX}>Five Steps</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.WHY_BECOME_AN_RP}>Why become an RP</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE}>How Do I Integrate My Resource into ACCESS</Link></li>
-                    <li className="d-inline-block p-2"><Link className="btn btn-link" to={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP}>What is an Integration Roadmap and how do I choose the right one</Link></li>
+        <div className="row" style={{fontSize: 11}}>
+            <div className="col-md-2 bg-white">
+                <ul className="m-0 p-0">
+                    <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to="/">Integration Dashboard</Link></li>
+                    <li className="d-inline-block p-2">
+                        <Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.INDEX}>Documentation</Link>
+
+                        <ul className="m-0 p-0 ps-2">
+                            <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.WHY_BECOME_AN_RP}>Why become an RP</Link></li>
+                            <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE}>How Do I Integrate My Resource into ACCESS</Link></li>
+                            <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP}>What is an Integration Roadmap and how do I choose the right one</Link></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
-            <Outlet/>
+            <div className="col">
+                <Outlet/>
+            </div>
         </div>
     );
 };

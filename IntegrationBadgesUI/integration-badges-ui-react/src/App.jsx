@@ -45,7 +45,7 @@ const RouterLayout = () => {
         && (badges && badges.length > 0);
 
     return (
-        <div className="w-100 access-operations-integration-badges pb-5">
+        <div className="w-100 pb-5">
             <div className="container">
                 <CustomizedBreadcrumb/>
             </div>
