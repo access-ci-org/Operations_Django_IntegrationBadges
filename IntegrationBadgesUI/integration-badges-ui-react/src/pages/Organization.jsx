@@ -57,7 +57,7 @@ export default function Organization() {
             description: "Resources described in the CiDeR databased that haven't selected an integration roadmap or badges",
             showContinueSetup: true,
             condition: (resource, resourceRoadmaps) => resourceRoadmaps.length === 0,
-            resources: [],
+            resources: [null],
         },
         {
             title: "In-Progress Integrations",

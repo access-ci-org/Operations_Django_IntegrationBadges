@@ -19,44 +19,60 @@ body {
 }
 
 .text-medium, .btn.btn-link.text-medium {
-  color: $access-medium;
+  color: $access-medium !important;
 }
 
 .text-orange, .btn.btn-link.text-orange {
-  color: $access-orange;
+  color: $access-orange !important;
 }
 
 .bg-orange {
-  background-color: $access-orange;
+  background-color: $access-orange !important;
 }
 
 .text-yellow, .btn.btn-link.text-yellow {
-  color: $access-yellow;
+  color: $access-yellow !important;
 }
 
 .bg-yellow {
-  background-color: $access-yellow;
+  background-color: $access-yellow !important;
 }
 
 
 .bg-gray-100 {
-  background-color: $gray-100;
+  background-color: $gray-100 !important;
 }
 
 .text-gray-100 {
-  color: $gray-100;
+  color: $gray-100 !important;
 }
 
 .text-gray-200 {
-  color: $gray-200;
+  color: $gray-200 !important;
+}
+
+.bg-gray-200 {
+  background-color: $gray-200 !important;
 }
 
 .border-gray-200 {
-  border-color: $gray-200;
+  border-color: $gray-200 !important;
+}
+
+.bg-gray-100, .bg-gray-200, .bg-secondary, .bg-secondary-subtle {
+  // @extend .text-dark;
+
+  .btn.btn-link {
+    @extend .text-secondary;
+
+    &:hover {
+      @extend .text-medium;
+    }
+  }
 }
 
 .bg-dark {
-  background-color: $access-dark;
+  background-color: $access-dark  !important;
 
   @extend .text-light;
 
@@ -69,16 +85,16 @@ body {
   }
 
   h3, .h3 {
-    color: $access-teal;
+    color: $access-teal !important;
   }
 }
 
 .bg-medium {
-  background-color: $access-medium;
+  background-color: $access-medium  !important;
 }
 
 .bg-light {
-  background-color: $access-light;
+  background-color: $access-light  !important;
 
   @extend .text-dark;
 }
@@ -203,7 +219,7 @@ h3, .h3 {
   font-size: 20px;
   font-stretch: 50%;
   font-weight: 800;
-  color: $access-medium
+  color: $access-medium  !important;
   //text-transform: uppercase;
 }
 
@@ -248,13 +264,13 @@ h4, .h4 {
       font-weight: bold;
       background-color: transparent;
       border: none;
-      color: $access-medium;
+      color: $access-medium  !important;
     }
   }
 
   &.btn-primary {
-    border-color: $access-yellow;
-    background-color: $access-yellow;
+    border-color: $access-yellow !important;
+    background-color: $access-yellow !important;
   }
 
 

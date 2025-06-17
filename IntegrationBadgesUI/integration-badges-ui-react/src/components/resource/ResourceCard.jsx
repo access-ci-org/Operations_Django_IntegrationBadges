@@ -1,6 +1,17 @@
 import {Link} from "react-router-dom";
 
 export default function ResourceCard({organization, resource, inProgress = false, showViewButton = true}) {
+    if (resource === null) {
+        return <div className="w-100 h-100 resource-card rounded-4 p-2 d-flex flex-column bg-gray-200">
+                <Link to="/docs" className="btn btn-link w-100 p-5 text-center">
+                    <i className="bi bi-plus-lg fs-1"></i>
+                    <div className="pb-5">
+                        Create New
+                    </div>
+                </Link>
+            </div>
+    }
+
     return <div className="w-100 h-100 resource-card rounded-4 p-2 d-flex flex-column">
         <div className="w-100 bg-light p-1 resource-card-header rounded-3">
             <div className="w-100 ps-2 resource-card-header-actions">

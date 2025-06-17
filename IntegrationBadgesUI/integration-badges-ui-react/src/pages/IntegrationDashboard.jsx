@@ -31,7 +31,8 @@ export default function IntegrationDashboard() {
             <p className="mt-3">
                 Welcome to the ACCESS Integration Dashboard.
                 <br/><br/>
-                <strong className="text-medium">Click on a Resource Provider (RP)</strong> to view their resources and integration statuses.
+                <strong className="text-medium">Click on a Resource Provider (RP)</strong> to view their resources and
+                integration statuses.
                 You can explore and manage the resources provided by various RPs. Each RP’s integration progress is
                 tracked in real-time, so you can monitor your active and pending integrations as you continue your
                 work.
@@ -86,6 +87,17 @@ export default function IntegrationDashboard() {
                         </div>
                     </div>
                 })}
+
+                <div className="col p-3">
+                    <div className="organization-card rounded-3 w-100 h-100">
+                        <Link to="/docs" className="btn btn-link w-100 p-5 text-center">
+                            <i className="bi bi-plus-lg fs-1"></i>
+                            <div className="pb-5">
+                                Create New
+                            </div>
+                        </Link>
+                    </div>
+                </div>
             </div>
         </LoadingBlock>
     </div>);
