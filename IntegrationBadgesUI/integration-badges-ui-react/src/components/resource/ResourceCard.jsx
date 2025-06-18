@@ -7,7 +7,7 @@ export default function ResourceCard({organization, resource, inProgress = false
                 <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center">
                     <i className="bi bi-plus-lg fs-1"></i>
                     <div className="pb-5">
-                        Create New
+                        Start New Integration
                     </div>
                 </Link>
             </div>
