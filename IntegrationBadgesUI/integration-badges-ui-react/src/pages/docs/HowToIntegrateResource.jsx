@@ -15,7 +15,7 @@ export default function HowToIntegrateResource() {
 
         <div className="row p-4 bg-gray-100">
             <div className="col-lg-4 col-md-6">
-                <p className="fs-6">
+                <p className="fs-6 text-dark">
                     We’ve made the integration process as simple and guided as possible, with a clear, stepped approach
                     that ensures you’ll never miss a step. The process is structured around our Integration Roadmaps,
                     which are designed to provide a tailored pathway for integrating your resource into the ACCESS
@@ -29,18 +29,17 @@ export default function HowToIntegrateResource() {
         </div>
 
         <div className="row mt-3 p-4 bg-gray-100">
-            <h4 className="fs-6">To begin the integration process, you have two options:</h4>
-            <p className="fs-6">
-                You can click “Start Integration” directly from the ACCESS landing page, or navigate to your Institution
-                Integration Dashboard to get started.
+            <h4 className="fs-6 text-dark">To begin the integration process, you have two options:</h4>
+            <p className="fs-6 text-dark">
+                You can click “Start Integration” directly from the ACCESS landing page to get started.
             </p>
         </div>
 
 
         <div className="row mt-3 p-4 bg-gray-100">
-            <h4 className="fs-6">Step 1: Register Your Institution and Resource</h4>
-            <p className="fs-6">
-                If your institution isn’t already in the system, you’ll need to register it first. Then, register the
+            <h4 className="fs-6 text-dark">Step 1: Register Your Organization and Resource</h4>
+            <p className="fs-6 text-dark">
+                If your organization isn’t already in the system, you’ll need to register it first. Then, register the
                 specific resource you’d like to integrate. This involves filling out a short form with a few key
                 details. Once submitted, a member of the concierge team will review your information. If everything
                 looks good, your resource will appear on the Integration Dashboard. it's a quick and easy step!
@@ -49,13 +48,13 @@ export default function HowToIntegrateResource() {
 
 
         <div className="row mt-3 p-4 bg-gray-100">
-            <h4 className="fs-6">Step 2: Pick an Integration Roadmap</h4>
-            <p className="fs-6">
+            <h4 className="fs-6 text-dark">Step 2: Pick an Integration Roadmap</h4>
+            <p className="fs-6 text-dark">
                 After registration, return to the ACCESS homepage and click on the Integration Dashboard link. From
                 there, you’ll follow a guided process to select an Integration Roadmap that matches the type of resource
                 you’re integrating, such as a compute cluster, cloud environment, storage, or a science gateway.
             </p>
-            <p className="fs-6">
+            <p className="fs-6 text-dark">
                 These roadmaps are designed to break the integration process into manageable steps called badges. Each
                 badge includes tasks that must be completed to successfully integrate your resource.
             </p>
@@ -63,8 +62,8 @@ export default function HowToIntegrateResource() {
 
 
         <div className="row mt-3 p-4 bg-gray-100">
-            <h4 className="fs-6">Step 3: Select Resource Specific Badges</h4>
-            <p className="fs-6">
+            <h4 className="fs-6 text-dark">Step 3: Select Resource- Specific Badges</h4>
+            <p className="fs-6 text-dark">
                 As the Resource Provider, you can choose the badges most relevant to your resource and your team’s
                 goals. Some badges may involve technical setup tasks for your developers, while others may focus on
                 administrative or operational steps handled by different members of your team.
@@ -73,8 +72,8 @@ export default function HowToIntegrateResource() {
 
 
         <div className="row mt-3 p-4 bg-gray-100">
-            <h4 className="fs-6">Step 4: Complete Badges</h4>
-            <p className="fs-6">
+            <h4 className="fs-6 text-dark">Step 4: Complete Badges</h4>
+            <p className="fs-6 text-dark">
                 Each badge in your selected Integration Roadmap represents a specific milestone in the integration
                 process. Badges are designed to help you and your team stay organized by breaking the work into focused,
                 achievable tasks. Some badges will involve setting up technical components like configuring access
@@ -87,12 +86,11 @@ export default function HowToIntegrateResource() {
 
 
         <div className="row mt-3 p-4 bg-gray-100">
-            <h4 className="fs-6">Step 5: Submit for Verification</h4>
-            <p className="fs-6">
-                Once your badges are finished, you’ll submit them for verification, where our team will ensure
-                everything is set up correctly. And don’t worry, our team is here to help you every step of the way.
-                We’re available to guide you through the process, clarify any questions, and make sure the integration
-                goes smoothly.
+            <h4 className="fs-6 text-dark">Step 5: Submit for Verification</h4>
+            <p className="fs-6 text-dark">
+                Once each badge is finish, you'll submit it for verification, where our team will verify that each badge
+                is setup correctly. And don’t worry, our team is here to help you every step of the way. We’re available
+                to guide you through the process, clarify any questions, and make sure the integration goes smoothly.
             </p>
         </div>
 
