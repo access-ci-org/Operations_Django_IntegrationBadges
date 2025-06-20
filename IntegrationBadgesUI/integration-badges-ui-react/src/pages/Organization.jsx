@@ -148,7 +148,8 @@ export default function Organization() {
 
                         return <div className="w-100 pt-5 pb-2" key={sectionIndex}>
                             <div className="w-100 text-start pb-2">
-                                <h2 className="d-inline me-4">{section.title} ({section.resources.length})</h2>
+                                <h2 className="d-inline me-4">
+                                    {section.title} ({section.resources.filter(r => !!r).length})</h2>
                                 <OverlayTrigger overlay={tooltip} placement="right" delayShow={300} delayHide={150}>
                                     <button className="btn btn-link text-yellow d-inline"><i
                                         className="bi bi-question-square-fill"></i></button>
