@@ -94,7 +94,7 @@ export default function IntegrationDashboard() {
                         <Link to={DocumentationRouteUrls.INDEX} className="btn btn-link w-100 p-5 text-center">
                             <i className="bi bi-plus-lg fs-1"></i>
                             <div className="pb-5">
-                                Register New Resource with a New Organization
+                                Register New Organization
                             </div>
                         </Link>
                     </div>
