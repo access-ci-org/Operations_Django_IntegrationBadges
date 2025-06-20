@@ -7,13 +7,10 @@ import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource
 export default function HowToChooseRoadmap() {
     return <div className="container">
         <div className="w-100 p-3 pt-5">
-            <h1>
+            <h1 className="mb-4">
                 <i className="bi bi-building-fill-gear fs-1 text-medium pe-3"></i>
-                What is an Integration Roadmap and how do I choose the right one?
+                What is an Integration Roadmap and How do I Choose the Right One?
             </h1>
-        </div>
-
-        <div className="row mt-5 p-5 bg-light">
             <p className="fs-6">
                 An Integration Roadmap is a structured guide that shows how different types of infrastructure can
                 connect to the ACCESS ecosystem. ACCESS uses this framework to make integration transparent and
@@ -25,7 +22,7 @@ export default function HowToChooseRoadmap() {
             </p>
         </div>
 
-        <div className="row pt-5 p-3 text-dark">
+        <div className="row p-3 text-dark">
             <div className="col p-3" style={{minWidth: 500}}>
                 <div className="w-100 h-100 border p-4 border-2 rounded-3 border-dark">
                     <h4>Science Gateways</h4>

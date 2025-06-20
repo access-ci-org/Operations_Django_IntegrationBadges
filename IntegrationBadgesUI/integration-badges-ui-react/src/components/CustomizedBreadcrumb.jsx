@@ -4,25 +4,42 @@ import {useResources} from "../contexts/ResourcesContext";
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import LoadingBlock from "./LoadingBlock.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
+import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
 
 const defaultLinkProps = {className: "btn btn-link text-medium"}
 
 function CustomizedBreadcrumb() {
     const location = useLocation();
-    const pathSegments = location.pathname.split("/")
+    const pathname = location.pathname;
+    const pathSegments = pathname.split("/")
     const breadcrumbLinks = []
     const {organizationMap, organizationMapByName} = useOrganizations();
     const {getResource} = useResources();
     const {getRoadmap} = useRoadmaps();
 
     let key = 1;
-    if (pathSegments[1] && pathSegments[1].length > 0 && pathSegments[1] !== "docs") {
+    if (pathSegments[1] && pathSegments[1].length > 0) {
         breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{
             ...defaultLinkProps,
             to: "https://access-ci.org/get-started/for-resource-providers/"
         }}>
             RP Home
         </Breadcrumb.Item>)
+    }
+
+
+    if (pathSegments[1] === "docs") {
+        const linkTitleMap = {
+            [DocumentationRouteUrls.INDEX]: "Integration Process is Simple and Intuitive",
+            [DocumentationRouteUrls.WHY_BECOME_AN_RP]: "How & Why Become an RP",
+            [DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE]: "How Do I Integrate My Resource into ACCESS",
+            [DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP]: "What is an Integration Roadmap and How do I Choose the Right One"
+        }
+
+        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkProps={{...defaultLinkProps, to: pathname}}>
+            {linkTitleMap[pathname]}
+        </Breadcrumb.Item>);
+
     }
 
     if (pathSegments[1] === "organizations") {

@@ -7,14 +7,14 @@ import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource
 export default function HowToIntegrateResource() {
     return <div className="container">
         <div className="w-100 p-3 pt-5">
-            <h1>
+            <h1 className="mb-4">
                 <i className="bi bi-stack fs-1 text-medium pe-3"></i>
                 How Do I Integrate My Resource into ACCESS?
             </h1>
         </div>
 
-        <div className="row p-5 bg-light">
-            <div className="col-md-6">
+        <div className="row p-4 bg-gray-100">
+            <div className="col-lg-4 col-md-6">
                 <p className="fs-6">
                     We’ve made the integration process as simple and guided as possible, with a clear, stepped approach
                     that ensures you’ll never miss a step. The process is structured around our Integration Roadmaps,
@@ -22,13 +22,13 @@ export default function HowToIntegrateResource() {
                     ecosystem.
                 </p>
             </div>
-            <div className="col-md-6 text-center">
-                <img className="w-100" style={{maxWidth: 300}} alt="Five steps for new resource integraiton"
+            <div className="col-lg-8 col-md-6 text-center">
+                <img className="w-100" style={{maxWidth: 500}} alt="Five steps for new resource integraiton"
                      src={fiveStepsForNewIntegrationsPng}/>
             </div>
         </div>
 
-        <div className="row mt-5 p-5 bg-light">
+        <div className="row mt-3 p-4 bg-gray-100">
             <h4 className="fs-6">To begin the integration process, you have two options:</h4>
             <p className="fs-6">
                 You can click “Start Integration” directly from the ACCESS landing page, or navigate to your Institution
@@ -37,7 +37,7 @@ export default function HowToIntegrateResource() {
         </div>
 
 
-        <div className="row mt-5 p-5 bg-light">
+        <div className="row mt-3 p-4 bg-gray-100">
             <h4 className="fs-6">Step 1: Register Your Institution and Resource</h4>
             <p className="fs-6">
                 If your institution isn’t already in the system, you’ll need to register it first. Then, register the
@@ -48,7 +48,7 @@ export default function HowToIntegrateResource() {
         </div>
 
 
-        <div className="row mt-5 p-5 bg-light">
+        <div className="row mt-3 p-4 bg-gray-100">
             <h4 className="fs-6">Step 2: Pick an Integration Roadmap</h4>
             <p className="fs-6">
                 After registration, return to the ACCESS homepage and click on the Integration Dashboard link. From
@@ -62,7 +62,7 @@ export default function HowToIntegrateResource() {
         </div>
 
 
-        <div className="row mt-5 p-5 bg-light">
+        <div className="row mt-3 p-4 bg-gray-100">
             <h4 className="fs-6">Step 3: Select Resource Specific Badges</h4>
             <p className="fs-6">
                 As the Resource Provider, you can choose the badges most relevant to your resource and your team’s
@@ -72,7 +72,7 @@ export default function HowToIntegrateResource() {
         </div>
 
 
-        <div className="row mt-5 p-5 bg-light">
+        <div className="row mt-3 p-4 bg-gray-100">
             <h4 className="fs-6">Step 4: Complete Badges</h4>
             <p className="fs-6">
                 Each badge in your selected Integration Roadmap represents a specific milestone in the integration
@@ -86,7 +86,7 @@ export default function HowToIntegrateResource() {
         </div>
 
 
-        <div className="row mt-5 p-5 bg-light">
+        <div className="row mt-3 p-4 bg-gray-100">
             <h4 className="fs-6">Step 5: Submit for Verification</h4>
             <p className="fs-6">
                 Once your badges are finished, you’ll submit them for verification, where our team will ensure
