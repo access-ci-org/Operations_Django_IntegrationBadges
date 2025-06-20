@@ -28,9 +28,9 @@ export default function WhyBecomeAnRP() {
                 <div className="w-100 h-100 border p-5 border-2 rounded-3 border-dark">
                     <i className="bi bi-stack fs-1 text-medium"></i>
                     <Link className="w-100 btn btn-link text-medium text-center" to="/docs/how-to-integrate-resource" style={{fontSize: 18}}>
-                        How do I integrate my <br/>
-                        resource into  <br/>
-                        ACCESS?
+                        How do I <strong>integrate</strong> my <br/>
+                        resource <strong>into</strong>  <br/>
+                        <strong>ACCESS</strong>?
                     </Link>
                 </div>
             </div>
@@ -38,9 +38,9 @@ export default function WhyBecomeAnRP() {
                 <div className="w-100 h-100 border p-5 border-2 rounded-3 border-dark">
                     <i className="bi bi-building-fill-gear fs-1 text-medium"></i>
                     <Link className="w-100 btn btn-link text-medium text-center" to="/docs/how-to-choose-roadmap" style={{fontSize: 18}}>
-                        What is an Integration <br/>
-                        Roadmap and how do I  <br/>
-                        choose the right one?
+                        What is an <strong>Integration</strong> <br/>
+                        <strong>Roadmap</strong> and how do I  <br/>
+                        <strong>choose the right one</strong>?
                     </Link>
                 </div>
             </div>
