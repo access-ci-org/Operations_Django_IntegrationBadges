@@ -16,7 +16,7 @@ export default {
         "planned": "Incomplete - Take Action",
         "task-completed": "Pending Verification",
         "verification-failed": "RP attention needed",
-        "verified": "Verified",
+        "verified": "Available",
         "deprecated": "Deprecated"
     },
     "badgeTaskWorkflowStatus": {
