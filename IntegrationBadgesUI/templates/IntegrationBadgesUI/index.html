@@ -110,7 +110,7 @@
     ];
 
     universalMenus({
-        isLoggedIn: document.cookie.split("; ").includes("sessionid"),
+        isLoggedIn: document.cookie.includes("sessionid="),
         loginUrl: "/login",
         logoutUrl: "/accounts/logout",
         siteName: "Operations",
