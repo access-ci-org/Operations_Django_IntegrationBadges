@@ -10,7 +10,7 @@ const defaultLinkProps = {className: "btn btn-link text-medium"}
 
 function CustomizedBreadcrumb() {
     const location = useLocation();
-    const pathname = location.pathname;
+    const pathname = location.pathname.replace(/\/$/, "");
     const pathSegments = pathname.split("/")
     const breadcrumbLinks = []
     const {organizationMap, organizationMapByName} = useOrganizations();
