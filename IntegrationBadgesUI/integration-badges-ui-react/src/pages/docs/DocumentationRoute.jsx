@@ -4,6 +4,7 @@ import WhyBecomeAnRP from "./WhyBecomeAnRP.jsx";
 import HowToIntegrateResource from "./HowToIntegrateResource.jsx";
 import HowToChooseRoadmap from "./HowToChooseRoadmap.jsx";
 import Roadmaps from "./Roadmaps.jsx";
+import Badges from "./Badges.jsx";
 
 export const DocumentationRouteUrls = {
     INDEX: "/docs",
@@ -11,6 +12,7 @@ export const DocumentationRouteUrls = {
     HOW_TO_INTEGRATE_RESOURCE: "/docs/how-to-integrate-resource",
     HOW_TO_CHOOSE_ROADMAP: "/docs/how-to-choose-roadmap",
     ROADMAPS: "/docs/roadmaps",
+    BADGES: "/docs/badges",
 };
 
 const RouterLayout = () => {
@@ -28,6 +30,7 @@ const RouterLayout = () => {
             {/*                <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE}>How Do I Integrate My Resource into ACCESS</Link></li>*/}
             {/*                <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP}>What is an Integration Roadmap and how do I choose the right one</Link></li>*/}
             {/*                <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.ROADMAPS}>Roadmaps</Link></li>*/}
+            {/*                <li className="d-inline-block p-2"><Link className="btn btn-link border-3 border-start ps-1" to={DocumentationRouteUrls.BADGES}>Badges</Link></li>*/}
             {/*            </ul>*/}
             {/*        </li>*/}
             {/*    </ul>*/}
@@ -44,4 +47,5 @@ export const DocumentationRoute = <Route path="/docs" element={<RouterLayout/>}>
     <Route path={DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE} element={<HowToIntegrateResource/>}/>
     <Route path={DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP} element={<HowToChooseRoadmap/>}/>
     <Route path={DocumentationRouteUrls.ROADMAPS} element={<Roadmaps/>}/>
+    <Route path={DocumentationRouteUrls.BADGES} element={<Badges/>}/>
 </Route>
