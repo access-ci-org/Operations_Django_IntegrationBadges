@@ -93,7 +93,7 @@ export const ResourcesProvider = ({children}) => {
 
     const fetchResourceRoadmapBadges = async ({resourceId, roadmapId}) => {
         try {
-            let resourceRoadmapStatus = await dashboardAxiosInstance.get(`/resource/${resourceId}/roadmap/${roadmapId}/badges/`);
+            let resourceRoadmapStatus = await dashboardAxiosInstance.get(`/resource_roadmap_badges/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}`);
             const badgeStatusMap = {};
             const badgeIds = [];
             for (let j = 0; j < resourceRoadmapStatus.data.results.length; j++) {
@@ -128,8 +128,8 @@ export const ResourcesProvider = ({children}) => {
 
     const fetchResourceRoadmapBadge = async ({resourceId, roadmapId, badgeId}) => {
         try {
-            let resourceRoadmapBadge = await dashboardAxiosInstance.get(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/`);
-            const badgeStatus = resourceRoadmapBadge.data.results;
+            let resourceRoadmapBadge = await dashboardAxiosInstance.get(`/resource_roadmap_badges/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
+            const badgeStatus = resourceRoadmapBadge.data.results[0];
             setResourceRoadmapBadgeMap({
                 ...resourceRoadmapBadgeMap,
                 [resourceId]: {
