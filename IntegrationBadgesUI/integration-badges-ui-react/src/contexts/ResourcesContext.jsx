@@ -150,7 +150,7 @@ export const ResourcesProvider = ({children}) => {
 
     const fetchResourceRoadmapBadgeTasks = async ({resourceId, roadmapId, badgeId}) => {
         try {
-            let res = await dashboardAxiosInstance.get(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/tasks`);
+            let res = await dashboardAxiosInstance.get(`/resource_roadmap_badge_tasks/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
 
             const taskWorkflowMap = {};
             const taskIds = [];
