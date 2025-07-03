@@ -30,7 +30,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         try {
             await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
         } catch (e) {
-            setShowErrorModal(true);x
+            setShowErrorModal(true);
         }
 
         setTaskActionStatusProcessing({
@@ -58,48 +58,51 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                     Not Required</small>}
         </div>
 
-        <div className="col-sm-3 pt-2 pb-2 align-content-center">
-            <Dropdown>
-                <Dropdown.Toggle variant={task.status ? 'outline-dark' : 'dark'}
-                                 id="dropdown-basic"
-                                 bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
+
+        {badge.status ?
+            <div className="col-sm-3 pt-2 pb-2 align-content-center">
+                <Dropdown>
+                    <Dropdown.Toggle variant={task.status ? 'outline-dark' : 'dark'}
+                                     id="dropdown-basic"
+                                     bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
                                             <span className="flex-fill text-start">
                                                 {!task.status ? <i className="bi bi-layers"></i> :
                                                     <i className="bi bi-check-circle-fill"></i>}
                                                 <span
                                                     className="ps-3 pe-3">{!task.status ? "Incomplete" : task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED ? "Not Applicable" : "Completed"}</span>
                                             </span>
-                    <span>
+                        <span>
                                                 <i className="bi bi-chevron-down"></i>
                                             </span>
-                </Dropdown.Toggle>
+                    </Dropdown.Toggle>
 
-                {(badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) &&
-                    <Dropdown.Menu>
-                        <Dropdown.Item
-                            onClick={setShowTaskReopenModal.bind(this, {
-                                taskId, status: BadgeTaskWorkflowStatus.COMPLETED
-                            })}>
-                            Completed</Dropdown.Item>
-                        <Dropdown.Item
-                            onClick={setShowTaskReopenModal.bind(this, {
-                                taskId, status: BadgeTaskWorkflowStatus.NOT_COMPLETED
-                            })}>
-                            Not Applicable</Dropdown.Item>
-                    </Dropdown.Menu>}
+                    {(badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) &&
+                        <Dropdown.Menu>
+                            <Dropdown.Item
+                                onClick={setShowTaskReopenModal.bind(this, {
+                                    taskId, status: BadgeTaskWorkflowStatus.COMPLETED
+                                })}>
+                                Completed</Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={setShowTaskReopenModal.bind(this, {
+                                    taskId, status: BadgeTaskWorkflowStatus.NOT_COMPLETED
+                                })}>
+                                Not Applicable</Dropdown.Item>
+                        </Dropdown.Menu>}
 
 
-                {(badge.status === BadgeWorkflowStatus.PLANNED || badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) &&
-                    <Dropdown.Menu>
-                        <Dropdown.Item
-                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
-                            Completed</Dropdown.Item>
-                        <Dropdown.Item
-                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
-                            Not Applicable</Dropdown.Item>
-                    </Dropdown.Menu>}
-            </Dropdown>
-        </div>
+                    {(badge.status === BadgeWorkflowStatus.PLANNED || badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) &&
+                        <Dropdown.Menu>
+                            <Dropdown.Item
+                                onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
+                                Completed</Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
+                                Not Applicable</Dropdown.Item>
+                        </Dropdown.Menu>}
+                </Dropdown>
+            </div> :
+            null}
 
 
         <Modal show={showTaskReopenModal} onHide={setShowTaskReopenModal.bind(this, false)}>
