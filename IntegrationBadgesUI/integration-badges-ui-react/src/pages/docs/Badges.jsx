@@ -1,19 +1,25 @@
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import ResourceBadgeIcon from "../../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import {Link} from "react-router-dom";
+import {useResources} from "../../contexts/ResourcesContext.jsx";
+import {useEffect} from "react";
 
 export default function Badges() {
-    const {getBadges} = useBadges();
+    const {fetchResourceRoadmapBadges, getResourceRoadmapBadges} = useResources();
 
-    const badges = getBadges();
+    useEffect(() => {
+        fetchResourceRoadmapBadges();
+    }, []);
+
+    const badges = getResourceRoadmapBadges();
 
     return <div className="container">
         <div className="row pt-5">
             <h2>Available Badges</h2>
             <div className="w-100 pt-2 pb-5">
-                {badges && badges.map((badge) => {
+                {badges && badges.map((badge, badgeIndex) => {
                     const badgeId = badge.badge_id;
-                    return <div className="w-100 p-1" key={badgeId}>
+                    return <div className="w-100 p-1" key={badgeIndex}>
                         <div className="row rounded-3 border-gray-200 border border-1 badge-card-row">
                             <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
                                 <div className="pt-3 pb-3 ps-2 pe-2">
