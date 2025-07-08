@@ -1,11 +1,19 @@
-import {useBadges} from "../../contexts/BadgeContext.jsx";
+import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import ResourceBadgeIcon from "../../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import {Link} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {Collapse, Nav} from "react-bootstrap";
+import ResourceBadgeCard from "../../components/resource/resource-badge/ResourceBadgeCard.jsx";
+import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 
 export default function Badges() {
     const {fetchResourceRoadmapBadges, getResourceRoadmapBadges} = useResources();
+    const {getResource} = useResources();
+    const {getRoadmap} = useRoadmaps();
+    const {getBadge} = useBadges();
+
+    const [activeTabIndex, setActiveTabIndex] = useState(2);
 
     useEffect(() => {
         fetchResourceRoadmapBadges();
@@ -13,36 +21,92 @@ export default function Badges() {
 
     const badges = getResourceRoadmapBadges();
 
+    const tabs = [
+        BadgeWorkflowStatus.NOT_PLANNED,
+        BadgeWorkflowStatus.PLANNED,
+        BadgeWorkflowStatus.TASK_COMPLETED,
+        BadgeWorkflowStatus.VERIFIED,
+        BadgeWorkflowStatus.VERIFICATION_FAILED,
+        BadgeWorkflowStatus.DEPRECATED,
+    ]
+    const tabBadgesMap = {};
+    for (let tabIndex = 0; tabIndex < tabs.length; tabIndex++) {
+        tabBadgesMap[tabs[tabIndex]] = [];
+    }
+
+    for (let i = 0; i < badges.length; i++) {
+        if (!tabBadgesMap[badges[i].status]) {
+            tabBadgesMap[badges[i].status] = [];
+        }
+
+        tabBadgesMap[badges[i].status].push(badges[i]);
+    }
+
     return <div className="container">
         <div className="row pt-5">
-            <h2>Available Badges</h2>
+            <h2>Badges Verification Status for Badge Owners and Concierge</h2>
             <div className="w-100 pt-2 pb-5">
-                {badges && badges.map((badge, badgeIndex) => {
-                    const badgeId = badge.badge_id;
-                    return <div className="w-100 p-1" key={badgeIndex}>
-                        <div className="row rounded-3 border-gray-200 border border-1 badge-card-row">
-                            <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
-                                <div className="pt-3 pb-3 ps-2 pe-2">
-                                    <ResourceBadgeIcon badgeId={badgeId}/>
-                                </div>
-                                <div className="flex-fill p-2 badge-card-row-header">
-                                    <h4 className="m-0 align-content-center">{badge.name}</h4>
-                                </div>
-                            </div>
-                            <div className="col-sm-5 pt-2 pb-2 badge-card-row-description align-content-center">
-                                <p className="m-0 align-content-center">
-                                    {badge.resource_provider_summary}
-                                </p>
-                            </div>
-                            <div className="col-sm-3 pt-2 pb-2 align-content-center">
-                                    <Link
-                                        to={`/badges/${badge.badge_id}`}
-                                        className="w-100 btn btn-secondary rounded-1 btn-sm disabled">
-                                        View Additional Badge Details
-                                    </Link>
-                            </div>
+                <Nav variant="underline" defaultActiveKey="2" className="ps-3" onSelect={setActiveTabIndex}>
+                    {tabs.map((tabBadgeStatus, tabIndex) => <Nav.Item key={tabIndex}>
+                        <Nav.Link eventKey={tabIndex}>
+                            {tabBadgeStatus} ({tabBadgesMap[tabBadgeStatus].length})
+                        </Nav.Link>
+                    </Nav.Item>)}
+                </Nav>
+
+                {tabs.map((tabBadgeStatus, tabIndex) => {
+                    const tabBadges = tabBadgesMap[tabBadgeStatus];
+
+                    console.log(`##### tabBadges for ${tabBadgeStatus} : `, tabBadges);
+                    console.log(`#####        [${tabBadgeStatus}] `, [tabIndex, activeTabIndex, tabIndex == activeTabIndex])
+
+                    return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
+                        <div className="w-100 pt-2 pb-5 row">
+                            {tabBadges && tabBadges.length !== 0 &&
+                                <table className="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Resource</th>
+                                        <th scope="col">Roadmap</th>
+                                        <th scope="col">Badge</th>
+                                        <th scope="col">Last Updated</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {tabBadges && tabBadges.map((resourceBadge, badgeIndex) => {
+                                        const resource = getResource({resourceId: resourceBadge.info_resourceid});
+                                        const roadmap = getRoadmap({roadmapId: resourceBadge.roadmap_id});
+                                        const badge = getBadge({badgeId: resourceBadge.badge_id});
+                                        const lastUpdatedAt = new Date(Date.parse(resourceBadge.status_updated_at));
+                                        const lastUpdatedBy = resourceBadge.status_updated_by;
+
+                                        if (resource && roadmap && badge) {
+                                            return <tr key={badgeIndex}>
+                                                <th scope="row">{badgeIndex + 1}</th>
+                                                <td>{resource.resource_descriptive_name}</td>
+                                                <td>{roadmap.name}</td>
+                                                <td>{badge.name}</td>
+                                                <td>
+                                                    {lastUpdatedAt.toLocaleString()}
+                                                    {!lastUpdatedBy || lastUpdatedBy === "" ? "" : ` by ${lastUpdatedBy}`}
+                                                </td>
+                                                <td>
+                                                    <Link to={"sdfg"}>View more</Link>
+                                                </td>
+                                            </tr>
+                                        }
+                                    })}
+                                    </tbody>
+                                </table>}
+
+                            {tabBadges && tabBadges.length === 0 &&
+                                <div className="w-100 p-3 text-center lead">
+                                    No badges available
+                                </div>}
                         </div>
-                    </div>
+                    </Collapse>
                 })}
             </div>
         </div>
