@@ -19,7 +19,7 @@ export const useBadges = () => useContext(BadgeContext);
 export const BadgeWorkflowStatus = {
     NOT_PLANNED: "not-planned",
     PLANNED: "planned",
-    TASK_COMPLETED: "task-completed",
+    TASK_COMPLETED: "tasks-completed",
     VERIFICATION_FAILED: "verification-failed",
     VERIFIED: "verified",
     DEPRECATED: "deprecated"
