@@ -19,11 +19,13 @@ export default function ResourceBadge() {
         fetchResource,
         fetchResourceRoadmapBadges,
         fetchResourceRoadmapBadgeTasks,
+        fetchResourceRoadmapBadgeLogs,
         getResource,
         getResourceRoadmapBadge,
         getResourceRoadmapBadgePrerequisites,
         getResourceOrganization,
         getResourceRoadmapBadgeTasks,
+        getResourceRoadmapBadgeLogs,
         setResourceRoadmapBadgeWorkflowStatus,
         setResourceRoadmapBadgeTaskWorkflowStatus
     } = useResources();
@@ -38,6 +40,7 @@ export default function ResourceBadge() {
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
     let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
+    let logs = getResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
     let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
 
@@ -45,19 +48,10 @@ export default function ResourceBadge() {
         fetchResource({resourceId});
         fetchResourceRoadmapBadges({resourceId, roadmapId});
         fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
+        fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
         fetchBadge({badgeId});
         fetchBadgeTasks({badgeId});
     }, [resourceId, badgeId]);
-
-    // useEffect(() => {
-    //     if (prerequisiteBadges) {
-    //         for (let i = 0; i < prerequisiteBadges.length-1; i++) {
-    //             const prerequisiteBadge = prerequisiteBadges[i];
-    //             console.log("#### prerequisiteBadge ", prerequisiteBadge)
-    //             fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId: prerequisiteBadge.badge_id});
-    //         }
-    //     }
-    // }, [prerequisiteBadges.length]);
 
     const clickBadgeAction = async (status) => {
         setShowSaveConfirmationModal(false);
@@ -263,6 +257,23 @@ export default function ResourceBadge() {
                     </div>
 
                 </div>
+            </div>
+
+            <div className="w-100">
+                {logs.map((log, logIndex) => {
+                    const logId = log.id;
+                    const comment = log.comment;
+                    const status = log.status;
+                    const lastUpdatedAt = new Date(Date.parse(log.status_updated_at));
+                    const lastUpdatedBy = log.status_updated_by;
+
+                    return <div className="row" key={logIndex}>
+                        <div className="col">{logId}</div>
+                        <div className="col">{status}</div>
+                        <div className="col">{comment}</div>
+                        <div className="col">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
+                    </div>
+                })}
             </div>
         </div>
     }

@@ -20,7 +20,9 @@ const ResourcesContext = createContext({
     },
     fetchResource: ({resourceId}) => {
     },
-    fetchResourceRoadmapBadges: ({resourceId = null, roadmapId = null} = {}) => {
+    fetchResourceRoadmapBadges: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    },
+    fetchResourceRoadmapBadgeLogs: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
     },
     fetchResourceRoadmapBadgeTasks: ({resourceId, roadmapId, badgeId}) => {
     },
@@ -32,9 +34,11 @@ const ResourcesContext = createContext({
     },
     isResourceRoadmapSelected: ({resourceId, roadmapId}) => {
     },
-    getResourceRoadmapBadges: ({resourceId = null, roadmapId = null} = {}) => {
+    getResourceRoadmapBadges: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
     },
     getResourceRoadmapBadge: ({resourceId, roadmapId, badgeId}) => {
+    },
+    getResourceRoadmapBadgeLogs: ({resourceId, roadmapId, badgeId}) => {
     },
     getResourceRoadmapBadgePrerequisites: ({resourceId, roadmapId, badgeId}) => {
     },
@@ -77,6 +81,8 @@ export const ResourcesProvider = ({children}) => {
     const [resourceRoadmapIds, setResourceRoadmapIds] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeIds, setResourceRoadmapBadgeIds] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeMap, setResourceRoadmapBadgeMap] = useReducer(DefaultReducer, {});
+    const [resourceRoadmapBadgeLogIds, setResourceRoadmapBadgeLogIds] = useReducer(DefaultReducer, {});
+    const [resourceRoadmapBadgeLogMap, setResourceRoadmapBadgeLogMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeTaskMap, setResourceRoadmapBadgeTaskMap] = useReducer(DefaultReducer, {});
     const [resourceOrgMap, setResourceOrgMap] = useReducer(DefaultReducer, {});
 
@@ -99,7 +105,7 @@ export const ResourcesProvider = ({children}) => {
             }
 
             if (!!roadmapId) {
-                url += `roadmap_id=${roadmapId}`
+                url += `roadmap_id=${roadmapId}&`
             }
 
             if (!!badgeId) {
@@ -131,6 +137,53 @@ export const ResourcesProvider = ({children}) => {
             setResourceRoadmapBadgeIds(badgeIds)
 
             return resourceRoadmapStatus;
+        } catch (error) {
+            console.log(error)
+            return error;
+        }
+    };
+
+    const fetchResourceRoadmapBadgeLogs = async ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+        try {
+            let url = `/resource_roadmap_badge_logs/?`;
+
+            if (!!resourceId) {
+                url += `info_resourceid=${resourceId}&`
+            }
+
+            if (!!roadmapId) {
+                url += `roadmap_id=${roadmapId}&`
+            }
+
+            if (!!badgeId) {
+                url += `badge_id=${badgeId}`
+            }
+
+            let resourceRoadmapBadgeLogs = await dashboardAxiosInstance.get(url);
+            const _resourceRoadmapBadgeLogMap = {...resourceRoadmapBadgeLogMap};
+            const _resourceRoadmapBadgeLogIds = {...resourceRoadmapBadgeLogIds};
+            for (let j = 0; j < resourceRoadmapBadgeLogs.data.results.length; j++) {
+                const badgeLog = resourceRoadmapBadgeLogs.data.results[j];
+                const _logId = badgeLog.id;
+                const _badgeId = badgeLog.badge_id;
+                const _resourceId = badgeLog.info_resourceid;
+                const _roadmapId = badgeLog.roadmap_id;
+
+                _resourceRoadmapBadgeLogIds[_resourceId] = {..._resourceRoadmapBadgeLogIds[_resourceId]};
+                _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId] = {..._resourceRoadmapBadgeLogIds[_resourceId][_roadmapId]};
+                if (!!_resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId]) {
+                    _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId] = [..._resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId], _logId];
+                } else {
+                    _resourceRoadmapBadgeLogIds[_resourceId][_roadmapId][_badgeId] = [_logId];
+                }
+
+                _resourceRoadmapBadgeLogMap[_logId] = badgeLog;
+            }
+
+            setResourceRoadmapBadgeLogMap(_resourceRoadmapBadgeLogMap);
+            setResourceRoadmapBadgeLogIds(_resourceRoadmapBadgeLogIds)
+
+            return resourceRoadmapBadgeLogs;
         } catch (error) {
             console.log(error)
             return error;
@@ -277,10 +330,17 @@ export const ResourcesProvider = ({children}) => {
 
         return _resourceRoadmapBadges;
     }
+
     const getResourceRoadmapBadge = ({resourceId, roadmapId, badgeId}) => {
         const badges = _getBadgesWithWorkflow({resourceId, roadmapId, badgeIds: [badgeId]})
         if (badges && badges.length > 0) {
             return badges[0];
+        }
+    }
+
+    const getResourceRoadmapBadgeLogs = ({resourceId, roadmapId, badgeId}) => {
+        if (resourceRoadmapBadgeLogIds[resourceId] && resourceRoadmapBadgeLogIds[resourceId][roadmapId] && resourceRoadmapBadgeLogIds[resourceId][roadmapId][badgeId]) {
+            return resourceRoadmapBadgeLogIds[resourceId][roadmapId][badgeId].map(logId => resourceRoadmapBadgeLogMap[logId]);
         }
     }
 
@@ -409,6 +469,7 @@ export const ResourcesProvider = ({children}) => {
             fetchResource,
             fetchSelectedResources,
             fetchResourceRoadmapBadges,
+            fetchResourceRoadmapBadgeLogs,
             fetchResourceRoadmapBadgeTasks,
             getResource,
             getResources,
@@ -416,6 +477,7 @@ export const ResourcesProvider = ({children}) => {
             getResourceRoadmaps,
             getResourceRoadmapBadges,
             getResourceRoadmapBadge,
+            getResourceRoadmapBadgeLogs,
             getResourceRoadmapBadgePrerequisites,
             getResourceRoadmapBadgeTasks,
             getResourceOrganization,
