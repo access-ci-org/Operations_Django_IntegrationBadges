@@ -22,7 +22,7 @@ const ResourcesContext = createContext({
     },
     fetchResourceRoadmapBadge: ({resourceId, roadmapId, badgeId}) => {
     },
-    fetchResourceRoadmapBadges: ({resourceId, roadmapId}) => {
+    fetchResourceRoadmapBadges: ({resourceId = null, roadmapId = null} = {}) => {
     },
     fetchResourceRoadmapBadgeTasks: ({resourceId, roadmapId, badgeId}) => {
     },
@@ -34,7 +34,7 @@ const ResourcesContext = createContext({
     },
     isResourceRoadmapSelected: ({resourceId, roadmapId}) => {
     },
-    getResourceRoadmapBadges: ({resourceId, roadmapId}) => {
+    getResourceRoadmapBadges: ({resourceId = null, roadmapId = null} = {}) => {
     },
     getResourceRoadmapBadge: ({resourceId, roadmapId, badgeId}) => {
     },
