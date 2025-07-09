@@ -20,8 +20,6 @@ const ResourcesContext = createContext({
     },
     fetchResource: ({resourceId}) => {
     },
-    fetchResourceRoadmapBadge: ({resourceId, roadmapId, badgeId}) => {
-    },
     fetchResourceRoadmapBadges: ({resourceId = null, roadmapId = null} = {}) => {
     },
     fetchResourceRoadmapBadgeTasks: ({resourceId, roadmapId, badgeId}) => {
@@ -92,7 +90,7 @@ export const ResourcesProvider = ({children}) => {
     };
 
 
-    const fetchResourceRoadmapBadges = async ({resourceId = null, roadmapId = null} = {}) => {
+    const fetchResourceRoadmapBadges = async ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
         try {
             let url = `/resource_roadmap_badges/?`;
 
@@ -101,7 +99,11 @@ export const ResourcesProvider = ({children}) => {
             }
 
             if (!!roadmapId) {
-                url += `roadmapId=${roadmapId}`
+                url += `roadmap_id=${roadmapId}`
+            }
+
+            if (!!badgeId) {
+                url += `badge_id=${badgeId}`
             }
 
             let resourceRoadmapStatus = await dashboardAxiosInstance.get(url);
@@ -129,28 +131,6 @@ export const ResourcesProvider = ({children}) => {
             setResourceRoadmapBadgeIds(badgeIds)
 
             return resourceRoadmapStatus;
-        } catch (error) {
-            console.log(error)
-            return error;
-        }
-    };
-
-    const fetchResourceRoadmapBadge = async ({resourceId, roadmapId, badgeId}) => {
-        try {
-            let resourceRoadmapBadge = await dashboardAxiosInstance.get(`/resource_roadmap_badges/?info_resourceid=${resourceId}&roadmap_id=${roadmapId}&badge_id=${badgeId}`);
-            const badgeStatus = resourceRoadmapBadge.data.results[0];
-            setResourceRoadmapBadgeMap({
-                ...resourceRoadmapBadgeMap,
-                [resourceId]: {
-                    ...resourceRoadmapBadgeMap[resourceId],
-                    [roadmapId]: {
-                        ...(!!resourceRoadmapBadgeMap[resourceId] ? resourceRoadmapBadgeMap[resourceId][roadmapId] : null),
-                        [badgeId]: badgeStatus
-                    }
-                }
-            });
-
-            return resourceRoadmapBadge;
         } catch (error) {
             console.log(error)
             return error;
@@ -283,12 +263,12 @@ export const ResourcesProvider = ({children}) => {
         return resourceRoadmapIds[resourceId] && resourceRoadmapIds[resourceId].indexOf(roadmapId) >= 0
     }
 
-    const getResourceRoadmapBadges = ({resourceId = null, roadmapId = null} = {}) => {
+    const getResourceRoadmapBadges = ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
         let _resourceRoadmapBadges = [];
         for (let _resourceId in (!!resourceId ? {[resourceId]: null} : resourceRoadmapBadgeIds)) {
             for (let _roadmapId in (!!roadmapId ? {[roadmapId]: null} : resourceRoadmapBadgeIds[_resourceId])) {
                 if (resourceRoadmapBadgeIds[_resourceId] && resourceRoadmapBadgeIds[_resourceId][_roadmapId]) {
-                    const badgeIds = resourceRoadmapBadgeIds[_resourceId][_roadmapId];
+                    const badgeIds = !!badgeId ? [badgeId] : resourceRoadmapBadgeIds[_resourceId][_roadmapId];
                     _resourceRoadmapBadges = _resourceRoadmapBadges.concat(_getBadgesWithWorkflow(
                         {resourceId: _resourceId, roadmapId: _roadmapId, badgeIds}));
                 }
@@ -379,7 +359,7 @@ export const ResourcesProvider = ({children}) => {
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status}) => {
         try {
             const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`,);
-            await fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId})
+            await fetchResourceRoadmapBadges({resourceId, roadmapId, badgeId});
 
             return response.data.results;
         } catch (error) {
@@ -395,7 +375,7 @@ export const ResourcesProvider = ({children}) => {
 
             let resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
             if ([BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.TASK_COMPLETED].indexOf(resourceRoadmapBadge.status) >= 0) {
-                await fetchResourceRoadmapBadge({resourceId, roadmapId, badgeId})
+                await fetchResourceRoadmapBadges({resourceId, roadmapId, badgeId})
             }
 
             return response.data.results;
@@ -428,7 +408,6 @@ export const ResourcesProvider = ({children}) => {
             fetchResources,
             fetchResource,
             fetchSelectedResources,
-            fetchResourceRoadmapBadge,
             fetchResourceRoadmapBadges,
             fetchResourceRoadmapBadgeTasks,
             getResource,
