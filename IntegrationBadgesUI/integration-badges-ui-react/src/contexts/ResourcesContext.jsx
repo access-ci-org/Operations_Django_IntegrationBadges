@@ -48,7 +48,7 @@ const ResourcesContext = createContext({
     },
     getOrganizationResourceIds: ({organizationName}) => {
     },
-    setResourceRoadmapBadgeWorkflowStatus: ({resourceId, roadmapId, badgeId, status}) => {
+    setResourceRoadmapBadgeWorkflowStatus: ({resourceId, roadmapId, badgeId, status, comment}) => {
     },
     setResourceRoadmapBadgeTaskWorkflowStatus: ({resourceId, roadmapId, badgeId, taskId, status}) => {
     },
@@ -416,9 +416,9 @@ export const ResourcesProvider = ({children}) => {
         return orgResourceIds;
     }
 
-    const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status}) => {
+    const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status, comment}) => {
         try {
-            const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`,);
+            const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`, {comment});
             await fetchResourceRoadmapBadges({resourceId, roadmapId, badgeId});
 
             return response.data.results;

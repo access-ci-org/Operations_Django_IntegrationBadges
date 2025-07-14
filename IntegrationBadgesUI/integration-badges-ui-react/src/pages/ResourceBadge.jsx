@@ -9,6 +9,7 @@ import Translate from "../locales/Translate.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
 import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBadgeTasks.jsx";
 import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBadgeIcon.jsx";
+import Form from "react-bootstrap/Form";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -32,6 +33,7 @@ export default function ResourceBadge() {
     const {fetchBadge} = useBadges();
     const {fetchBadgeTasks} = useTasks();
 
+    const [comment, setComment] = useState("");
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
     const [showSaveConfirmationModal, setShowSaveConfirmationModal] = useState(false);
     const [showSavedModal, setShowSavedModal] = useState(false);
@@ -57,8 +59,12 @@ export default function ResourceBadge() {
         setShowSaveConfirmationModal(false);
         setBadgeActionStatusProcessing(true);
         try {
-            await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status})
+            await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status, comment})
+            setComment("");
+
             if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
+
+            await fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
         } catch (e) {
             setShowErrorModal(true);
         }
@@ -154,108 +160,120 @@ export default function ResourceBadge() {
 
             </div>
 
-            <div className="w-100 d-flex flex-row pt-5 pb-5">
-                <div className="flex-fill"></div>
-                <div style={{maxWidth: 400}}>
-                    {(() => {
-                        if (badgeActionStatusProcessing) {
-                            return <button className="w-100 btn btn-dark rounded-3">
+            <div className="w-100 pt-5 pb-5">
+                <div className="w-100">
+                    <Form.Group className="mb-3" controlId="resource.roadmap.badge.workflow.comment">
+                        <Form.Label>Comment / Question</Form.Label>
+                        <Form.Control as="textarea" rows={3}
+                                      onChange={(evt) => setComment(evt.target.value)}/>
+                    </Form.Group>
+                </div>
+                <div className="w-100 d-flex flex-row">
+                    <div className="flex-fill"></div>
+                    <div style={{maxWidth: 400}}>
+                        {(() => {
+                            if (badgeActionStatusProcessing) {
+                                return <button className="w-100 btn btn-dark rounded-3">
                                                 <span className="spinner-border spinner-border-sm me-3" role="status"
                                                       aria-hidden="true"></span>
-                                Loading...
-                            </button>
-                        } else if (!badge.status || badge.status === BadgeWorkflowStatus.NOT_PLANNED) {
-                            return <button className="w-100 btn btn-outline-dark rounded-3"
-                                           onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
-                                Add this badge to the resource
-                            </button>
-                        } else if (badge.status === BadgeWorkflowStatus.PLANNED ||
-                            badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
-                            return <button className="w-100 btn btn-outline-dark rounded-3" disabled={!isReadyToSubmit}
-                                           onClick={setShowSaveConfirmationModal.bind(this, true)}>
-                                Submit for Verification
-                            </button>
-                        } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED ||
-                            badge.status === BadgeWorkflowStatus.VERIFIED) {
-                            return <button className="w-100 btn btn-outline-dark rounded-3"
-                                           onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
-                                Reopen
-                            </button>
-                        }
-                    })()}
+                                    Loading...
+                                </button>
+                            } else if (!badge.status || badge.status === BadgeWorkflowStatus.NOT_PLANNED) {
+                                return <button className="w-100 btn btn-outline-dark rounded-3"
+                                               onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
+                                    Add this badge to the resource
+                                </button>
+                            } else if (badge.status === BadgeWorkflowStatus.PLANNED ||
+                                badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
+                                return <button className="w-100 btn btn-outline-dark rounded-3"
+                                               disabled={!isReadyToSubmit}
+                                               onClick={setShowSaveConfirmationModal.bind(this, true)}>
+                                    Submit for Verification
+                                </button>
+                            } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED ||
+                                badge.status === BadgeWorkflowStatus.VERIFIED) {
+                                return <button className="w-100 btn btn-outline-dark rounded-3"
+                                               onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
+                                    Reopen
+                                </button>
+                            }
+                        })()}
 
 
-                    <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
-                        <Modal.Header closeButton className="bg-light">
-                            <Modal.Title>
-                                <i className="bi bi-question-octagon-fill"></i>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            Are you sure that you want to submit this badge for verification?
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button className="btn btn-outline-dark rounded-1"
-                                    onClick={setShowSaveConfirmationModal.bind(this, false)}>
-                                No
-                            </button>
-                            <button className="btn btn-dark rounded-1"
-                                    onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
-                                Yes
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
+                        <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
+                            <Modal.Header closeButton className="bg-light">
+                                <Modal.Title>
+                                    <i className="bi bi-question-octagon-fill"></i>
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                Are you sure that you want to submit this badge for verification?
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <button className="btn btn-outline-dark rounded-1"
+                                        onClick={setShowSaveConfirmationModal.bind(this, false)}>
+                                    No
+                                </button>
+                                <button className="btn btn-dark rounded-1"
+                                        onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.TASK_COMPLETED)}>
+                                    Yes
+                                </button>
+                            </Modal.Footer>
+                        </Modal>
 
-                    <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
-                        <Modal.Header closeButton className="bg-light">
-                            <Modal.Title>
-                                <i className="bi bi-floppy-fill"></i>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            Badge completion has been sent to a concierge for verification.
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button className="btn btn-dark rounded-1"
-                                    onClick={setShowSavedModal.bind(this, false)}>
-                                Exit
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
+                        <Modal show={showSavedModal} onHide={setShowSavedModal.bind(this, false)}>
+                            <Modal.Header closeButton className="bg-light">
+                                <Modal.Title>
+                                    <i className="bi bi-floppy-fill"></i>
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                Badge completion has been sent to a concierge for verification.
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <button className="btn btn-dark rounded-1"
+                                        onClick={setShowSavedModal.bind(this, false)}>
+                                    Exit
+                                </button>
+                            </Modal.Footer>
+                        </Modal>
 
-                    <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
-                        <Modal.Header closeButton className="bg-danger-subtle">
-                            <Modal.Title>
-                                <i className="bi bi-exclamation-triangle-fill"></i>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <p>
-                                You don't have permissions to make this change. If you should have it, please submit an
-                                ACCESS ticket requesting:</p>
+                        <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
+                            <Modal.Header closeButton className="bg-danger-subtle">
+                                <Modal.Title>
+                                    <i className="bi bi-exclamation-triangle-fill"></i>
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <p>
+                                    You don't have permissions to make this change. If you should have it, please submit
+                                    an
+                                    ACCESS ticket requesting:</p>
 
-                            <p>
-                                Integration Dashboard <strong>implementor</strong> permission for the
-                                resource <strong>{resourceId}</strong></p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button className="btn btn-outline-dark rounded-1"
-                                    onClick={setShowErrorModal.bind(this, false)}>
-                                Cancel
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
+                                <p>
+                                    Integration Dashboard <strong>implementor</strong> permission for the
+                                    resource <strong>{resourceId}</strong></p>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <button className="btn btn-outline-dark rounded-1"
+                                        onClick={setShowErrorModal.bind(this, false)}>
+                                    Cancel
+                                </button>
+                            </Modal.Footer>
+                        </Modal>
 
-                    <div className="pt-3 d-flex flex-row">
-                        <div className="text-yellow fs-4 p-2">
-                            <i className="bi bi-megaphone-fill"></i>
+                        <div className="pt-3 d-flex flex-row">
+                            <div className="text-yellow fs-4 p-2">
+                                <i className="bi bi-megaphone-fill"></i>
+                            </div>
+                            <p className="flex-fill ps-1 text-medium">
+                                Once you’ve completed the tasks, please submit them for concierge approval. A concierge
+                                will
+                                review the completed tasks, and you’ll receive a follow-up email with next steps.
+                            </p>
                         </div>
-                        <p className="flex-fill ps-1 text-medium">
-                            Once you’ve completed the tasks, please submit them for concierge approval. A concierge will
-                            review the completed tasks, and you’ll receive a follow-up email with next steps.
-                        </p>
-                    </div>
 
+                    </div>
                 </div>
             </div>
 
