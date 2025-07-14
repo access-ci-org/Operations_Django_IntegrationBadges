@@ -114,7 +114,7 @@ export const ResourcesProvider = ({children}) => {
 
             let resourceRoadmapStatus = await dashboardAxiosInstance.get(url);
             const badgeStatusMap = {...resourceRoadmapBadgeMap};
-            const badgeIds = {...resourceRoadmapBadgeIds};
+            const badgeIds = {};
             for (let j = 0; j < resourceRoadmapStatus.data.results.length; j++) {
                 const badgeStatus = resourceRoadmapStatus.data.results[j];
                 const _badgeId = badgeStatus.badge_id;
@@ -161,7 +161,7 @@ export const ResourcesProvider = ({children}) => {
 
             let resourceRoadmapBadgeLogs = await dashboardAxiosInstance.get(url);
             const _resourceRoadmapBadgeLogMap = {...resourceRoadmapBadgeLogMap};
-            const _resourceRoadmapBadgeLogIds = {...resourceRoadmapBadgeLogIds};
+            const _resourceRoadmapBadgeLogIds = {};
             for (let j = 0; j < resourceRoadmapBadgeLogs.data.results.length; j++) {
                 const badgeLog = resourceRoadmapBadgeLogs.data.results[j];
                 const _logId = badgeLog.id;

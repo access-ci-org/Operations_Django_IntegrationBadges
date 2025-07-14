@@ -260,7 +260,7 @@ export default function ResourceBadge() {
             </div>
 
             <div className="w-100">
-                {logs.map((log, logIndex) => {
+                {logs && logs.map((log, logIndex) => {
                     const logId = log.id;
                     const comment = log.comment;
                     const status = log.status;
