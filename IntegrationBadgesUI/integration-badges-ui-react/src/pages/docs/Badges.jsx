@@ -93,7 +93,7 @@ export default function Badges() {
                                                     {!lastUpdatedBy || lastUpdatedBy === "" ? "" : ` by ${lastUpdatedBy}`}
                                                 </td>
                                                 <td>
-                                                    <Link to={"sdfg"}>View more</Link>
+                                                    <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmap.roadmap_id}/badges/${badge.badge_id}`}>View more</Link>
                                                 </td>
                                             </tr>
                                         }

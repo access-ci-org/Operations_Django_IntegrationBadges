@@ -164,12 +164,18 @@ export default function ResourceBadge() {
                 <div className="w-100">
                     <Form.Group className="mb-3" controlId="resource.roadmap.badge.workflow.comment">
                         <Form.Label>Comment / Question</Form.Label>
-                        <Form.Control as="textarea" rows={3}
+                        <Form.Control as="textarea" rows={3} value={comment}
                                       onChange={(evt) => setComment(evt.target.value)}/>
                     </Form.Group>
                 </div>
                 <div className="w-100 d-flex flex-row">
                     <div className="flex-fill"></div>
+                    <div className="pe-3">
+                        <button className=" btn btn-outline-dark rounded-3" disabled={!comment || comment.length === 0}
+                                onClick={clickBadgeAction.bind(this, null)}>
+                            Add Comment
+                        </button>
+                    </div>
                     <div style={{maxWidth: 400}}>
                         {(() => {
                             if (badgeActionStatusProcessing) {
