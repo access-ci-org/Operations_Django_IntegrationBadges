@@ -16,7 +16,7 @@ export default function ResourceBadgeIcon({resourceId, roadmapId, badgeId}) {
         "undefined": "",
         "not-planned": "",
         "planned": "grayscale",
-        "task-completed": "grayscale",
+        "tasks-completed": "grayscale",
         "verification-failed": "grayscale",
         "verified": "",
         "deprecated": "grayscale"

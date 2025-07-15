@@ -4,7 +4,7 @@ export default {
         "undefined": "Not Started",
         "not-planned": "Not Started",
         "planned": "In Progress",
-        "task-completed": "Pending Verification",
+        "tasks-completed": "Pending Verification",
         "verification-failed": "RP Attention Required",
         "verified": "Available",
         "deprecated": "Deprecated"
@@ -14,7 +14,7 @@ export default {
         "undefined": "Not Planned",
         "not-planned": "Not Planned",
         "planned": "Incomplete - Take Action",
-        "task-completed": "Pending Verification",
+        "tasks-completed": "Pending Verification",
         "verification-failed": "RP attention needed",
         "verified": "Available",
         "deprecated": "Deprecated"

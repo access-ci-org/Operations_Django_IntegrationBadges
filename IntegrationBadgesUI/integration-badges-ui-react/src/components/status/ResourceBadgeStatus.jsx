@@ -10,7 +10,7 @@ export default function ResourceBadgeStatus({resourceId, roadmapId, badgeId}) {
         "undefined": "bg-secondary-subtle",
         "not-planned": "bg-secondary-subtle",
         "planned": "bg-warning-subtle",
-        "task-completed": "bg-warning-subtle",
+        "tasks-completed": "bg-warning-subtle",
         "verification-failed": "bg-danger-subtle",
         "verified": "bg-light",
         "deprecated": "bg-secondary-subtle"
