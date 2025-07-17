@@ -9,6 +9,10 @@ export default {
         "verified": "Available",
         "deprecated": "Deprecated"
     },
+    "badgeWorkflowVerificationStatus": {
+        "tasks-completed": "Pending Verifications",
+        "verification-failed": "RP Attention Required"
+    },
     "badgePrerequisiteActionLabel": {
         "": "Not Planned",
         "undefined": "Not Planned",

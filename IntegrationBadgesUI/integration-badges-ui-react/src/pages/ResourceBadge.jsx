@@ -48,7 +48,7 @@ export default function ResourceBadge() {
 
     useEffect(() => {
         fetchResource({resourceId});
-        fetchResourceRoadmapBadges({resourceId, roadmapId});
+        fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId});
         fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
         fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
         fetchBadge({badgeId});

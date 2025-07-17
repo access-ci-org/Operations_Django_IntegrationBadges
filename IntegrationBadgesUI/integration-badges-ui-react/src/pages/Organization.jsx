@@ -6,6 +6,8 @@ import {ResourceStatus, useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/LoadingBlock";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import OrgBadgeVerificationStatus from "../components/status/OrgBadgeVerificationStatus.jsx";
+import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -16,7 +18,7 @@ export default function Organization() {
     const {organizationId} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
-        fetchSelectedResources,
+        fetchSelectedResources, fetchResourceRoadmapBadges,
         getResource, getResourceRoadmaps, getOrganizationResourceIds
     } = useResources();
 
@@ -42,6 +44,7 @@ export default function Organization() {
                 }
             }
 
+            fetchResourceRoadmapBadges({resourceIds});
             fetchSelectedResources({resourceIds});
             setResourceFetchedMap({
                 ...resourceFetchedMap,
@@ -108,7 +111,7 @@ export default function Organization() {
     if (organization && orgResourceIds && orgResourceIds.length > 0) {
         return <div className="container">
             <div className="row">
-                <div className="col-sm-2 col-m-3 col-sm-4 bg-white" style={{
+                <div className="col-sm-2 col-m-3 col-lg-4 bg-white" style={{
                     backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
@@ -116,12 +119,25 @@ export default function Organization() {
                     height: "200px"
                 }}>
                 </div>
-                <h1 className="col" style={{
-                    margin: "0px",
-                    lineHeight: "200px"
-                }}>
-                    {organization.organization_name}
-                </h1>
+                <div className="col d-flex flex-row">
+                    <div className="flex-fill align-content-center">
+                        <h1 style={{
+                            margin: "0px",
+                            textAlign: "start",
+                        }}>
+                            {organization.organization_name}
+                        </h1>
+                    </div>
+                    <div className="align-content-center">
+                        <div className="border-start ps-5 pe-3">
+                            <h2>Badge Verification <br/>Status</h2>
+                            <OrgBadgeVerificationStatus organizationName={organization.organization_name}
+                                                        badgeWorkflowStatus={BadgeWorkflowStatus.TASK_COMPLETED}/>
+                            <OrgBadgeVerificationStatus organizationName={organization.organization_name}
+                                                        badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
+                        </div>
+                    </div>
+                </div>
                 <div className="col-12">
                     <div className="input-group mb-3 search-input">
                         <span className="input-group-text">

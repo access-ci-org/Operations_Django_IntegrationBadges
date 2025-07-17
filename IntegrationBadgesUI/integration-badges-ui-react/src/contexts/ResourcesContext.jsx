@@ -20,7 +20,7 @@ const ResourcesContext = createContext({
     },
     fetchResource: ({resourceId}) => {
     },
-    fetchResourceRoadmapBadges: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    fetchResourceRoadmapBadges: ({resourceIds = [null], roadmapId = null, badgeId = null} = {}) => {
     },
     fetchResourceRoadmapBadgeLogs: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
     },
@@ -96,47 +96,56 @@ export const ResourcesProvider = ({children}) => {
     };
 
 
-    const fetchResourceRoadmapBadges = async ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    const fetchResourceRoadmapBadges = async ({resourceIds = [null], roadmapId = null, badgeId = null} = {}) => {
         try {
-            let url = `/resource_roadmap_badges/?`;
+            const responses = await Promise.all(resourceIds.map(resourceId => {
+                let url = `/resource_roadmap_badges/?`;
 
-            if (!!resourceId) {
-                url += `info_resourceid=${resourceId}&`
-            }
-
-            if (!!roadmapId) {
-                url += `roadmap_id=${roadmapId}&`
-            }
-
-            if (!!badgeId) {
-                url += `badge_id=${badgeId}`
-            }
-
-            let resourceRoadmapStatus = await dashboardAxiosInstance.get(url);
-            const badgeStatusMap = {...resourceRoadmapBadgeMap};
-            const badgeIds = {};
-            for (let j = 0; j < resourceRoadmapStatus.data.results.length; j++) {
-                const badgeStatus = resourceRoadmapStatus.data.results[j];
-                const _badgeId = badgeStatus.badge_id;
-                const _resourceId = badgeStatus.info_resourceid;
-                const _roadmapId = badgeStatus.roadmap_id;
-
-                badgeIds[_resourceId] = {...badgeIds[_resourceId]};
-                if (!!badgeIds[_resourceId][_roadmapId]) {
-                    badgeIds[_resourceId][_roadmapId] = [...badgeIds[_resourceId][_roadmapId], _badgeId];
-                } else {
-                    badgeIds[_resourceId][_roadmapId] = [_badgeId];
+                if (!!resourceId) {
+                    url += `info_resourceid=${resourceId}&`
                 }
 
-                badgeStatusMap[_resourceId] = {...badgeStatusMap[_resourceId]}
-                badgeStatusMap[_resourceId][_roadmapId] = {...badgeStatusMap[_resourceId][_roadmapId]}
-                badgeStatusMap[_resourceId][_roadmapId][_badgeId] = badgeStatus;
+                if (!!roadmapId) {
+                    url += `roadmap_id=${roadmapId}&`
+                }
+
+                if (!!badgeId) {
+                    url += `badge_id=${badgeId}`
+                }
+
+                return dashboardAxiosInstance.get(url);
+            }));
+
+            const badgeStatusMap = {...resourceRoadmapBadgeMap};
+            const badgeIds = {...resourceRoadmapBadgeIds};
+            for (let response of responses) {
+                for (let j = 0; j < response.data.results.length; j++) {
+                    const badgeStatus = response.data.results[j];
+                    const _badgeId = badgeStatus.badge_id;
+                    const _resourceId = badgeStatus.info_resourceid;
+                    const _roadmapId = badgeStatus.roadmap_id;
+
+                    if (!badgeIds[_resourceId]) {
+                        badgeIds[_resourceId] = {};
+                    }
+
+                    badgeIds[_resourceId] = {...badgeIds[_resourceId]};
+                    if (!badgeIds[_resourceId][_roadmapId]) {
+                        badgeIds[_resourceId][_roadmapId] = [_badgeId];
+                    } else if (badgeIds[_resourceId][_roadmapId].indexOf(_badgeId) < 0) {
+                        badgeIds[_resourceId][_roadmapId] = [...badgeIds[_resourceId][_roadmapId], _badgeId];
+                    }
+
+                    badgeStatusMap[_resourceId] = {...badgeStatusMap[_resourceId]};
+                    badgeStatusMap[_resourceId][_roadmapId] = {...badgeStatusMap[_resourceId][_roadmapId]};
+                    badgeStatusMap[_resourceId][_roadmapId][_badgeId] = badgeStatus;
+                }
             }
 
             setResourceRoadmapBadgeMap(badgeStatusMap);
-            setResourceRoadmapBadgeIds(badgeIds)
+            setResourceRoadmapBadgeIds(badgeIds);
 
-            return resourceRoadmapStatus;
+            return responses;
         } catch (error) {
             console.log(error)
             return error;
@@ -419,7 +428,7 @@ export const ResourcesProvider = ({children}) => {
     const setResourceRoadmapBadgeWorkflowStatus = async ({resourceId, roadmapId, badgeId, status, comment}) => {
         try {
             const response = await dashboardAxiosInstance.post(`/resource/${resourceId}/roadmap/${roadmapId}/badge/${badgeId}/workflow/${status}/`, {comment});
-            await fetchResourceRoadmapBadges({resourceId, roadmapId, badgeId});
+            await fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId, badgeId});
 
             return response.data.results;
         } catch (error) {
@@ -435,7 +444,7 @@ export const ResourcesProvider = ({children}) => {
 
             let resourceRoadmapBadge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
             if ([BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.TASK_COMPLETED].indexOf(resourceRoadmapBadge.status) >= 0) {
-                await fetchResourceRoadmapBadges({resourceId, roadmapId, badgeId})
+                await fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId, badgeId})
             }
 
             return response.data.results;
