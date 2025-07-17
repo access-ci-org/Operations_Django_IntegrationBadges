@@ -14,9 +14,9 @@ const ResourcesContext = createContext({
     // resourceRoadmapBadgeMap: {},
     // resourceRoadmapBadgeTaskMap: {},
     // resourceOrgMap: {},
-    fetchResources: ({resourceIds = null} = {}) => {
+    fetchResources: ({resourceIds = []} = {}) => {
     },
-    fetchSelectedResources: ({resourceIds = null} = {}) => {
+    fetchSelectedResources: ({resourceIds = []} = {}) => {
     },
     fetchResource: ({resourceId}) => {
     },
@@ -232,7 +232,7 @@ export const ResourcesProvider = ({children}) => {
         }
     };
 
-    const fetchSelectedResources = async ({resourceIds}) => {
+    const fetchSelectedResources = async ({resourceIds = []}) => {
         try {
             let responseList = await Promise.all(resourceIds.map(resourceId => {
                 return dashboardAxiosInstance.get(`/resource/${resourceId}`);
@@ -264,7 +264,7 @@ export const ResourcesProvider = ({children}) => {
         }
     };
 
-    const fetchResources = async ({resourceIds = null} = {}) => {
+    const fetchResources = async ({resourceIds = []} = {}) => {
         try {
             if (resourceIds) {
                 return fetchSelectedResources({resourceIds});
