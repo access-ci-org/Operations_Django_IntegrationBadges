@@ -14,7 +14,7 @@ const ResourcesContext = createContext({
     // resourceRoadmapBadgeMap: {},
     // resourceRoadmapBadgeTaskMap: {},
     // resourceOrgMap: {},
-    fetchResources: ({resourceIds = []} = {}) => {
+    fetchResources: ({resourceIds = null} = {}) => {
     },
     fetchSelectedResources: ({resourceIds = []} = {}) => {
     },
@@ -264,7 +264,7 @@ export const ResourcesProvider = ({children}) => {
         }
     };
 
-    const fetchResources = async ({resourceIds = []} = {}) => {
+    const fetchResources = async ({resourceIds = null} = {}) => {
         try {
             if (resourceIds) {
                 return fetchSelectedResources({resourceIds});

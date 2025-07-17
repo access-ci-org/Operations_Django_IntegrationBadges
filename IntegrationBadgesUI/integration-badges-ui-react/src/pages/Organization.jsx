@@ -111,13 +111,15 @@ export default function Organization() {
     if (organization && orgResourceIds && orgResourceIds.length > 0) {
         return <div className="container">
             <div className="row">
-                <div className="col-sm-2 col-m-3 col-lg-4 bg-white" style={{
-                    backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "contain",
-                    backgroundPosition: "center",
-                    height: "200px"
-                }}>
+                <div className="col-sm-2 col-m-3 col-lg-4 p-3">
+                    <div className="w-100 bg-white" style={{
+                        backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "contain",
+                        backgroundPosition: "center",
+                        height: "200px"
+                    }}>
+                    </div>
                 </div>
                 <div className="col d-flex flex-row">
                     <div className="flex-fill align-content-center">
