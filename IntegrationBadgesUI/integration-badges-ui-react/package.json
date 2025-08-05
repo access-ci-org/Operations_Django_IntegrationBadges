@@ -1,7 +1,7 @@
 {
   "name": "integration-badges-ui-react",
   "private": true,
-  "version": "1.0.28",
+  "version": "1.0.29",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "preversion": "mkdir -p .git",
-    "version": "mkdir -p .git && npm run build && git add -A ../static",
+    "version": "npm run build && git add -A ../static",
     "postversion": "git push && git push --tags && rmdir -p .git"
   },
   "dependencies": {
