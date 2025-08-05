@@ -11,7 +11,8 @@ dashboardAxiosInstance.interceptors.request.use(
             try {
                 newToken = await getNewToken();
             } catch (e) {
-                newToken = "<no-valid-token-received-from-dashboard>"
+                // newToken = "<no-valid-token-received-from-dashboard>"
+                window.location = "/login";
             }
 
             // Update the Authorization header
