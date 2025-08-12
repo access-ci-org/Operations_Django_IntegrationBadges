@@ -20,6 +20,7 @@ import LoadingBlock from "./components/LoadingBlock";
 import ResourceEdit from "./pages/ResourceEdit.jsx";
 import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
+import OrganizationBadgeReview from "./pages/OrganizationBadgeReview.jsx";
 
 const RouterLayout = () => {
     const {fetchOrganizations, getOrganizations} = useOrganizations();
@@ -74,6 +75,8 @@ function App() {
                                                     <Route path="/organizations" element={<IntegrationDashboard/>}/>
                                                     <Route path="/organizations/:organizationId"
                                                            element={<Organization/>}/>
+                                                    <Route path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
+                                                           element={<OrganizationBadgeReview/>}/>
 
                                                     <Route path="/resources/new" element={<NewResource/>}/>
 
