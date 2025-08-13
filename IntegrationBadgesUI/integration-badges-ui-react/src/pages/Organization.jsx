@@ -134,8 +134,6 @@ export default function Organization() {
                         <div className="border-start ps-5 pe-3">
                             <h2>Badge Verification <br/>Status</h2>
                             <OrgBadgeVerificationStatus organizationId={organizationId}
-                                                        badgeWorkflowStatus={BadgeWorkflowStatus.TASK_COMPLETED}/>
-                            <OrgBadgeVerificationStatus organizationId={organizationId}
                                                         badgeWorkflowStatus={BadgeWorkflowStatus.VERIFICATION_FAILED}/>
                         </div>
                     </div>
