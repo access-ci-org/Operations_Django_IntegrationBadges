@@ -74,8 +74,10 @@ export default function OrganizationBadgeReview() {
                 <h1><Translate>badgeWorkflowVerificationStatus.{badgeWorkflowStatus}</Translate></h1>
             </div>
             <div className="w-100 d-flex flex-row">
-                <div className="bg-warning-subtle ps-4"></div>
-                <div className="flex-fill bg-warning-subtle rounded-2 p-3 bg-opacity-50">
+                <div className="bg-warning bg-opacity-25 p-2 pt-3 rounded-start-2">
+                    <i className="bi bi-info-circle"></i>
+                </div>
+                <div className="flex-fill bg-warning rounded-end-2 p-3 bg-opacity-10">
                     <h3>COMMENTS:</h3>
                     <p>
                         These badges were returned with feedback. Please click and “view details” for each and revise

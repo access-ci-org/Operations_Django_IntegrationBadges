@@ -28,5 +28,11 @@ $theme-colors: (
   "dark": $access-dark,
   "light": $access-light,
   "primary": $access-yellow,
-  "secondary": $access-secondary
+  "secondary": $access-secondary,
+
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
 );
+
