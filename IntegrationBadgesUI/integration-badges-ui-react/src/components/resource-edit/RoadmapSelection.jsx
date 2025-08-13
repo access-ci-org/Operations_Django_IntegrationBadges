@@ -25,8 +25,7 @@ export default function RoadmapSelection({resourceId, selected, toggle, prev, ne
                 </p>
                 <p>
                     Select the roadmap that best aligns with your operational goals under the infrastructure class you
-                    wish
-                    to integrate. Let’s help you achieve the ACCESS allocated status and beyond.
+                    wish to integrate. Let’s help you achieve the ACCESS allocated status and beyond.
                 </p>
             </div>
             <div className="row pt-5">

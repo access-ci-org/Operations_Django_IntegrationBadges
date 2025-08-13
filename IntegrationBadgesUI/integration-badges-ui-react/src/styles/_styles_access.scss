@@ -72,7 +72,7 @@ body {
 }
 
 .bg-dark {
-  background-color: $access-dark  !important;
+  background-color: $access-dark !important;
 
   @extend .text-light;
 
@@ -90,11 +90,11 @@ body {
 }
 
 .bg-medium {
-  background-color: $access-medium  !important;
+  background-color: $access-medium !important;
 }
 
 .bg-light {
-  background-color: $access-light  !important;
+  background-color: $access-light !important;
 
   @extend .text-dark;
 }
@@ -219,7 +219,7 @@ h3, .h3 {
   font-size: 20px;
   font-stretch: 50%;
   font-weight: 800;
-  color: $access-medium  !important;
+  color: $access-medium !important;
   //text-transform: uppercase;
 }
 
@@ -264,7 +264,7 @@ h4, .h4 {
       font-weight: bold;
       background-color: transparent;
       border: none;
-      color: $access-medium  !important;
+      color: $access-medium !important;
     }
   }
 
@@ -294,4 +294,8 @@ h4, .h4 {
 
 a.badge {
   text-decoration: none;
+}
+
+.pre-wrap-text {
+  white-space: pre-wrap;
 }

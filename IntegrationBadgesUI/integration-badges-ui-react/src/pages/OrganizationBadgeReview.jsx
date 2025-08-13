@@ -73,7 +73,7 @@ export default function OrganizationBadgeReview() {
             <div className="row">
                 <h1><Translate>badgeWorkflowVerificationStatus.{badgeWorkflowStatus}</Translate></h1>
             </div>
-            <div className="w-100 d-flex flex-row">
+            <div className="w-100 d-flex flex-row pb-3 pt-3">
                 <div className="bg-warning bg-opacity-25 p-2 pt-3 rounded-start-2">
                     <i className="bi bi-info-circle"></i>
                 </div>

@@ -77,6 +77,20 @@ export default function ResourceBadge() {
             prerequisiteBadges.filter(pb => pb.status !== BadgeWorkflowStatus.VERIFIED).length === 0;
 
         return <div className="container">
+
+            {badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED &&
+                <div className="w-100 d-flex flex-row pb-3 pt-3">
+                    <div className="bg-warning bg-opacity-25 p-2 pt-3 rounded-start-2">
+                        <i className="bi bi-info-circle"></i>
+                    </div>
+                    <div className="flex-fill bg-warning rounded-end-2 p-3 bg-opacity-10">
+                        <h3>Badge Returned</h3>
+                        <p className="pre-wrap-text">
+                            {badge.comment}
+                        </p>
+                    </div>
+                </div>}
+
             <div className="row">
                 <div className="col-sm-12">
                     <div className="row">
@@ -294,7 +308,7 @@ export default function ResourceBadge() {
                     return <div className="row" key={logIndex}>
                         <div className="col">{logId}</div>
                         <div className="col">{status}</div>
-                        <div className="col">{comment}</div>
+                        <div className="col pre-wrap-text">{comment}</div>
                         <div className="col">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
                     </div>
                 })}

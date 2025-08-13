@@ -25,7 +25,7 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                     </div>
                 </div>
                 <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center">{roadmap.name}</h3>
-                <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill">
+                <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill pre-wrap-text">
                     {roadmap.executive_summary}
                 </p>
 
