@@ -76,16 +76,17 @@ export default function ResourceBadge() {
         const isReadyToSubmit = tasks.filter(t => !t.status).length === 0 &&
             prerequisiteBadges.filter(pb => pb.status !== BadgeWorkflowStatus.VERIFIED).length === 0;
 
+        const lastUpdatedAt = new Date(Date.parse(badge.status_updated_at));
+        const lastUpdatedBy = badge.status_updated_by;
+
         return <div className="container">
 
             {badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED &&
                 <div className="w-100 d-flex flex-row pb-3 pt-3">
-                    <div className="bg-warning bg-opacity-25 p-2 pt-3 rounded-start-2">
-                        <i className="bi bi-info-circle"></i>
-                    </div>
-                    <div className="flex-fill bg-warning rounded-end-2 p-3 bg-opacity-10">
+                    <div className="flex-fill bg-warning rounded-2 p-3 bg-opacity-10">
                         <h3>Badge Returned</h3>
-                        <p className="pre-wrap-text">
+                        <div className="text-secondary pb-4 small">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
+                        <p className="pre-wrap-text m-0">
                             {badge.comment}
                         </p>
                     </div>
