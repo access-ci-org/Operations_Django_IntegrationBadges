@@ -10,6 +10,8 @@ import ResourceBadgePrerequisites from "../components/resource/resource-badge/Re
 import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBadgeTasks.jsx";
 import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import Form from "react-bootstrap/Form";
+import Debug from "../components/Debug.jsx";
+import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadgeLog.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -20,15 +22,12 @@ export default function ResourceBadge() {
         fetchResource,
         fetchResourceRoadmapBadges,
         fetchResourceRoadmapBadgeTasks,
-        fetchResourceRoadmapBadgeLogs,
         getResource,
         getResourceRoadmapBadge,
         getResourceRoadmapBadgePrerequisites,
         getResourceOrganization,
         getResourceRoadmapBadgeTasks,
-        getResourceRoadmapBadgeLogs,
         setResourceRoadmapBadgeWorkflowStatus,
-        setResourceRoadmapBadgeTaskWorkflowStatus
     } = useResources();
     const {fetchBadge} = useBadges();
     const {fetchBadgeTasks} = useTasks();
@@ -42,7 +41,6 @@ export default function ResourceBadge() {
     const resource = getResource({resourceId});
     const organization = getResourceOrganization({resourceId});
     let badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});
-    let logs = getResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
     let tasks = getResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
     let prerequisiteBadges = getResourceRoadmapBadgePrerequisites({resourceId, roadmapId, badgeId});
 
@@ -50,7 +48,6 @@ export default function ResourceBadge() {
         fetchResource({resourceId});
         fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId});
         fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
-        fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
         fetchBadge({badgeId});
         fetchBadgeTasks({badgeId});
     }, [resourceId, badgeId]);
@@ -63,8 +60,6 @@ export default function ResourceBadge() {
             setComment("");
 
             if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
-
-            await fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
         } catch (e) {
             setShowErrorModal(true);
         }
@@ -85,7 +80,8 @@ export default function ResourceBadge() {
                 <div className="w-100 d-flex flex-row pb-3 pt-3">
                     <div className="flex-fill bg-warning rounded-2 p-3 bg-opacity-10">
                         <h3>Badge Returned</h3>
-                        <div className="text-secondary pb-4 small">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
+                        <div
+                            className="text-secondary pb-4 small">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
                         <p className="pre-wrap-text m-0">
                             {badge.comment}
                         </p>
@@ -298,22 +294,9 @@ export default function ResourceBadge() {
                 </div>
             </div>
 
-            <div className="w-100">
-                {logs && logs.map((log, logIndex) => {
-                    const logId = log.id;
-                    const comment = log.comment;
-                    const status = log.status;
-                    const lastUpdatedAt = new Date(Date.parse(log.status_updated_at));
-                    const lastUpdatedBy = log.status_updated_by;
-
-                    return <div className="row" key={logIndex}>
-                        <div className="col">{logId}</div>
-                        <div className="col">{status}</div>
-                        <div className="col pre-wrap-text">{comment}</div>
-                        <div className="col">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
-                    </div>
-                })}
-            </div>
+            <Debug>
+                <ResourceBadgeLog resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
+            </Debug>
         </div>
     }
 }
