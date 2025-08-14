@@ -1,8 +1,8 @@
-import  './App.scss';
+import './App.scss';
 import './styles/style.scss';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {Outlet, Route, Routes, BrowserRouter, useParams, Navigate} from 'react-router-dom';
+import {Outlet, Route, Routes, BrowserRouter, useParams, Navigate, useLocation} from 'react-router-dom';
 import {BadgeProvider, useBadges} from "./contexts/BadgeContext";
 import {ResourcesProvider, useResources} from "./contexts/ResourcesContext";
 import NewResource from "./pages/NewResource";
@@ -23,6 +23,10 @@ import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
 import OrganizationBadgeReview from "./pages/OrganizationBadgeReview.jsx";
 
 const RouterLayout = () => {
+    const location = useLocation();
+    const pathname = location.pathname;
+    const initialFetchesAreRequired = !(/^\/docs/i.exec(pathname));
+
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
@@ -34,11 +38,13 @@ const RouterLayout = () => {
     const badges = getBadges();
 
     useEffect(() => {
-        fetchOrganizations();
-        fetchResources();
-        fetchRoadmaps();
-        fetchBadges();
-    }, []);
+        if (initialFetchesAreRequired) {
+            fetchOrganizations();
+            fetchResources();
+            fetchRoadmaps();
+            fetchBadges();
+        }
+    }, [initialFetchesAreRequired]);
 
     let isDataReady = (organizations && organizations.length > 0)
         && (resources && resources.length > 0)
@@ -50,7 +56,7 @@ const RouterLayout = () => {
             <div className="container">
                 <CustomizedBreadcrumb/>
             </div>
-            {isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
+            {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
         </div>
     );
 };
@@ -72,11 +78,13 @@ function App() {
                                         <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
                                             <Routes>
                                                 <Route path="/" element={<RouterLayout/>}>
+
                                                     <Route path="/organizations" element={<IntegrationDashboard/>}/>
                                                     <Route path="/organizations/:organizationId"
                                                            element={<Organization/>}/>
-                                                    <Route path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
-                                                           element={<OrganizationBadgeReview/>}/>
+                                                    <Route
+                                                        path="/organizations/:organizationId/badge-review/:badgeWorkflowStatus"
+                                                        element={<OrganizationBadgeReview/>}/>
 
                                                     <Route path="/resources/new" element={<NewResource/>}/>
 
@@ -93,9 +101,7 @@ function App() {
                                                         path="/resources/:resourceId/roadmaps/:roadmapId/badges/:badgeId"
                                                         element={<ResourceBadge/>}/>
 
-
                                                     {DocumentationRoute}
-
 
                                                     <Route path="/*?"
                                                            element={<Navigate to="/organizations" replace={true}/>}/>
