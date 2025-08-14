@@ -181,12 +181,12 @@ export default function ResourceBadge() {
                 </div>
                 <div className="w-100 d-flex flex-row">
                     <div className="flex-fill"></div>
-                    <div className="pe-3">
-                        <button className=" btn btn-outline-dark rounded-3" disabled={!comment || comment.length === 0}
-                                onClick={clickBadgeAction.bind(this, null)}>
-                            Add Comment
-                        </button>
-                    </div>
+                    {/*<div className="pe-3">*/}
+                    {/*    <button className=" btn btn-outline-dark rounded-3" disabled={!comment || comment.length === 0}*/}
+                    {/*            onClick={clickBadgeAction.bind(this, null)}>*/}
+                    {/*        Add Comment*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
                     <div style={{maxWidth: 400}}>
                         {(() => {
                             if (badgeActionStatusProcessing) {
