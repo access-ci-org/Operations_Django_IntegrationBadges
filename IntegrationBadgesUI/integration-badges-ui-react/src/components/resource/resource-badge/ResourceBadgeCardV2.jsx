@@ -36,13 +36,13 @@ export default function ResourceBadgeCardV2({resourceId, roadmapId, badgeId}) {
                     </div>
                     <div className="flex-fill p-3 border border-1 border-start-0 rounded-end-1">
                         <div>
-                            <strong>Resource Type : </strong> sdfsf
+                            <strong>Resource Type : </strong> {resource.cider_type}
                         </div>
                         <div>
-                            <strong>Resource Name : </strong> sdfsf
+                            <strong>Resource Name : </strong> {resource.resource_descriptive_name}
                         </div>
                         <div>
-                            <strong>Number of tasks : </strong> sdfsf
+                            <strong>Roadmap : </strong> {roadmap.name}
                         </div>
                     </div>
                 </div>
