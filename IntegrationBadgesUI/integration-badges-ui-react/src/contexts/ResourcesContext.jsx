@@ -20,7 +20,12 @@ const ResourcesContext = createContext({
     },
     fetchResource: ({resourceId}) => {
     },
-    fetchResourceRoadmapBadges: ({resourceIds = [null], roadmapId = null, badgeId = null} = {}) => {
+    fetchResourceRoadmapBadges: ({
+                                     resourceIds = [null],
+                                     roadmapId = null,
+                                     badgeId = null,
+                                     badgeWorkflowStatus = null
+                                 } = {}) => {
     },
     fetchResourceRoadmapBadgeLogs: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
     },
@@ -96,7 +101,12 @@ export const ResourcesProvider = ({children}) => {
     };
 
 
-    const fetchResourceRoadmapBadges = async ({resourceIds = [null], roadmapId = null, badgeId = null} = {}) => {
+    const fetchResourceRoadmapBadges = async ({
+                                                  resourceIds = [null],
+                                                  roadmapId = null,
+                                                  badgeId = null,
+                                                  badgeWorkflowStatus = null
+                                              } = {}) => {
         try {
             const responses = await Promise.all(resourceIds.map(resourceId => {
                 let url = `/resource_roadmap_badges/?`;
@@ -111,6 +121,10 @@ export const ResourcesProvider = ({children}) => {
 
                 if (!!badgeId) {
                     url += `badge_id=${badgeId}`
+                }
+
+                if (!!badgeWorkflowStatus) {
+                    url += `badge_workflow_status=${badgeWorkflowStatus}`
                 }
 
                 return dashboardAxiosInstance.get(url);
@@ -308,6 +322,8 @@ export const ResourcesProvider = ({children}) => {
 
 
     const getResource = ({resourceId}) => {
+        // console.log("##### resourceId ", resourceId)
+        // console.log("##### resourceMap ", resourceMap)
         return resourceMap[resourceId];
     }
 

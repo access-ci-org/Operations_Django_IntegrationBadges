@@ -21,6 +21,7 @@ import ResourceEdit from "./pages/ResourceEdit.jsx";
 import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
 import OrganizationBadgeReview from "./pages/OrganizationBadgeReview.jsx";
+import {ConciergeRoute} from "./pages/concierge/ConciergeRoute.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -102,6 +103,7 @@ function App() {
                                                         element={<ResourceBadge/>}/>
 
                                                     {DocumentationRoute}
+                                                    {ConciergeRoute}
 
                                                     <Route path="/*?"
                                                            element={<Navigate to="/organizations" replace={true}/>}/>
