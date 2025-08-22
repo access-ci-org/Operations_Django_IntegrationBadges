@@ -5,6 +5,7 @@ import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
+import Concierge from "../../Concierge.jsx";
 
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
@@ -20,22 +21,26 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     const taskId = task.task_id;
 
 
-    const clickTaskAction = async (taskId, status) => {
-        setShowTaskReopenModal(false);
+    const clickTaskAction = async (taskId, status, confirmationReceived = false) => {
+        if ((badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) && !confirmationReceived) {
+            setShowTaskReopenModal({taskId, status});
+        } else {
+            setShowTaskReopenModal(false);
 
-        setTaskActionStatusProcessing({
-            ...taskActionStatusProcessing, [taskId]: true
-        });
+            setTaskActionStatusProcessing({
+                ...taskActionStatusProcessing, [taskId]: true
+            });
 
-        try {
-            await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
-        } catch (e) {
-            setShowErrorModal(true);
+            try {
+                await setResourceRoadmapBadgeTaskWorkflowStatus({resourceId, roadmapId, badgeId, taskId, status})
+            } catch (e) {
+                setShowErrorModal(true);
+            }
+
+            setTaskActionStatusProcessing({
+                ...taskActionStatusProcessing, [taskId]: false
+            });
         }
-
-        setTaskActionStatusProcessing({
-            ...taskActionStatusProcessing, [taskId]: false
-        });
     };
 
     const isCurrentEventKey = activeEventKey.indexOf(eventKey) >= 0;
@@ -62,44 +67,37 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
         {badge.status ?
             <div className="col-sm-3 pt-2 pb-2 align-content-center">
                 <Dropdown>
-                    <Dropdown.Toggle variant={task.status ? 'outline-dark' : 'dark'}
+                    <Dropdown.Toggle variant={task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED? "danger" : task.status ? 'outline-dark' : 'dark'}
                                      id="dropdown-basic"
                                      bsPrefix="w-100 btn-sm rounded-3 d-flex flex-row">
                                             <span className="flex-fill text-start">
                                                 {!task.status ? <i className="bi bi-layers"></i> :
                                                     <i className="bi bi-check-circle-fill"></i>}
-                                                <span
-                                                    className="ps-3 pe-3">{!task.status ? "Incomplete" : task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED ? "Not Applicable" : "Completed"}</span>
+                                                <span className="ps-3 pe-3">
+                                                    {!task.status && "Incomplete"}
+                                                    {task.status === BadgeTaskWorkflowStatus.NOT_COMPLETED && "Not Applicable"}
+                                                    {task.status === BadgeTaskWorkflowStatus.COMPLETED && "Completed"}
+                                                    {task.status === BadgeTaskWorkflowStatus.ACTION_NEEDED && "Action Needed"}
+                                                </span>
                                             </span>
                         <span>
                                                 <i className="bi bi-chevron-down"></i>
                                             </span>
                     </Dropdown.Toggle>
 
-                    {(badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) &&
-                        <Dropdown.Menu>
-                            <Dropdown.Item
-                                onClick={setShowTaskReopenModal.bind(this, {
-                                    taskId, status: BadgeTaskWorkflowStatus.COMPLETED
-                                })}>
-                                Completed</Dropdown.Item>
-                            <Dropdown.Item
-                                onClick={setShowTaskReopenModal.bind(this, {
-                                    taskId, status: BadgeTaskWorkflowStatus.NOT_COMPLETED
-                                })}>
-                                Not Applicable</Dropdown.Item>
-                        </Dropdown.Menu>}
-
-
-                    {(badge.status === BadgeWorkflowStatus.PLANNED || badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) &&
-                        <Dropdown.Menu>
-                            <Dropdown.Item
-                                onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.COMPLETED)}>
-                                Completed</Dropdown.Item>
-                            <Dropdown.Item
-                                onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED)}>
-                                Not Applicable</Dropdown.Item>
-                        </Dropdown.Menu>}
+                    <Dropdown.Menu>
+                        <Dropdown.Item
+                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.COMPLETED, false)}>
+                            Completed</Dropdown.Item>
+                        <Dropdown.Item
+                            onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.NOT_COMPLETED, false)}>
+                            Not Applicable</Dropdown.Item>
+                        <Concierge>
+                            <Dropdown.Item className="bg-danger-subtle"
+                                           onClick={clickTaskAction.bind(this, taskId, BadgeTaskWorkflowStatus.ACTION_NEEDED, false)}>
+                                Action Needed</Dropdown.Item>
+                        </Concierge>
+                    </Dropdown.Menu>
                 </Dropdown>
             </div> :
             null}
@@ -118,12 +116,13 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                 Do you want to continue?
             </Modal.Body>
             <Modal.Footer>
+                {JSON.stringify(showTaskReopenModal)}
                 <button className="btn btn-outline-dark rounded-1"
                         onClick={setShowTaskReopenModal.bind(this, false)}>
                     No
                 </button>
                 <button className="btn btn-dark rounded-1"
-                        onClick={clickTaskAction.bind(this, showTaskReopenModal.taskId, showTaskReopenModal.status)}>
+                        onClick={clickTaskAction.bind(this, showTaskReopenModal.taskId, showTaskReopenModal.status, true)}>
                     Yes
                 </button>
             </Modal.Footer>

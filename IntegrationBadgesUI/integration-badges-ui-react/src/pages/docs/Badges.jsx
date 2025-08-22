@@ -57,9 +57,6 @@ export default function Badges() {
                 {tabs.map((tabBadgeStatus, tabIndex) => {
                     const tabBadges = tabBadgesMap[tabBadgeStatus];
 
-                    console.log(`##### tabBadges for ${tabBadgeStatus} : `, tabBadges);
-                    console.log(`#####        [${tabBadgeStatus}] `, [tabIndex, activeTabIndex, tabIndex == activeTabIndex])
-
                     return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
                         <div className="w-100 pt-2 pb-5 row">
                             {tabBadges && tabBadges.length !== 0 &&

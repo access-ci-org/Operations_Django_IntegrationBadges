@@ -12,6 +12,7 @@ import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBad
 import Form from "react-bootstrap/Form";
 import Debug from "../components/Debug.jsx";
 import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadgeLog.jsx";
+import Concierge from "../components/Concierge.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -171,6 +172,25 @@ export default function ResourceBadge() {
 
             </div>
 
+
+            <Concierge>
+                <div className="w-100 pt-4">
+                    <h3 className="text-black">Reviewer Notes Section</h3>
+                    <p>
+                        Please review each task to see if it’s complete. If a task is complete, mark it as Approve. If
+                        it’s not complete or needs corrections, mark it as Needs Action and send a message to the
+                        resource provider for guidance.
+                    </p>
+                    <p className="pt-2 pb-2">
+                        <strong className="text-medium">Verification Method : </strong> {badge.verification_method}
+                    </p>
+                    <p>
+                        <strong className="text-medium">Verification Summary : </strong>
+                        {badge.verification_summary}
+                    </p>
+                </div>
+            </Concierge>
+
             <div className="w-100 pt-5 pb-5">
                 <div className="w-100">
                     <Form.Group className="mb-3" controlId="resource.roadmap.badge.workflow.comment">
@@ -187,34 +207,47 @@ export default function ResourceBadge() {
                     {/*        Add Comment*/}
                     {/*    </button>*/}
                     {/*</div>*/}
-                    <div style={{maxWidth: 400}}>
+                    <div style={{maxWidth: 600}} className="text-end">
                         {(() => {
                             if (badgeActionStatusProcessing) {
-                                return <button className="w-100 btn btn-dark rounded-3">
+                                return <button className="btn btn-dark rounded-3 ps-3 pe-3 m-1">
                                                 <span className="spinner-border spinner-border-sm me-3" role="status"
                                                       aria-hidden="true"></span>
                                     Loading...
                                 </button>
                             } else if (!badge.status || badge.status === BadgeWorkflowStatus.NOT_PLANNED) {
-                                return <button className="w-100 btn btn-outline-dark rounded-3"
+                                return <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
                                                onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                     Add this badge to the resource
                                 </button>
                             } else if (badge.status === BadgeWorkflowStatus.PLANNED ||
                                 badge.status === BadgeWorkflowStatus.VERIFICATION_FAILED) {
-                                return <button className="w-100 btn btn-outline-dark rounded-3"
+                                return <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
                                                disabled={!isReadyToSubmit}
                                                onClick={setShowSaveConfirmationModal.bind(this, true)}>
                                     Submit for Verification
                                 </button>
                             } else if (badge.status === BadgeWorkflowStatus.TASK_COMPLETED ||
                                 badge.status === BadgeWorkflowStatus.VERIFIED) {
-                                return <button className="w-100 btn btn-outline-dark rounded-3"
+                                return <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
                                                onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.PLANNED)}>
                                     Reopen
                                 </button>
                             }
                         })()}
+
+                        {!badgeActionStatusProcessing && badge.status === BadgeWorkflowStatus.TASK_COMPLETED &&
+                            <Concierge>
+                                <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
+                                        onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.VERIFIED)}>
+                                    Mark as Verified
+                                </button>
+                                <button className="btn btn-outline-dark rounded-3 ps-3 pe-3 m-1"
+                                        onClick={clickBadgeAction.bind(this, BadgeWorkflowStatus.VERIFICATION_FAILED)}>
+                                    Mark as Verification Failed
+                                </button>
+                            </Concierge>
+                        }
 
 
                         <Modal show={showSaveConfirmationModal} onHide={setShowSaveConfirmationModal.bind(this, false)}>
@@ -294,9 +327,9 @@ export default function ResourceBadge() {
                 </div>
             </div>
 
-            <Debug>
+            <Concierge>
                 <ResourceBadgeLog resourceId={resourceId} roadmapId={roadmapId} badgeId={badgeId}/>
-            </Debug>
+            </Concierge>
         </div>
     }
 }

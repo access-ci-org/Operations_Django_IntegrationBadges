@@ -5,6 +5,8 @@ import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useLocation} from "react-router-dom";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import Translate from "../../locales/Translate.jsx";
+import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 
 export default function ResourceBadgeStatusListing() {
 
@@ -19,18 +21,17 @@ export default function ResourceBadgeStatusListing() {
     const {getBadge} = useBadges();
     const {getRoadmap} = useRoadmaps();
 
-    const resourceRoadmapBadges = getResourceRoadmapBadges();
-    console.log("###### resourceRoadmapBadges ", resourceRoadmapBadges);
+    const resourceRoadmapBadges = getResourceRoadmapBadges({badgeWorkflowStatus});
 
     useEffect(() => {
         fetchResourceRoadmapBadges({badgeWorkflowStatus});
-    }, [])
+    }, [badgeWorkflowStatus])
 
     if (resourceRoadmapBadges) {
         return <div className="container">
             <div className="row">
-                <h1>Badge Verification</h1>
-                <p>View All Badges Marked as Complete</p>
+                <h1>Resource Roadmap Badge Status</h1>
+                <p>View All Badges Marked as <BadgeStatus>{badgeWorkflowStatus}</BadgeStatus></p>
             </div>
 
             <div className="row pt-3">
@@ -75,6 +76,9 @@ export default function ResourceBadgeStatusListing() {
                     </thead>
                     <tbody>
                     {resourceRoadmapBadges.map((resourceRoadmapBadge, resourceRoadmapBadgeIndex) => {
+
+                        console.log("#### YY resourceRoadmapBadge ", resourceRoadmapBadge)
+
                         const resourceId = resourceRoadmapBadge.info_resourceid;
                         const roadmapId = resourceRoadmapBadge.roadmap_id;
                         const badgeId = resourceRoadmapBadge.badge_id;

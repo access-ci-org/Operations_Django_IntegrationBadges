@@ -31,6 +31,8 @@ const ResourcesContext = createContext({
     },
     fetchResourceRoadmapBadgeTasks: ({resourceId, roadmapId, badgeId}) => {
     },
+    fetchResourceRoadmapBadgeStatusSummary: ({resourceId = null, roadmapId = null, badgeId = null} = null) => {
+    },
     getResource: ({resourceId}) => {
     },
     getResources: () => {
@@ -48,6 +50,8 @@ const ResourcesContext = createContext({
     getResourceRoadmapBadgePrerequisites: ({resourceId, roadmapId, badgeId}) => {
     },
     getResourceRoadmapBadgeTasks: ({resourceId, roadmapId, badgeId}) => {
+    },
+    getResourceRoadmapBadgeStatusSummary: ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
     },
     getResourceOrganization: ({resourceId}) => {
     },
@@ -89,6 +93,8 @@ export const ResourcesProvider = ({children}) => {
     const [resourceRoadmapBadgeLogIds, setResourceRoadmapBadgeLogIds] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeLogMap, setResourceRoadmapBadgeLogMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeTaskMap, setResourceRoadmapBadgeTaskMap] = useReducer(DefaultReducer, {});
+    const [resourceRoadmapBadgeStatusSummaryMap, setResourceRoadmapBadgeStatusSummaryMap] = useReducer(DefaultReducer, {});
+
     const [resourceOrgMap, setResourceOrgMap] = useReducer(DefaultReducer, {});
 
     const fetchResource = async ({resourceId}) => {
@@ -245,6 +251,47 @@ export const ResourcesProvider = ({children}) => {
             return error;
         }
     };
+
+    const fetchResourceRoadmapBadgeStatusSummary = async ({
+                                                              resourceId = null,
+                                                              roadmapId = null,
+                                                              badgeId = null
+                                                          } = {}) => {
+        try {
+            let url = "/resource_roadmap_badge_summary/?";
+
+            if (resourceId) {
+                url += `info_resourceid=${resourceId}`;
+            }
+
+            if (roadmapId) {
+                url += `roadmap_id=${roadmapId}`;
+            }
+
+            if (badgeId) {
+                url += `badge_id=${badgeId}`;
+            }
+
+            let res = await dashboardAxiosInstance.get(url);
+
+            let _resourceRoadmapBadgeStatusSummaryMap = {...resourceRoadmapBadgeStatusSummaryMap};
+            _resourceRoadmapBadgeStatusSummaryMap[resourceId] = _resourceRoadmapBadgeStatusSummaryMap[resourceId] || {};
+            _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId] = _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId] || {};
+            _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId] = {};
+
+            for (let j = 0; j < res.data.results.length; j++) {
+                const {status, count} = res.data.results[j];
+                _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId][status] = count;
+            }
+
+            setResourceRoadmapBadgeStatusSummaryMap(_resourceRoadmapBadgeStatusSummaryMap);
+
+            return res;
+        } catch (error) {
+            console.log(error)
+            return error;
+        }
+    }
 
     const fetchSelectedResources = async ({resourceIds = []}) => {
         try {
@@ -419,6 +466,13 @@ export const ResourcesProvider = ({children}) => {
         }
     };
 
+    const getResourceRoadmapBadgeStatusSummary = ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+        console.log("###### resourceRoadmapBadgeStatusSummaryMap ", resourceRoadmapBadgeStatusSummaryMap)
+
+        if (resourceRoadmapBadgeStatusSummaryMap[resourceId] && resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId] && resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId]) {
+            return resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId];
+        }
+    }
 
     const getResourceOrganization = ({resourceId}) => {
         const resource = getResource({resourceId});
@@ -496,6 +550,7 @@ export const ResourcesProvider = ({children}) => {
             fetchResourceRoadmapBadges,
             fetchResourceRoadmapBadgeLogs,
             fetchResourceRoadmapBadgeTasks,
+            fetchResourceRoadmapBadgeStatusSummary,
             getResource,
             getResources,
             isResourceRoadmapSelected,
@@ -505,6 +560,7 @@ export const ResourcesProvider = ({children}) => {
             getResourceRoadmapBadgeLogs,
             getResourceRoadmapBadgePrerequisites,
             getResourceRoadmapBadgeTasks,
+            getResourceRoadmapBadgeStatusSummary,
             getResourceOrganization,
             getOrganizationResourceIds,
             setResourceRoadmapBadgeWorkflowStatus,

@@ -59,7 +59,6 @@ export default function OrganizationBadgeReview() {
             }
         }
     }
-    console.log("###### filteredResourceBadges : ", filteredResourceBadges)
 
     const badgeCount = filteredResourceBadges.length;
 

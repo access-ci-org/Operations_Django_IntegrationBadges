@@ -95,7 +95,6 @@ export const OrganizationsProvider = ({children}) => {
 
 
     const getOrganizations = () => {
-        // console.log("###### organizationIds ", organizationIds)
         return organizationIds.map(organizationId => getOrganization({organizationId}));
     };
 

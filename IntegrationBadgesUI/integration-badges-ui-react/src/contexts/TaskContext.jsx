@@ -18,6 +18,7 @@ export const useTasks = () => useContext(TaskContext);
 export const BadgeTaskWorkflowStatus = {
     COMPLETED: "completed",
     NOT_COMPLETED: "not-completed",
+    ACTION_NEEDED: "action-needed",
 }
 
 /**
