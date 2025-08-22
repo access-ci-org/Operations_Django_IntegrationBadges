@@ -11,12 +11,12 @@ export default function OrgBadgeVerificationStatus({organizationId, badgeWorkflo
     } = useResources();
 
     const organization = getOrganization({organizationId})
-    // const orgResourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
-    // let badgeCount = 0;
-    // for (const resourceId of orgResourceIds) {
-    //     const resourceBadges = getResourceRoadmapBadges({resourceId});
-    //     badgeCount += resourceBadges.filter(resourceBadge => resourceBadge.status === badgeWorkflowStatus).length;
-    // }
+    const orgResourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
+    let badgeCount = 0;
+    for (const resourceId of orgResourceIds) {
+        const resourceBadges = getResourceRoadmapBadges({resourceId});
+        badgeCount += resourceBadges.filter(resourceBadge => resourceBadge.status === badgeWorkflowStatus).length;
+    }
 
     const badgeWorkflowStatusClass = {
         "tasks-completed": "bg-light",
@@ -28,6 +28,6 @@ export default function OrgBadgeVerificationStatus({organizationId, badgeWorkflo
         <small className="w-100 text-nowrap flex-fill">
             <Translate>badgeWorkflowVerificationStatus.{badgeWorkflowStatus}</Translate>
         </small>
-        <small>:</small>
+        <small>{badgeCount}</small>
     </Link>
 }
