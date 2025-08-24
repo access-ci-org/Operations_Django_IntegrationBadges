@@ -110,8 +110,9 @@ export default function ResourceBadgeStatusListing() {
                             <td><small>{lastUpdatedAt.toLocaleString()}</small></td>
                             <td>{resourceRoadmapBadge.status}</td>
                             <td>
-                                <Link to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}`}
-                                      className="btn btn-link">
+                                <Link
+                                    to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}?concierge=true`}
+                                    className="btn btn-link" target="_blank">
                                     View Details
                                 </Link>
                             </td>
