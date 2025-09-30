@@ -2,20 +2,23 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 import Translate from "../../locales/Translate.jsx";
 import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
 import {Link} from "react-router-dom";
+import {useEffect} from "react";
 
 export default function OrgBadgeVerificationStatus({organizationId, badgeWorkflowStatus}) {
-    const {getOrganization} = useOrganizations();
     const {
-        getOrganizationResourceIds,
-        getResourceRoadmapBadges
+        fetchResourceRoadmapBadgeStatusSummary,
+        getResourceRoadmapBadgeStatusSummary
     } = useResources();
 
-    const organization = getOrganization({organizationId})
-    const orgResourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
+    const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary({organizationId});
+
+    useEffect(() => {
+        fetchResourceRoadmapBadgeStatusSummary({organizationId});
+    }, []);
+
     let badgeCount = 0;
-    for (const resourceId of orgResourceIds) {
-        const resourceBadges = getResourceRoadmapBadges({resourceId});
-        badgeCount += resourceBadges.filter(resourceBadge => resourceBadge.status === badgeWorkflowStatus).length;
+    if (resourceRoadmapBadgeStatusSummary) {
+        badgeCount = resourceRoadmapBadgeStatusSummary[badgeWorkflowStatus] || 0;
     }
 
     const badgeWorkflowStatusClass = {

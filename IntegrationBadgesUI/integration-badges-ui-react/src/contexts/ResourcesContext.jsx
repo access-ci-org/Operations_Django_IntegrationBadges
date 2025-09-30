@@ -237,36 +237,32 @@ export const ResourcesProvider = ({children}) => {
         }
     };
 
-    const fetchResourceRoadmapBadgeStatusSummary = async ({
-                                                              resourceId = null,
-                                                              roadmapId = null,
-                                                              badgeId = null
-                                                          } = {}) => {
+    const getResourceRoadmapBadgeStatusSummaryEndpointUrl = (
+        {organizationId = null, resourceId = null, roadmapId = null, badgeId = null} = {}
+    ) => {
+        let url = "/resource_roadmap_badge_summary/?";
+
+        if (organizationId) url += `organizationId=${organizationId}`;
+        if (resourceId) url += `info_resourceid=${resourceId}`;
+        if (roadmapId) url += `roadmap_id=${roadmapId}`;
+        if (badgeId) url += `badge_id=${badgeId}`;
+
+        return url;
+    }
+
+    const fetchResourceRoadmapBadgeStatusSummary = async (
+        {organizationId = null, resourceId = null, roadmapId = null, badgeId = null} = {}
+    ) => {
         try {
-            let url = "/resource_roadmap_badge_summary/?";
-
-            if (resourceId) {
-                url += `info_resourceid=${resourceId}`;
-            }
-
-            if (roadmapId) {
-                url += `roadmap_id=${roadmapId}`;
-            }
-
-            if (badgeId) {
-                url += `badge_id=${badgeId}`;
-            }
-
+            let url = getResourceRoadmapBadgeStatusSummaryEndpointUrl({organizationId, resourceId, roadmapId, badgeId});
             let res = await dashboardAxiosInstance.get(url);
 
             let _resourceRoadmapBadgeStatusSummaryMap = {...resourceRoadmapBadgeStatusSummaryMap};
-            _resourceRoadmapBadgeStatusSummaryMap[resourceId] = _resourceRoadmapBadgeStatusSummaryMap[resourceId] || {};
-            _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId] = _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId] || {};
-            _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId] = {};
+            _resourceRoadmapBadgeStatusSummaryMap[url] = {};
 
             for (let j = 0; j < res.data.results.length; j++) {
                 const {status, count} = res.data.results[j];
-                _resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId][status] = count;
+                _resourceRoadmapBadgeStatusSummaryMap[url][status] = count;
             }
 
             setResourceRoadmapBadgeStatusSummaryMap(_resourceRoadmapBadgeStatusSummaryMap);
@@ -423,11 +419,14 @@ export const ResourcesProvider = ({children}) => {
         }
     };
 
-    const getResourceRoadmapBadgeStatusSummary = ({resourceId = null, roadmapId = null, badgeId = null} = {}) => {
+    const getResourceRoadmapBadgeStatusSummary = (
+        {organizationId = null, resourceId = null, roadmapId = null, badgeId = null} = {}
+    ) => {
         console.log("###### resourceRoadmapBadgeStatusSummaryMap ", resourceRoadmapBadgeStatusSummaryMap)
+        let url = getResourceRoadmapBadgeStatusSummaryEndpointUrl({organizationId, resourceId, roadmapId, badgeId});
 
-        if (resourceRoadmapBadgeStatusSummaryMap[resourceId] && resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId] && resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId]) {
-            return resourceRoadmapBadgeStatusSummaryMap[resourceId][roadmapId][badgeId];
+        if (resourceRoadmapBadgeStatusSummaryMap[url]) {
+            return resourceRoadmapBadgeStatusSummaryMap[url];
         }
     }
 
