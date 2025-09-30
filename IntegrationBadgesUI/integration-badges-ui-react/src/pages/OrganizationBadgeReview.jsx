@@ -16,37 +16,22 @@ export default function OrganizationBadgeReview() {
     const {organizationId, badgeWorkflowStatus, badgeStatus} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
-        fetchResources,
+        fetchResources, fetchResourceRoadmapBadges,
         getResources, getResourceRoadmapBadges
     } = useResources();
 
     const organization = organizationMap[organizationId];
-    const resources = getResources({organizationId});
 
     useEffect(() => {
         fetchOrganization({organizationId});
-        fetchResources({organizationId});
+        fetchResourceRoadmapBadges({organizationId, badgeWorkflowStatus});
     }, [organizationId]);
 
-    let filteredResourceBadges = [];
-    for (const resource of resources) {
-        const resourceId = resource.info_resourceid;
-        const resourceBadges = getResourceRoadmapBadges({resourceId});
-        for (const resourceBadge of resourceBadges) {
-            if (resourceBadge.status === badgeWorkflowStatus) {
-                filteredResourceBadges.push(resourceBadge);
-            }
-        }
-    }
+    const resourceBadges = getResourceRoadmapBadges({organizationId, badgeWorkflowStatus});
 
-    const badgeCount = filteredResourceBadges.length;
+    console.log("#### resourceBadges : ", resourceBadges)
 
-    const badgeWorkflowStatusClass = {
-        "tasks-completed": "bg-light",
-        "verification-failed": "bg-danger-subtle"
-    };
-
-    if (organization && resources && resources.length > 0) {
+    if (organization && resourceBadges) {
         return <div className="container">
             <div className="row">
                 <h1><Translate>badgeWorkflowVerificationStatus.{badgeWorkflowStatus}</Translate></h1>
@@ -64,9 +49,9 @@ export default function OrganizationBadgeReview() {
                 </div>
             </div>
             <div className="row">
-                {filteredResourceBadges.map(resourceBadge => <div className="w-100 p-3">
-                    <ResourceBadgeCardV2 resourceId={resourceBadge.info_resourceid} roadmapId={resourceBadge.roadmap_id}
-                                         badgeId={resourceBadge.badge_id}/>
+                {resourceBadges.map((resourceBadge, resourceBadgeIndex) => <div key={resourceBadgeIndex} className="w-100 p-3">
+                    <ResourceBadgeCardV2 resourceId={resourceBadge.info_resourceid}
+                                         roadmapId={resourceBadge.roadmap_id} badgeId={resourceBadge.badge_id}/>
                 </div>)}
             </div>
         </div>
