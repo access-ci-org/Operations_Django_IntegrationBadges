@@ -21,10 +21,13 @@ export default function IntegrationDashboard() {
     let filteredOrganizations;
     if (organizations && organizations.length > 0) {
         filteredOrganizations = organizations.filter(organization => {
-            return resourceOrgMap[organization.organization_name] &&
-                organization.organization_name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
+            return true;
+            // return resourceOrgMap[organization.organization_name] &&
+            //     organization.organization_name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
         });
     }
+
+    console.log("###### filteredOrganizations : ", filteredOrganizations);
 
     return (<div className="container">
         <div className="row">

@@ -16,42 +16,21 @@ export default function OrganizationBadgeReview() {
     const {organizationId, badgeWorkflowStatus, badgeStatus} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
-        fetchSelectedResources, fetchResourceRoadmapBadges,
-        getOrganizationResourceIds, getResourceRoadmapBadges
+        fetchResources,
+        getResources, getResourceRoadmapBadges
     } = useResources();
 
-    const [resourceFetchedMap, setResourceFetchedMap] = useState({});
-
     const organization = organizationMap[organizationId];
-    const orgResourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
+    const resources = getResources({organizationId});
 
     useEffect(() => {
         fetchOrganization({organizationId});
+        fetchResources({organizationId});
     }, [organizationId]);
 
-    useEffect(() => {
-        if (orgResourceIds) {
-            const _resourceFetchedMap = {};
-            const resourceIds = [];
-            for (let i = 0; i < orgResourceIds.length; i++) {
-                const resourceId = orgResourceIds[i];
-                if (!resourceFetchedMap[resourceId]) {
-                    _resourceFetchedMap[resourceId] = true
-                    resourceIds.push(resourceId);
-                }
-            }
-
-            fetchResourceRoadmapBadges({resourceIds});
-            fetchSelectedResources({resourceIds});
-            setResourceFetchedMap({
-                ...resourceFetchedMap,
-                ..._resourceFetchedMap
-            })
-        }
-    }, [orgResourceIds.length]);
-
     let filteredResourceBadges = [];
-    for (const resourceId of orgResourceIds) {
+    for (const resource of resources) {
+        const resourceId = resource.info_resourceid;
         const resourceBadges = getResourceRoadmapBadges({resourceId});
         for (const resourceBadge of resourceBadges) {
             if (resourceBadge.status === badgeWorkflowStatus) {
@@ -67,7 +46,7 @@ export default function OrganizationBadgeReview() {
         "verification-failed": "bg-danger-subtle"
     };
 
-    if (organization && orgResourceIds && orgResourceIds.length > 0) {
+    if (organization && resources && resources.length > 0) {
         return <div className="container">
             <div className="row">
                 <h1><Translate>badgeWorkflowVerificationStatus.{badgeWorkflowStatus}</Translate></h1>

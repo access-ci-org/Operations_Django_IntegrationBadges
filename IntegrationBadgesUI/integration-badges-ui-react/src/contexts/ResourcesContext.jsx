@@ -7,16 +7,7 @@ import {useRoadmaps} from "./RoadmapContext.jsx";
 import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const ResourcesContext = createContext({
-    // resources: [],
-    // resourceMap: {},
-    // resourceRoadmapIds: {},
-    // resourceRoadmapBadgeIds: {},
-    // resourceRoadmapBadgeMap: {},
-    // resourceRoadmapBadgeTaskMap: {},
-    // resourceOrgMap: {},
-    fetchResources: ({resourceIds = null} = {}) => {
-    },
-    fetchSelectedResources: ({resourceIds = []} = {}) => {
+    fetchResources: ({organizationId = null, resourceId = null, full = false} = {}) => {
     },
     fetchResource: ({resourceId}) => {
     },
@@ -35,7 +26,7 @@ const ResourcesContext = createContext({
     },
     getResource: ({resourceId}) => {
     },
-    getResources: () => {
+    getResources: (organizationId = null, resourceId = null, full = false) => {
     },
     getResourceRoadmaps: ({resourceId}) => {
     },
@@ -85,7 +76,7 @@ export const ResourcesProvider = ({children}) => {
     const {getOrganization} = useOrganizations();
     const {getRoadmap} = useRoadmaps();
 
-    const [resourceIds, setResourceIds] = useReducer(DefaultReducer, []);
+    const [resourceIds, setResourceIds] = useReducer(DefaultReducer, {});
     const [resourceMap, setResourceMap] = useReducer(DefaultReducer, {});
     const [resourceRoadmapIds, setResourceRoadmapIds] = useReducer(DefaultReducer, {});
     const [resourceRoadmapBadgeIds, setResourceRoadmapBadgeIds] = useReducer(DefaultReducer, {});
@@ -98,14 +89,8 @@ export const ResourcesProvider = ({children}) => {
     const [resourceOrgMap, setResourceOrgMap] = useReducer(DefaultReducer, {});
 
     const fetchResource = async ({resourceId}) => {
-        try {
-            return fetchSelectedResources({resourceIds: [resourceId]})
-        } catch (error) {
-            console.log(error)
-            return error;
-        }
+        return fetchResources({resourceId, full: true});
     };
-
 
     const fetchResourceRoadmapBadges = async ({
                                                   resourceIds = [null],
@@ -293,74 +278,44 @@ export const ResourcesProvider = ({children}) => {
         }
     }
 
-    const fetchSelectedResources = async ({resourceIds = []}) => {
-        try {
-            let responseList = await Promise.all(resourceIds.map(resourceId => {
-                return dashboardAxiosInstance.get(`/resource/${resourceId}`);
-            }));
-            const _resourceMap = {};
-            const _resourceRoadmapIds = {};
+    const getResourcesEndpointUrl = ({organizationId = null, resourceId = null, full = false} = {}) => {
+        let url = '/resources?';
+        if (full) url = '/resources-full?';
+        if (organizationId) url += `organization_id=${organizationId}&`;
+        if (resourceId) url += `resource_id=${resourceId}`;
 
-            for (let i = 0; i < resourceIds.length; i++) {
-                let resourceId = resourceIds[i];
-                let resource = responseList[i].data.results;
+        return url;
+    }
+
+    const fetchResources = async ({organizationId = null, resourceId = null, full = false} = {}) => {
+        try {
+            let url = getResourcesEndpointUrl({organizationId, resourceId, full});
+
+            const response = await dashboardAxiosInstance.get(url);
+            const _resources = response.data.results;
+            const _resourceIds = [];
+            const _resourceMap = {...resourceMap};
+            const _resourceRoadmapIds = {...resourceRoadmapIds};
+            for (let i = 0; i < _resources.length; i++) {
+                let resource = _resources[i];
+                let resourceId = resource.info_resourceid;
+
+                _resourceIds.push(resourceId);
+
                 _resourceMap[resourceId] = {
-                    ...getResource({resourceId}), ...resource,
+                    ...getResource({resourceId}), ...resource
                 };
-                _resourceRoadmapIds[resourceId] = resource.roadmaps.map(roadmap => roadmap.roadmap.roadmap_id);
-            }
 
-
-            setResourceMap({
-                ...resourceMap, ..._resourceMap
-            });
-            setResourceRoadmapIds({
-                ...resourceRoadmapIds, ..._resourceRoadmapIds
-            });
-
-            return responseList;
-        } catch (error) {
-            console.log(error)
-            return error;
-        }
-    };
-
-    const fetchResources = async ({resourceIds = null} = {}) => {
-        try {
-            if (resourceIds) {
-                return fetchSelectedResources({resourceIds});
-            } else {
-                const response = await dashboardAxiosInstance.get('/resources');
-                const _resources = response.data.results;
-                const _resourceIds = [];
-                const _resourceMap = {};
-                const _resourceOrgMap = {};
-                for (let i = 0; i < _resources.length; i++) {
-                    let resource = _resources[i];
-                    let resourceId = resource.info_resourceid;
-
-                    _resourceIds.push(resourceId);
-
-                    _resourceMap[resourceId] = {
-                        ...getResource({resourceId}), ...resource
-                    };
-
-                    _resources[i] = _resourceMap[resourceId];
-
-                    let resourceOrg = resource.organization_name;
-                    if (_resourceOrgMap[resourceOrg]) {
-                        _resourceOrgMap[resourceOrg].push(resourceId);
-                    } else {
-                        _resourceOrgMap[resourceOrg] = [resourceId];
-                    }
+                if (resource.roadmaps) {
+                    _resourceRoadmapIds[resourceId] = resource.roadmaps.map(r => r.roadmap_id);
                 }
-
-                setResourceIds(_resourceIds);
-                setResourceMap(_resourceMap);
-                setResourceOrgMap(_resourceOrgMap);
-
-                return response.data.results;
             }
+
+            setResourceIds({...resourceIds, [url]: _resourceIds});
+            setResourceMap(_resourceMap);
+            setResourceRoadmapIds(_resourceRoadmapIds);
+
+            return response.data.results;
         } catch (error) {
             console.log(error)
             return error;
@@ -369,13 +324,15 @@ export const ResourcesProvider = ({children}) => {
 
 
     const getResource = ({resourceId}) => {
-        // console.log("##### resourceId ", resourceId)
-        // console.log("##### resourceMap ", resourceMap)
         return resourceMap[resourceId];
     }
 
-    const getResources = () => {
-        return resourceIds.map(resourceId => getResource({resourceId}));
+    const getResources = ({organizationId = null, resourceId = null, full = false} = {}) => {
+        let url = getResourcesEndpointUrl({organizationId, resourceId, full});
+        console.log("#### resourceIds : ", resourceIds)
+        if (resourceIds[url]) {
+            return resourceIds[url].map(resourceId => getResource({resourceId}));
+        }
     }
 
     const getResourceRoadmaps = ({resourceId}) => {
@@ -546,7 +503,6 @@ export const ResourcesProvider = ({children}) => {
             resourceOrgMap,
             fetchResources,
             fetchResource,
-            fetchSelectedResources,
             fetchResourceRoadmapBadges,
             fetchResourceRoadmapBadgeLogs,
             fetchResourceRoadmapBadgeTasks,

@@ -18,40 +18,19 @@ export default function Organization() {
     const {organizationId} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
-        fetchSelectedResources, fetchResourceRoadmapBadges,
-        getResource, getResourceRoadmaps, getOrganizationResourceIds
+        fetchResources,
+        getResources, getResourceRoadmaps
     } = useResources();
 
     const [searchText, setSearchText] = useState("");
-    const [resourceFetchedMap, setResourceFetchedMap] = useState({});
 
     const organization = organizationMap[organizationId];
-    const orgResourceIds = getOrganizationResourceIds({organizationName: organization.organization_name});
+    const resources = getResources({organizationId, full: true});
 
     useEffect(() => {
         fetchOrganization({organizationId});
+        fetchResources({organizationId, full: true});
     }, [organizationId]);
-
-    useEffect(() => {
-        if (orgResourceIds) {
-            const _resourceFetchedMap = {};
-            const resourceIds = [];
-            for (let i = 0; i < orgResourceIds.length; i++) {
-                const resourceId = orgResourceIds[i];
-                if (!resourceFetchedMap[resourceId]) {
-                    _resourceFetchedMap[resourceId] = true
-                    resourceIds.push(resourceId);
-                }
-            }
-
-            fetchResourceRoadmapBadges({resourceIds});
-            fetchSelectedResources({resourceIds});
-            setResourceFetchedMap({
-                ...resourceFetchedMap,
-                ..._resourceFetchedMap
-            })
-        }
-    }, [orgResourceIds.length])
 
     // If conditions in the order
     let sections = [
@@ -86,11 +65,13 @@ export default function Organization() {
     ];
 
     let resourcesProcessing = true;
-    for (let i = 0; i < orgResourceIds.length; i++) {
-        let resourceId = orgResourceIds[i];
-        let resource = getResource({resourceId});
+    for (let i = 0; resources && i < resources.length; i++) {
+        let resource = resources[i];
+        let resourceId = resource.info_resourceid;
         let resourceRoadmaps = getResourceRoadmaps({resourceId});
 
+        console.log(`### [${resourceId}] resource `, resource)
+        console.log(`### [${resourceId}] resourceRoadmaps `, resourceRoadmaps)
 
         for (let j = 0; j < sections.length; j++) {
             const section = sections[j];
@@ -106,9 +87,12 @@ export default function Organization() {
         }
     }
 
+
+    console.log("sections : ", sections)
+
     sections = sections.filter(section => section.resources.length > 0);
 
-    if (organization && orgResourceIds && orgResourceIds.length > 0) {
+    if (organization && resources && resources.length > 0) {
         return <div className="container">
             <div className="row">
                 <div className="col-sm-2 col-m-3 col-lg-4 p-3">
