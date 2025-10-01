@@ -5,12 +5,17 @@ import {useOrganizations} from "../contexts/OrganizationsContext";
 import LoadingBlock from "./LoadingBlock.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
+import {ConciergeRouteUrls} from "../pages/concierge/ConciergeRoute.jsx";
 
 const defaultLinkProps = {className: "btn btn-link text-medium"}
 
 function CustomizedBreadcrumb() {
     const location = useLocation();
+
     const pathname = location.pathname.replace(/\/$/, "");
+    const search = location.search;
+    const queryParams = new URLSearchParams(search);
+
     const pathSegments = pathname.split("/")
     const breadcrumbLinks = []
     const {organizationMap, organizationMapByName} = useOrganizations();
@@ -27,6 +32,18 @@ function CustomizedBreadcrumb() {
         </Breadcrumb.Item>)
     }
 
+    if (pathSegments[1] === "concierge") {
+        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{...defaultLinkProps, to: ConciergeRouteUrls.INDEX}}>
+            Concierge Dashboard
+        </Breadcrumb.Item>);
+
+
+        if (pathname === ConciergeRouteUrls.BADGE_STATUS) {
+            breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}  linkProps={{...defaultLinkProps, to: pathname}}>
+                Badge Status
+            </Breadcrumb.Item>);
+        }
+    }
 
     if (pathSegments[1] === "docs") {
         const linkTitleMap = {
@@ -36,7 +53,7 @@ function CustomizedBreadcrumb() {
             [DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP]: "What is an Integration Roadmap and How do I Choose the Right One"
         }
 
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkProps={{...defaultLinkProps, to: pathname}}>
+        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{...defaultLinkProps, to: pathname}}>
             {linkTitleMap[pathname]}
         </Breadcrumb.Item>);
 
