@@ -12,7 +12,7 @@ import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBad
 import Form from "react-bootstrap/Form";
 import Debug from "../components/Debug.jsx";
 import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadgeLog.jsx";
-import Concierge from "../components/Concierge.jsx";
+import Concierge, {ConciergeSwitch} from "../components/Concierge.jsx";
 
 export default function ResourceBadge() {
     let {resourceId, roadmapId, badgeId} = useParams();
@@ -114,6 +114,8 @@ export default function ResourceBadge() {
                             </div>
                         </div>
                         <div className="col-sm-3 ps-1 mb-3">
+                            <ConciergeSwitch/>
+
                             <div className="border-2 border rounded-3 pt-4 pb-4 ps-2 pe-2 text-center">
                                 <label className="text-black d-inline fw-bold">Badge Status : </label>
                                 <div className="ps-2 d-inline">

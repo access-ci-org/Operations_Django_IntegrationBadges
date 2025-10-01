@@ -1,4 +1,5 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import Form from "react-bootstrap/Form";
 
 export default function Concierge(props) {
     const location = useLocation();
@@ -10,4 +11,21 @@ export default function Concierge(props) {
     }
 }
 
+export function ConciergeSwitch(props) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const concierge = queryParams.get('concierge');
 
+    const onSwitchClick = () => {
+        navigate(location.pathname + (concierge ? "" : "?concierge=true"), {replace: true})
+    }
+
+    return <nav className="navbar fixed-bottom navbar-light bg-light border-top border-3 border-dark p-2 d-flex">
+        <div className="flex-wrap"></div>
+        <div className="ps-5 pe-5">
+            <Form.Check type="switch" checked={!!concierge} id="concierge-switch"
+                       label="Concierge Mode" onClick={onSwitchClick}/>
+        </div>
+    </nav>
+}
