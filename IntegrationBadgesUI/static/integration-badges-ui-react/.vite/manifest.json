@@ -1,11 +1,11 @@
 {
   "index.html": {
-    "file": "assets/index--2zUR0Nx.js",
+    "file": "assets/index-DcsNF-_D.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "css": [
-      "assets/index-Clrif213.css"
+      "assets/index-BRFgW-z_.css"
     ],
     "assets": [
       "assets/five-steps-for-new-resource-integration-z93BBvK4.png",
@@ -20,10 +20,6 @@
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
     "file": "assets/bootstrap-icons-BtvjY1KL.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
-  },
-  "src/assets/badge-icon-border-blue.png": {
-    "file": "assets/badge-icon-border-blue-CGrRieFH.png",
-    "src": "src/assets/badge-icon-border-blue.png"
   },
   "src/pages/docs/assets/five-steps-for-new-resource-integration.png": {
     "file": "assets/five-steps-for-new-resource-integration-z93BBvK4.png",
