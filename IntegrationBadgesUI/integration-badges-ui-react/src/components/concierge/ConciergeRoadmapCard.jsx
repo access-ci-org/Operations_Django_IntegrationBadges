@@ -6,6 +6,8 @@ export function ConciergeRoadmapCard({roadmapId}) {
 
     const roadmap = getRoadmap({roadmapId});
 
+    const roadmapNameSegments = /(ACCESS Allocated|ACCESS Affiliated|ACCESS) *(.*)/.exec(roadmap.name);
+
     if (roadmap) {
         return <div className="w-100 h-100 p-2 pt-5">
             <div
@@ -18,10 +20,10 @@ export function ConciergeRoadmapCard({roadmapId}) {
                     </div>
                 </div>
                 <div className="w-100 p-2 text-center">
-                    <h3 className="w-100 text-center text-black fs-6">{roadmap.name}</h3>
-                    {/*<strong className="w-100 text-center text-medium fs-6">*/}
-                    {/*    {roadmap.infrastructure_types}*/}
-                    {/*</strong>*/}
+                    <h3 className="w-100 text-center text-black fs-6">{roadmapNameSegments[1]}</h3>
+                    <strong className="w-100 text-center text-medium fs-6">
+                        {roadmapNameSegments[2]}
+                    </strong>
                 </div>
                 <div className="w-100 text-end p-1">
                     <Link className="btn btn-link p-2" to=""><i className="bi bi-pencil-fill"></i></Link>
