@@ -5,7 +5,6 @@ import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useLocation} from "react-router-dom";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
-import Translate from "../../locales/Translate.jsx";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 
 export default function ResourceBadgeStatusListing() {

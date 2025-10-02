@@ -3,13 +3,9 @@ import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/LoadingBlock.jsx";
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {Link, useLocation} from "react-router-dom";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
-import BadgeStatus from "../../components/status/BadgeStatus.jsx";
+import {Link} from "react-router-dom";
 import Translate from "../../locales/Translate.jsx";
-import {RoadmapCard} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 import {ConciergeRoadmapCard} from "../../components/concierge/ConciergeRoadmapCard.jsx";
-import ResourceBadgeIcon from "../../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 
 export default function ConciergeDashboard() {

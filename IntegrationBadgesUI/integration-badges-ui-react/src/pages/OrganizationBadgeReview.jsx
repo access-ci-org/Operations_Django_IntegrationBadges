@@ -1,10 +1,9 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/LoadingBlock";
 import Translate from "../locales/Translate.jsx";
-import {Badge} from "react-bootstrap";
 import ResourceBadgeCardV2 from "../components/resource/resource-badge/ResourceBadgeCardV2.jsx";
 
 /**

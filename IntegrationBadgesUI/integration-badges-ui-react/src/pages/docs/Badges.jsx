@@ -1,10 +1,8 @@
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
-import ResourceBadgeIcon from "../../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import {Link} from "react-router-dom";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useEffect, useState} from "react";
 import {Collapse, Nav} from "react-bootstrap";
-import ResourceBadgeCard from "../../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 
 export default function Badges() {

@@ -2,7 +2,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import {Collapse, Nav} from "react-bootstrap";
-import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
+import {BadgeWorkflowStatus} from "../contexts/BadgeContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 import LoadingBlock from "../components/LoadingBlock";

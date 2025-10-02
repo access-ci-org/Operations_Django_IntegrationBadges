@@ -1,5 +1,4 @@
 import {useResources} from "../../contexts/ResourcesContext.jsx";
-import Translate from "../../locales/Translate.jsx";
 import BadgeStatus from "./BadgeStatus.jsx";
 
 export default function ResourceBadgeStatus({resourceId, roadmapId, badgeId}) {

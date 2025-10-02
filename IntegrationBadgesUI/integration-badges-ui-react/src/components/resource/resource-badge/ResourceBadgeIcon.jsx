@@ -1,6 +1,4 @@
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
-
-import badgeIconBorderBlue from "../../../assets/badge-icon-border-blue.png"
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
 
 export default function ResourceBadgeIcon({resourceId, roadmapId, badgeId}) {

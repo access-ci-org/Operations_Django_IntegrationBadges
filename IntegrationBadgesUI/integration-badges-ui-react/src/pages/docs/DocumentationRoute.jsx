@@ -1,4 +1,4 @@
-import {Link, Outlet, Route, useLocation} from "react-router-dom";
+import {Link, Outlet, Route} from "react-router-dom";
 import FiveStepsForNewIntegrations from "./FiveStepsForNewIntegrations.jsx";
 import WhyBecomeAnRP from "./WhyBecomeAnRP.jsx";
 import HowToIntegrateResource from "./HowToIntegrateResource.jsx";

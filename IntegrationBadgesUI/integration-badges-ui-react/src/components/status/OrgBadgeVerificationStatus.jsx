@@ -1,6 +1,5 @@
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import Translate from "../../locales/Translate.jsx";
-import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
 import {Link} from "react-router-dom";
 import {useEffect} from "react";
 

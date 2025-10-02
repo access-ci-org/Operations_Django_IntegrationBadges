@@ -1,10 +1,5 @@
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
-import {Link, useParams} from "react-router-dom";
-import ResourceBadgeStatus from "../../status/ResourceBadgeStatus.jsx";
-import ResourceBadgeIcon from "./ResourceBadgeIcon.jsx";
-import {BadgeWorkflowStatus, useBadges} from "../../../contexts/BadgeContext.jsx";
-import {useTasks} from "../../../contexts/TaskContext.jsx";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 export default function ResourceBadgeLog({resourceId, roadmapId, badgeId}) {
     const {

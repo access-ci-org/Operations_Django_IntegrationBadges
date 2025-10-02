@@ -1,13 +1,6 @@
-import {useOrganizations} from "../../contexts/OrganizationsContext.jsx";
-import {useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {ResourceStatus, useResources} from "../../contexts/ResourcesContext.jsx";
-
+import {useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/LoadingBlock.jsx";
-import ResourceCard from "../../components/resource/ResourceCard.jsx";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {RoadmapCard} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 
 /**
  * The initial page that displays al resources.

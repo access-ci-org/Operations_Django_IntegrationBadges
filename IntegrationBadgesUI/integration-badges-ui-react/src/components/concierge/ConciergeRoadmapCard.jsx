@@ -1,10 +1,5 @@
-import Form from "react-bootstrap/Form";
 import {Link} from "react-router-dom";
-import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {useBadges} from "../../contexts/BadgeContext.jsx";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
-import ResourceBadgeIcon from "../resource/resource-badge/ResourceBadgeIcon.jsx";
 
 export function ConciergeRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();

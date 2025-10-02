@@ -1,4 +1,3 @@
-import {useResources} from "../../contexts/ResourcesContext.jsx";
 import Translate from "../../locales/Translate.jsx";
 
 export default function BadgeStatus(props) {

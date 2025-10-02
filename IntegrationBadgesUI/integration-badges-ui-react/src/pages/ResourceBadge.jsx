@@ -2,15 +2,13 @@ import {Link, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
-import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
-import {Dropdown, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {useTasks} from "../contexts/TaskContext";
+import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
-import Translate from "../locales/Translate.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
 import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBadgeTasks.jsx";
 import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import Form from "react-bootstrap/Form";
-import Debug from "../components/Debug.jsx";
 import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadgeLog.jsx";
 import Concierge, {ConciergeSwitch} from "../components/Concierge.jsx";
 

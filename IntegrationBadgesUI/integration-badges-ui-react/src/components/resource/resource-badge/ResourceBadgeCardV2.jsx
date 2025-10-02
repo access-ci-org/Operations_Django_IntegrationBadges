@@ -1,6 +1,5 @@
 import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import {Link} from "react-router-dom";
-import ResourceBadgeStatus from "../../status/ResourceBadgeStatus.jsx";
 import ResourceBadgeIcon from "./ResourceBadgeIcon.jsx";
 import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
 

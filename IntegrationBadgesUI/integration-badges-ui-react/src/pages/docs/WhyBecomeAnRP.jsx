@@ -1,8 +1,5 @@
 import Accordion from 'react-bootstrap/Accordion';
-import Carousel from 'react-bootstrap/Carousel';
 import {Link} from "react-router-dom";
-
-import fiveStepsForNewIntegrationsPng from "./assets/five-steps-for-new-resource-integration.png"
 
 export default function WhyBecomeAnRP() {
     return <div className="container">

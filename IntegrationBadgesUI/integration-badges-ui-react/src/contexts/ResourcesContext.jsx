@@ -72,7 +72,7 @@ export const ResourceStatus = {
  */
 export const ResourcesProvider = ({children}) => {
     const {getBadge} = useBadges();
-    const {getTask, getBadgeTasks} = useTasks();
+    const {getBadgeTasks} = useTasks();
     const {getOrganization} = useOrganizations();
     const {getRoadmap} = useRoadmaps();
 
