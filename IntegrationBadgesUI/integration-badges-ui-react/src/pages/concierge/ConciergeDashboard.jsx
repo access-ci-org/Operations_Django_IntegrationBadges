@@ -78,7 +78,7 @@ export default function ConciergeDashboard() {
                     </div>
                     <ul className="p-0">
                         {badges && badges.map((badge, badgeIndex) => (
-                            <li key={badgeIndex} className="d-flex flex-row pb-3">
+                            <li key={badgeIndex} className="d-flex flex-row pb-2">
                                 <div>
                                     <BadgeIcon badgeId={badge.badge_id}/>
                                 </div>
