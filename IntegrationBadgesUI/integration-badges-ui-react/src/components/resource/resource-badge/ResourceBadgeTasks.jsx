@@ -21,7 +21,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 
 
     const clickTaskAction = async (taskId, status, confirmationReceived = false) => {
-        if ((badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) && !confirmationReceived) {
+        if (status !== BadgeTaskWorkflowStatus.ACTION_NEEDED && (badge.status === BadgeWorkflowStatus.VERIFIED || badge.status === BadgeWorkflowStatus.TASK_COMPLETED) && !confirmationReceived) {
             setShowTaskReopenModal({taskId, status});
         } else {
             setShowTaskReopenModal(false);
@@ -153,7 +153,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
 }
 
 
-export default function ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
+export default function  ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
     const {getResourceRoadmapBadgeTasks, getResourceRoadmapBadge} = useResources();
 
     const badge = getResourceRoadmapBadge({resourceId, roadmapId, badgeId});

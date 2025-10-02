@@ -2,7 +2,7 @@ import {Link, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
-import {useTasks} from "../contexts/TaskContext";
+import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
 import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
@@ -67,7 +67,7 @@ export default function ResourceBadge() {
 
     if (resource && organization && badge && tasks && prerequisiteBadges) {
 
-        const isReadyToSubmit = tasks.filter(t => !t.status).length === 0 &&
+        const isReadyToSubmit = tasks.filter(t => [BadgeTaskWorkflowStatus.COMPLETED, BadgeTaskWorkflowStatus.NOT_COMPLETED].indexOf(t.status) >= 0).length === tasks.length &&
             prerequisiteBadges.filter(pb => pb.status !== BadgeWorkflowStatus.VERIFIED).length === 0;
 
         const lastUpdatedAt = new Date(Date.parse(badge.status_updated_at));
