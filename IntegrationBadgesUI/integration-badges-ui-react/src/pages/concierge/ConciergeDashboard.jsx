@@ -65,7 +65,7 @@ export default function ConciergeDashboard() {
                 </div>)}
             </div>
 
-            <div className="row mt-5">
+            <div className="row mt-2 p-3">
                 <div className="col-md-8 col-sm-6 pe-lg-4 pe-sm-2">
                     <div className="w-100 d-flex flex-row pb-4">
                         <h2 className="text-medium">Badges</h2>
