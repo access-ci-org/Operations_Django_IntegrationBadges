@@ -29,8 +29,8 @@ export function ConciergeRoadmapCard({roadmapId}) {
                     </strong>
                 </div>
                 <div className="w-100 text-end p-1">
-                    <Link className="btn btn-link p-2" to="abcd"><i className="bi bi-pencil-fill"></i></Link>
-                    <Link className="btn btn-link p-2" to="abcd"><i className="bi bi-trash-fill"></i></Link>
+                    <Link className="btn btn-link p-2" to=""><i className="bi bi-pencil-fill"></i></Link>
+                    <Link className="btn btn-link p-2" to=""><i className="bi bi-trash-fill"></i></Link>
                 </div>
             </div>
         </div>
