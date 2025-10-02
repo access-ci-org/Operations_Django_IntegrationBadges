@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/LoadingBlock.jsx";
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import Translate from "../../locales/Translate.jsx";
 import {ConciergeRoadmapCard} from "../../components/concierge/ConciergeRoadmapCard.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
+import {Fade} from "react-bootstrap";
 
 export default function ConciergeDashboard() {
     const {
@@ -33,6 +34,10 @@ export default function ConciergeDashboard() {
         BadgeWorkflowStatus.DEPRECATED
     ]
 
+    const [roadmapPaginationIndex, setRoadmapPaginationIndex] = useState(0);
+    const prevRoadmapPaginationIndex = roadmapPaginationIndex - 4;
+    const nextRoadmapPaginationIndex = roadmapPaginationIndex + 4;
+
     if (roadmaps && badges && resourceRoadmapBadgeStatusSummary) {
         return <div className="container">
             {/*<div className="row">*/}
@@ -47,18 +52,26 @@ export default function ConciergeDashboard() {
                         <Link className="btn btn-sm btn-dark rounded-2" to="">Create New</Link>
                         <Link className="btn btn-link ms-3 me-3 fw-light text-decoration-none" to="">View All</Link>
                         <div className="btn-group">
-                            <button className="btn btn-sm btn-outline-gray-500 rounded-start">
+                            <button className="btn btn-sm btn-outline-gray-500 rounded-start"
+                                    onClick={setRoadmapPaginationIndex.bind(null, prevRoadmapPaginationIndex)}
+                                    disabled={prevRoadmapPaginationIndex < 0}>
                                 <i className="bi bi-chevron-left"></i></button>
-                            <button className="btn btn-sm btn-outline-gray-500 rounded-end">
+                            <button className="btn btn-sm btn-outline-gray-500 rounded-end"
+                                    onClick={setRoadmapPaginationIndex.bind(null, nextRoadmapPaginationIndex)}
+                                    disabled={nextRoadmapPaginationIndex >= roadmaps.length}>
                                 <i className="bi bi-chevron-right"></i></button>
                         </div>
-
                     </div>
                 </div>
-                {roadmaps && roadmaps.map((roadmap, roadmapIndex) => <div className="col-lg-3 col-md-4 col-sm-6 p-2"
-                                                                          key={roadmapIndex}>
-                    <ConciergeRoadmapCard roadmapId={roadmap.roadmap_id}/>
-                </div>)}
+                {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
+                    let show = roadmapPaginationIndex <= roadmapIndex && (roadmapPaginationIndex + 3) >= roadmapIndex;
+
+                    return <Fade in={show} timeout="2000" key={roadmapIndex}>
+                        <div className={`col-lg-3 col-md-4 col-sm-6 p-2 ${show ? "" : "visually-hidden"}`}>
+                            <ConciergeRoadmapCard roadmapId={roadmap.roadmap_id}/>
+                        </div>
+                    </Fade>
+                })}
             </div>
 
             <div className="row mt-2 p-3">
