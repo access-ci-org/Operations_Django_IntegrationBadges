@@ -170,11 +170,6 @@ p {
     min-height: 30px;
     min-width: 30px;
   }
-
-  &.roadmap-card-icon {
-    min-height: 100px;
-    min-width: 100px;
-  }
 }
 
 .roadmap-card {
@@ -182,6 +177,24 @@ p {
 
   .roadmap-card-icon-row {
     top: -50px;
+
+    .roadmap-card-icon {
+      min-height: 100px;
+      min-width: 100px;
+    }
+  }
+}
+
+.concierge-roadmap-card {
+  padding-top: 70px;
+
+  .roadmap-card-icon-row {
+    top: -20px;
+
+    .roadmap-card-icon {
+      min-height: 50px;
+      min-width: 50px;
+    }
   }
 }
 
