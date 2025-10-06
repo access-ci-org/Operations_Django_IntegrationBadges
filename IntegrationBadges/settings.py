@@ -130,3 +130,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 OPERATIONS_API_BASE_URL = "https://opsapi2.access-ci.org"
+
+OPERATIONS_INTEGRATION_BADGES_WEBAPP_VERSION = "1.0.45"
