@@ -2,7 +2,7 @@ import './App.scss';
 import './styles/style.scss';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {Outlet, Route, Routes, BrowserRouter, useParams, Navigate, useLocation} from 'react-router-dom';
+import {Outlet, Route, Routes, BrowserRouter, useParams, Navigate, useLocation, Link} from 'react-router-dom';
 import {BadgeProvider, useBadges} from "./contexts/BadgeContext";
 import {ResourcesProvider, useResources} from "./contexts/ResourcesContext";
 import NewResource from "./pages/NewResource";
@@ -22,11 +22,13 @@ import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
 import OrganizationBadgeReview from "./pages/OrganizationBadgeReview.jsx";
 import {ConciergeRoute} from "./pages/concierge/ConciergeRoute.jsx";
+import {ConciergeMainNavigation} from "./components/concierge/ConciergeMainNavigation.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const initialFetchesAreRequired = !(/^\/docs/i.exec(pathname));
+    const isConciergePage = !!(/^\/concierge/i.exec(pathname));
 
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
@@ -52,21 +54,28 @@ const RouterLayout = () => {
         && (roadmaps && roadmaps.length > 0)
         && (badges && badges.length > 0);
 
-    return (
-        <div className="w-100 pb-5">
-            <div className="container">
-                <CustomizedBreadcrumb/>
+    if (isConciergePage) {
+        return (
+            <div className="w-100 pt-3 pb-5 bg-gray-200">
+                <div className="container">
+                    <ConciergeMainNavigation/>
+                </div>
+                {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
             </div>
-            {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
-        </div>
-    );
+        );
+    } else {
+        return (
+            <div className="w-100 pt-3 pb-5">
+                <div className="container">
+                    <CustomizedBreadcrumb/>
+                </div>
+                {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
+            </div>
+        );
+    }
 };
 
 function App() {
-    // if (!oauthSignIn()) {
-    //     return null;
-    // }
-
     return (
         <OrganizationsProvider>
             <TaskProvider>
@@ -74,7 +83,7 @@ function App() {
                     <RoadmapProvider>
                         <ResourcesProvider>
                             <I18nextProvider i18n={i18n}>
-                                <div className="w-100 pt-3">
+                                <div className="w-100">
                                     <div className="w-100">
                                         <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
                                             <Routes>
