@@ -31,3 +31,22 @@ This would build the react code and put them to the static folder of the Django 
 `./runserver.sh`
 
 http://127.0.0.1:8081/IntegrationBadgesUI/
+
+## Webapp CDN Integration 
+
+```html
+<script>
+    window.SETTINGS = {
+        APP_BASENAME: "/IntegrationBadgesUI",
+        OPERATIONS_API_BASE_URL: "https://operations-api.access-ci.org",
+        DASHBOARD_BASE_URL: window.location.origin,
+
+        // OPERATIONS_API_INTEGRATION_BADGES_PATH: "/wh2/integration_badges/v1",
+        // OPERATIONS_API_ORGANIZATIONS_PATH: "/wh2/cider/v1",
+        // DISABLE_DASHBOARD_AUTHENTICATION: "true"
+    };
+</script>
+<script type="module" crossorigin src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.0.47/IntegrationBadgesUI/static/integration-badges-ui-react/index.js"></script>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.0.47/IntegrationBadgesUI/static/integration-badges-ui-react/index.css" />
+<div id="Operations_WebApp_IntegrationBadges"></div>
+```
