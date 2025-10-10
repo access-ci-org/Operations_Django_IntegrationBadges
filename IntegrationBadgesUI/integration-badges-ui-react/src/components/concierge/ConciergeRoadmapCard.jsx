@@ -1,15 +1,29 @@
 import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
+import {ConciergeRouteUrls} from "../../pages/concierge/ConciergeRoute.jsx";
 
 export function ConciergeRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();
 
+    if (roadmapId === null) {
+        return <div className="w-100 h-100 p-2 pt-4">
+            <div className="w-100 h-100 rounded-4 p-2 d-flex flex-column bg-gray-200">
+                <Link to={ConciergeRouteUrls.ROADMAP_NEW} className="btn btn-link w-100 h-100 text-center align-content-center">
+                    <span className="">
+                        + Create New
+                    </span>
+                </Link>
+            </div>
+        </div>
+    }
+
     const roadmap = getRoadmap({roadmapId});
 
-    const roadmapNameSegments = /(ACCESS Allocated|ACCESS Affiliated|ACCESS) *(.*)/.exec(roadmap.name);
+    const roadmapNameSegments = /(ACCESS Allocated|ACCESS Affiliated|ACCESS)? *(.*)/.exec(roadmap.name);
 
     if (roadmap) {
-        return <div className="w-100 h-100 p-2 pt-5">
+        return <div className="w-100 h-100 p-2 pt-4">
             <div
                 className="w-100 h-100 d-flex flex-column rounded-3 border-gray-200 border border-1 position-relative concierge-roadmap-card bg-white">
                 <div className="w-100 position-absolute text-center roadmap-card-icon-row">

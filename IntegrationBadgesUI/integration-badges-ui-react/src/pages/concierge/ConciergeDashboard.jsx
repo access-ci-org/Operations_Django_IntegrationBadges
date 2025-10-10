@@ -8,6 +8,7 @@ import Translate from "../../locales/Translate.jsx";
 import {ConciergeRoadmapCard} from "../../components/concierge/ConciergeRoadmapCard.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {Fade} from "react-bootstrap";
+import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
 
 export default function ConciergeDashboard() {
     const {
@@ -53,7 +54,7 @@ export default function ConciergeDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-sm btn-dark rounded-2" to="">Create New</Link>
+                                <Link className="btn btn-sm btn-dark rounded-2" to={ConciergeRouteUrls.ROADMAP_NEW}>Create New</Link>
                                 <Link className="btn btn-link ms-3 me-3 fw-light text-decoration-none" to="">View
                                     All</Link>
                                 <div className="btn-group">

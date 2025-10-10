@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/LoadingBlock";
 import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
+import GridAndListSwitch from "../components/GridAndListSwitch.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -51,16 +52,7 @@ export default function IntegrationDashboard() {
             <div className="flex-fill bd-highlight">
                 <h2>Resource Providers {filteredOrganizations && `(${filteredOrganizations.length})`}</h2>
             </div>
-            <div className="p-1">
-                <button type="button" className="btn btn-light">
-                    <i className="bi bi-list"></i>
-                </button>
-            </div>
-            <div className="p-1">
-                <button type="button" className="btn btn-dark">
-                    <i className="bi bi-grid-3x3-gap-fill"></i>
-                </button>
-            </div>
+            <GridAndListSwitch/>
         </div>
 
         <LoadingBlock processing={!filteredOrganizations}
