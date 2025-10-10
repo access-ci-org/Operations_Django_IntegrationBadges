@@ -1,13 +1,15 @@
-import {Link, Outlet, Route} from "react-router-dom";
+import {Link, Navigate, Outlet, Route} from "react-router-dom";
 import Debug from "../../components/Debug.jsx";
 import ResourceBadgeStatusListing from "./ResourceBadgeStatusListing.jsx";
 import ConciergeDashboard from "./ConciergeDashboard.jsx";
 import ConciergeRoadmaps from "./ConciergeRoadmaps.jsx";
+import ConciergeRoadmapNew from "./ConciergeRoadmapNew.jsx";
 
 export const ConciergeRouteUrls = {
-    INDEX: "/concierge",
+    INDEX: "/concierge/dashboard",
     ROADMAPS: "/concierge/roadmaps",
-    ROADMAP_NEW: "/concierge/roadmap/new",
+    ROADMAP_NEW: "/concierge/roadmaps/new",
+    BADGES: "/concierge/badges",
     BADGE_STATUS: "/concierge/badge-status",
 };
 
@@ -36,5 +38,8 @@ const RouterLayout = () => {
 export const ConciergeRoute = <Route path="/concierge" element={<RouterLayout/>}>
     <Route path={ConciergeRouteUrls.INDEX} element={<ConciergeDashboard/>}/>
     <Route path={ConciergeRouteUrls.ROADMAPS} element={<ConciergeRoadmaps/>}/>
+    <Route path={ConciergeRouteUrls.ROADMAP_NEW} element={<ConciergeRoadmapNew/>}/>
     <Route path={ConciergeRouteUrls.BADGE_STATUS} element={<ResourceBadgeStatusListing/>}/>
+
+    <Route path="/concierge/*?" element={<Navigate to={ConciergeRouteUrls.INDEX} replace={true}/>}/>
 </Route>

@@ -54,9 +54,10 @@ export default function ConciergeDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-sm btn-dark rounded-2" to={ConciergeRouteUrls.ROADMAP_NEW}>Create New</Link>
-                                <Link className="btn btn-link ms-3 me-3 fw-light text-decoration-none" to="">View
-                                    All</Link>
+                                <Link className="btn btn-sm btn-dark rounded-2"
+                                      to={ConciergeRouteUrls.ROADMAP_NEW}>Create New</Link>
+                                <Link className="btn btn-link ms-3 me-3 fw-light text-decoration-none"
+                                      to={ConciergeRouteUrls.ROADMAPS}>View All</Link>
                                 <div className="btn-group">
                                     <button className="btn btn-sm btn-outline-gray-500 rounded-start"
                                             onClick={setRoadmapPaginationIndex.bind(null, prevRoadmapPaginationIndex)}

@@ -42,8 +42,7 @@ export default function ConciergeRoadmaps() {
                                 <ConciergeRoadmapCard roadmapId={null}/>
                             </div>
                             {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
-                                return <div
-                                    className={`col-lg-3 col-md-4 col-sm-6 p-2`}>
+                                return <div key={roadmapIndex} className={`col-lg-3 col-md-4 col-sm-6 p-2`}>
                                     <ConciergeRoadmapCard roadmapId={roadmap.roadmap_id}/>
                                 </div>
                             })}
