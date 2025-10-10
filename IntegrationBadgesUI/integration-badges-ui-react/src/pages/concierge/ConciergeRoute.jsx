@@ -14,6 +14,7 @@ export const ConciergeRouteUrls = {
     ROADMAP_ASSOCIATE_BADGES: "/concierge/roadmaps/:roadmapId/associate-badges",
     ROADMAP_NEW: "/concierge/roadmaps/new",
     BADGES: "/concierge/badges",
+    BADGE_EDIT: "/concierge/badges/:badgeId/edit",
     BADGE_STATUS: "/concierge/badge-status",
 };
 

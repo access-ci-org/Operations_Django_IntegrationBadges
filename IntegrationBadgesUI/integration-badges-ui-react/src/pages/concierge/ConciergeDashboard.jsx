@@ -104,7 +104,7 @@ export default function ConciergeDashboard() {
                                     </div>
                                     <div className="flex-fill ps-4 align-content-center">{badge.name}</div>
                                     <div className="align-content-center">
-                                        <Link to={`/concierge/badge-status/?badgeWorkflowStatus=`}
+                                        <Link to={ConciergeRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
                                               className="btn btn-sm btn-link text-center" style={{width: 80}}>
                                             <i className="bi bi-pencil-square pe-2"></i>
                                             Edit
