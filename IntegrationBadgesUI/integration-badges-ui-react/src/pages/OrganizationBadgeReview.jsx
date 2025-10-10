@@ -28,8 +28,6 @@ export default function OrganizationBadgeReview() {
 
     const resourceBadges = getResourceRoadmapBadges({organizationId, badgeWorkflowStatus});
 
-    console.log("#### resourceBadges : ", resourceBadges)
-
     if (organization && resourceBadges) {
         return <div className="container">
             <div className="row">

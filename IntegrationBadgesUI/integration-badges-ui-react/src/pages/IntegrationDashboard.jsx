@@ -28,8 +28,6 @@ export default function IntegrationDashboard() {
         });
     }
 
-    console.log("###### filteredOrganizations : ", filteredOrganizations);
-
     return (<div className="container">
         <div className="row">
             <h1>Integration Dashboard</h1>

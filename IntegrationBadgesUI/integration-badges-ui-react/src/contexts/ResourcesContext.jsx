@@ -307,7 +307,6 @@ export const ResourcesProvider = ({children}) => {
 
     const getResources = ({organizationId = null, resourceId = null, full = false} = {}) => {
         let url = getResourcesEndpointUrl({organizationId, resourceId, full});
-        console.log("#### resourceIds : ", resourceIds)
         if (resourceIds[url]) {
             return resourceIds[url].map(resourceId => getResource({resourceId}));
         }
@@ -400,7 +399,6 @@ export const ResourcesProvider = ({children}) => {
     const getResourceRoadmapBadgeStatusSummary = (
         {organizationId = null, resourceId = null, roadmapId = null, badgeId = null} = {}
     ) => {
-        console.log("###### resourceRoadmapBadgeStatusSummaryMap ", resourceRoadmapBadgeStatusSummaryMap)
         let url = getResourceRoadmapBadgeStatusSummaryEndpointUrl({organizationId, resourceId, roadmapId, badgeId});
 
         if (resourceRoadmapBadgeStatusSummaryMap[url]) {

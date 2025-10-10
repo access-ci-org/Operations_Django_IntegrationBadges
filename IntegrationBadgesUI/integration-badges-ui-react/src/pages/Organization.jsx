@@ -87,9 +87,6 @@ export default function Organization() {
         }
     }
 
-
-    console.log("sections : ", sections)
-
     sections = sections.filter(section => section.resources.length > 0);
 
     if (organization && resources && resources.length > 0) {

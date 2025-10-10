@@ -75,9 +75,6 @@ export default function ResourceBadgeStatusListing() {
                     </thead>
                     <tbody>
                     {resourceRoadmapBadges.map((resourceRoadmapBadge, resourceRoadmapBadgeIndex) => {
-
-                        console.log("#### YY resourceRoadmapBadge ", resourceRoadmapBadge)
-
                         const resourceId = resourceRoadmapBadge.info_resourceid;
                         const roadmapId = resourceRoadmapBadge.roadmap_id;
                         const badgeId = resourceRoadmapBadge.badge_id;
