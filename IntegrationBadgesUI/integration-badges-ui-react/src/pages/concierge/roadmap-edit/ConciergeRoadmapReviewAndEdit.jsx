@@ -1,17 +1,19 @@
 import LoadingBlock from "../../../components/LoadingBlock.jsx";
 import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
 import Form from "react-bootstrap/Form";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {ConciergeRouteUrls} from "./../ConciergeRoute.jsx";
 import RoadmapEditProgressMarker from "../../../components/concierge/RoadmapEditProgressMarker.jsx";
 
 
 export default function ConciergeRoadmapReviewAndEdit() {
-    const {getRoadmaps} = useRoadmaps();
+    const {roadmapId} = useParams();
 
-    const roadmaps = getRoadmaps();
+    const {getRoadmap} = useRoadmaps();
 
-    if (roadmaps) {
+    const roadmap = getRoadmap({roadmapId});
+
+    if (roadmap) {
         return <div className="container">
             <div className="row mt-2 p-3">
 
@@ -33,7 +35,7 @@ export default function ConciergeRoadmapReviewAndEdit() {
                             <Form>
                                 <Form.Group className="mb-3" controlId="newRoadmapForm.name">
                                     <Form.Label>Name</Form.Label>
-                                    <Form.Control type="text"/>
+                                    <Form.Control type="text" value={roadmap.name}/>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="newRoadmapForm.roadmapImage">
                                     <Form.Label>Roadmap Image</Form.Label>
@@ -67,10 +69,10 @@ export default function ConciergeRoadmapReviewAndEdit() {
                             </Form>
 
 
-
                             <div className="d-flex flex-row pb-4 pt-5">
                                 <h3 className="text-black fw-medium flex-fill">Associated Badges</h3>
-                                <Link className="btn btn-link" to="">Edit</Link>
+                                <Link className="btn btn-link"
+                                      to={ConciergeRouteUrls.ROADMAP_ASSOCIATE_BADGES.replace(":roadmapId", roadmapId)}>Edit</Link>
                             </div>
 
                             <div className="row pb-4">
