@@ -1,31 +1,10 @@
-import LoadingBlock from "../../components/LoadingBlock.jsx";
-import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import layersFillTealIcon from "../../assets/layers-fill-teal-icon.png";
-import layersFillGrayIcon from "../../assets/layers-fill-gray-icon.png";
+import LoadingBlock from "../../../components/LoadingBlock.jsx";
+import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
 import Form from "react-bootstrap/Form";
-import {BadgeWorkflowStatus} from "../../contexts/BadgeContext.jsx";
 import {Link} from "react-router-dom";
-import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
+import {ConciergeRouteUrls} from "../ConciergeRoute.jsx";
+import RoadmapEditProgressMarker from "../../../components/concierge/RoadmapEditProgressMarker.jsx";
 
-function ProgressMarker({steps, current}) {
-    return <div className="w-100 d-flex flex-row">
-        {steps.map((step, stepIndex) => {
-            const progressCheck = <img src={stepIndex <= current ? layersFillTealIcon : layersFillGrayIcon}
-                                       alt="roadmap creation progress check" style={{width: 30}} className=""
-                                       key={stepIndex}/>;
-            if (stepIndex === steps.length - 1) {
-                return progressCheck
-            } else {
-                return <div className="d-flex flex-row flex-fill" key={stepIndex}>
-                    {progressCheck}
-                    {stepIndex !== steps.length - 1 && <div className="flex-fill align-content-center">
-                        <div className="border-gray-500" style={{borderBottom: "1px dashed"}}></div>
-                    </div>}
-                </div>
-            }
-        })}
-    </div>
-}
 
 export default function ConciergeRoadmapNew() {
     const {getRoadmaps} = useRoadmaps();
@@ -41,7 +20,7 @@ export default function ConciergeRoadmapNew() {
 
                     <div className="w-100 text-center position-relative pt-5 pb-5">
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                            <ProgressMarker steps={[1, 2, 3]} current={0}/>
+                            <RoadmapEditProgressMarker steps={[1, 2, 3]} current={0}/>
                         </div>
                         <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
                                 style={{right: 0}}>Cancel/Discard
@@ -87,9 +66,9 @@ export default function ConciergeRoadmapNew() {
                     </div>
 
                     <div className="w-100 text-end pt-5 pb-5">
-                        <button className="btn btn-outline-dark ps-3 pe-3 m-1">
+                        <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-dark ps-3 pe-3 m-1">
                             Back
-                        </button>
+                        </Link>
                         <button className="btn btn-dark ps-3 pe-3 m-1">
                             Continue
                         </button>

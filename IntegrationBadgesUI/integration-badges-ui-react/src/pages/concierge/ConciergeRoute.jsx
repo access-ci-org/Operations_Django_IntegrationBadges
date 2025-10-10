@@ -3,11 +3,13 @@ import Debug from "../../components/Debug.jsx";
 import ResourceBadgeStatusListing from "./ResourceBadgeStatusListing.jsx";
 import ConciergeDashboard from "./ConciergeDashboard.jsx";
 import ConciergeRoadmaps from "./ConciergeRoadmaps.jsx";
-import ConciergeRoadmapNew from "./ConciergeRoadmapNew.jsx";
+import ConciergeRoadmapNew from "./roadmap-edit/ConciergeRoadmapNew.jsx";
+import ConciergeRoadmapReviewAndEdit from "./roadmap-edit/ConciergeRoadmapReviewAndEdit.jsx";
 
 export const ConciergeRouteUrls = {
     INDEX: "/concierge/dashboard",
     ROADMAPS: "/concierge/roadmaps",
+    ROADMAP_EDIT: "/concierge/roadmaps/:roadmapId/edit",
     ROADMAP_NEW: "/concierge/roadmaps/new",
     BADGES: "/concierge/badges",
     BADGE_STATUS: "/concierge/badge-status",
@@ -38,6 +40,7 @@ const RouterLayout = () => {
 export const ConciergeRoute = <Route path="/concierge" element={<RouterLayout/>}>
     <Route path={ConciergeRouteUrls.INDEX} element={<ConciergeDashboard/>}/>
     <Route path={ConciergeRouteUrls.ROADMAPS} element={<ConciergeRoadmaps/>}/>
+    <Route path={ConciergeRouteUrls.ROADMAP_EDIT} element={<ConciergeRoadmapReviewAndEdit/>}/>
     <Route path={ConciergeRouteUrls.ROADMAP_NEW} element={<ConciergeRoadmapNew/>}/>
     <Route path={ConciergeRouteUrls.BADGE_STATUS} element={<ResourceBadgeStatusListing/>}/>
 
