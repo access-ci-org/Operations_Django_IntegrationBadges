@@ -59,17 +59,17 @@ body {
   border-color: $gray-200 !important;
 }
 
-.bg-gray-100, .bg-gray-200, .bg-secondary, .bg-secondary-subtle {
-  // @extend .text-dark;
-
-  .btn.btn-link {
-    @extend .text-secondary;
-
-    &:hover {
-      @extend .text-medium;
-    }
-  }
-}
+//.bg-gray-100, .bg-gray-200, .bg-secondary, .bg-secondary-subtle {
+//  // @extend .text-dark;
+//
+//  .btn.btn-link {
+//    @extend .text-secondary;
+//
+//    &:hover {
+//      @extend .text-medium;
+//    }
+//  }
+//}
 
 .bg-dark {
   background-color: $access-dark !important;

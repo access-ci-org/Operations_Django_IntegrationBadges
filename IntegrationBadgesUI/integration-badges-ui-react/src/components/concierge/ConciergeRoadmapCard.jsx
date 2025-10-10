@@ -9,10 +9,9 @@ export function ConciergeRoadmapCard({roadmapId}) {
     if (roadmapId === null) {
         return <div className="w-100 h-100 p-2 pt-4">
             <div className="w-100 h-100 rounded-4 p-2 d-flex flex-column bg-gray-200 border-black border border-1">
-                <Link to={ConciergeRouteUrls.ROADMAP_NEW} className="btn btn-link w-100 h-100 text-center align-content-center">
-                    <span className="fw-normal">
+                <Link to={ConciergeRouteUrls.ROADMAP_NEW}
+                      className="btn btn-link w-100 h-100 text-center align-content-center fw-normal text-secondary">
                         + Create New
-                    </span>
                 </Link>
             </div>
         </div>
