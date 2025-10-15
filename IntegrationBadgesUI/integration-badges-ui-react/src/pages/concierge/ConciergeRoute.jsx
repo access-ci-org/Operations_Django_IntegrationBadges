@@ -3,16 +3,16 @@ import Debug from "../../components/Debug.jsx";
 import ResourceBadgeStatusListing from "./ResourceBadgeStatusListing.jsx";
 import ConciergeDashboard from "./ConciergeDashboard.jsx";
 import ConciergeRoadmaps from "./ConciergeRoadmaps.jsx";
-import ConciergeRoadmapNew from "./roadmap-edit/ConciergeRoadmapNew.jsx";
-import ConciergeRoadmapReviewAndEdit from "./roadmap-edit/ConciergeRoadmapReviewAndEdit.jsx";
-import ConciergeRoadmapAssociateBadges from "./roadmap-edit/ConciergeRoadmapAssociateBadges.jsx";
+import ConciergeRoadmapEditDetails from "./roadmap-edit/ConciergeRoadmapEditDetails.jsx";
+import ConciergeRoadmapEditReviewAndEdit from "./roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
+import ConciergeRoadmapEditAssociateBadges from "./roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
+import ConciergeRoadmapEdit from "./ConciergeRoadmapEdit.jsx";
 
 export const ConciergeRouteUrls = {
     INDEX: "/concierge/dashboard",
     ROADMAPS: "/concierge/roadmaps",
-    ROADMAP_EDIT: "/concierge/roadmaps/:roadmapId/edit",
-    ROADMAP_ASSOCIATE_BADGES: "/concierge/roadmaps/:roadmapId/associate-badges",
     ROADMAP_NEW: "/concierge/roadmaps/new",
+    ROADMAP_EDIT: "/concierge/roadmaps/:roadmapId/edit",
     BADGES: "/concierge/badges",
     BADGE_EDIT: "/concierge/badges/:badgeId/edit",
     BADGE_STATUS: "/concierge/badge-status",
@@ -43,9 +43,8 @@ const RouterLayout = () => {
 export const ConciergeRoute = <Route path="/concierge" element={<RouterLayout/>}>
     <Route path={ConciergeRouteUrls.INDEX} element={<ConciergeDashboard/>}/>
     <Route path={ConciergeRouteUrls.ROADMAPS} element={<ConciergeRoadmaps/>}/>
-    <Route path={ConciergeRouteUrls.ROADMAP_EDIT} element={<ConciergeRoadmapReviewAndEdit/>}/>
-    <Route path={ConciergeRouteUrls.ROADMAP_ASSOCIATE_BADGES} element={<ConciergeRoadmapAssociateBadges/>}/>
-    <Route path={ConciergeRouteUrls.ROADMAP_NEW} element={<ConciergeRoadmapNew/>}/>
+    <Route path={ConciergeRouteUrls.ROADMAP_EDIT} element={<ConciergeRoadmapEdit/>}/>
+    <Route path={ConciergeRouteUrls.ROADMAP_NEW} element={<ConciergeRoadmapEdit/>}/>
     <Route path={ConciergeRouteUrls.BADGE_STATUS} element={<ResourceBadgeStatusListing/>}/>
 
     <Route path="/concierge/*?" element={<Navigate to={ConciergeRouteUrls.INDEX} replace={true}/>}/>
