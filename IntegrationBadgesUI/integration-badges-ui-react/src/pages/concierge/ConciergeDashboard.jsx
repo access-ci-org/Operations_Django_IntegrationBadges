@@ -56,7 +56,7 @@ export default function ConciergeDashboard() {
                             <div>
                                 <Link className="btn btn-sm btn-dark rounded-2"
                                       to={ConciergeRouteUrls.ROADMAP_NEW}>Create New</Link>
-                                <Link className="btn btn-link ms-3 me-3 fw-light text-decoration-none"
+                                <Link className="btn btn-link ms-3 me-3 fw-light"
                                       to={ConciergeRouteUrls.ROADMAPS}>View All</Link>
                                 <div className="btn-group">
                                     <button className="btn btn-sm btn-outline-gray-500 rounded-start"
@@ -92,8 +92,8 @@ export default function ConciergeDashboard() {
                             </div>
                             <div>
                                 <Link className="btn btn-sm btn-dark rounded-2" to="">Create New</Link>
-                                <Link className="btn btn-link ms-3 me-3 fw-light text-decoration-none" to="">View
-                                    All</Link>
+                                <Link className="btn btn-link ms-3 me-3 fw-light" to="">
+                                    View All</Link>
                             </div>
                         </div>
                         <ul className="p-0">
@@ -122,18 +122,18 @@ export default function ConciergeDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-link ms-3 me-3 fw-light text-decoration-none" to="">View
-                                    All</Link>
+                                <Link className="btn btn-link ms-3 me-1 fw-light" to="">
+                                    View All</Link>
                             </div>
                         </div>
                         <ul className="p-0">
                             {visibleStatusList.map((status) => (
                                 <li key={status} className="d-flex flex-row pb-2">
                                     <div className="flex-fill"><Translate>badgeWorkflowStatus.{status}</Translate></div>
-                                    <Link to={`/concierge/badge-status/?badgeWorkflowStatus=${status}`}
-                                          className="btn btn-sm btn-link text-center" style={{width: 60}}>
-                                        {resourceRoadmapBadgeStatusSummary[status] ? resourceRoadmapBadgeStatusSummary[status] : 0}
-                                    </Link>
+                                    {/*<Link to={`/concierge/badge-status/?badgeWorkflowStatus=${status}`}*/}
+                                    {/*      className="btn btn-sm btn-link text-center" style={{width: 60}}>*/}
+                                    {resourceRoadmapBadgeStatusSummary[status] ? resourceRoadmapBadgeStatusSummary[status] : 0}
+                                    {/*</Link>*/}
                                 </li>))}
                         </ul>
                     </div>
