@@ -2,11 +2,11 @@ import LoadingBlock from "../../components/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useParams} from "react-router-dom";
 import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
-import RoadmapEditProgressMarker from "../../components/concierge/RoadmapEditProgressMarker.jsx";
+import RoadmapEditProgressMarker from "../../components/concierge/roadmap-edit/RoadmapEditProgressMarker.jsx";
 import {useEffect, useState} from "react";
-import ConciergeRoadmapEditDetails from "./roadmap-edit/ConciergeRoadmapEditDetails.jsx";
-import ConciergeRoadmapEditAssociateBadges from "./roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
-import ConciergeRoadmapEditReviewAndEdit from "./roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
+import ConciergeRoadmapEditDetails from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditDetails.jsx";
+import ConciergeRoadmapEditAssociateBadges from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
+import ConciergeRoadmapEditReviewAndEdit from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
 
 export default function ConciergeRoadmapEdit() {
     const {roadmapId} = useParams();

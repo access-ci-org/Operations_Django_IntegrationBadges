@@ -1,9 +1,9 @@
-import LoadingBlock from "../../../components/LoadingBlock.jsx";
+import LoadingBlock from "../../LoadingBlock.jsx";
 import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
 import Form from "react-bootstrap/Form";
 import {Link, useParams} from "react-router-dom";
-import {ConciergeRouteUrls} from "./../ConciergeRoute.jsx";
-import RoadmapEditProgressMarker from "../../../components/concierge/RoadmapEditProgressMarker.jsx";
+import {ConciergeRouteUrls} from "../../../pages/concierge/ConciergeRoute.jsx";
+import RoadmapEditProgressMarker from "./RoadmapEditProgressMarker.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 
 

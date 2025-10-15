@@ -1,5 +1,5 @@
-import layersFillTealIcon from "../../assets/layers-fill-teal-icon.png";
-import layersFillGrayIcon from "../../assets/layers-fill-gray-icon.png";
+import layersFillTealIcon from "../../../assets/layers-fill-teal-icon.png";
+import layersFillGrayIcon from "../../../assets/layers-fill-gray-icon.png";
 
 export default function RoadmapEditProgressMarker({steps, current}) {
     return <div className="w-100 d-flex flex-row">

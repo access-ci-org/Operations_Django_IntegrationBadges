@@ -3,9 +3,9 @@ import Debug from "../../components/Debug.jsx";
 import ResourceBadgeStatusListing from "./ResourceBadgeStatusListing.jsx";
 import ConciergeDashboard from "./ConciergeDashboard.jsx";
 import ConciergeRoadmaps from "./ConciergeRoadmaps.jsx";
-import ConciergeRoadmapEditDetails from "./roadmap-edit/ConciergeRoadmapEditDetails.jsx";
-import ConciergeRoadmapEditReviewAndEdit from "./roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
-import ConciergeRoadmapEditAssociateBadges from "./roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
+import ConciergeRoadmapEditDetails from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditDetails.jsx";
+import ConciergeRoadmapEditReviewAndEdit from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
+import ConciergeRoadmapEditAssociateBadges from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
 import ConciergeRoadmapEdit from "./ConciergeRoadmapEdit.jsx";
 
 export const ConciergeRouteUrls = {
