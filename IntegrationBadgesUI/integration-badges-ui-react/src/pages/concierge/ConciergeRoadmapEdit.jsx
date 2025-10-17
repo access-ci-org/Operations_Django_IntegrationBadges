@@ -121,7 +121,7 @@ export default function ConciergeRoadmapEdit() {
             </div>
 
             <Modal show={showSavedModal} >
-                <Modal.Header closeButton className="bg-light">
+                <Modal.Header className="bg-light">
                     <Modal.Title>
                         <i className="bi bi-check-circle"></i>
                     </Modal.Title>

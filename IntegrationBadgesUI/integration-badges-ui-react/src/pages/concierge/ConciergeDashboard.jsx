@@ -40,6 +40,9 @@ export default function ConciergeDashboard() {
     const nextRoadmapPaginationIndex = roadmapPaginationIndex + 4;
 
     if (roadmaps && badges && resourceRoadmapBadgeStatusSummary) {
+        const roadmapsPrevDisabled = prevRoadmapPaginationIndex < 0;
+        const roadmapsNextDisabled = nextRoadmapPaginationIndex >= roadmaps.length;
+
         return <div className="container">
             <div className="row visually-hidden">
                 <h1>Concierge Dashboard</h1>
@@ -61,12 +64,14 @@ export default function ConciergeDashboard() {
                                 <div className="btn-group">
                                     <button className="btn btn-sm btn-outline-gray-500 rounded-start"
                                             onClick={setRoadmapPaginationIndex.bind(null, prevRoadmapPaginationIndex)}
-                                            disabled={prevRoadmapPaginationIndex < 0}>
-                                        <i className="bi bi-chevron-left"></i></button>
+                                            disabled={roadmapsPrevDisabled}>
+                                        <i className={`bi bi-chevron-left ${!roadmapsPrevDisabled && "text-black"}`}></i>
+                                    </button>
                                     <button className="btn btn-sm btn-outline-gray-500 rounded-end"
                                             onClick={setRoadmapPaginationIndex.bind(null, nextRoadmapPaginationIndex)}
-                                            disabled={nextRoadmapPaginationIndex >= roadmaps.length}>
-                                        <i className="bi bi-chevron-right"></i></button>
+                                            disabled={roadmapsNextDisabled}>
+                                        <i className={`bi bi-chevron-right ${!roadmapsNextDisabled && "text-black"}`}></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
