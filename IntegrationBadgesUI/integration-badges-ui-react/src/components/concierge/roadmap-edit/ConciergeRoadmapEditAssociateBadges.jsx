@@ -38,6 +38,12 @@ export default function ConciergeRoadmapEditAssociateBadges({roadmapData, setRoa
         setRoadmapData({...roadmapData, badges});
     }
 
+    const toggleBadgeRequiredStatus = ({sequenceNo}) => {
+        const badges = [...roadmapData.badges];
+        badges[sequenceNo].required = !badges[sequenceNo].required;
+        setRoadmapData({...roadmapData, badges});
+    }
+
     return <div className="w-100 d-inline-block text-start">
         <div className="row">
             <div className="col-sm-6 pe-sm-5">
@@ -82,7 +88,8 @@ export default function ConciergeRoadmapEditAssociateBadges({roadmapData, setRoa
                             <div className="flex-fill align-content-center ps-2 pe-2 text-gray-800">{badge.name}</div>
                             <div className="align-content-center ps-2 pe-2">
                                 <Form.Check type="switch" id={`badge-required-switch-${badge.badge_id}`} label=""
-                                            checked={isBadgeRequired[badge.badge_id]} onChange={(evt) => console.log(evt)}/>
+                                            checked={isBadgeRequired[badge.badge_id]}
+                                            onChange={toggleBadgeRequiredStatus.bind(this, {sequenceNo})}/>
                             </div>
                             <button className="btn btn-link"
                                     onClick={removeBadgeFromSequence.bind(this, {sequenceNo})}>
