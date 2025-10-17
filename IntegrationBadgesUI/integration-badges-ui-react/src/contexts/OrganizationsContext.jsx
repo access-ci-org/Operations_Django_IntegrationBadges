@@ -48,7 +48,7 @@ export const OrganizationsProvider = ({children}) => {
             return response.data.results;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
     const fetchOrganizations = async () => {
@@ -81,7 +81,7 @@ export const OrganizationsProvider = ({children}) => {
             return response.data.results;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
 

@@ -135,7 +135,7 @@ export const ResourcesProvider = ({children}) => {
             return response;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
 
@@ -182,7 +182,7 @@ export const ResourcesProvider = ({children}) => {
             return resourceRoadmapBadgeLogs;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
 
@@ -215,7 +215,7 @@ export const ResourcesProvider = ({children}) => {
             return res;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
 
@@ -252,7 +252,7 @@ export const ResourcesProvider = ({children}) => {
             return res;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     }
 
@@ -296,7 +296,7 @@ export const ResourcesProvider = ({children}) => {
             return response.data.results;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
 

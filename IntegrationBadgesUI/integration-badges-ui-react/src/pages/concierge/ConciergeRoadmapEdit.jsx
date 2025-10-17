@@ -9,6 +9,7 @@ import ConciergeRoadmapEditAssociateBadges
     from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
 import ConciergeRoadmapEditReviewAndEdit
     from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
+import {Modal} from "react-bootstrap";
 
 export default function ConciergeRoadmapEdit() {
     const {roadmapId} = useParams();
@@ -29,6 +30,9 @@ export default function ConciergeRoadmapEdit() {
         ...roadmap,
         "graphic": "",
     });
+
+    const [showSavedModal, setShowSavedModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const areRoadmapDetailsValid = roadmapData.name.length > 0
         && roadmapData.executive_summary.length > 0
@@ -59,8 +63,13 @@ export default function ConciergeRoadmapEdit() {
     const activeSection = sections[activeSectionIndex];
 
     const publishRoadmap = async () => {
-        await setRoadmap({roadmapId, roadmapData});
-        navigate(ConciergeRouteUrls.ROADMAPS);
+        try {
+            await setRoadmap({roadmapId, roadmapData});
+            // navigate(ConciergeRouteUrls.ROADMAPS);
+            setShowSavedModal(true);
+        } catch (error) {
+            setShowErrorModal(true);
+        }
     };
 
     if (!roadmap || !!roadmap) {
@@ -110,6 +119,48 @@ export default function ConciergeRoadmapEdit() {
 
                 </div>
             </div>
+
+            <Modal show={showSavedModal} >
+                <Modal.Header closeButton className="bg-light">
+                    <Modal.Title>
+                        <i className="bi bi-check-circle"></i>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    The Roadmap “{roadmapData.name}” is Successfully Published.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Link className="btn btn-outline-dark rounded-1" to={ConciergeRouteUrls.INDEX}>
+                        Go to Home Page
+                    </Link>
+                    <Link className="btn btn-dark rounded-1" to={ConciergeRouteUrls.ROADMAPS}>
+                        Go to Roadmaps
+                    </Link>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
+                <Modal.Header closeButton className="bg-danger-subtle">
+                    <Modal.Title>
+                        <i className="bi bi-exclamation-triangle-fill"></i>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>
+                        You don't have permissions to make this change. If you should have it, please submit
+                        an
+                        ACCESS ticket requesting:</p>
+
+                    <p>Integration Dashboard <strong>concierge</strong> permission</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn btn-outline-dark rounded-1"
+                            onClick={setShowErrorModal.bind(this, false)}>
+                        Cancel
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     } else {
         return <div className="container">

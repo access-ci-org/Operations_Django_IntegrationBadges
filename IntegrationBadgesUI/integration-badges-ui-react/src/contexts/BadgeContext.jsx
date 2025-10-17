@@ -56,7 +56,7 @@ export const BadgeProvider = ({children}) => {
             return response.data.results;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
 
@@ -78,7 +78,7 @@ export const BadgeProvider = ({children}) => {
             return response.data.results;
         } catch (error) {
             console.log(error)
-            return error;
+            throw error;
         }
     };
 
