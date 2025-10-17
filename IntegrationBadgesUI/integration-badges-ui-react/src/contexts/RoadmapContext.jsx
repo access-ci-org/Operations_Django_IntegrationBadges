@@ -10,6 +10,8 @@ const RoadmapContext = createContext({
     },
     fetchRoadmap: ({roadmapId}) => {
     },
+    setRoadmap: ({roadmapId, roadmapData}) => {
+    },
     getRoadmap: ({roadmapId}) => {
     },
     getRoadmapBadges: ({roadmapId}) => {
@@ -77,6 +79,30 @@ export const RoadmapProvider = ({children}) => {
         }
     };
 
+    const setRoadmap = async ({roadmapId = null, roadmapData}) => {
+        try {
+            const response = await dashboardAxiosInstance.post(
+                roadmapId ? `/roadmap/${roadmapId}/` : "/roadmaps/",
+                roadmapData);
+            const _roadmap = response.data.results;
+
+            const _roadmapMap = {
+                ...roadmapMap,
+                [roadmapId]: {
+                    ...roadmapMap[_roadmap.roadmap_id],
+                    ..._roadmap
+                }
+            };
+            setRoadmapMap(_roadmapMap);
+
+            fetchRoadmaps();
+
+            return response.data.results;
+        } catch (error) {
+            console.log(error)
+            return error;
+        }
+    };
 
     const getRoadmap = ({roadmapId}) => {
         return roadmapMap[roadmapId];
@@ -86,7 +112,7 @@ export const RoadmapProvider = ({children}) => {
         const roadmap = getRoadmap(({roadmapId}));
         if (roadmap && roadmap.badges) {
             return roadmap.badges.map(roadmapBadge => {
-                const badgeId = roadmapBadge.badge.badge_id;
+                const badgeId = roadmapBadge.badge_id;
                 const required = roadmapBadge.required;
                 const sequence_no = roadmapBadge.sequence_no;
 
@@ -105,7 +131,8 @@ export const RoadmapProvider = ({children}) => {
 
 
     return (
-        <RoadmapContext.Provider value={{roadmapMap, fetchRoadmaps, fetchRoadmap, getRoadmap, getRoadmapBadges, getRoadmaps}}>
+        <RoadmapContext.Provider
+            value={{roadmapMap, fetchRoadmaps, fetchRoadmap, setRoadmap, getRoadmap, getRoadmapBadges, getRoadmaps}}>
             {children}
         </RoadmapContext.Provider>
     );

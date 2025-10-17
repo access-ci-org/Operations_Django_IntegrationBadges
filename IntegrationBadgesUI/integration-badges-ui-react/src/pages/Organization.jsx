@@ -70,9 +70,6 @@ export default function Organization() {
         let resourceId = resource.info_resourceid;
         let resourceRoadmaps = getResourceRoadmaps({resourceId});
 
-        console.log(`### [${resourceId}] resource `, resource)
-        console.log(`### [${resourceId}] resourceRoadmaps `, resourceRoadmaps)
-
         for (let j = 0; j < sections.length; j++) {
             const section = sections[j];
 
