@@ -151,7 +151,7 @@ export default function ConciergeRoadmapEdit() {
                         an
                         ACCESS ticket requesting:</p>
 
-                    <p>Integration Dashboard <strong>concierge</strong> permission</p>
+                    <p>Integration Dashboard <strong>roadmap.maintainer</strong> permission</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <button className="btn btn-outline-dark rounded-1"
