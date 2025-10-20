@@ -75,6 +75,16 @@ const RouterLayout = () => {
     }
 };
 
+export function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
     return (
         <OrganizationsProvider>
@@ -86,6 +96,7 @@ function App() {
                                 <div className="w-100">
                                     <div className="w-100">
                                         <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
+                                            <ScrollToTop />
                                             <Routes>
                                                 <Route path="/" element={<RouterLayout/>}>
 
