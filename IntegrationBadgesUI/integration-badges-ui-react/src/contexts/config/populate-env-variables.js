@@ -1,3 +1,5 @@
+import packageJson from '../../../package.json';
+
 // Initialise the variables from env if they are not already defined in the window
 const variableNames = [
     "APP_BASENAME",
@@ -23,5 +25,7 @@ for (let i = 0; i < variableNames.length; i++) {
 }
 
 window.SETTINGS.DISABLE_DASHBOARD_AUTHENTICATION = window.SETTINGS.DISABLE_DASHBOARD_AUTHENTICATION === "true";
+
+window.SETTINGS.WEBAPP_VERSION = packageJson.version;
 
 console.log("###### window.SETTINGS : ", window.SETTINGS)
