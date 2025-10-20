@@ -17,7 +17,7 @@ export function ConciergeSwitch(props) {
     const queryParams = new URLSearchParams(location.search);
     const concierge = queryParams.get('concierge');
 
-    const onSwitchClick = () => {
+    const onSwitchClick = (evt) => {
         navigate(location.pathname + (concierge ? "" : "?concierge=true"), {replace: true})
     }
 
@@ -25,7 +25,7 @@ export function ConciergeSwitch(props) {
         <div className="flex-wrap"></div>
         <div className="ps-5 pe-5">
             <Form.Check type="switch" checked={!!concierge} id="concierge-switch"
-                       label="Concierge Mode" onClick={onSwitchClick}/>
+                       label="Concierge Mode" onChange={onSwitchClick}/>
         </div>
     </nav>
 }
