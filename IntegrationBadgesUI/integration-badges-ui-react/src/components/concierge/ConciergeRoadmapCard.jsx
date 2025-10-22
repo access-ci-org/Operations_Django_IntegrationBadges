@@ -1,6 +1,5 @@
 import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
 import {ConciergeRouteUrls} from "../../pages/concierge/ConciergeRoute.jsx";
 
 export function ConciergeRoadmapCard({roadmapId}) {

@@ -1,7 +1,6 @@
 import {ConciergeBadgeEditDetailsV2} from "./ConciergeBadgeEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 
-
 export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData, onClickEditTasks, onClickEditPrerequisiteBadges}) {
     const {getBadge} = useBadges();
 

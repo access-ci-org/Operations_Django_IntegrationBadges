@@ -1,13 +1,5 @@
-import LoadingBlock from "../../LoadingBlock.jsx";
-import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
-import Form from "react-bootstrap/Form";
-import {Link, useParams} from "react-router-dom";
-import {ConciergeRouteUrls} from "../../../pages/concierge/ConciergeRoute.jsx";
-import RoadmapEditProgressMarker from "./RoadmapEditProgressMarker.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
-import BadgeIcon from "../../badge/BadgeIcon.jsx";
 import MultiSelectControlTwoLists from "../badge-edit/MultiSelectControlTwoLists.jsx";
-
 
 export default function ConciergeRoadmapEditAssociateBadges({roadmapData, setRoadmapData}) {
     const {getBadges} = useBadges();

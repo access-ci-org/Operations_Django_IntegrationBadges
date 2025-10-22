@@ -1,8 +1,5 @@
 import Form from "react-bootstrap/Form";
-import {useParams} from "react-router-dom";
 import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
-import {ConciergeRoadmapEditDetailsV1} from "../roadmap-edit/ConciergeRoadmapEditDetails.jsx";
-
 
 function getBadgeInputFields({badgeData, setBadgeData}) {
     const {getRoadmaps} = useRoadmaps();
@@ -51,7 +48,6 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
         </Form.Select>
     };
 }
-
 
 export default function ConciergeBadgeEditDetails({badgeData, setBadgeData}) {
     return <ConciergeBadgeEditDetailsV1 badgeData={badgeData} setBadgeData={setBadgeData}/>

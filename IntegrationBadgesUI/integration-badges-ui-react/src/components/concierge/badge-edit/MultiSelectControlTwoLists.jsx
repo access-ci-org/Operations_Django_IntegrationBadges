@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 
 /**
- *
+ * Multi select control with two lists
  * @param items [{id, label}]
  * @param value [{id, required}]
  * @param onChange

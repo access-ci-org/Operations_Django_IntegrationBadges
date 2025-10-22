@@ -1,7 +1,6 @@
 import Form from "react-bootstrap/Form";
 import {useParams} from "react-router-dom";
 
-
 function getRoadmapInputFields({roadmapData, setRoadmapData}) {
 
     const onInputValueChange = (fieldName) => (evt) => {
