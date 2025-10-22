@@ -10,6 +10,7 @@ import ConciergeRoadmapEditAssociateBadges
 import ConciergeRoadmapEditReviewAndEdit
     from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
+import {scrollToTop} from "../../components/scroll.jsx";
 
 export default function ConciergeRoadmapEdit() {
     const {roadmapId} = useParams();
@@ -45,6 +46,10 @@ export default function ConciergeRoadmapEdit() {
         && roadmapData.infrastructure_types.length > 0
         && roadmapData.integration_coordinators.length > 0
         && roadmapData.status.length > 0;
+
+    useEffect(() => {
+        scrollToTop();
+    }, [activeSectionIndex]);
 
     useEffect(() => {
         !!roadmapId && fetchRoadmap({roadmapId});
@@ -87,7 +92,7 @@ export default function ConciergeRoadmapEdit() {
 
                     <div className="w-100 text-center position-relative pt-5 pb-5">
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                            <RoadmapEditProgressMarker steps={[1, 2, 3]} current={activeSectionIndex}/>
+                            <RoadmapEditProgressMarker steps={sections} current={activeSectionIndex}/>
                         </div>
                         <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
                               style={{right: 0}}>Cancel/Discard
@@ -127,7 +132,7 @@ export default function ConciergeRoadmapEdit() {
                 </div>
             </div>
 
-            <Modal show={showSavedModal} >
+            <Modal show={showSavedModal}>
                 <Modal.Header className="bg-light">
                     <Modal.Title>
                         <i className="bi bi-check-circle"></i>

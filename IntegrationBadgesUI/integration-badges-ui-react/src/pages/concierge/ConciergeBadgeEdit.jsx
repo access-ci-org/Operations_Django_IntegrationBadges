@@ -10,6 +10,7 @@ import ConciergeBadgeEditAssociatePrerequisiteBadges
 import ConciergeBadgeEditReviewAndEdit
     from "../../components/concierge/badge-edit/ConciergeBadgeEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
+import {scrollToTop} from "../../components/scroll.jsx";
 
 export default function ConciergeBadgeEdit() {
     const {badgeId} = useParams();
@@ -52,6 +53,10 @@ export default function ConciergeBadgeEdit() {
         && badgeData.resource_provider_summary.length > 0
         && badgeData.default_badge_access_url.length > 0
         && badgeData.default_badge_access_url_label.length > 0;
+
+    useEffect(() => {
+        scrollToTop();
+    }, [activeSectionIndex]);
 
     useEffect(() => {
         !!badgeId && fetchBadge({badgeId});

@@ -23,6 +23,7 @@ import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
 import OrganizationBadgeReview from "./pages/OrganizationBadgeReview.jsx";
 import {ConciergeRoute} from "./pages/concierge/ConciergeRoute.jsx";
 import {ConciergeMainNavigation} from "./components/concierge/ConciergeMainNavigation.jsx";
+import {AlwaysScrollToTop} from "./components/scroll.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();
@@ -75,15 +76,6 @@ const RouterLayout = () => {
     }
 };
 
-export function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-}
 
 function App() {
     return (
@@ -96,7 +88,7 @@ function App() {
                                 <div className="w-100">
                                     <div className="w-100">
                                         <BrowserRouter basename={window.SETTINGS.APP_BASENAME}>
-                                            <ScrollToTop />
+                                            <AlwaysScrollToTop/>
                                             <Routes>
                                                 <Route path="/" element={<RouterLayout/>}>
 
