@@ -1,39 +1,15 @@
-import LoadingBlock from "../../LoadingBlock.jsx";
-import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
 import Form from "react-bootstrap/Form";
-import {Link, useParams} from "react-router-dom";
-import {ConciergeRouteUrls} from "../../../pages/concierge/ConciergeRoute.jsx";
-import RoadmapEditProgressMarker from "./RoadmapEditProgressMarker.jsx";
+import {useParams} from "react-router-dom";
 
 
 function getRoadmapInputFields({roadmapData, setRoadmapData}) {
 
-    const onRoadmapNameChange = (evt) => {
-        setRoadmapData({...roadmapData, name: evt.target.value});
+    const onInputValueChange = (fieldName) => (evt) => {
+        setRoadmapData({...roadmapData, [fieldName]: evt.target.value});
     };
 
-    const onRoadmapGraphicChange = (evt) => {
-        setRoadmapData({...roadmapData, graphic: evt.target.value});
-    };
-
-    const onRoadmapExecutiveSummaryChange = (evt) => {
-        setRoadmapData({...roadmapData, executive_summary: evt.target.value});
-    };
-
-    const onRoadmapInfrastructureTypesChange = (evt) => {
-        setRoadmapData({...roadmapData, infrastructure_types: evt.target.value});
-    };
-
-    const onRoadmapIntegrationCoordinatorsChange = (evt) => {
-        setRoadmapData({...roadmapData, integration_coordinators: evt.target.value});
-    };
-
-    const onRoadmapStatusChange = (evt) => {
-        setRoadmapData({...roadmapData, status: evt.target.value});
-    };
-
-    const roadmapInputFields = {
-        name: <Form.Control type="text" value={roadmapData.name} onChange={onRoadmapNameChange}/>,
+    return {
+        name: <Form.Control type="text" value={roadmapData.name} onChange={onInputValueChange("name")}/>,
 
         graphic: <button className="btn btn-gray-200">
             Browse Device
@@ -41,10 +17,10 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
         </button>,
 
         executive_summary: <Form.Control as="textarea" rows={6} value={roadmapData.executive_summary}
-                                         onChange={onRoadmapExecutiveSummaryChange}/>,
+                                         onChange={onInputValueChange("executive_summary")}/>,
 
         infrastructure_types: <Form.Select aria-label="Default select example" value={roadmapData.infrastructure_types}
-                                           onChange={onRoadmapInfrastructureTypesChange}>
+                                           onChange={onInputValueChange("infrastructure_types")}>
             <option value="" disabled={true}></option>
             <option value="Network">Network</option>
             <option value="Compute">Compute</option>
@@ -54,19 +30,21 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
         </Form.Select>,
 
         integration_coordinators: <Form.Control type="text" value={roadmapData.integration_coordinators}
-                                                onChange={onRoadmapIntegrationCoordinatorsChange}/>,
+                                                onChange={onInputValueChange("integration_coordinators")}/>,
 
         status: <Form.Select aria-label="Default select example" value={roadmapData.status}
-                             onChange={onRoadmapStatusChange}>
+                             onChange={onInputValueChange("status")}>
             <option value="1">Draft</option>
             <option value="2">Production</option>
         </Form.Select>
     };
-
-    return roadmapInputFields;
 }
 
-export default function ConciergeRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
+export default function ConciergeRoadmapEditDetails({roadmapData, setRoadmapData}) {
+    return <ConciergeRoadmapEditDetailsV1 roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+}
+
+export function ConciergeRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
     const roadmapInputFields = getRoadmapInputFields({roadmapData, setRoadmapData});
 
     return <div className="w-100 d-inline-block text-start">

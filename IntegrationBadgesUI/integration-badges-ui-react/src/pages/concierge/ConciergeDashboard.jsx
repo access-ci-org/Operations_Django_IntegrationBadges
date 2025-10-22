@@ -96,8 +96,9 @@ export default function ConciergeDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-sm btn-dark rounded-2" to="">Create New</Link>
-                                <Link className="btn btn-link ms-3 me-3 fw-light" to="">
+                                <Link className="btn btn-sm btn-dark rounded-2" to={ConciergeRouteUrls.BADGE_NEW}>
+                                    Create New</Link>
+                                <Link className="btn btn-link ms-3 me-3 fw-light" to={ConciergeRouteUrls.BADGES}>
                                     View All</Link>
                             </div>
                         </div>

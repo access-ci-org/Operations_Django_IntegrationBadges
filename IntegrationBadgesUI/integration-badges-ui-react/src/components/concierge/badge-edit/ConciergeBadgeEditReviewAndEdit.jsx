@@ -1,33 +1,33 @@
-import LoadingBlock from "../../LoadingBlock.jsx";
-import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
-import Form from "react-bootstrap/Form";
-import {Link, useParams} from "react-router-dom";
-import {ConciergeRouteUrls} from "../../../pages/concierge/ConciergeRoute.jsx";
-import RoadmapEditProgressMarker from "./RoadmapEditProgressMarker.jsx";
-import ConciergeRoadmapEditDetails, {ConciergeRoadmapEditDetailsV2} from "./ConciergeRoadmapEditDetails.jsx";
+import {ConciergeBadgeEditDetailsV2} from "./ConciergeBadgeEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 
 
-export default function ConciergeRoadmapEditReviewAndEdit({roadmapData, setRoadmapData, onClickEditBadges}) {
+export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData, onClickEditTasks, onClickEditPrerequisiteBadges}) {
     const {getBadge} = useBadges();
 
     const requiredBadges = [];
     const recommendedBadges = [];
 
-    for (let i = 0; i < roadmapData.badges.length; i++) {
-        const {badge_id, required} = roadmapData.badges[i];
+    for (let i = 0; i < badgeData.prerequisites.length; i++) {
+        const {badge_id, required} = badgeData.prerequisites[i];
         if (required) requiredBadges.push(getBadge({badgeId: badge_id}));
         else recommendedBadges.push(getBadge({badgeId: badge_id}));
     }
 
     return <div className="w-100 d-inline-block text-start">
-        <h3 className="text-black pb-4 fw-medium">Roadmap Description</h3>
+        <h3 className="text-black pb-4 fw-medium">Badge Description</h3>
 
-        <ConciergeRoadmapEditDetailsV2 roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+        <ConciergeBadgeEditDetailsV2 badgeData={badgeData} setBadgeData={setBadgeData}/>
+
 
         <div className="d-flex flex-row pb-4 pt-5">
-            <h3 className="text-black fw-medium flex-fill">Associated Badges</h3>
-            <button className="btn btn-link" onClick={onClickEditBadges}>Edit</button>
+            <h3 className="text-black fw-medium flex-fill">Associated Tasks</h3>
+            <button className="btn btn-link" onClick={onClickEditTasks}>Edit</button>
+        </div>
+
+        <div className="d-flex flex-row pb-4 pt-5">
+            <h3 className="text-black fw-medium flex-fill">Prerequisite Badges</h3>
+            <button className="btn btn-link" onClick={onClickEditPrerequisiteBadges}>Edit</button>
         </div>
 
         <div className="row pb-5">

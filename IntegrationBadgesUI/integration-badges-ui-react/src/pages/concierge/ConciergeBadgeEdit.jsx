@@ -1,85 +1,98 @@
 import LoadingBlock from "../../components/LoadingBlock.jsx";
-import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
-import RoadmapEditProgressMarker from "../../components/concierge/roadmap-edit/RoadmapEditProgressMarker.jsx";
+import BadgeEditProgressMarker from "../../components/concierge/badge-edit/BadgeEditProgressMarker.jsx";
 import {useEffect, useState} from "react";
-import ConciergeRoadmapEditDetails from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditDetails.jsx";
-import ConciergeRoadmapEditAssociateBadges
-    from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
-import ConciergeRoadmapEditReviewAndEdit
-    from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
+import ConciergeBadgeEditDetails from "../../components/concierge/badge-edit/ConciergeBadgeEditDetails.jsx";
+import ConciergeBadgeEditAssociatePrerequisiteBadges
+    from "../../components/concierge/badge-edit/ConciergeBadgeEditAssociatePrerequisiteBadges.jsx";
+import ConciergeBadgeEditReviewAndEdit
+    from "../../components/concierge/badge-edit/ConciergeBadgeEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
 
-export default function ConciergeRoadmapEdit() {
-    const {roadmapId} = useParams();
+export default function ConciergeBadgeEdit() {
+    const {badgeId} = useParams();
 
     const navigate = useNavigate();
-    const {fetchRoadmaps, fetchRoadmap, setRoadmap, getRoadmap} = useRoadmaps();
+    const {fetchBadges, fetchBadge, getBadge} = useBadges();
 
-    const roadmap = getRoadmap({roadmapId});
+    const badge = getBadge({badgeId});
 
-    const [activeSectionIndex, seActiveSectionIndex] = useState(roadmapId ? 2 : 0);
-    const [roadmapData, setRoadmapData] = useState({
-        "name": "",
-        "executive_summary": "",
-        "infrastructure_types": "",
-        "integration_coordinators": "",
-        "status": "Draft",
-        "badges": [
+    const [activeSectionIndex, seActiveSectionIndex] = useState(badgeId ? 3 : 0);
+    const [badgeData, setBadgeData] = useState({
+        "badge_id": null,
+        "prerequisites": [
             // {
             //     "sequence_no": 0,
-            //     "required": true,
             //     "badge_id": 1
+            // },
+            // {
+            //     "sequence_no": 1,
+            //     "badge_id": 5
             // }
         ],
-        ...roadmap,
+        "name": "",
+        "researcher_summary": "",
+        "resource_provider_summary": "",
+        "verification_summary": "",
+        "verification_method": "Manual",
+        "default_badge_access_url": "",
+        "default_badge_access_url_label": "",
+
+        ...badge,
         "graphic": "",
     });
 
     const [showSavedModal, setShowSavedModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
-    const areRoadmapDetailsValid = roadmapData.name.length > 0
-        && roadmapData.executive_summary.length > 0
-        && roadmapData.infrastructure_types.length > 0
-        && roadmapData.integration_coordinators.length > 0
-        && roadmapData.status.length > 0;
+    const areBadgeDetailsValid = badgeData.name.length > 0
+        && badgeData.researcher_summary.length > 0
+        && badgeData.resource_provider_summary.length > 0
+        && badgeData.default_badge_access_url.length > 0
+        && badgeData.default_badge_access_url_label.length > 0;
 
     useEffect(() => {
-        !!roadmapId && fetchRoadmap({roadmapId});
-    }, [roadmapId]);
-
+        !!badgeId && fetchBadge({badgeId});
+    }, [badgeId]);
 
     const sections = [
         {
-            title: "Let’s Describe the New Roadmap",
-            component: <ConciergeRoadmapEditDetails roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+            title: "Describe A New Badge",
+            component: <ConciergeBadgeEditDetails badgeData={badgeData} setBadgeData={setBadgeData}/>
         },
         {
-            title: "Associate Badges",
-            component: <ConciergeRoadmapEditAssociateBadges roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+            title: "Associate Tasks",
+            component: <div>This is yet to be implemented. Click Next</div>
+        },
+        {
+            title: "Select Prerequisite Badges",
+            component: <ConciergeBadgeEditAssociatePrerequisiteBadges badgeData={badgeData}
+                                                                      setBadgeData={setBadgeData}/>
         },
         {
             title: "Review & Edit",
-            component: <ConciergeRoadmapEditReviewAndEdit roadmapData={roadmapData} setRoadmapData={setRoadmapData}
-                                                          onClickEditBadges={seActiveSectionIndex.bind(this, 1)}/>
+            component: <ConciergeBadgeEditReviewAndEdit
+                badgeData={badgeData} setBadgeData={setBadgeData}
+                onClickEditTasks={seActiveSectionIndex.bind(this, 1)}
+                onClickEditPrerequisiteBadges={seActiveSectionIndex.bind(this, 2)}/>
         },
     ];
 
     const activeSection = sections[activeSectionIndex];
 
-    const publishRoadmap = async () => {
+    const publishBadge = async () => {
         try {
-            await setRoadmap({roadmapId, roadmapData});
-            // navigate(ConciergeRouteUrls.ROADMAPS);
+            //await setBadge({badgeId, badgeData});
+            // navigate(ConciergeRouteUrls.BADGES);
             setShowSavedModal(true);
         } catch (error) {
             setShowErrorModal(true);
         }
     };
 
-    if (!roadmap || !!roadmap) {
+    if (!badge || !!badge) {
         return <div className="container">
             <div className="row mt-2 p-3">
                 <div className="w-100 bg-white border-3 rounded-2 pt-4 ps-5 pe-5" style={{paddingBottom: 300}}>
@@ -87,7 +100,7 @@ export default function ConciergeRoadmapEdit() {
 
                     <div className="w-100 text-center position-relative pt-5 pb-5">
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                            <RoadmapEditProgressMarker steps={[1, 2, 3]} current={activeSectionIndex}/>
+                            <BadgeEditProgressMarker steps={sections} current={activeSectionIndex}/>
                         </div>
                         <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
                               style={{right: 0}}>Cancel/Discard
@@ -112,13 +125,13 @@ export default function ConciergeRoadmapEdit() {
 
                         {activeSectionIndex === sections.length - 1 ?
                             <button className="btn btn-dark ps-3 pe-3 m-1"
-                                    onClick={publishRoadmap}
-                                    disabled={!areRoadmapDetailsValid}>
+                                    onClick={publishBadge}
+                                    disabled={!areBadgeDetailsValid}>
                                 Publish
                             </button> :
                             <button className="btn btn-dark ps-3 pe-3 m-1"
                                     onClick={seActiveSectionIndex.bind(this, activeSectionIndex + 1)}
-                                    disabled={!areRoadmapDetailsValid}>
+                                    disabled={!areBadgeDetailsValid}>
                                 Continue
                             </button>}
 
@@ -127,21 +140,21 @@ export default function ConciergeRoadmapEdit() {
                 </div>
             </div>
 
-            <Modal show={showSavedModal} >
+            <Modal show={showSavedModal}>
                 <Modal.Header className="bg-light">
                     <Modal.Title>
                         <i className="bi bi-check-circle"></i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    The Roadmap “{roadmapData.name}” is Successfully Published.
+                    The Badge “{badgeData.name}” is Successfully Published.
                 </Modal.Body>
                 <Modal.Footer>
                     <Link className="btn btn-outline-dark rounded-1" to={ConciergeRouteUrls.INDEX}>
                         Go to Home Page
                     </Link>
                     <Link className="btn btn-dark rounded-1" to={ConciergeRouteUrls.ROADMAPS}>
-                        Go to Roadmaps
+                        Go to Badges
                     </Link>
                 </Modal.Footer>
             </Modal>
@@ -158,7 +171,7 @@ export default function ConciergeRoadmapEdit() {
                         an
                         ACCESS ticket requesting:</p>
 
-                    <p>Integration Dashboard <strong>roadmap.maintainer</strong> permission</p>
+                    <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <button className="btn btn-outline-dark rounded-1"
