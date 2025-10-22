@@ -16,7 +16,7 @@ export default function ConciergeRoadmapEdit() {
     const {roadmapId} = useParams();
 
     const navigate = useNavigate();
-    const {fetchRoadmaps, fetchRoadmap, setRoadmap, getRoadmap} = useRoadmaps();
+    const {fetchRoadmap, setRoadmap, getRoadmap} = useRoadmaps();
 
     const roadmap = getRoadmap({roadmapId});
 
@@ -33,9 +33,7 @@ export default function ConciergeRoadmapEdit() {
             //     "required": true,
             //     "badge_id": 1
             // }
-        ],
-        ...roadmap,
-        "graphic": "",
+        ]
     });
 
     const [showSavedModal, setShowSavedModal] = useState(false);
@@ -50,6 +48,14 @@ export default function ConciergeRoadmapEdit() {
     useEffect(() => {
         scrollToTop();
     }, [activeSectionIndex]);
+
+    useEffect(() => {
+        setRoadmapData({
+            ...roadmapData,
+            ...roadmap,
+            "graphic": ""
+        })
+    }, [roadmapId, !!roadmap]);
 
     useEffect(() => {
         !!roadmapId && fetchRoadmap({roadmapId});

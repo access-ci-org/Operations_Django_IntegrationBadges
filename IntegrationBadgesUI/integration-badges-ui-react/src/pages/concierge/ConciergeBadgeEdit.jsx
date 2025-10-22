@@ -11,14 +11,19 @@ import ConciergeBadgeEditReviewAndEdit
     from "../../components/concierge/badge-edit/ConciergeBadgeEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
 import {scrollToTop} from "../../components/scroll.jsx";
+import ConciergeBadgeEditAssociateTasks
+    from "../../components/concierge/badge-edit/ConciergeBadgeEditAssociateTasks.jsx";
+import {useTasks} from "../../contexts/TaskContext.jsx";
 
 export default function ConciergeBadgeEdit() {
     const {badgeId} = useParams();
 
     const navigate = useNavigate();
-    const {fetchBadges, fetchBadge, getBadge} = useBadges();
+    const {fetchBadge, getBadge} = useBadges();
+    const {fetchBadgeTasks, getBadgeTasks} = useTasks();
 
     const badge = getBadge({badgeId});
+    const badgeTasks = getBadgeTasks({badgeId});
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(badgeId ? 3 : 0);
     const [badgeData, setBadgeData] = useState({
@@ -28,10 +33,6 @@ export default function ConciergeBadgeEdit() {
             //     "sequence_no": 0,
             //     "badge_id": 1
             // },
-            // {
-            //     "sequence_no": 1,
-            //     "badge_id": 5
-            // }
         ],
         "name": "",
         "researcher_summary": "",
@@ -40,9 +41,13 @@ export default function ConciergeBadgeEdit() {
         "verification_method": "Manual",
         "default_badge_access_url": "",
         "default_badge_access_url_label": "",
-
-        ...badge,
-        "graphic": "",
+        "tasks": [
+            // {
+            //     "sequence_no": 0,
+            //     "task_id": 1
+            //     "required": false
+            // },
+        ]
     });
 
     const [showSavedModal, setShowSavedModal] = useState(false);
@@ -59,7 +64,19 @@ export default function ConciergeBadgeEdit() {
     }, [activeSectionIndex]);
 
     useEffect(() => {
-        !!badgeId && fetchBadge({badgeId});
+        setBadgeData({
+            ...badgeData,
+            ...badge,
+            "graphic": "",
+            "tasks": !!badgeTasks ? badgeTasks : []
+        })
+    }, [badgeId, !!badge, !!badgeTasks]);
+
+    useEffect(() => {
+        if (!!badgeId) {
+            fetchBadge({badgeId})
+            fetchBadgeTasks({badgeId})
+        }
     }, [badgeId]);
 
     const sections = [
@@ -69,7 +86,7 @@ export default function ConciergeBadgeEdit() {
         },
         {
             title: "Associate Tasks",
-            component: <div>This is yet to be implemented. Click Next</div>
+            component: <ConciergeBadgeEditAssociateTasks badgeData={badgeData} setBadgeData={setBadgeData}/>
         },
         {
             title: "Select Prerequisite Badges",

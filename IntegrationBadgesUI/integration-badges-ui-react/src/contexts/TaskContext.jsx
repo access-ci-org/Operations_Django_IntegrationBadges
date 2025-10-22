@@ -5,8 +5,10 @@ import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 const TaskContext = createContext({
     // taskMap: {},
     // badgeTaskIdMap: {},
+    fetchTasks: () => {},
     fetchBadgeTasks: ({badgeId}) => {
     },
+    getTasks: () => {},
     getTask: ({taskId}) => {
     },
     getBadgeTasks: ({badgeId}) => {
@@ -26,8 +28,31 @@ export const BadgeTaskWorkflowStatus = {
  * @param children
  */
 export const TaskProvider = ({children}) => {
+    const [taskIds, setTaskIds] = useReducer(DefaultReducer, []);
     const [taskMap, setTaskMap] = useReducer(DefaultReducer, {});
     const [badgeTaskIdMap, setBadgeTaskIdMap] = useReducer(DefaultReducer, {});
+
+    const fetchTasks = async () => {
+        try {
+            const response = await dashboardAxiosInstance.get(`/tasks`);
+            const _tasks = response.data.results;
+            const _taskMap = {}
+            const _taskIds = [];
+            for (let i = 0; i < _tasks.length; i++) {
+                const _task = _tasks[i];
+
+                _taskMap[_task.task_id] = _task;
+                _taskIds.push(_task.task_id)
+            }
+            setTaskMap({...taskMap, ..._taskMap});
+            setTaskIds(_taskIds);
+
+            return response.data.results;
+        } catch (error) {
+            console.log(error)
+            throw error;
+        }
+    };
 
     const fetchBadgeTasks = async ({badgeId}) => {
         try {
@@ -53,6 +78,10 @@ export const TaskProvider = ({children}) => {
         }
     };
 
+    const getTasks = () => {
+        return taskIds.map(taskId => getTask({taskId}));
+    };
+
     const getTask = ({taskId}) => {
         return taskMap[taskId];
     };
@@ -64,7 +93,7 @@ export const TaskProvider = ({children}) => {
     };
 
     return (
-        <TaskContext.Provider value={{fetchBadgeTasks, getTask, getBadgeTasks}}>
+        <TaskContext.Provider value={{fetchTasks, fetchBadgeTasks, getTasks, getTask, getBadgeTasks}}>
             {children}
         </TaskContext.Provider>
     );

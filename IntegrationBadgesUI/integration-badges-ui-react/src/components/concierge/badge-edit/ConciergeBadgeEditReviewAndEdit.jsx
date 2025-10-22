@@ -1,8 +1,10 @@
 import {ConciergeBadgeEditDetailsV2} from "./ConciergeBadgeEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
+import {useTasks} from "../../../contexts/TaskContext.jsx";
 
 export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData, onClickEditTasks, onClickEditPrerequisiteBadges}) {
     const {getBadge} = useBadges();
+    const {getTask} = useTasks();
 
     const requiredBadges = [];
     const recommendedBadges = [];
@@ -11,6 +13,16 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
         const {badge_id, required} = badgeData.prerequisites[i];
         if (required) requiredBadges.push(getBadge({badgeId: badge_id}));
         else recommendedBadges.push(getBadge({badgeId: badge_id}));
+    }
+
+
+    const requiredTasks = [];
+    const recommendedTasks = [];
+
+    for (let i = 0; i < badgeData.tasks.length; i++) {
+        const {task_id, required} = badgeData.tasks[i];
+        if (required) requiredTasks.push(getTask({taskId: task_id}));
+        else recommendedTasks.push(getTask({taskId: task_id}));
     }
 
     return <div className="w-100 d-inline-block text-start">
@@ -22,6 +34,25 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
         <div className="d-flex flex-row pb-4 pt-5">
             <h3 className="text-black fw-medium flex-fill">Associated Tasks</h3>
             <button className="btn btn-link" onClick={onClickEditTasks}>Edit</button>
+        </div>
+
+
+        <div className="row pb-5">
+            <div className="col-sm-6 pe-3">
+                Required Tasks
+            </div>
+            <div className="col-sm-6">
+                {requiredTasks.map((task, taskIndex) => <div key={taskIndex}>{task.name}</div>)}
+            </div>
+        </div>
+
+        <div className="row pt-3">
+            <div className="col-sm-6 pe-3">
+                Recommended Tasks
+            </div>
+            <div className="col-sm-6">
+                {recommendedTasks.map((task, taskIndex) => <div key={taskIndex}>{task.name}</div>)}
+            </div>
         </div>
 
         <div className="d-flex flex-row pb-4 pt-5">

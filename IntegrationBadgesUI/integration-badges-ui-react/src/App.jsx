@@ -12,7 +12,7 @@ import Organization from "./pages/Organization";
 import CustomizedBreadcrumb from "./components/CustomizedBreadcrumb";
 import Resource from "./pages/Resource";
 import ResourceBadge from "./pages/ResourceBadge";
-import {TaskProvider} from "./contexts/TaskContext";
+import {TaskProvider, useTasks} from "./contexts/TaskContext";
 import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
 import {useEffect} from "react";
@@ -35,11 +35,13 @@ const RouterLayout = () => {
     const {fetchResources, getResources} = useResources();
     const {fetchRoadmaps, getRoadmaps} = useRoadmaps();
     const {fetchBadges, getBadges} = useBadges();
+    const {fetchTasks, getTasks} = useTasks();
 
     const organizations = getOrganizations();
     const resources = getResources();
     const roadmaps = getRoadmaps();
     const badges = getBadges();
+    const tasks = getTasks();
 
     useEffect(() => {
         if (initialFetchesAreRequired) {
@@ -47,13 +49,15 @@ const RouterLayout = () => {
             fetchResources();
             fetchRoadmaps();
             fetchBadges();
+            fetchTasks();
         }
     }, [initialFetchesAreRequired]);
 
     let isDataReady = (organizations && organizations.length > 0)
         && (resources && resources.length > 0)
         && (roadmaps && roadmaps.length > 0)
-        && (badges && badges.length > 0);
+        && (badges && badges.length > 0)
+        && (tasks && tasks.length > 0);
 
     if (isConciergePage) {
         return (
