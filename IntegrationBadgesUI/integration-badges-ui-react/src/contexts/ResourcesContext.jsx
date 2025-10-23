@@ -72,7 +72,7 @@ export const ResourceStatus = {
  */
 export const ResourcesProvider = ({children}) => {
     const {getBadge} = useBadges();
-    const {getBadgeTasks} = useTasks();
+    const {getTask} = useTasks();
     const {getOrganization} = useOrganizations();
     const {getRoadmap} = useRoadmaps();
 
@@ -360,8 +360,8 @@ export const ResourcesProvider = ({children}) => {
     const getResourceRoadmapBadgePrerequisites = ({resourceId, roadmapId, badgeId}) => {
         const badge = getBadge({badgeId});
         if (badge && badge.prerequisites) {
-            return badge.prerequisites.map(({prerequisite_badge}) =>
-                _getBadgesWithWorkflow({resourceId, roadmapId, badgeId: prerequisite_badge}));
+            return badge.prerequisites.map((prerequisite_badge) =>
+                _getBadgesWithWorkflow({resourceId, roadmapId, badgeId: prerequisite_badge.badge_id}));
         }
     }
 
@@ -378,13 +378,16 @@ export const ResourcesProvider = ({children}) => {
     }
 
     const getResourceRoadmapBadgeTasks = ({resourceId, roadmapId, badgeId}) => {
-        let tasks = getBadgeTasks({badgeId});
+        let badge = getBadge({badgeId});
 
-        if (tasks) {
-            return tasks.map(task => {
-                const taskId = task.task_id;
+        if (badge.tasks) {
+            return badge.tasks.map(({task_id, required, sequence_no}) => {
+                const taskId = task_id;
+                const task = getTask({taskId});
                 let resourceBadgeTaskWorkflow = null;
-                if (resourceRoadmapBadgeTaskMap[resourceId] && resourceRoadmapBadgeTaskMap[resourceId][roadmapId] && resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId]) {
+                if (resourceRoadmapBadgeTaskMap[resourceId] && resourceRoadmapBadgeTaskMap[resourceId][roadmapId]
+                    && resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId]) {
+
                     resourceBadgeTaskWorkflow = resourceRoadmapBadgeTaskMap[resourceId][roadmapId][badgeId][taskId];
                 }
 

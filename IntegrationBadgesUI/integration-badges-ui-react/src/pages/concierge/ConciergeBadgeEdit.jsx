@@ -20,20 +20,12 @@ export default function ConciergeBadgeEdit() {
 
     const navigate = useNavigate();
     const {fetchBadge, getBadge} = useBadges();
-    const {fetchBadgeTasks, getBadgeTasks} = useTasks();
 
     const badge = getBadge({badgeId});
-    const badgeTasks = getBadgeTasks({badgeId});
 
     const [activeSectionIndex, seActiveSectionIndex] = useState(badgeId ? 3 : 0);
     const [badgeData, setBadgeData] = useState({
         "badge_id": null,
-        "prerequisites": [
-            // {
-            //     "sequence_no": 0,
-            //     "badge_id": 1
-            // },
-        ],
         "name": "",
         "researcher_summary": "",
         "resource_provider_summary": "",
@@ -41,6 +33,12 @@ export default function ConciergeBadgeEdit() {
         "verification_method": "Manual",
         "default_badge_access_url": "",
         "default_badge_access_url_label": "",
+        "prerequisites": [
+            // {
+            //     "sequence_no": 0,
+            //     "badge_id": 1
+            // },
+        ],
         "tasks": [
             // {
             //     "sequence_no": 0,
@@ -67,16 +65,12 @@ export default function ConciergeBadgeEdit() {
         setBadgeData({
             ...badgeData,
             ...badge,
-            "graphic": "",
-            "tasks": !!badgeTasks ? badgeTasks : []
+            "graphic": ""
         })
-    }, [badgeId, !!badge, !!badgeTasks]);
+    }, [badgeId, !!badge]);
 
     useEffect(() => {
-        if (!!badgeId) {
-            fetchBadge({badgeId})
-            fetchBadgeTasks({badgeId})
-        }
+        !!badgeId && fetchBadge({badgeId});
     }, [badgeId]);
 
     const sections = [

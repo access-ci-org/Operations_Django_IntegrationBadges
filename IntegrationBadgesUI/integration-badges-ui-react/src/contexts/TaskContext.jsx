@@ -3,15 +3,9 @@ import DefaultReducer from "./reducers/DefaultReducer";
 import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const TaskContext = createContext({
-    // taskMap: {},
-    // badgeTaskIdMap: {},
     fetchTasks: () => {},
-    fetchBadgeTasks: ({badgeId}) => {
-    },
     getTasks: () => {},
     getTask: ({taskId}) => {
-    },
-    getBadgeTasks: ({badgeId}) => {
     }
 });
 
@@ -30,7 +24,6 @@ export const BadgeTaskWorkflowStatus = {
 export const TaskProvider = ({children}) => {
     const [taskIds, setTaskIds] = useReducer(DefaultReducer, []);
     const [taskMap, setTaskMap] = useReducer(DefaultReducer, {});
-    const [badgeTaskIdMap, setBadgeTaskIdMap] = useReducer(DefaultReducer, {});
 
     const fetchTasks = async () => {
         try {
@@ -54,30 +47,6 @@ export const TaskProvider = ({children}) => {
         }
     };
 
-    const fetchBadgeTasks = async ({badgeId}) => {
-        try {
-            const response = await dashboardAxiosInstance.get(`/badge/${badgeId}/tasks`);
-            const _tasks = response.data.results;
-            const _taskMap = {}
-            const _taskIds = [];
-            for (let i = 0; i < _tasks.length; i++) {
-                const _task = _tasks[i].task;
-                _task.required = _tasks[i].required;
-                _task.sequence_no = _tasks[i].sequence_no;
-
-                _taskMap[_task.task_id] = _task;
-                _taskIds.push(_task.task_id)
-            }
-            setTaskMap({...taskMap, ..._taskMap});
-            setBadgeTaskIdMap({...badgeTaskIdMap, [badgeId]: _taskIds});
-
-            return response.data.results;
-        } catch (error) {
-            console.log(error)
-            throw error;
-        }
-    };
-
     const getTasks = () => {
         return taskIds.map(taskId => getTask({taskId}));
     };
@@ -86,14 +55,8 @@ export const TaskProvider = ({children}) => {
         return taskMap[taskId];
     };
 
-    const getBadgeTasks = ({badgeId}) => {
-        if (badgeTaskIdMap[badgeId]) {
-            return badgeTaskIdMap[badgeId].map(taskId => getTask({taskId}));
-        }
-    };
-
     return (
-        <TaskContext.Provider value={{fetchTasks, fetchBadgeTasks, getTasks, getTask, getBadgeTasks}}>
+        <TaskContext.Provider value={{fetchTasks, getTasks, getTask}}>
             {children}
         </TaskContext.Provider>
     );

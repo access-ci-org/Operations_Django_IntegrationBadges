@@ -29,7 +29,6 @@ export default function ResourceBadge() {
         setResourceRoadmapBadgeWorkflowStatus,
     } = useResources();
     const {fetchBadge} = useBadges();
-    const {fetchBadgeTasks} = useTasks();
 
     const [comment, setComment] = useState("");
     const [badgeActionStatusProcessing, setBadgeActionStatusProcessing] = useState(false);
@@ -48,7 +47,6 @@ export default function ResourceBadge() {
         fetchResourceRoadmapBadges({resourceIds: [resourceId], roadmapId});
         fetchResourceRoadmapBadgeTasks({resourceId, roadmapId, badgeId});
         fetchBadge({badgeId});
-        fetchBadgeTasks({badgeId});
     }, [resourceId, badgeId]);
 
     const clickBadgeAction = async (status) => {
