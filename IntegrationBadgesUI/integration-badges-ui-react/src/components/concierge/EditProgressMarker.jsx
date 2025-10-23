@@ -1,11 +1,11 @@
-import layersFillTealIcon from "../../../assets/layers-fill-teal-icon.png";
-import layersFillGrayIcon from "../../../assets/layers-fill-gray-icon.png";
+import layersFillTealIcon from "../../assets/layers-fill-teal-icon.png";
+import layersFillGrayIcon from "../../assets/layers-fill-gray-icon.png";
 
-export default function RoadmapEditProgressMarker({steps, current}) {
+export default function EditProgressMarker({steps, current}) {
     return <div className="w-100 d-flex flex-row">
         {steps.map((step, stepIndex) => {
             const progressCheck = <img src={stepIndex <= current ? layersFillTealIcon : layersFillGrayIcon}
-                                       alt="roadmap creation progress check" style={{width: 30}} className=""
+                                       alt="badge creation progress check" style={{width: 30}} className=""
                                        key={stepIndex}/>;
             if (stepIndex === steps.length - 1) {
                 return progressCheck

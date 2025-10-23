@@ -2,7 +2,7 @@ import LoadingBlock from "../../components/LoadingBlock.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
-import BadgeEditProgressMarker from "../../components/concierge/badge-edit/BadgeEditProgressMarker.jsx";
+import EditProgressMarker from "../../components/concierge/EditProgressMarker.jsx";
 import {useEffect, useState} from "react";
 import ConciergeBadgeEditDetails from "../../components/concierge/badge-edit/ConciergeBadgeEditDetails.jsx";
 import ConciergeBadgeEditAssociatePrerequisiteBadges
@@ -116,7 +116,7 @@ export default function ConciergeBadgeEdit() {
 
                     <div className="w-100 text-center position-relative pt-5 pb-5">
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                            <BadgeEditProgressMarker steps={sections} current={activeSectionIndex}/>
+                            <EditProgressMarker steps={sections} current={activeSectionIndex}/>
                         </div>
                         <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
                               style={{right: 0}}>Cancel/Discard
@@ -169,7 +169,7 @@ export default function ConciergeBadgeEdit() {
                     <Link className="btn btn-outline-dark rounded-1" to={ConciergeRouteUrls.INDEX}>
                         Go to Home Page
                     </Link>
-                    <Link className="btn btn-dark rounded-1" to={ConciergeRouteUrls.ROADMAPS}>
+                    <Link className="btn btn-dark rounded-1" to={ConciergeRouteUrls.BADGES}>
                         Go to Badges
                     </Link>
                 </Modal.Footer>
@@ -183,9 +183,8 @@ export default function ConciergeBadgeEdit() {
                 </Modal.Header>
                 <Modal.Body>
                     <p>
-                        You don't have permissions to make this change. If you should have it, please submit
-                        an
-                        ACCESS ticket requesting:</p>
+                        You don't have permissions to make this change. If you should have it,
+                        please submit an ACCESS ticket requesting:</p>
 
                     <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
                 </Modal.Body>

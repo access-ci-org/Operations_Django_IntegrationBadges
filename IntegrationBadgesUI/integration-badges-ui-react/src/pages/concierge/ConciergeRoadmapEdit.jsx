@@ -2,7 +2,6 @@ import LoadingBlock from "../../components/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
-import RoadmapEditProgressMarker from "../../components/concierge/roadmap-edit/RoadmapEditProgressMarker.jsx";
 import {useEffect, useState} from "react";
 import ConciergeRoadmapEditDetails from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditDetails.jsx";
 import ConciergeRoadmapEditAssociateBadges
@@ -11,6 +10,7 @@ import ConciergeRoadmapEditReviewAndEdit
     from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
 import {scrollToTop} from "../../components/scroll.jsx";
+import EditProgressMarker from "../../components/concierge/EditProgressMarker.jsx";
 
 export default function ConciergeRoadmapEdit() {
     const {roadmapId} = useParams();
@@ -98,7 +98,7 @@ export default function ConciergeRoadmapEdit() {
 
                     <div className="w-100 text-center position-relative pt-5 pb-5">
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
-                            <RoadmapEditProgressMarker steps={sections} current={activeSectionIndex}/>
+                            <EditProgressMarker steps={sections} current={activeSectionIndex}/>
                         </div>
                         <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
                               style={{right: 0}}>Cancel/Discard
