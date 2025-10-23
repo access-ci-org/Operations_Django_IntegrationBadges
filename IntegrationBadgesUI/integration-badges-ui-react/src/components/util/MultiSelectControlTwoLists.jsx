@@ -16,7 +16,9 @@ export default function MultiSelectControlTwoLists(
         items, value = [],
         onChange, onItemExpand,
         filterLabel = "Filter",
-        icon = <i className="bi bi-circle-fill fs-3"></i>
+        icon = <i className="bi bi-circle-fill fs-3"></i>,
+        allowAdd = true,
+        allowRemove = true
     }) {
     const isItemSelected = {};
     const isItemRequired = {};
@@ -69,7 +71,8 @@ export default function MultiSelectControlTwoLists(
     }
 
     function getItemIconJsx() {
-        return <div className="text-gray-400 align-content-center ps-1 pe-1" style={{lineHeight: "30px", height: "30px"}}>
+        return <div className="text-gray-400 align-content-center ps-1 pe-1"
+                    style={{lineHeight: "30px", height: "30px"}}>
             {icon}
         </div>;
     }
@@ -92,10 +95,10 @@ export default function MultiSelectControlTwoLists(
                         <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
                             {getItemIconJsx()}
                             {getItemNameJsx(item)}
-                            <button className="btn btn-link"
-                                    onClick={addItemToSequence.bind(this, {id: item.id})}>
+                            {allowAdd && <button className="btn btn-link"
+                                                 onClick={addItemToSequence.bind(this, {id: item.id})}>
                                 <i className="bi bi-plus-square fs-5 text-gray-700"></i>
-                            </button>
+                            </button>}
                         </div>
                     </li>
                 })}
@@ -118,10 +121,10 @@ export default function MultiSelectControlTwoLists(
                                         checked={!!isItemRequired[item.id]}
                                         onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
                         </div>
-                        <button className="btn btn-link"
-                                onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
+                        {allowRemove && <button className="btn btn-link"
+                                                onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
                             <i className="bi bi-dash-square fs-5 text-gray-700"></i>
-                        </button>
+                        </button>}
                     </div>
                 </li>)}
             </ul>
