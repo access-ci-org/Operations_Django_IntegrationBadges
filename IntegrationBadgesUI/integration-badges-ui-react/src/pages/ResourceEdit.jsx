@@ -3,7 +3,7 @@ import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
-import LoadingBlock from "../components/LoadingBlock";
+import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import RoadmapSelection from "../components/resource-edit/RoadmapSelection.jsx";
 import BadgeSelection from "../components/resource-edit/BadgeSelection.jsx";
 import BadgeSelectionConfirmation from "../components/resource-edit/BadgeSelectionConfirmation.jsx";

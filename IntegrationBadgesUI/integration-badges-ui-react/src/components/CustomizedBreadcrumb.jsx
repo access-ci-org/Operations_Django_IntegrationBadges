@@ -2,7 +2,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import {Link, useLocation} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useOrganizations} from "../contexts/OrganizationsContext";
-import LoadingBlock from "./LoadingBlock.jsx";
+import LoadingBlock from "./util/LoadingBlock.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
 import {ConciergeRouteUrls} from "../pages/concierge/ConciergeRoute.jsx";

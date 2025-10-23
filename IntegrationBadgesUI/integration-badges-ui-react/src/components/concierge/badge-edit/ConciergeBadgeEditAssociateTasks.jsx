@@ -1,6 +1,7 @@
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
-import MultiSelectControlTwoLists from "./MultiSelectControlTwoLists.jsx";
+import MultiSelectControlTwoLists from "../../util/MultiSelectControlTwoLists.jsx";
 import {useTasks} from "../../../contexts/TaskContext.jsx";
+import taskAddIcon from "../../../assets/tdesign_task-add.png"
 
 export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeData}) {
     const {getTasks, getTask} = useTasks();
@@ -27,6 +28,7 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
                 setBadgeData(nextState);
             }}
             filterLabel="Filter tasks"
+            icon={<img src={taskAddIcon} alt={"Add task Icon"} style={{width: "28px"}}/>}
         />
     </div>
 }

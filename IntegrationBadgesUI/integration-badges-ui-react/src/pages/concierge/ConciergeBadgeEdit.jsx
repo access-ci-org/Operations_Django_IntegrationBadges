@@ -1,4 +1,4 @@
-import LoadingBlock from "../../components/LoadingBlock.jsx";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
@@ -10,7 +10,7 @@ import ConciergeBadgeEditAssociatePrerequisiteBadges
 import ConciergeBadgeEditReviewAndEdit
     from "../../components/concierge/badge-edit/ConciergeBadgeEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
-import {scrollToTop} from "../../components/scroll.jsx";
+import {scrollToTop} from "../../components/util/scroll.jsx";
 import ConciergeBadgeEditAssociateTasks
     from "../../components/concierge/badge-edit/ConciergeBadgeEditAssociateTasks.jsx";
 import {useTasks} from "../../contexts/TaskContext.jsx";
@@ -124,7 +124,7 @@ export default function ConciergeBadgeEdit() {
                     </div>
 
                     <div className="w-100 text-center">
-                        <div className="w-100 d-inline-block text-start" style={{maxWidth: 800, minWidth: 300}}>
+                        <div className="w-100 d-inline-block text-start" style={{maxWidth: 900, minWidth: 300}}>
                             {activeSection.component}
                         </div>
                     </div>

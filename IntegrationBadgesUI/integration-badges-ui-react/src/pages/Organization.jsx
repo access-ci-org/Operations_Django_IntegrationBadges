@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {ResourceStatus, useResources} from "../contexts/ResourcesContext";
 
-import LoadingBlock from "../components/LoadingBlock";
+import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import OrgBadgeVerificationStatus from "../components/status/OrgBadgeVerificationStatus.jsx";

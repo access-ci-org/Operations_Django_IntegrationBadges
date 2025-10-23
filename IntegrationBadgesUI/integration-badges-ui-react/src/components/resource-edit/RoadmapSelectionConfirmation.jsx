@@ -1,7 +1,7 @@
 import ResourceCard from "../resource/ResourceCard.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import LoadingBlock from "../LoadingBlock.jsx";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 
 export default function RoadmapSelectionConfirmation({resourceId, roadmapId, prev, next}) {
     const {getResource, getResourceOrganization} = useResources();

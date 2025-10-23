@@ -1,6 +1,6 @@
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import LoadingBlock from "../LoadingBlock.jsx";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Modal} from "react-bootstrap";

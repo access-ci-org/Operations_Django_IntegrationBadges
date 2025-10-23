@@ -16,14 +16,14 @@ import {TaskProvider, useTasks} from "./contexts/TaskContext";
 import {I18nextProvider} from 'react-i18next';
 import i18n from './i18n';
 import {useEffect} from "react";
-import LoadingBlock from "./components/LoadingBlock";
+import LoadingBlock from "./components/util/LoadingBlock.jsx";
 import ResourceEdit from "./pages/ResourceEdit.jsx";
 import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
 import OrganizationBadgeReview from "./pages/OrganizationBadgeReview.jsx";
 import {ConciergeRoute} from "./pages/concierge/ConciergeRoute.jsx";
 import {ConciergeMainNavigation} from "./components/concierge/ConciergeMainNavigation.jsx";
-import {AlwaysScrollToTop} from "./components/scroll.jsx";
+import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 
 const RouterLayout = () => {
     const location = useLocation();

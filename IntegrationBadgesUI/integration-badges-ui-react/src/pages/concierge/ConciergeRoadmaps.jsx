@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
-import LoadingBlock from "../../components/LoadingBlock.jsx";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link} from "react-router-dom";
@@ -8,7 +8,7 @@ import Translate from "../../locales/Translate.jsx";
 import {ConciergeRoadmapCard} from "../../components/concierge/ConciergeRoadmapCard.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {Fade} from "react-bootstrap";
-import GridAndListSwitch from "../../components/GridAndListSwitch.jsx";
+import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
 
 export default function ConciergeRoadmaps() {
     const {getRoadmaps} = useRoadmaps();

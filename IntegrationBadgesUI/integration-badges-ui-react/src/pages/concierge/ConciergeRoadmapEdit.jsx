@@ -1,4 +1,4 @@
-import LoadingBlock from "../../components/LoadingBlock.jsx";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
@@ -9,7 +9,7 @@ import ConciergeRoadmapEditAssociateBadges
 import ConciergeRoadmapEditReviewAndEdit
     from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
-import {scrollToTop} from "../../components/scroll.jsx";
+import {scrollToTop} from "../../components/util/scroll.jsx";
 import EditProgressMarker from "../../components/concierge/EditProgressMarker.jsx";
 
 export default function ConciergeRoadmapEdit() {

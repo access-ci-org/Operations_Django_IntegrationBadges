@@ -2,7 +2,7 @@ import {BadgeCardRowWithCheckboxes} from "./resource-edit-page-cards.jsx";
 import BadgeSelectionHeader from "./BadgeSelectionHeader.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import LoadingBlock from "../LoadingBlock.jsx";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 import BadgeSelectionActionsFooter from "./BadgeSelectionActionsFooter.jsx";
 
 export default function BadgeSelection({resourceId, roadmapId, selected, toggle, prev, next}) {

@@ -2,7 +2,7 @@ import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
-import LoadingBlock from "../components/LoadingBlock";
+import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import Translate from "../locales/Translate.jsx";
 import ResourceBadgeCardV2 from "../components/resource/resource-badge/ResourceBadgeCardV2.jsx";
 

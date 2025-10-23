@@ -5,7 +5,7 @@ import HowToIntegrateResource from "./HowToIntegrateResource.jsx";
 import HowToChooseRoadmap from "./HowToChooseRoadmap.jsx";
 import Roadmaps from "./Roadmaps.jsx";
 import Badges from "./Badges.jsx";
-import Debug from "../../components/Debug.jsx";
+import Debug from "../../components/util/Debug.jsx";
 
 export const DocumentationRouteUrls = {
     INDEX: "/docs",

@@ -1,7 +1,7 @@
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Dropdown, DropdownButton} from "react-bootstrap";
-import LoadingBlock from "../LoadingBlock.jsx";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 import {useNavigate} from "react-router-dom";
 
 export default function BadgeSelectionHeader({resourceId, roadmapId}) {

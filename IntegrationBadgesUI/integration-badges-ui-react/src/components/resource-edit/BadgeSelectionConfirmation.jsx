@@ -2,7 +2,7 @@ import {BadgeCardRowWithAddRemove} from "./resource-edit-page-cards.jsx";
 import BadgeSelectionHeader from "./BadgeSelectionHeader.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import LoadingBlock from "../LoadingBlock.jsx";
+import LoadingBlock from "../util/LoadingBlock.jsx";
 import BadgeSelectionActionsFooter from "./BadgeSelectionActionsFooter.jsx";
 
 export default function BadgeSelectionConfirmation({resourceId, roadmapId, selected, toggle, next, prev}) {

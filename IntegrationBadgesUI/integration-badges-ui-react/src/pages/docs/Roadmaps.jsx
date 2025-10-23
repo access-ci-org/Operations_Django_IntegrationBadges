@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import LoadingBlock from "../../components/LoadingBlock.jsx";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 
 /**

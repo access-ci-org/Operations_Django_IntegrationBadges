@@ -1,5 +1,5 @@
 import {Link, Navigate, Outlet, Route} from "react-router-dom";
-import Debug from "../../components/Debug.jsx";
+import Debug from "../../components/util/Debug.jsx";
 import ResourceBadgeStatusListing from "./ResourceBadgeStatusListing.jsx";
 import ConciergeDashboard from "./ConciergeDashboard.jsx";
 import ConciergeRoadmaps from "./ConciergeRoadmaps.jsx";

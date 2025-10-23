@@ -5,7 +5,7 @@ import {Collapse, Nav} from "react-bootstrap";
 import {BadgeWorkflowStatus} from "../contexts/BadgeContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
-import LoadingBlock from "../components/LoadingBlock";
+import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
 
 export default function Resource() {

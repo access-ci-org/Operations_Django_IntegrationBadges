@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
-import LoadingBlock from "../../components/LoadingBlock.jsx";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useLocation} from "react-router-dom";
