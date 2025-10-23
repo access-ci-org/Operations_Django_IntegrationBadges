@@ -69,7 +69,7 @@ export function ConciergeBadgeEditDetailsV1({badgeData, setBadgeData}) {
             <Form.Label>Resource Provider Summary</Form.Label>
             {badgeInputFields.resource_provider_summary}
         </div>
-        <div className="mb-3">
+        <div className="mb-3" style={{maxWidth: "500px"}}>
             <Form.Label>Badge Image</Form.Label>
             <div className="w-100 p-4 rounded border border-1 text-center">
                 <i className="bi bi-image fs-1"></i>
@@ -80,11 +80,11 @@ export function ConciergeBadgeEditDetailsV1({badgeData, setBadgeData}) {
                 {badgeInputFields.graphic}
             </div>
         </div>
-        <div className="mb-3">
+        <div className="mb-3" style={{maxWidth: "500px"}}>
             <Form.Label>Verification Method</Form.Label>
             {badgeInputFields.verification_method}
         </div>
-        <div className="mb-3" style={{maxWidth: "500px"}}>
+        <div className="mb-3">
             <Form.Label>Verification Summary</Form.Label>
             {badgeInputFields.verification_summary}
         </div>
