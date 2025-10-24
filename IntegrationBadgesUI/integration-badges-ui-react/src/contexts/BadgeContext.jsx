@@ -8,6 +8,8 @@ const BadgeContext = createContext({
     },
     fetchBadge: ({badgeId}) => {
     },
+    setBadge: ({badgeId, badgeData}) => {
+    },
     getBadge: ({badgeId}) => {
     },
     getBadges: () => {
@@ -81,8 +83,32 @@ export const BadgeProvider = ({children}) => {
             throw error;
         }
     };
+    
+    const setBadge = async ({badgeId = null, badgeData}) => {
+        try {
+            const response = await dashboardAxiosInstance.post(
+                badgeId ? `/badge/${badgeId}/` : "/badges/",
+                badgeData);
+            const _badge = response.data.results;
 
+            const _badgeMap = {
+                ...badgeMap,
+                [badgeId]: {
+                    ...badgeMap[_badge.badge_id],
+                    ..._badge
+                }
+            };
+            setBadgeMap(_badgeMap);
 
+            fetchBadges();
+
+            return response.data.results;
+        } catch (error) {
+            console.log(error)
+            throw error;
+        }
+    };
+    
     const getBadge = ({badgeId}) => {
         return badgeMap[badgeId];
     };
@@ -93,7 +119,7 @@ export const BadgeProvider = ({children}) => {
 
 
     return (
-        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge, getBadge, getBadges}}>
+        <BadgeContext.Provider value={{badgeMap, fetchBadges, fetchBadge, setBadge, getBadge, getBadges}}>
             {children}
         </BadgeContext.Provider>
     );

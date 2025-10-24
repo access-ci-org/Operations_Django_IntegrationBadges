@@ -19,7 +19,7 @@ export default function ConciergeBadgeEdit() {
     const {badgeId} = useParams();
 
     const navigate = useNavigate();
-    const {fetchBadge, getBadge} = useBadges();
+    const {fetchBadge, setBadge, getBadge} = useBadges();
 
     const badge = getBadge({badgeId});
 
@@ -100,7 +100,7 @@ export default function ConciergeBadgeEdit() {
 
     const publishBadge = async () => {
         try {
-            //await setBadge({badgeId, badgeData});
+            await setBadge({badgeId, badgeData});
             // navigate(ConciergeRouteUrls.BADGES);
             setShowSavedModal(true);
         } catch (error) {
