@@ -28,7 +28,11 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
                 setBadgeData(nextState);
             }}
             filterLabel="Filter tasks"
-            icon={<img src={taskAddIcon} alt={"Add task Icon"} style={{width: "28px"}}/>}
+            icon={<img src={taskAddIcon} alt={"Add task Icon"} className="h-100 m-1"/>}
+            rightPanelStyles={{paddingTop: "60px"}}
+            showRightPanelIcon={false}
+            enableOrdering={true}
+            enableViewMoreDetails={true}
         />
     </div>
 }

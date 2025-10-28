@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import {OverlayTrigger, Tooltip, useAccordionButton} from "react-bootstrap";
+import Accordion from "react-bootstrap/Accordion";
 
 /**
  * Multi select control with two lists
@@ -18,8 +19,20 @@ export default function MultiSelectControlTwoLists(
         filterLabel = "Filter",
         icon = <i className="bi bi-circle-fill fs-3"></i>,
         allowAdd = true,
-        allowRemove = true
+        allowRemove = true,
+        rightPanelStyles = {
+            paddingTop: "0px"
+        },
+        leftPanelStyles = {
+            paddingTop: "0px"
+        },
+        showRightPanelIcon = true,
+        showLeftPanelIcon = true,
+        enableOrdering = false,
+        enableViewMoreDetails = false,
+        getMoreDetailsComponent = () => null,
     }) {
+
     const isItemSelected = {};
     const isItemRequired = {};
     const itemMap = {};
@@ -70,15 +83,25 @@ export default function MultiSelectControlTwoLists(
         //</OverlayTrigger>;
     }
 
-    function getItemIconJsx() {
-        return <div className="text-gray-400 align-content-center ps-1 pe-1"
-                    style={{lineHeight: "30px", height: "30px"}}>
-            {icon}
+    function ItemLeftActions(
+        {eventKey = null, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
+
+        const decoratedOnClick = useAccordionButton(eventKey, () =>
+            console.log('totally custom!', [eventKey]),
+        );
+
+        return <div className="text-gray-400 align-content-center ps-1 pe-1 d-flex flex-row">
+            {!!enableOrdering &&
+                <button className="btn btn-link ps-1 pe-1"><i className="bi bi-grip-vertical fs-5"></i></button>}
+            {!!enableViewMoreDetails && <button type="button" className="btn btn-link text-medium ps-1 pe-1"
+                                                onClick={decoratedOnClick}><i className="bi bi-caret-up-fill"></i>
+            </button>}
+            {!!showIcon && <div style={{lineHeight: "20px", height: "20px"}} className="ps-1 pe-1">{icon}</div>}
         </div>;
     }
 
     return <div className="row">
-        <div className="col-sm-6 pe-sm-5">
+        <div className="col-sm-6 pe-sm-5" style={leftPanelStyles}>
             <div className="w-100 pe-5" style={{height: "60px"}}>
                 <div className="input-group search-input input-group-sm">
                         <span className="input-group-text rounded-start-5">
@@ -93,7 +116,7 @@ export default function MultiSelectControlTwoLists(
                 {notSelectedItems.map((item, itemIndex) => {
                     return <li key={itemIndex} className="p-0">
                         <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
-                            {getItemIconJsx()}
+                            <ItemLeftActions/>
                             {getItemNameJsx(item)}
                             {allowAdd && <button className="btn btn-link"
                                                  onClick={addItemToSequence.bind(this, {id: item.id})}>
@@ -104,30 +127,36 @@ export default function MultiSelectControlTwoLists(
                 })}
             </ul>
         </div>
-        <div className="col-sm-6 ps-sm-5 border-start border-1 border-black">
+        <div className="col-sm-6 ps-sm-5 border-start border-1 border-black" style={rightPanelStyles}>
             <div className="w-100 d-flex flex-row p-3" style={{height: "60px"}}>
                 <h3 className="flex-fill coming-soon-regular text-black">Added Items</h3>
                 <div style={{paddingRight: "35px"}}>
                     <small className="coming-soon-regular">Required?</small>
                 </div>
             </div>
-            <ul className="list-unstyled">
-                {selectedItems.map((item, sequenceNo) => <li key={sequenceNo} className="p-0">
-                    <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
-                        {getItemIconJsx()}
-                        {getItemNameJsx(item)}
-                        <div className="align-content-center ps-2 pe-2">
-                            <Form.Check type="switch" id={`item-required-switch-${item.id}`} label=""
-                                        checked={!!isItemRequired[item.id]}
-                                        onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
+            <Accordion defaultActiveKey="">
+                <ul className="list-unstyled overflow-auto" style={{height: "420px"}}>
+                    {selectedItems.map((item, sequenceNo) => <li key={sequenceNo} className="p-0">
+                        <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
+                            <ItemLeftActions eventKey={sequenceNo} showIcon={showRightPanelIcon}
+                                         enableOrdering={enableOrdering} enableViewMoreDetails={enableOrdering}/>
+                            {getItemNameJsx(item)}
+                            <div className="align-content-center ps-2 pe-2">
+                                <Form.Check type="switch" id={`item-required-switch-${item.id}`} label=""
+                                            checked={!!isItemRequired[item.id]}
+                                            onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
+                            </div>
+                            {allowRemove && <button className="btn btn-link"
+                                                    onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
+                                <i className="bi bi-dash-square fs-5 text-gray-700"></i>
+                            </button>}
                         </div>
-                        {allowRemove && <button className="btn btn-link"
-                                                onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
-                            <i className="bi bi-dash-square fs-5 text-gray-700"></i>
-                        </button>}
-                    </div>
-                </li>)}
-            </ul>
+                        <Accordion.Collapse eventKey={sequenceNo}>
+                            <div>Hello! I'm the body</div>
+                        </Accordion.Collapse>
+                    </li>)}
+                </ul>
+            </Accordion>
         </div>
     </div>
 }
