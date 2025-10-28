@@ -115,7 +115,6 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
                 Do you want to continue?
             </Modal.Body>
             <Modal.Footer>
-                {JSON.stringify(showTaskReopenModal)}
                 <button className="btn btn-outline-dark rounded-1"
                         onClick={setShowTaskReopenModal.bind(this, false)}>
                     No

@@ -114,7 +114,7 @@ export function ConciergeBadgeEditDetailsV2({badgeData, setBadgeData}) {
         </div>
 
         <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Resource Summary</Form.Label>
+            <Form.Label className="col-sm-5">Researcher Summary</Form.Label>
             <div className="col-sm-7">{badgeInputFields.researcher_summary}</div>
         </div>
 

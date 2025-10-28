@@ -118,7 +118,7 @@ export default function ConciergeBadgeEdit() {
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
                             <EditProgressMarker steps={sections} current={activeSectionIndex}/>
                         </div>
-                        <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
+                        <Link to={ConciergeRouteUrls.BADGES} className="btn btn-outline-secondary position-absolute"
                               style={{right: 0}}>Cancel/Discard
                         </Link>
                     </div>
