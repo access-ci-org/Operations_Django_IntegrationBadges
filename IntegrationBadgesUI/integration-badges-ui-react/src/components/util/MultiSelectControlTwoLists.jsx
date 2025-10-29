@@ -1,5 +1,6 @@
+import React, {useRef} from 'react';
 import Form from "react-bootstrap/Form";
-import {OverlayTrigger, Tooltip, useAccordionButton} from "react-bootstrap";
+import {useAccordionButton} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 
 /**
@@ -32,6 +33,28 @@ export default function MultiSelectControlTwoLists(
         enableViewMoreDetails = false,
         getMoreDetailsComponent = () => null,
     }) {
+
+    const dragItem = useRef(null);
+    const draggedOverItem = useRef(null);
+
+    const handleDragStart = (e, index) => {
+        dragItem.current = index;
+    };
+
+    const handleDragEnter = (e, index) => {
+        draggedOverItem.current = index;
+    };
+
+    const handleSort = () => {
+        const newItems = [...value];
+        const draggedItemContent = newItems[dragItem.current];
+        newItems.splice(dragItem.current, 1); // Remove dragged item
+        newItems.splice(draggedOverItem.current, 0, draggedItemContent); // Insert at new position
+
+        dragItem.current = null;
+        draggedOverItem.current = null;
+        onChange(newItems);
+    };
 
     const isItemSelected = {};
     const isItemRequired = {};
@@ -136,10 +159,17 @@ export default function MultiSelectControlTwoLists(
             </div>
             <Accordion defaultActiveKey="">
                 <ul className="list-unstyled overflow-auto" style={{height: "420px"}}>
-                    {selectedItems.map((item, sequenceNo) => <li key={sequenceNo} className="p-0">
+                    {selectedItems.map((item, sequenceNo) => <li
+                        key={sequenceNo} className="p-0"
+                        draggable={enableOrdering}
+                        onDragStart={(e) => handleDragStart(e, sequenceNo)}
+                        onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
+                        onDragEnd={handleSort}
+                        onDragOver={(e) => e.preventDefault()} // Allow dropping
+                    >
                         <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
                             <ItemLeftActions eventKey={sequenceNo} showIcon={showRightPanelIcon}
-                                         enableOrdering={enableOrdering} enableViewMoreDetails={enableOrdering}/>
+                                             enableOrdering={enableOrdering} enableViewMoreDetails={enableOrdering}/>
                             {getItemNameJsx(item)}
                             <div className="align-content-center ps-2 pe-2">
                                 <Form.Check type="switch" id={`item-required-switch-${item.id}`} label=""
