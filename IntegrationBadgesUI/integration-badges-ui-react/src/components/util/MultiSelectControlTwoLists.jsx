@@ -1,4 +1,4 @@
-import React, {useContext, useRef} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import Form from "react-bootstrap/Form";
 import {AccordionContext, useAccordionButton} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
@@ -34,6 +34,8 @@ export default function MultiSelectControlTwoLists(
         enableViewMoreDetails = false,
         getMoreDetailsComponent = (item) => null
     }) {
+
+    const [searchText, setSearchText] = useState("");
 
     const dragItem = useRef(null);
     const draggedOverItem = useRef(null);
@@ -72,7 +74,7 @@ export default function MultiSelectControlTwoLists(
         isItemRequired[id] = required;
     }
 
-    const notSelectedItems = items.filter(item => !isItemSelected[item.id]);
+    const notSelectedItems = items.filter(item => !isItemSelected[item.id]).filter(item => item.label.toLowerCase().includes(searchText));
     const selectedItems = value.map(({id}) => itemMap[id]);
 
     const addItemToSequence = ({id, required = false, sequenceNo = selectedItems.length}) => {
@@ -108,7 +110,7 @@ export default function MultiSelectControlTwoLists(
     }
 
     function ItemLeftActions(
-        {item, sequenceNo , showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
+        {item, sequenceNo, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
 
         const eventKey = item.id;
         const currentEventKey = useContext(AccordionContext).activeEventKey;
@@ -154,8 +156,8 @@ export default function MultiSelectControlTwoLists(
                             <i className="bi bi-search"></i>
                         </span>
                     <input type="text" className="form-control rounded-end-5"
-                           placeholder={filterLabel}
-                           aria-label={filterLabel} onChange={(e) => console.log(e.target.value)}/>
+                           placeholder={filterLabel} value={searchText}
+                           aria-label={filterLabel} onChange={(e) => setSearchText(e.target.value.toLowerCase())}/>
                 </div>
             </div>
             <ul className="list-unstyled overflow-auto" style={{height: "420px"}}>
@@ -192,14 +194,15 @@ export default function MultiSelectControlTwoLists(
                     >
                         <div className="rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
                             <div className="w-100 d-flex flex-row">
-                                <ItemLeftActions  item={item} sequenceNo={sequenceNo} showIcon={showRightPanelIcon}
+                                <ItemLeftActions item={item} sequenceNo={sequenceNo} showIcon={showRightPanelIcon}
                                                  enableOrdering={enableOrdering}
                                                  enableViewMoreDetails={enableOrdering}/>
                                 {getItemNameJsx(item)}
                                 <ItemRightActions item={item} sequenceNo={sequenceNo}/>
                             </div>
                             <Accordion.Collapse eventKey={item.id}>
-                                <div className="w-100 p-3 mt-3 border-top border-1">{getMoreDetailsComponent(item)}</div>
+                                <div
+                                    className="w-100 p-3 mt-3 border-top border-1">{getMoreDetailsComponent(item)}</div>
                             </Accordion.Collapse>
                         </div>
                     </li>)}
