@@ -21,6 +21,7 @@ export default function MultiSelectControlTwoLists(
         icon = <i className="bi bi-circle-fill fs-3"></i>,
         allowAdd = true,
         allowRemove = true,
+        allowEdit = false,
         rightPanelStyles = {
             paddingTop: "0px"
         },
@@ -135,6 +136,9 @@ export default function MultiSelectControlTwoLists(
                             checked={!!isItemRequired[item.id]}
                             onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
             </div>}
+            {allowEdit && <div style={{minWidth: "50px"}} className="pe-2 text-end">
+                <button className="btn btn-link fw-normal">Edit</button>
+            </div>}
             {allowRemove && <button className="btn btn-link"
                                     onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
                 <i className="bi bi-dash-square fs-5 text-gray-700"></i>
@@ -172,7 +176,7 @@ export default function MultiSelectControlTwoLists(
         <div className="col-sm-6 ps-sm-5 border-start border-1 border-black" style={rightPanelStyles}>
             <div className="w-100 d-flex flex-row p-3" style={{height: "60px"}}>
                 <h3 className="flex-fill coming-soon-regular text-black">Added Items</h3>
-                <div style={{paddingRight: "35px"}}>
+                <div style={{paddingRight: 5 + (allowRemove ? 20 : 0) + (allowEdit ? 50 : 0)}}>
                     <small className="coming-soon-regular">Required?</small>
                 </div>
             </div>

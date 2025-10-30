@@ -32,6 +32,7 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
             icon={<img src={taskAddIcon} alt={"Add task Icon"} className="h-100 m-1"/>}
             rightPanelStyles={{paddingTop: "60px"}}
             showRightPanelIcon={false}
+            allowEdit={true}
             enableOrdering={true}
             enableViewMoreDetails={true}
             getMoreDetailsComponent={(item) => {
