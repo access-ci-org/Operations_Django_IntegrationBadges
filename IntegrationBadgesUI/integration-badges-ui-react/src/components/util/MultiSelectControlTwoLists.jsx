@@ -148,7 +148,7 @@ export default function MultiSelectControlTwoLists(
         </>
     }
 
-    return <div className="row">
+    return <div className="row pb-5">
         <div className="col-sm-6 pe-sm-5" style={leftPanelStyles}>
             <div className="w-100 pe-5" style={{height: "60px"}}>
                 <div className="input-group search-input input-group-sm">

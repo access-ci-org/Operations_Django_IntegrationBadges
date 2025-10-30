@@ -3,6 +3,7 @@ import MultiSelectControlTwoLists from "../../util/MultiSelectControlTwoLists.js
 import {useTasks} from "../../../contexts/TaskContext.jsx";
 import taskAddIcon from "../../../assets/tdesign_task-add.png"
 import React from "react";
+import ConciergeTaskEditDetails from "../task-edit/ConciergeTaskEditDetails.jsx";
 
 export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeData}) {
     const {getTasks, getTask} = useTasks();
@@ -12,6 +13,16 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
         const task = getTask({taskId: task_id});
         return {id: task.task_id, required: required};
     });
+
+    const taskData = {
+        "name": "",
+        "technical_summary": "",
+        "implementor_roles": "",
+        "task_experts": "",
+        "detailed_instructions_url": ""
+    };
+
+    const setTaskData = () => {};
 
     return <div className="w-100 d-inline-block text-start">
         <MultiSelectControlTwoLists
@@ -40,8 +51,8 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
 
                 return <div className="row d-flex">
                     <div className="col-sm-6 ps-3 pe-3 pt-3">
-                        <div className="mb-2 fs-7" >Technical Summary</div>
-                        <p className="mb-0 fs-8 word-break-break-all" >
+                        <div className="mb-2 fs-7">Technical Summary</div>
+                        <p className="mb-0 fs-8 word-break-break-all">
                             {task.technical_summary}
                         </p>
                     </div>
@@ -66,5 +77,23 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
                 </div>
             }}
         />
+
+        <div className="w-100 border border-black border-1 rounded-2 p-3">
+            <div className="w-100 d-flex flex-row p-3 border-bottom border-1">
+                <div className="flex-fill align-content-center p-3">
+                    NEW TASK for {badgeData.name}</div>
+                <div>
+                    <button className="btn btn-secondary ps-3 pe-3 m-1">
+                        Cancel
+                    </button>
+                    <button className="btn btn-dark ps-3 pe-3 m-1">
+                        Save
+                    </button>
+                </div>
+            </div>
+            <div className="w-100 p-3">
+                <ConciergeTaskEditDetails taskData={taskData}  setTaskData={setTaskData} />
+            </div>
+        </div>
     </div>
 }
