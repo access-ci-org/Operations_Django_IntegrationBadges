@@ -1,6 +1,6 @@
-import React, {useRef} from 'react';
+import React, {useContext, useRef} from 'react';
 import Form from "react-bootstrap/Form";
-import {useAccordionButton} from "react-bootstrap";
+import {AccordionContext, useAccordionButton} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 
 /**
@@ -31,7 +31,7 @@ export default function MultiSelectControlTwoLists(
         showLeftPanelIcon = true,
         enableOrdering = false,
         enableViewMoreDetails = false,
-        getMoreDetailsComponent = () => null,
+        getMoreDetailsComponent = (item) => null
     }) {
 
     const dragItem = useRef(null);
@@ -107,8 +107,10 @@ export default function MultiSelectControlTwoLists(
     }
 
     function ItemLeftActions(
-        {eventKey = null, showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
+        {item, sequenceNo , showIcon = true, enableOrdering = false, enableViewMoreDetails = false} = {}) {
 
+        const eventKey = item.id;
+        const currentEventKey = useContext(AccordionContext).activeEventKey;
         const decoratedOnClick = useAccordionButton(eventKey, () =>
             console.log('totally custom!', [eventKey]),
         );
@@ -117,10 +119,27 @@ export default function MultiSelectControlTwoLists(
             {!!enableOrdering &&
                 <button className="btn btn-link ps-1 pe-1"><i className="bi bi-grip-vertical fs-5"></i></button>}
             {!!enableViewMoreDetails && <button type="button" className="btn btn-link text-medium ps-1 pe-1"
-                                                onClick={decoratedOnClick}><i className="bi bi-caret-up-fill"></i>
+                                                onClick={decoratedOnClick}>
+                {currentEventKey === eventKey ? <i className="bi bi-caret-down-fill"></i> :
+                    <i className="bi bi-caret-up-fill"></i>}
             </button>}
             {!!showIcon && <div style={{lineHeight: "20px", height: "20px"}} className="ps-1 pe-1">{icon}</div>}
         </div>;
+    }
+
+    function ItemRightActions({item, sequenceNo}) {
+        const currentEventKey = useContext(AccordionContext).activeEventKey;
+        return <>
+            {currentEventKey !== item.id && <div className="align-content-center ps-2 pe-2">
+                <Form.Check type="switch" id={`item-required-switch-${item.id}`} label=""
+                            checked={!!isItemRequired[item.id]}
+                            onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
+            </div>}
+            {allowRemove && <button className="btn btn-link"
+                                    onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
+                <i className="bi bi-dash-square fs-5 text-gray-700"></i>
+            </button>}
+        </>
     }
 
     return <div className="row">
@@ -136,10 +155,10 @@ export default function MultiSelectControlTwoLists(
                 </div>
             </div>
             <ul className="list-unstyled overflow-auto" style={{height: "420px"}}>
-                {notSelectedItems.map((item, itemIndex) => {
-                    return <li key={itemIndex} className="p-0">
+                {notSelectedItems.map((item, sequenceNo) => {
+                    return <li key={sequenceNo} className="p-0">
                         <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
-                            <ItemLeftActions/>
+                            <ItemLeftActions item={item} sequenceNo={sequenceNo}/>
                             {getItemNameJsx(item)}
                             {allowAdd && <button className="btn btn-link"
                                                  onClick={addItemToSequence.bind(this, {id: item.id})}>
@@ -167,23 +186,18 @@ export default function MultiSelectControlTwoLists(
                         onDragEnd={handleSort}
                         onDragOver={(e) => e.preventDefault()} // Allow dropping
                     >
-                        <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
-                            <ItemLeftActions eventKey={sequenceNo} showIcon={showRightPanelIcon}
-                                             enableOrdering={enableOrdering} enableViewMoreDetails={enableOrdering}/>
-                            {getItemNameJsx(item)}
-                            <div className="align-content-center ps-2 pe-2">
-                                <Form.Check type="switch" id={`item-required-switch-${item.id}`} label=""
-                                            checked={!!isItemRequired[item.id]}
-                                            onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
+                        <div className="rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
+                            <div className="w-100 d-flex flex-row">
+                                <ItemLeftActions  item={item} sequenceNo={sequenceNo} showIcon={showRightPanelIcon}
+                                                 enableOrdering={enableOrdering}
+                                                 enableViewMoreDetails={enableOrdering}/>
+                                {getItemNameJsx(item)}
+                                <ItemRightActions item={item} sequenceNo={sequenceNo}/>
                             </div>
-                            {allowRemove && <button className="btn btn-link"
-                                                    onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
-                                <i className="bi bi-dash-square fs-5 text-gray-700"></i>
-                            </button>}
+                            <Accordion.Collapse eventKey={item.id}>
+                                <div className="w-100 p-3 mt-3 border-top border-1">{getMoreDetailsComponent(item)}</div>
+                            </Accordion.Collapse>
                         </div>
-                        <Accordion.Collapse eventKey={sequenceNo}>
-                            <div>Hello! I'm the body</div>
-                        </Accordion.Collapse>
                     </li>)}
                 </ul>
             </Accordion>

@@ -2,6 +2,7 @@ import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import MultiSelectControlTwoLists from "../../util/MultiSelectControlTwoLists.jsx";
 import {useTasks} from "../../../contexts/TaskContext.jsx";
 import taskAddIcon from "../../../assets/tdesign_task-add.png"
+import React from "react";
 
 export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeData}) {
     const {getTasks, getTask} = useTasks();
@@ -33,6 +34,36 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
             showRightPanelIcon={false}
             enableOrdering={true}
             enableViewMoreDetails={true}
+            getMoreDetailsComponent={(item) => {
+                const task = getTask({taskId: item.id});
+
+                return <div className="row d-flex">
+                    <div className="col-sm-6 ps-3 pe-3 pt-3">
+                        <div className="mb-2 fs-7" >Technical Summary</div>
+                        <p className="mb-0 fs-8 word-break-break-all" >
+                            {task.technical_summary}
+                        </p>
+                    </div>
+                    <div className="col-sm-6 ps-3 pe-3 pt-3">
+                        <div className="mb-2 fs-7">Implementer Roles</div>
+                        <p className="mb-0 fs-8 word-break-break-all">
+                            {task.implementor_roles}
+                        </p>
+                    </div>
+                    <div className="col-sm-6 ps-3 pe-3 pt-3">
+                        <div className="mb-2 fs-7">Task Experts</div>
+                        <p className="mb-0 fs-8 word-break-break-all">
+                            {task.task_experts}
+                        </p>
+                    </div>
+                    <div className="col-sm-6 ps-3 pe-3 pt-3">
+                        <div className="mb-2 fs-7">Instructions URL</div>
+                        <p className="w-100 mb-0 fs-8 word-break-break-all">
+                            {task.detailed_instructions_url}
+                        </p>
+                    </div>
+                </div>
+            }}
         />
     </div>
 }
