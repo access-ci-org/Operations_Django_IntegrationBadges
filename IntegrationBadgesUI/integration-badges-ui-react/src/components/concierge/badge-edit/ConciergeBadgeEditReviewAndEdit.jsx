@@ -1,6 +1,7 @@
 import {ConciergeBadgeEditDetailsV2} from "./ConciergeBadgeEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import {useTasks} from "../../../contexts/TaskContext.jsx";
+import InlineWarningMessage from "../../util/InlineWarningMessage.jsx";
 
 export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData, onClickEditTasks, onClickEditPrerequisiteBadges}) {
     const {getBadge} = useBadges();
@@ -42,6 +43,7 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
                 Required Tasks
             </div>
             <div className="col-sm-6">
+                {requiredTasks.length === 0 && <InlineWarningMessage description="No associated required tasks"/>}
                 {requiredTasks.map((task, taskIndex) => <div key={taskIndex}>{task.name}</div>)}
             </div>
         </div>
@@ -51,6 +53,7 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
                 Recommended Tasks
             </div>
             <div className="col-sm-6">
+                {recommendedTasks.length === 0 && <InlineWarningMessage description="No associated recommended tasks"/>}
                 {recommendedTasks.map((task, taskIndex) => <div key={taskIndex}>{task.name}</div>)}
             </div>
         </div>
@@ -60,20 +63,12 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
             <button className="btn btn-link" onClick={onClickEditPrerequisiteBadges}>Edit</button>
         </div>
 
-        <div className="row pb-5">
-            <div className="col-sm-6 pe-3">
-                Required Badges
-            </div>
-            <div className="col-sm-6">
-                {requiredBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
-            </div>
-        </div>
-
         <div className="row pt-3">
             <div className="col-sm-6 pe-3">
                 Recommended Badges
             </div>
             <div className="col-sm-6">
+                {recommendedBadges.length === 0 && <InlineWarningMessage description="No associated prerequisite recommended badges"/>}
                 {recommendedBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
             </div>
         </div>

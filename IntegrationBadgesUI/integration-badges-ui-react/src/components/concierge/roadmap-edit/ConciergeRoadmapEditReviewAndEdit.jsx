@@ -1,5 +1,6 @@
 import {ConciergeRoadmapEditDetailsV2} from "./ConciergeRoadmapEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
+import InlineWarningMessage from "../../util/InlineWarningMessage.jsx";
 
 export default function ConciergeRoadmapEditReviewAndEdit({roadmapData, setRoadmapData, onClickEditBadges}) {
     const {getBadge} = useBadges();
@@ -28,6 +29,7 @@ export default function ConciergeRoadmapEditReviewAndEdit({roadmapData, setRoadm
                 Required Badges
             </div>
             <div className="col-sm-6">
+                {requiredBadges.length === 0 && <InlineWarningMessage description="No associated required badges"/>}
                 {requiredBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
             </div>
         </div>
@@ -37,6 +39,7 @@ export default function ConciergeRoadmapEditReviewAndEdit({roadmapData, setRoadm
                 Recommended Badges
             </div>
             <div className="col-sm-6">
+                {recommendedBadges.length === 0 && <InlineWarningMessage description="No associated recommended badges"/>}
                 {recommendedBadges.map((badge, badgeIndex) => <div key={badgeIndex}>{badge.name}</div>)}
             </div>
         </div>
