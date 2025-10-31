@@ -89,18 +89,8 @@ export const BadgeProvider = ({children}) => {
             const response = await dashboardAxiosInstance.post(
                 badgeId ? `/badge/${badgeId}/` : "/badges/",
                 badgeData);
-            const _badge = response.data.results;
 
-            const _badgeMap = {
-                ...badgeMap,
-                [badgeId]: {
-                    ...badgeMap[_badge.badge_id],
-                    ..._badge
-                }
-            };
-            setBadgeMap(_badgeMap);
-
-            fetchBadges();
+            await fetchBadges();
 
             return response.data.results;
         } catch (error) {

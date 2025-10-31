@@ -2,11 +2,21 @@ import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import MultiSelectControlTwoLists from "../../util/MultiSelectControlTwoLists.jsx";
 import {useTasks} from "../../../contexts/TaskContext.jsx";
 import taskAddIcon from "../../../assets/tdesign_task-add.png"
-import React from "react";
+import React, {useState} from "react";
 import ConciergeTaskEditDetails from "../task-edit/ConciergeTaskEditDetails.jsx";
+import {Modal} from "react-bootstrap";
 
 export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeData}) {
-    const {getTasks, getTask} = useTasks();
+    const {setTask, getTasks, getTask} = useTasks();
+
+    const [taskData, setTaskData] = useState({
+        "name": "",
+        "technical_summary": "",
+        "implementor_roles": "",
+        "task_experts": "",
+        "detailed_instructions_url": ""
+    });
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     const items = getTasks().map(task => ({id: task.task_id, label: task.name}));
     const value = badgeData.tasks.map(({task_id, required}) => {
@@ -14,15 +24,40 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
         return {id: task.task_id, required: required};
     });
 
-    const taskData = {
+    const resetTaskData = () => setTaskData({
         "name": "",
         "technical_summary": "",
         "implementor_roles": "",
         "task_experts": "",
         "detailed_instructions_url": ""
-    };
+    });
 
-    const setTaskData = () => {};
+    const isTaskFormValid = taskData.name && taskData.name.length > 0
+        && taskData.technical_summary && taskData.technical_summary.length > 0
+        && taskData.implementor_roles && taskData.implementor_roles.length > 0
+        && taskData.task_experts && taskData.task_experts.length > 0
+        && taskData.detailed_instructions_url && taskData.detailed_instructions_url.length > 0;
+
+    const saveTask = async () => {
+        try {
+            const newTask = await setTask({taskData});
+            resetTaskData();
+
+            setBadgeData({
+                ...badgeData,
+                tasks: [
+                    ...badgeData.tasks,
+                    {
+                        task_id: newTask.task_id,
+                        required: false,
+                        sequence_no: badgeData.tasks.length
+                    }
+                ]
+            });
+        } catch (error) {
+            setShowErrorModal(true);
+        }
+    }
 
     return <div className="w-100 d-inline-block text-start">
         <MultiSelectControlTwoLists
@@ -83,17 +118,39 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
                 <div className="flex-fill align-content-center p-3">
                     NEW TASK for {badgeData.name}</div>
                 <div>
-                    <button className="btn btn-secondary ps-3 pe-3 m-1">
+                    <button className="btn btn-secondary ps-3 pe-3 m-1" onClick={resetTaskData}>
                         Cancel
                     </button>
-                    <button className="btn btn-dark ps-3 pe-3 m-1">
+                    <button className="btn btn-dark ps-3 pe-3 m-1" onClick={saveTask} disabled={!isTaskFormValid}>
                         Save
                     </button>
                 </div>
             </div>
             <div className="w-100 p-3">
-                <ConciergeTaskEditDetails taskData={taskData}  setTaskData={setTaskData} />
+                <ConciergeTaskEditDetails taskData={taskData} setTaskData={setTaskData}/>
             </div>
         </div>
+
+
+        <Modal show={showErrorModal} onHide={setShowErrorModal.bind(this, false)}>
+            <Modal.Header closeButton className="bg-danger-subtle">
+                <Modal.Title>
+                    <i className="bi bi-exclamation-triangle-fill"></i>
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p>
+                    You don't have permissions to make this change. If you should have it,
+                    please submit an ACCESS ticket requesting:</p>
+
+                <p>Integration Dashboard <strong>task.maintainer</strong> permission</p>
+            </Modal.Body>
+            <Modal.Footer>
+                <button className="btn btn-outline-dark rounded-1"
+                        onClick={setShowErrorModal.bind(this, false)}>
+                    Cancel
+                </button>
+            </Modal.Footer>
+        </Modal>
     </div>
 }

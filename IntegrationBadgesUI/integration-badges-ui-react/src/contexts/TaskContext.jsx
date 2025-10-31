@@ -4,6 +4,7 @@ import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const TaskContext = createContext({
     fetchTasks: () => {},
+    setTask: ({taskId = null, taskData}) => {},
     getTasks: () => {},
     getTask: ({taskId}) => {
     }
@@ -46,6 +47,22 @@ export const TaskProvider = ({children}) => {
             throw error;
         }
     };
+    
+    
+    const setTask = async ({taskId = null, taskData}) => {
+        try {
+            const response = await dashboardAxiosInstance.post(
+                taskId ? `/task/${taskId}/` : "/tasks/",
+                taskData);
+
+            await fetchTasks();
+
+            return response.data.results;
+        } catch (error) {
+            console.log(error)
+            throw error;
+        }
+    };
 
     const getTasks = () => {
         return taskIds.map(taskId => getTask({taskId}));
@@ -56,7 +73,7 @@ export const TaskProvider = ({children}) => {
     };
 
     return (
-        <TaskContext.Provider value={{fetchTasks, getTasks, getTask}}>
+        <TaskContext.Provider value={{fetchTasks, setTask, getTasks, getTask}}>
             {children}
         </TaskContext.Provider>
     );
