@@ -32,11 +32,11 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
         "detailed_instructions_url": ""
     });
 
-    const isTaskFormValid = taskData.name && taskData.name.length > 0
-        && taskData.technical_summary && taskData.technical_summary.length > 0
-        && taskData.implementor_roles && taskData.implementor_roles.length > 0
-        && taskData.task_experts && taskData.task_experts.length > 0
-        && taskData.detailed_instructions_url && taskData.detailed_instructions_url.length > 0;
+    const isTaskFormValid = taskData.name && taskData.name.trim().length > 0
+        && taskData.technical_summary && taskData.technical_summary.trim().length > 0
+        && taskData.implementor_roles && taskData.implementor_roles.trim().length > 0
+        && taskData.task_experts && taskData.task_experts.trim().length > 0
+        && taskData.detailed_instructions_url && taskData.detailed_instructions_url.trim().length > 0;
 
     const saveTask = async () => {
         try {

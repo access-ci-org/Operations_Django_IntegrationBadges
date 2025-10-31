@@ -51,11 +51,11 @@ export default function ConciergeBadgeEdit() {
     const [showSavedModal, setShowSavedModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
-    const areBadgeDetailsValid = badgeData.name.length > 0
-        && badgeData.researcher_summary.length > 0
-        && badgeData.resource_provider_summary.length > 0
-        && badgeData.default_badge_access_url.length > 0
-        && badgeData.default_badge_access_url_label.length > 0;
+    const areBadgeDetailsValid = badgeData.name.trim().length > 0
+        && badgeData.researcher_summary.trim().length > 0
+        && badgeData.resource_provider_summary.trim().length > 0
+        && badgeData.default_badge_access_url.trim().length > 0
+        && badgeData.default_badge_access_url_label.trim().length > 0;
 
     useEffect(() => {
         scrollToTop();

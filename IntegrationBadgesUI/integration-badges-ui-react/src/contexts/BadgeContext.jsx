@@ -83,12 +83,31 @@ export const BadgeProvider = ({children}) => {
             throw error;
         }
     };
-    
+
     const setBadge = async ({badgeId = null, badgeData}) => {
         try {
             const response = await dashboardAxiosInstance.post(
                 badgeId ? `/badge/${badgeId}/` : "/badges/",
-                badgeData);
+                {
+                    "prerequisites": badgeData.prerequisites.map(prerequisite => ({
+                        "badge_id": prerequisite.badge_id,
+                        "sequence_no": prerequisite.sequence_no
+                    })),
+                    "tasks": badgeData.tasks.map(task => ({
+                        "task_id": task.task_id,
+                        "required": task.required,
+                        "sequence_no": task.sequence_no
+                    })),
+                    "name": badgeData.name.trim(),
+                    // "graphic": badgeData.graphic,
+                    "researcher_summary": badgeData.researcher_summary.trim(),
+                    "resource_provider_summary": badgeData.resource_provider_summary.trim(),
+                    "verification_summary": badgeData.verification_summary.trim(),
+                    "verification_method": badgeData.verification_method.trim(),
+                    "default_badge_access_url": badgeData.default_badge_access_url.trim(),
+                    "default_badge_access_url_label": badgeData.default_badge_access_url_label.trim()
+                }
+            );
 
             await fetchBadges();
 
@@ -98,7 +117,7 @@ export const BadgeProvider = ({children}) => {
             throw error;
         }
     };
-    
+
     const getBadge = ({badgeId}) => {
         return badgeMap[badgeId];
     };

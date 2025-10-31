@@ -83,19 +83,22 @@ export const RoadmapProvider = ({children}) => {
         try {
             const response = await dashboardAxiosInstance.post(
                 roadmapId ? `/roadmap/${roadmapId}/` : "/roadmaps/",
-                roadmapData);
-            const _roadmap = response.data.results;
-
-            const _roadmapMap = {
-                ...roadmapMap,
-                [roadmapId]: {
-                    ...roadmapMap[_roadmap.roadmap_id],
-                    ..._roadmap
+                {
+                    "name": roadmapData.name.trim(),
+                    // "graphic": roadmapData.graphic,
+                    "executive_summary": roadmapData.executive_summary.trim(),
+                    "infrastructure_types": roadmapData.infrastructure_types.trim(),
+                    "integration_coordinators": roadmapData.integration_coordinators.trim(),
+                    "status": roadmapData.status.trim(),
+                    "badges": roadmapData.badges.map(badge => ({
+                        "badge_id": badge.badge_id,
+                        "required": badge.required,
+                        "sequence_no": badge.sequence_no
+                    }))
                 }
-            };
-            setRoadmapMap(_roadmapMap);
+            );
 
-            fetchRoadmaps();
+            await fetchRoadmaps();
 
             return response.data.results;
         } catch (error) {

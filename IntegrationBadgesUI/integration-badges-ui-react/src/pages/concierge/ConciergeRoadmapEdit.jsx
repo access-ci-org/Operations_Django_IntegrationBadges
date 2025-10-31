@@ -39,11 +39,11 @@ export default function ConciergeRoadmapEdit() {
     const [showSavedModal, setShowSavedModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
-    const areRoadmapDetailsValid = roadmapData.name.length > 0
-        && roadmapData.executive_summary.length > 0
-        && roadmapData.infrastructure_types.length > 0
-        && roadmapData.integration_coordinators.length > 0
-        && roadmapData.status.length > 0;
+    const areRoadmapDetailsValid = roadmapData.name.trim().length > 0
+        && roadmapData.executive_summary.trim().length > 0
+        && roadmapData.infrastructure_types.trim().length > 0
+        && roadmapData.integration_coordinators.trim().length > 0
+        && roadmapData.status.trim().length > 0;
 
     useEffect(() => {
         scrollToTop();

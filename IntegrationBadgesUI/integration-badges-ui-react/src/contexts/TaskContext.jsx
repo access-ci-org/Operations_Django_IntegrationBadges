@@ -3,9 +3,12 @@ import DefaultReducer from "./reducers/DefaultReducer";
 import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const TaskContext = createContext({
-    fetchTasks: () => {},
-    setTask: ({taskId = null, taskData}) => {},
-    getTasks: () => {},
+    fetchTasks: () => {
+    },
+    setTask: ({taskId = null, taskData}) => {
+    },
+    getTasks: () => {
+    },
     getTask: ({taskId}) => {
     }
 });
@@ -47,13 +50,20 @@ export const TaskProvider = ({children}) => {
             throw error;
         }
     };
-    
-    
+
+
     const setTask = async ({taskId = null, taskData}) => {
         try {
             const response = await dashboardAxiosInstance.post(
                 taskId ? `/task/${taskId}/` : "/tasks/",
-                taskData);
+                {
+                    "name": taskData.name.trim(),
+                    "technical_summary": taskData.technical_summary.trim(),
+                    "implementor_roles": taskData.implementor_roles.trim(),
+                    "task_experts": taskData.task_experts.trim(),
+                    "detailed_instructions_url": taskData.detailed_instructions_url.trim()
+                }
+            );
 
             await fetchTasks();
 
