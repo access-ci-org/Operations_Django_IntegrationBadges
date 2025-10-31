@@ -1,12 +1,37 @@
 # Changelog
 
+
+The general format of entries is:
+<tag> <yyyy>-<mm>-<dd> <author>
+    <#> - [new/fix] <description of the fix, feature or change>
+        - <webapp path 1>
+        - <webapp path 2>
+
+
+v1.0.59 2025-10-31 dinukadesilva 
+    1 - [fix] Removing roadmap assignment from the badge creation and edit
+        - /concierge/badges/<badge_id>/edit
+        - /concierge/badges/new
+    2 - [fix] Enabling reordering for the roadmap badges and prerequisite badges
+        - Everything on (1)
+        - /concierge/roadmaps/new
+        - /concierge/roadmaps/<roadmap_id>/edit
+    3 - [fix] Minor typo fixes
+        - Everything on (1)
+
 v1.0.58 2025-10-31 dinukadesilva
-  - Task creation
-  - UI improvements of the multi list select component with drag and drop ordering
-  - Other validation and improvements of the badge and task creation process
+    1 - [new] task creation, reordering tasks
+        - /concierge/badges/<badge_id>/edit
+        - /concierge/badges/new
+    2 - [fix] UI improvements of the multi list select component with drag and drop ordering
+        - Everything on (1)
+    3 - [fix] Adding validation, empty labels and other minor fixes
+        - Everything on (1)
+        - /concierge/roadmaps/new
+        - /concierge/roadmaps/<roadmap_id>/edit
 
 v1.0.57 2025-10-28 dinukadesilva
-  - Minor bug fixes
+    - Minor bug fixes
 
 v1.0.56 2025-10-24 dinukadesilva
-  - Adding the concierge interfaces for creating badges
+    - Adding the concierge interfaces for creating badges
