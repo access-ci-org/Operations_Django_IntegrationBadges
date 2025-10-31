@@ -167,7 +167,7 @@ export default function MultiSelectControlTwoLists(
                 <div className="flex-fill overflow-auto">
                     {notSelectedItems.length === 0 &&
                         <InlineWarningMessage description="There's nothing available to display" title=""/>}
-                    <ul className="list-unstyled " style={{height: "420px"}}>
+                    <ul className="list-unstyled ">
                         {notSelectedItems.map((item, sequenceNo) => {
                             return <li key={sequenceNo} className="p-0">
                                 <div
