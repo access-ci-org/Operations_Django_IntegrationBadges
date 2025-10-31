@@ -148,66 +148,73 @@ export default function MultiSelectControlTwoLists(
         </>
     }
 
-    return <div className="row pb-5">
-        <div className="col-sm-6 pe-sm-5" style={leftPanelStyles}>
-            <div className="w-100 pe-5" style={{height: "60px"}}>
-                <div className="input-group search-input input-group-sm">
+    return <div className="row pb-5"  style={{height: "500px"}}>
+        <div className="col-sm-6 pe-sm-5 h-100">
+            <div className="w-100 h-100 d-flex flex-column" style={leftPanelStyles}>
+                <div className="w-100 pe-5" style={{height: "60px"}}>
+                    <div className="input-group search-input input-group-sm">
                         <span className="input-group-text rounded-start-5">
                             <i className="bi bi-search"></i>
                         </span>
-                    <input type="text" className="form-control rounded-end-5"
-                           placeholder={filterLabel} value={searchText}
-                           aria-label={filterLabel} onChange={(e) => setSearchText(e.target.value.toLowerCase())}/>
+                        <input type="text" className="form-control rounded-end-5"
+                               placeholder={filterLabel} value={searchText}
+                               aria-label={filterLabel} onChange={(e) => setSearchText(e.target.value.toLowerCase())}/>
+                    </div>
                 </div>
-            </div>
-            <ul className="list-unstyled overflow-auto" style={{height: "420px"}}>
-                {notSelectedItems.map((item, sequenceNo) => {
-                    return <li key={sequenceNo} className="p-0">
-                        <div className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
-                            <ItemLeftActions item={item} sequenceNo={sequenceNo}/>
-                            {getItemNameJsx(item)}
-                            {allowAdd && <button className="btn btn-link"
-                                                 onClick={addItemToSequence.bind(this, {id: item.id})}>
-                                <i className="bi bi-plus-square fs-5 text-gray-700"></i>
-                            </button>}
-                        </div>
-                    </li>
-                })}
-            </ul>
-        </div>
-        <div className="col-sm-6 ps-sm-5 border-start border-1 border-black" style={rightPanelStyles}>
-            <div className="w-100 d-flex flex-row p-3" style={{height: "60px"}}>
-                <h3 className="flex-fill coming-soon-regular text-black">Added Items</h3>
-                <div style={{paddingRight: 5 + (allowRemove ? 20 : 0) + (allowEdit ? 50 : 0)}}>
-                    <small className="coming-soon-regular">Required?</small>
-                </div>
-            </div>
-            <Accordion defaultActiveKey="">
-                <ul className="list-unstyled overflow-auto" style={{height: "420px"}}>
-                    {selectedItems.map((item, sequenceNo) => <li
-                        key={sequenceNo} className="p-0"
-                        draggable={enableOrdering}
-                        onDragStart={(e) => handleDragStart(e, sequenceNo)}
-                        onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
-                        onDragEnd={handleSort}
-                        onDragOver={(e) => e.preventDefault()} // Allow dropping
-                    >
-                        <div className="rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
-                            <div className="w-100 d-flex flex-row">
-                                <ItemLeftActions item={item} sequenceNo={sequenceNo} showIcon={showRightPanelIcon}
-                                                 enableOrdering={enableOrdering}
-                                                 enableViewMoreDetails={enableOrdering}/>
-                                {getItemNameJsx(item)}
-                                <ItemRightActions item={item} sequenceNo={sequenceNo}/>
-                            </div>
-                            <Accordion.Collapse eventKey={item.id}>
+                <div className="flex-fill overflow-auto">
+                    <ul className="list-unstyled " style={{height: "420px"}}>
+                        {notSelectedItems.map((item, sequenceNo) => {
+                            return <li key={sequenceNo} className="p-0">
                                 <div
-                                    className="w-100 p-3 mt-3 border-top border-1">{getMoreDetailsComponent(item)}</div>
-                            </Accordion.Collapse>
-                        </div>
-                    </li>)}
-                </ul>
-            </Accordion>
+                                    className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
+                                    <ItemLeftActions item={item} sequenceNo={sequenceNo}/>
+                                    {getItemNameJsx(item)}
+                                    {allowAdd && <button className="btn btn-link"
+                                                         onClick={addItemToSequence.bind(this, {id: item.id})}>
+                                        <i className="bi bi-plus-square fs-5 text-gray-700"></i>
+                                    </button>}
+                                </div>
+                            </li>
+                        })}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div className="col-sm-6 ps-sm-5 h-100 border-start border-1 border-black">
+            <div className="w-100 h-100 d-flex flex-column" style={rightPanelStyles}>
+                <div className="w-100 d-flex flex-row p-3" style={{height: "60px"}}>
+                    <h3 className="flex-fill coming-soon-regular text-black">Added Items</h3>
+                    <div style={{paddingRight: 5 + (allowRemove ? 20 : 0) + (allowEdit ? 50 : 0)}}>
+                        <small className="coming-soon-regular">Required?</small>
+                    </div>
+                </div>
+                <Accordion defaultActiveKey="" className="flex-fill overflow-auto">
+                    <ul className="list-unstyled">
+                        {selectedItems.map((item, sequenceNo) => <li
+                            key={sequenceNo} className="p-0"
+                            draggable={enableOrdering}
+                            onDragStart={(e) => handleDragStart(e, sequenceNo)}
+                            onDragEnter={(e) => handleDragEnter(e, sequenceNo)}
+                            onDragEnd={handleSort}
+                            onDragOver={(e) => e.preventDefault()} // Allow dropping
+                        >
+                            <div className="rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
+                                <div className="w-100 d-flex flex-row">
+                                    <ItemLeftActions item={item} sequenceNo={sequenceNo} showIcon={showRightPanelIcon}
+                                                     enableOrdering={enableOrdering}
+                                                     enableViewMoreDetails={enableOrdering}/>
+                                    {getItemNameJsx(item)}
+                                    <ItemRightActions item={item} sequenceNo={sequenceNo}/>
+                                </div>
+                                <Accordion.Collapse eventKey={item.id}>
+                                    <div
+                                        className="w-100 p-3 mt-3 border-top border-1">{getMoreDetailsComponent(item)}</div>
+                                </Accordion.Collapse>
+                            </div>
+                        </li>)}
+                    </ul>
+                </Accordion>
+            </div>
         </div>
     </div>
 }
