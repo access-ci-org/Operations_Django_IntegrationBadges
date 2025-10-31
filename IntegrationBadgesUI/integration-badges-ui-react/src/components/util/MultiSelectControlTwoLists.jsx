@@ -18,10 +18,12 @@ export default function MultiSelectControlTwoLists(
         items, value = [],
         onChange, onItemExpand,
         filterLabel = "Filter",
+        addedItemsLabel = "Added Items",
         icon = <i className="bi bi-circle-fill fs-3"></i>,
         allowAdd = true,
         allowRemove = true,
         allowEdit = false,
+        allowRequiredSwitch = true,
         rightPanelStyles = {
             paddingTop: "0px"
         },
@@ -133,22 +135,22 @@ export default function MultiSelectControlTwoLists(
     function ItemRightActions({item, sequenceNo}) {
         const currentEventKey = useContext(AccordionContext).activeEventKey;
         return <>
-            {currentEventKey !== item.id && <div className="align-content-center ps-2 pe-2">
+            {!!allowRequiredSwitch && currentEventKey !== item.id && <div className="align-content-center ps-2 pe-2">
                 <Form.Check type="switch" id={`item-required-switch-${item.id}`} label=""
                             checked={!!isItemRequired[item.id]}
                             onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
             </div>}
-            {allowEdit && <div style={{minWidth: "50px"}} className="pe-2 text-end">
+            {!!allowEdit && <div style={{minWidth: "50px"}} className="pe-2 text-end">
                 <button className="btn btn-link fw-normal">Edit</button>
             </div>}
-            {allowRemove && <button className="btn btn-link"
-                                    onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
+            {!!allowRemove && <button className="btn btn-link"
+                                      onClick={removeItemFromSequence.bind(this, {sequenceNo})}>
                 <i className="bi bi-dash-square fs-5 text-gray-700"></i>
             </button>}
         </>
     }
 
-    return <div className="row pb-5"  style={{height: "500px"}}>
+    return <div className="row pb-5" style={{height: "500px"}}>
         <div className="col-sm-6 pe-sm-5 h-100">
             <div className="w-100 h-100 d-flex flex-column" style={leftPanelStyles}>
                 <div className="w-100 pe-5" style={{height: "60px"}}>
@@ -167,7 +169,8 @@ export default function MultiSelectControlTwoLists(
                             return <li key={sequenceNo} className="p-0">
                                 <div
                                     className="d-flex flex-row rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
-                                    <ItemLeftActions item={item} sequenceNo={sequenceNo}/>
+                                    <ItemLeftActions item={item} sequenceNo={sequenceNo}
+                                                     showIcon={!!showLeftPanelIcon}/>
                                     {getItemNameJsx(item)}
                                     {allowAdd && <button className="btn btn-link"
                                                          onClick={addItemToSequence.bind(this, {id: item.id})}>
@@ -183,10 +186,11 @@ export default function MultiSelectControlTwoLists(
         <div className="col-sm-6 ps-sm-5 h-100 border-start border-1 border-black">
             <div className="w-100 h-100 d-flex flex-column" style={rightPanelStyles}>
                 <div className="w-100 d-flex flex-row p-3" style={{height: "60px"}}>
-                    <h3 className="flex-fill coming-soon-regular text-black">Added Items</h3>
-                    <div style={{paddingRight: 5 + (allowRemove ? 20 : 0) + (allowEdit ? 50 : 0)}}>
-                        <small className="coming-soon-regular">Required?</small>
-                    </div>
+                    <h3 className="flex-fill coming-soon-regular text-black">{addedItemsLabel}</h3>
+                    {allowRequiredSwitch &&
+                        <div style={{paddingRight: 5 + (allowRemove ? 20 : 0) + (allowEdit ? 50 : 0)}}>
+                            <small className="coming-soon-regular">Required?</small>
+                        </div>}
                 </div>
                 <Accordion defaultActiveKey="" className="flex-fill overflow-auto">
                     <ul className="list-unstyled">
@@ -200,9 +204,9 @@ export default function MultiSelectControlTwoLists(
                         >
                             <div className="rounded-1 border border-1 border-gray-300 pt-2 pb-2 ps-2 pe-3">
                                 <div className="w-100 d-flex flex-row">
-                                    <ItemLeftActions item={item} sequenceNo={sequenceNo} showIcon={showRightPanelIcon}
-                                                     enableOrdering={enableOrdering}
-                                                     enableViewMoreDetails={enableOrdering}/>
+                                    <ItemLeftActions item={item} sequenceNo={sequenceNo} showIcon={!!showRightPanelIcon}
+                                                     enableOrdering={!!enableOrdering}
+                                                     enableViewMoreDetails={!!enableViewMoreDetails}/>
                                     {getItemNameJsx(item)}
                                     <ItemRightActions item={item} sequenceNo={sequenceNo}/>
                                 </div>

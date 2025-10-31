@@ -75,6 +75,7 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
                 setBadgeData(nextState);
             }}
             filterLabel="Filter tasks"
+            addedItemsLabel="Added Tasks"
             icon={<img src={taskAddIcon} alt={"Add task Icon"} className="h-100 m-1"/>}
             rightPanelStyles={{paddingTop: "60px"}}
             showRightPanelIcon={false}
