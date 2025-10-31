@@ -1,5 +1,10 @@
 # Changelog
 
+v1.0.58 2025-10-31 dinukadesilva
+  - Task creation
+  - UI improvements of the multi list select component with drag and drop ordering
+  - Other validation and improvements of the badge and task creation process
+
 v1.0.57 2025-10-28 dinukadesilva
   - Minor bug fixes
 
