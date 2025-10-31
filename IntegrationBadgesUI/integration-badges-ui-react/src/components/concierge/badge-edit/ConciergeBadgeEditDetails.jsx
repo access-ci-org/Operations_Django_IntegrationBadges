@@ -38,14 +38,7 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
                                                       onChange={onInputValueChange("default_badge_access_url_label")}/>,
 
         default_badge_access_url: <Form.Control type="text" value={badgeData.default_badge_access_url}
-                                                onChange={onInputValueChange("default_badge_access_url")}/>,
-
-        linked_roadmaps: <Form.Select aria-label="" value={badgeData.linked_roadmaps}
-                                      onChange={onInputValueChange("linked_roadmaps")}>
-            <option value="" disabled={true}></option>
-            {roadmaps.map((roadmap, roadmapIndex) =>
-                <option key={roadmapIndex} value={roadmapIndex}>{roadmap.name}</option>)}
-        </Form.Select>
+                                                onChange={onInputValueChange("default_badge_access_url")}/>
     };
 }
 
@@ -96,10 +89,6 @@ export function ConciergeBadgeEditDetailsV1({badgeData, setBadgeData}) {
             <Form.Label>Badge URL</Form.Label>
             {badgeInputFields.default_badge_access_url}
         </div>
-        <div className="mb-3" style={{maxWidth: "500px"}}>
-            <Form.Label>Link an Existing Roadmap</Form.Label>
-            {badgeInputFields.linked_roadmaps}
-        </div>
     </div>
 }
 
@@ -142,6 +131,5 @@ export function ConciergeBadgeEditDetailsV2({badgeData, setBadgeData}) {
             <Form.Label className="col-sm-5">Badge URL </Form.Label>
             <div className="col-sm-7">{badgeInputFields.default_badge_access_url}</div>
         </div>
-
     </div>
 }
