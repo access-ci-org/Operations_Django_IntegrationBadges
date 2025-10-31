@@ -50,7 +50,7 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
 
         <div className="row pt-3">
             <div className="col-sm-6 pe-3">
-                Recommended Tasks
+                Optional Tasks
             </div>
             <div className="col-sm-6">
                 {recommendedTasks.length === 0 && <InlineWarningMessage description="No associated recommended tasks"/>}
@@ -65,7 +65,7 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
 
         <div className="row pt-3">
             <div className="col-sm-6 pe-3">
-                Recommended Badges
+                Required Badges
             </div>
             <div className="col-sm-6">
                 {recommendedBadges.length === 0 && <InlineWarningMessage description="No associated prerequisite recommended badges"/>}

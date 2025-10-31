@@ -144,7 +144,7 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
                     You don't have permissions to make this change. If you should have it,
                     please submit an ACCESS ticket requesting:</p>
 
-                <p>Integration Dashboard <strong>task.maintainer</strong> permission</p>
+                <p>Integration Dashboard <strong>badge.maintainer</strong> permission</p>
             </Modal.Body>
             <Modal.Footer>
                 <button className="btn btn-outline-dark rounded-1"
