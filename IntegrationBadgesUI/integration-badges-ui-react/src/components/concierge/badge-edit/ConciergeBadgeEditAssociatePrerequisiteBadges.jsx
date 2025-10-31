@@ -27,8 +27,8 @@ export default function ConciergeBadgeEditAssociatePrerequisiteBadges({badgeData
             }}
             filterLabel="Filter badges"
             addedItemsLabel="Added Badges"
-            allowRemove={false}
             allowRequiredSwitch={false}
+            enableOrdering={true}
         />
     </div>
 }

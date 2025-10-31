@@ -23,6 +23,7 @@ export default function ConciergeRoadmapEditAssociateBadges({roadmapData, setRoa
             }}
             filterLabel="Filter badges"
             addedItemsLabel="Added Badges"
+            enableOrdering={true}
         />
 
         <div className="w-100 pt-4">
