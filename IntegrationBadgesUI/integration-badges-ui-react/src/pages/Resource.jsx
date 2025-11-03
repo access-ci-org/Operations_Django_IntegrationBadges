@@ -1,12 +1,13 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
-import {Collapse, Nav} from "react-bootstrap";
+import {Collapse, Fade, Nav} from "react-bootstrap";
 import {BadgeWorkflowStatus} from "../contexts/BadgeContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
+import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
 
 export default function Resource() {
     const navigate = useNavigate();
@@ -68,17 +69,22 @@ export default function Resource() {
     }
 
     const tabs = [
-        // Verified
-        badgeGroups[BadgeWorkflowStatus.VERIFIED],
-
-        // All
-        badges ? badges : [],
-
-        // Waiting for Verification
-        badgeGroups[BadgeWorkflowStatus.TASK_COMPLETED],
-
-        // Verification Failed
-        badgeGroups[BadgeWorkflowStatus.VERIFICATION_FAILED]
+        {
+            title: "Verification Approved",
+            badges: badgeGroups[BadgeWorkflowStatus.VERIFIED]
+        },
+        {
+            title: "All",
+            badges: badges ? badges : []
+        },
+        {
+            title: "Verification Pending",
+            badges: badgeGroups[BadgeWorkflowStatus.TASK_COMPLETED]
+        },
+        {
+            title: "Verification Failed",
+            badges: badgeGroups[BadgeWorkflowStatus.VERIFICATION_FAILED]
+        }
     ];
 
 
@@ -125,37 +131,32 @@ export default function Resource() {
             </div>
 
             <div className="row">
-                <h2>Badges</h2>
-                <Nav variant="underline" defaultActiveKey="1" className="ps-3" onSelect={setActiveTabIndex}>
-                    <Nav.Item>
-                        <Nav.Link eventKey="0" disabled={tabs[0].length < 1}>
-                            Verification Approved ({tabs[0].length})
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="1" disabled={tabs[1].length < 1}>All ({tabs[1].length})</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="2" disabled={tabs[2].length < 0}>
-                            Verification Pending({tabs[2].length})
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="3" disabled={tabs[3].length < 0}>Verification Failed
-                            ({tabs[3].length})
-                        </Nav.Link>
-                    </Nav.Item>
-                </Nav>
+                <h2 className="pb-4">Badges</h2>
+                <div className="w-100 d-flex flex-row">
+                    <div className="flex-fill">
+                        <Nav variant="underline" defaultActiveKey="1"
+                             className="pe-3 border-bottom border-1 border-gray-200" onSelect={setActiveTabIndex}>
+                            {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
+                                <Nav.Link eventKey={tabIndex}>
+                                    {tab.title} ({tab.badges.length})
+                                </Nav.Link>
+                            </Nav.Item>)}
+                        </Nav>
+                    </div>
+                    <GridAndListSwitch/>
+                </div>
 
-                {tabs.map((tabBadges, tabIndex) => {
+                {tabs.map((tab, tabIndex) => {
+                    console.log("##### tabIndex == activeTabIndex ", [tabIndex, activeTabIndex, tabIndex == activeTabIndex])
                     return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
                         <div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">
-                            {tabBadges && tabBadges.map((badge) => {
+                            {tab.badges && tab.badges.map((badge) => {
                                 return <div className="col p-3" key={badge.badge_id}>
-                                    <ResourceBadgeCard resourceId={resourceId} roadmapId={roadmapId} badgeId={badge.badge_id}/>
+                                    <ResourceBadgeCard resourceId={resourceId} roadmapId={roadmapId}
+                                                       badgeId={badge.badge_id}/>
                                 </div>
                             })}
-                            {tabBadges && tabBadges.length === 0 &&
+                            {tab.badges && tab.badges.length === 0 &&
                                 <div className="w-100 p-3 text-center lead">
                                     No badges available
                                 </div>}

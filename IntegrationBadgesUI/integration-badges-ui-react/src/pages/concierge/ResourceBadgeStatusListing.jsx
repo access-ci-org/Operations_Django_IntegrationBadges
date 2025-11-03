@@ -1,11 +1,13 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
-import {useBadges} from "../../contexts/BadgeContext.jsx";
+import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useLocation} from "react-router-dom";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Collapse, Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
+import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
+import ResourceBadgeCard from "../../components/resource/resource-badge/ResourceBadgeCard.jsx";
 
 export default function ResourceBadgeStatusListing() {
 
@@ -20,13 +22,146 @@ export default function ResourceBadgeStatusListing() {
     const {getBadge} = useBadges();
     const {getRoadmap} = useRoadmaps();
 
-    const resourceRoadmapBadges = getResourceRoadmapBadges({badgeWorkflowStatus});
+    const [activeTabIndex, setActiveTabIndex] = useState(1);
+
+    const badges = getResourceRoadmapBadges({badgeWorkflowStatus});
 
     useEffect(() => {
         fetchResourceRoadmapBadges({badgeWorkflowStatus});
     }, [badgeWorkflowStatus])
 
-    if (resourceRoadmapBadges) {
+    let badgeGroups = {
+        [BadgeWorkflowStatus.NOT_PLANNED]: [],
+        [BadgeWorkflowStatus.PLANNED]: [],
+        [BadgeWorkflowStatus.TASK_COMPLETED]: [],
+        [BadgeWorkflowStatus.VERIFICATION_FAILED]: [],
+        [BadgeWorkflowStatus.VERIFIED]: [],
+        [BadgeWorkflowStatus.DEPRECATED]: [],
+    };
+
+    if (badges && badges.length > 0) {
+        for (let i = 0; i < badges.length; i++) {
+            const badge = badges[i];
+            if (badge.status) {
+                badgeGroups[badge.status].push(badge);
+            }
+        }
+    }
+
+    const tabs = [
+        {
+            title: "RP Attention Needed",
+            badges: badgeGroups[BadgeWorkflowStatus.VERIFICATION_FAILED]
+        },
+        {
+            title: "Pending Verification",
+            badges: badgeGroups[BadgeWorkflowStatus.TASK_COMPLETED],
+        },
+        {
+            title: "In Progress",
+            badges: badgeGroups[BadgeWorkflowStatus.PLANNED]
+        },
+        {
+            title: "Deprecated",
+            badges: badgeGroups[BadgeWorkflowStatus.DEPRECATED]
+        },
+        {
+            title: "Available",
+            badges: badgeGroups[BadgeWorkflowStatus.VERIFIED]
+        },
+        {
+            title: "View All",
+            badges: badges ? badges : []
+        }
+    ];
+
+    if (badges) {
+        return <div className="container">
+            <div className="row mt-2 p-3">
+                <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
+                    <div className="w-100 " style={{borderBottom: "1px dashed"}}>
+                        <h2 className="text-medium">Badge Verification Status</h2>
+                    </div>
+
+                    <div className="w-100 pt-4">
+                        <div className="w-100 d-flex flex-row">
+                            <div className="flex-fill">
+                                <Nav variant="underline" defaultActiveKey="1"
+                                     className="pe-3 border-bottom border-1 border-gray-200"
+                                     onSelect={setActiveTabIndex}>
+                                    {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
+                                        <Nav.Link eventKey={tabIndex}>
+                                            {tab.title} ({tab.badges.length})
+                                        </Nav.Link>
+                                    </Nav.Item>)}
+                                </Nav>
+                            </div>
+                            <GridAndListSwitch/>
+                        </div>
+                        <div className="w-100 pt-4">
+                            <table className="table">
+                                <thead>
+                                <tr className="table-dark">
+                                    <th scope="col">Resource ID</th>
+                                    <th scope="col">Badge</th>
+                                    <th scope="col">Roadmap</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                {tabs.map((tab, tabIndex) => {
+                                    return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
+                                        <tbody>
+                                        {tab.badges && tab.badges.map((resourceBadge, resourceBadgeIndex) => {
+                                            return <tr key={resourceBadgeIndex}>
+                                                <td>{resourceBadge.info_resourceid}</td>
+                                                <td>{resourceBadge.badge_id}</td>
+                                                <td>{resourceBadge.roadmap_id}</td>
+                                                <td>{resourceBadge.status}</td>
+                                                <td>TBA</td>
+                                            </tr>
+                                        })}
+                                        </tbody>
+
+                                    </Collapse>
+
+
+                                    {/*<div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">*/
+                                    }
+                                    {/*    {tab.badges && tab.badges.map((resourceBadge, resourceBadgeIndex) => {*/
+                                    }
+                                    {/*        return <div className="col p-3" key={resourceBadgeIndex}>*/
+                                    }
+                                    {/*            <ResourceBadgeCard resourceId={resourceBadge.info_resourceid}*/
+                                    }
+                                    {/*                               roadmapId={resourceBadge.roadmap_id}*/
+                                    }
+                                    {/*                               badgeId={resourceBadge.badge_id}/>*/
+                                    }
+                                    {/*        </div>*/
+                                    }
+                                    {/*    })}*/
+                                    }
+                                    {/*    {tab.badges && tab.badges.length === 0 &&*/
+                                    }
+                                    {/*        <div className="w-100 p-3 text-center lead">*/
+                                    }
+                                    {/*            No badges available*/
+                                    }
+                                    {/*        </div>}*/
+                                    }
+                                    {/*</div>*/
+                                    }
+                                })}
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         return <div className="container">
             <div className="row">
                 <h1>Resource Roadmap Badge Status</h1>
