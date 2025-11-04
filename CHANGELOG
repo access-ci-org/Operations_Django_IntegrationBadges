@@ -3,10 +3,20 @@
 
 The general format of entries is:
 <tag> <yyyy>-<mm>-<dd> <author>
-    <#> - [new/fix] <description of the fix, feature or change>
+    <#> - [new/fix/bug-fix/draft] <description of the fix, feature or change>
         - <webapp path 1>
         - <webapp path 2>
 
+v1.0.60 2025-11-04 dinukadesilva
+    1 - [fix] Left list scroll bar of the multi list select component
+        - /concierge/badges/<badge_id>/edit
+        - /concierge/badges/new
+        - /concierge/roadmaps/new
+        - /concierge/roadmaps/<roadmap_id>/edit
+    2 - [bug-fix] Resource badge page task required status. (CTT-762)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    3 - [draft] Badge status page
+        - /concierge/badge-status
 
 v1.0.59 2025-10-31 dinukadesilva 
     1 - [fix] Removing roadmap assignment from the badge creation and edit
