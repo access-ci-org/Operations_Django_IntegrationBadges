@@ -393,6 +393,7 @@ export const ResourcesProvider = ({children}) => {
 
                 return {
                     ...task,
+                    required,
                     ...resourceBadgeTaskWorkflow
                 }
             });
