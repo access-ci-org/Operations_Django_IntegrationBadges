@@ -154,7 +154,7 @@ export default function MultiSelectControlTwoLists(
     return <div className="row pb-5" style={{height: "500px"}}>
         <div className="col-sm-6 pe-sm-5 h-100">
             <div className="w-100 h-100 d-flex flex-column" style={leftPanelStyles}>
-                <div className="w-100 pe-5" style={{height: "60px"}}>
+                <div className="w-100 pe-5" style={{minHeight: "60px"}}>
                     <div className="input-group search-input input-group-sm">
                         <span className="input-group-text rounded-start-5">
                             <i className="bi bi-search"></i>
@@ -188,7 +188,7 @@ export default function MultiSelectControlTwoLists(
         </div>
         <div className="col-sm-6 ps-sm-5 h-100 border-start border-1 border-black">
             <div className="w-100 h-100 d-flex flex-column" style={rightPanelStyles}>
-                <div className="w-100 d-flex flex-row p-3" style={{height: "60px"}}>
+                <div className="w-100 d-flex flex-row p-3" style={{minHeight: "60px"}}>
                     <h3 className="flex-fill coming-soon-regular text-black">{addedItemsLabel}</h3>
                     {allowRequiredSwitch &&
                         <div style={{paddingRight: 5 + (allowRemove ? 20 : 0) + (allowEdit ? 50 : 0)}}>
