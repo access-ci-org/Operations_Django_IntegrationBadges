@@ -1,82 +1,88 @@
-import {useEffect, useState} from "react";
+import {act, useEffect, useState} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {Collapse, Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
 import ResourceBadgeCard from "../../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import Translate from "../../locales/Translate.jsx";
+import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
 
 export default function ResourceBadgeStatusListing() {
-
+    const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const badgeWorkflowStatus = queryParams.get('badgeWorkflowStatus');
+    let badgeWorkflowStatus = queryParams.get('badgeWorkflowStatus');
 
     const {
-        fetchResourceRoadmapBadges,
-        getResourceRoadmapBadges, getResource
+        fetchResourceRoadmapBadges, fetchResourceRoadmapBadgeStatusSummary,
+        getResourceRoadmapBadges, getResourceRoadmapBadgeStatusSummary, getResource
     } = useResources();
     const {getBadge} = useBadges();
     const {getRoadmap} = useRoadmaps();
 
-    const [activeTabIndex, setActiveTabIndex] = useState(1);
+    if ([BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED,
+        BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED].indexOf(badgeWorkflowStatus) < 0) {
+
+        badgeWorkflowStatus = null;
+    }
 
     const badges = getResourceRoadmapBadges({badgeWorkflowStatus});
+    const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary();
 
     useEffect(() => {
         fetchResourceRoadmapBadges({badgeWorkflowStatus});
-    }, [badgeWorkflowStatus])
+    }, [badgeWorkflowStatus]);
 
-    let badgeGroups = {
-        [BadgeWorkflowStatus.NOT_PLANNED]: [],
-        [BadgeWorkflowStatus.PLANNED]: [],
-        [BadgeWorkflowStatus.TASK_COMPLETED]: [],
-        [BadgeWorkflowStatus.VERIFICATION_FAILED]: [],
-        [BadgeWorkflowStatus.VERIFIED]: [],
-        [BadgeWorkflowStatus.DEPRECATED]: [],
-    };
-
-    if (badges && badges.length > 0) {
-        for (let i = 0; i < badges.length; i++) {
-            const badge = badges[i];
-            if (badge.status) {
-                badgeGroups[badge.status].push(badge);
-            }
-        }
-    }
+    useEffect(() => {
+        fetchResourceRoadmapBadgeStatusSummary();
+    }, []);
 
     const tabs = [
         {
             title: "RP Attention Needed",
-            badges: badgeGroups[BadgeWorkflowStatus.VERIFICATION_FAILED]
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED],
+            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFICATION_FAILED}`
         },
         {
             title: "Pending Verification",
-            badges: badgeGroups[BadgeWorkflowStatus.TASK_COMPLETED],
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.TASK_COMPLETED],
+            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.TASK_COMPLETED}`
         },
         {
             title: "In Progress",
-            badges: badgeGroups[BadgeWorkflowStatus.PLANNED]
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.PLANNED],
+            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.PLANNED}`
         },
         {
             title: "Deprecated",
-            badges: badgeGroups[BadgeWorkflowStatus.DEPRECATED]
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.DEPRECATED],
+            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.DEPRECATED}`
         },
         {
             title: "Available",
-            badges: badgeGroups[BadgeWorkflowStatus.VERIFIED]
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFIED],
+            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFIED}`
         },
         {
             title: "View All",
-            badges: badges ? badges : []
+            count: () => resourceRoadmapBadgeStatusSummary["total"],
+            link: ConciergeRouteUrls.BADGE_STATUS
         }
     ];
 
-    if (badges) {
+    let activeKey = ConciergeRouteUrls.BADGE_STATUS;
+    if (!!badgeWorkflowStatus) activeKey += `?badgeWorkflowStatus=${badgeWorkflowStatus}`;
+
+    function handleTabSelect(link, e) {
+        navigate(link);
+        e.preventDefault();
+    }
+
+    if (resourceRoadmapBadgeStatusSummary) {
         return <div className="container">
             <div className="row mt-2 p-3">
                 <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
@@ -87,12 +93,12 @@ export default function ResourceBadgeStatusListing() {
                     <div className="w-100 pt-4">
                         <div className="w-100 d-flex flex-row">
                             <div className="flex-fill">
-                                <Nav variant="underline" defaultActiveKey="1"
+                                <Nav variant="underline" activeKey={activeKey}
                                      className="pe-3 border-bottom border-1 border-gray-200"
-                                     onSelect={setActiveTabIndex}>
+                                     onSelect={handleTabSelect}>
                                     {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                                        <Nav.Link eventKey={tabIndex}>
-                                            {tab.title} ({tab.badges.length})
+                                        <Nav.Link eventKey={tab.link} href={tab.link}>
+                                            {tab.title} ({tab.count()})
                                         </Nav.Link>
                                     </Nav.Item>)}
                                 </Nav>
@@ -120,77 +126,57 @@ export default function ResourceBadgeStatusListing() {
                                     </th>
                                 </tr>
                                 </thead>
-                                {tabs.map((tab, tabIndex) => {
-                                    return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
-                                        <tbody>
-                                        {tab.badges && tab.badges.map((resourceBadge, resourceBadgeIndex) => {
-                                            const resourceId = resourceBadge.info_resourceid;
-                                            const badgeId = resourceBadge.badge_id;
-                                            const roadmapId = resourceBadge.roadmap_id;
-                                            const badge = getBadge({badgeId});
-                                            const roadmap = getRoadmap({roadmapId});
+                                <tbody>
 
-                                            return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
-                                                <td>
-                                                    <div className="fs-7 pt-2 pb-2">{resourceId}</div>
-                                                </td>
-                                                <td>
-                                                    <div className="fs-7 pt-2 pb-2">{badge.name}</div>
-                                                </td>
-                                                <td>
-                                                    <div className="fs-7 pt-2 pb-2">{roadmap.name}</div>
-                                                </td>
-                                                <td>
-                                                    <div className="fs-7 pt-2 pb-2">
-                                                        <small
-                                                            className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle">
-                                                            <Translate>badgeWorkflowStatus.{resourceBadge.status}</Translate>
-                                                        </small>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <Link style={{minWidth: "175px"}}
-                                                          to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}?concierge=true`}
-                                                          className="btn btn-link text-medium text-decoration-none fw-normal fs-7 pt-2 pb-2"
-                                                          target="_blank">
-                                                        BADGE ACTION
-                                                        <i className="bi bi-box-arrow-up-right ps-2"></i>
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        })}
-                                        </tbody>
+                                {badges && badges.length === 0 &&
+                                    <tr className="pt-2 pb-2">
+                                        <td colSpan={5}>
+                                            <div className="w-100 p-3 text-center lead">
+                                                No resource badge integrations available to display
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
 
-                                    </Collapse>
+                                {badges && badges.map((resourceBadge, resourceBadgeIndex) => {
+                                    const resourceId = resourceBadge.info_resourceid;
+                                    const badgeId = resourceBadge.badge_id;
+                                    const roadmapId = resourceBadge.roadmap_id;
+                                    const badge = getBadge({badgeId});
+                                    const roadmap = getRoadmap({roadmapId});
 
-
-                                    {/*<div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">*/
-                                    }
-                                    {/*    {tab.badges && tab.badges.map((resourceBadge, resourceBadgeIndex) => {*/
-                                    }
-                                    {/*        return <div className="col p-3" key={resourceBadgeIndex}>*/
-                                    }
-                                    {/*            <ResourceBadgeCard resourceId={resourceBadge.info_resourceid}*/
-                                    }
-                                    {/*                               roadmapId={resourceBadge.roadmap_id}*/
-                                    }
-                                    {/*                               badgeId={resourceBadge.badge_id}/>*/
-                                    }
-                                    {/*        </div>*/
-                                    }
-                                    {/*    })}*/
-                                    }
-                                    {/*    {tab.badges && tab.badges.length === 0 &&*/
-                                    }
-                                    {/*        <div className="w-100 p-3 text-center lead">*/
-                                    }
-                                    {/*            No badges available*/
-                                    }
-                                    {/*        </div>}*/
-                                    }
-                                    {/*</div>*/
-                                    }
+                                    return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
+                                        <td>
+                                            <div className="fs-7 pt-2 pb-2">{resourceId}</div>
+                                        </td>
+                                        <td>
+                                            <div className="fs-7 pt-2 pb-2">{badge.name}</div>
+                                        </td>
+                                        <td>
+                                            <div className="fs-7 pt-2 pb-2">{roadmap.name}</div>
+                                        </td>
+                                        <td>
+                                            <div className="fs-7 pt-2 pb-2">
+                                                {/*<BadgeStatus>{resourceBadge.status}</BadgeStatus>*/}
+                                                <small
+                                                    className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle">
+                                                    <Translate>badgeWorkflowStatus.{resourceBadge.status}</Translate>
+                                                </small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <Link style={{minWidth: "175px"}}
+                                                  to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}?concierge=true`}
+                                                  className="btn btn-link text-medium text-decoration-none fw-normal fs-7 pt-2 pb-2"
+                                                  target="_blank">
+                                                BADGE ACTION
+                                                <i className="bi bi-box-arrow-up-right ps-2"></i>
+                                            </Link>
+                                        </td>
+                                    </tr>
                                 })}
+                                </tbody>
+
 
                             </table>
                         </div>
