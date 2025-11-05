@@ -7,6 +7,15 @@ The general format of entries is:
         - <webapp path 1>
         - <webapp path 2>
 
+
+v1.0.61 2025-11-05 dinukadesilva
+    1 - [fix] Resource roadmap badge summary context methods
+        - /organizations/<organization_id>
+        - /concierge/dashboard
+        - /concierge/badge-status
+    2 - [new] The new badge status page for staff and concierge
+        - /concierge/badge-status
+
 v1.0.60 2025-11-04 dinukadesilva
     1 - [fix] Left list scroll bar of the multi list select component
         - /concierge/badges/<badge_id>/edit
