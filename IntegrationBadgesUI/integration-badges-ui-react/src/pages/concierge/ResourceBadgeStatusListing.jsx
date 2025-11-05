@@ -8,6 +8,7 @@ import {Collapse, Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
 import ResourceBadgeCard from "../../components/resource/resource-badge/ResourceBadgeCard.jsx";
+import Translate from "../../locales/Translate.jsx";
 
 export default function ResourceBadgeStatusListing() {
 
@@ -102,23 +103,60 @@ export default function ResourceBadgeStatusListing() {
                             <table className="table">
                                 <thead>
                                 <tr className="table-dark">
-                                    <th scope="col">Resource ID</th>
-                                    <th scope="col">Badge</th>
-                                    <th scope="col">Roadmap</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">
+                                        <div className="fs-7 pt-2 pb-2">Resource ID</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div className="fs-7 pt-2 pb-2">Badge</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div className="fs-7 pt-2 pb-2">Roadmap</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div className="fs-7 pt-2 pb-2">Status</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div className="fs-7 pt-2 pb-2">Action</div>
+                                    </th>
                                 </tr>
                                 </thead>
                                 {tabs.map((tab, tabIndex) => {
                                     return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
                                         <tbody>
                                         {tab.badges && tab.badges.map((resourceBadge, resourceBadgeIndex) => {
-                                            return <tr key={resourceBadgeIndex}>
-                                                <td>{resourceBadge.info_resourceid}</td>
-                                                <td>{resourceBadge.badge_id}</td>
-                                                <td>{resourceBadge.roadmap_id}</td>
-                                                <td>{resourceBadge.status}</td>
-                                                <td>TBA</td>
+                                            const resourceId = resourceBadge.info_resourceid;
+                                            const badgeId = resourceBadge.badge_id;
+                                            const roadmapId = resourceBadge.roadmap_id;
+                                            const badge = getBadge({badgeId});
+                                            const roadmap = getRoadmap({roadmapId});
+
+                                            return <tr key={resourceBadgeIndex} className="pt-2 pb-2">
+                                                <td>
+                                                    <div className="fs-7 pt-2 pb-2">{resourceId}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="fs-7 pt-2 pb-2">{badge.name}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="fs-7 pt-2 pb-2">{roadmap.name}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="fs-7 pt-2 pb-2">
+                                                        <small
+                                                            className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle">
+                                                            <Translate>badgeWorkflowStatus.{resourceBadge.status}</Translate>
+                                                        </small>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <Link style={{minWidth: "175px"}}
+                                                          to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${badgeId}?concierge=true`}
+                                                          className="btn btn-link text-medium text-decoration-none fw-normal fs-7 pt-2 pb-2"
+                                                          target="_blank">
+                                                        BADGE ACTION
+                                                        <i className="bi bi-box-arrow-up-right ps-2"></i>
+                                                    </Link>
+                                                </td>
                                             </tr>
                                         })}
                                         </tbody>
