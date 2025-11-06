@@ -33,7 +33,8 @@ export default function ConciergeRoadmapEdit() {
             //     "required": true,
             //     "badge_id": 1
             // }
-        ]
+        ],
+        "graphic": ""
     });
 
     const [showSavedModal, setShowSavedModal] = useState(false);
@@ -52,8 +53,7 @@ export default function ConciergeRoadmapEdit() {
     useEffect(() => {
         setRoadmapData({
             ...roadmapData,
-            ...roadmap,
-            "graphic": ""
+            ...roadmap
         })
     }, [roadmapId, !!roadmap]);
 

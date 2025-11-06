@@ -85,7 +85,7 @@ export const RoadmapProvider = ({children}) => {
                 roadmapId ? `/roadmap/${roadmapId}/` : "/roadmaps/",
                 {
                     "name": roadmapData.name.trim(),
-                    // "graphic": roadmapData.graphic,
+                    "graphic": roadmapData.graphic,
                     "executive_summary": roadmapData.executive_summary.trim(),
                     "infrastructure_types": roadmapData.infrastructure_types.trim(),
                     "integration_coordinators": roadmapData.integration_coordinators.trim(),

@@ -1,18 +1,31 @@
 import Form from "react-bootstrap/Form";
 import {useParams} from "react-router-dom";
+import {fileToBase64} from "../../util/util.jsx";
+import {useRef} from "react";
 
 function getRoadmapInputFields({roadmapData, setRoadmapData}) {
+
+    const graphicInputRef = useRef(null);
 
     const onInputValueChange = (fieldName) => (evt) => {
         setRoadmapData({...roadmapData, [fieldName]: evt.target.value});
     };
 
+    const handleBrowseButtonClick = () => {
+        graphicInputRef.current.click();
+    };
+
+    const onGraphicInputValueChange = async (evt) => {
+        setRoadmapData({...roadmapData, graphic: await fileToBase64(evt.target.files[0])});
+    };
+
     return {
         name: <Form.Control type="text" value={roadmapData.name} onChange={onInputValueChange("name")}/>,
 
-        graphic: <button className="btn btn-gray-200">
+        graphic: <button className="btn btn-gray-200" onClick={handleBrowseButtonClick}>
             Browse Device
-            <input className="btn btn-gray-200 visually-hidden" type="file"/>
+            <input className="btn btn-gray-200 visually-hidden" type="file" ref={graphicInputRef}
+                   onChange={onGraphicInputValueChange}/>
         </button>,
 
         executive_summary: <Form.Control as="textarea" rows={6} value={roadmapData.executive_summary}
@@ -54,7 +67,13 @@ export function ConciergeRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
         <div className="mb-3">
             <Form.Label>Roadmap Image</Form.Label>
             <div className="w-100 p-4 rounded border border-1 text-center">
-                <i className="bi bi-image fs-1"></i>
+                <div className="overflow-hidden d-inline-block" style={{width: "44px", height: "44px"}}>
+                    {!roadmapData.graphic || roadmapData.graphic.length === 0 ?
+                        <i className="bi bi-image fs-1"></i> :
+                        <div className="w-100 h-100 border border-1 border-gray-200">
+                            <img className="w-100" src={roadmapData.graphic} alt="Roadmap graphic preview"/>
+                        </div>}
+                </div>
                 <p className="w-100 text-center">
                     Drag and Drop to Upload Image <br/><br/>
                     or<br/>
@@ -102,7 +121,13 @@ export function ConciergeRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
             <Form.Label className="col-sm-5">Image</Form.Label>
             <div className="col-sm-7 d-flex flex-row">
                 <div className="align-content-start">
-                    <div><i className="bi bi-image text-medium d-inline-flex" style={{fontSize: "90px"}}></i></div>
+                    <div className="overflow-hidden" style={{width: "100px", height: "100px"}}>
+                        {!roadmapData.graphic || roadmapData.graphic.length === 0 ?
+                            <i className="bi bi-image text-medium d-inline-flex" style={{fontSize: "90px"}}></i> :
+                            <div className="w-100 h-100 border border-1 border-gray-200">
+                                <img className="w-100" src={roadmapData.graphic} alt="Roadmap graphic preview"/>
+                            </div>}
+                    </div>
                 </div>
                 <div className="flex-fill text-center" style={{maxWidth: "250px"}}>
                     <p className="w-100 text-center mb-0">
