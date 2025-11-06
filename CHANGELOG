@@ -7,8 +7,13 @@ The general format of entries is:
         - <webapp path 1>
         - <webapp path 2>
 
+v1.0.62 2025-11-06 dinukadesilva
+    1 - [new] Graphic upload for roadmaps
+        - /concierge/roadmaps/<roadmap_id>/edit
+    2 - [new] Dashboard badge status links
+        - /concierge/badge-status
 
-v1.0.61 2025-11-05 dinukadesilva
+v1.0.61 2025-11-06 dinukadesilva
     1 - [fix] Resource roadmap badge summary context methods
         - /organizations/<organization_id>
         - /concierge/dashboard
