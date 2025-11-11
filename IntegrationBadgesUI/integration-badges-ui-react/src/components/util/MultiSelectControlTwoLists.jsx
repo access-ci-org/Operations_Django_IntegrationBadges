@@ -35,7 +35,8 @@ export default function MultiSelectControlTwoLists(
         showLeftPanelIcon = true,
         enableOrdering = false,
         enableViewMoreDetails = false,
-        getMoreDetailsComponent = (item) => null
+        getMoreDetailsComponent = (item) => null,
+        onEditClick = (item) => null
     }) {
 
     const [searchText, setSearchText] = useState("");
@@ -142,7 +143,7 @@ export default function MultiSelectControlTwoLists(
                             onChange={toggleItemRequiredStatus.bind(this, {sequenceNo})}/>
             </div>}
             {!!allowEdit && <div style={{minWidth: "50px"}} className="pe-2 text-end">
-                <button className="btn btn-link fw-normal">Edit</button>
+                <button className="btn btn-link fw-normal" onClick={onEditClick.bind(this, item)}>Edit</button>
             </div>}
             {!!allowRemove && <button className="btn btn-link"
                                       onClick={removeItemFromSequence.bind(this, {sequenceNo})}>

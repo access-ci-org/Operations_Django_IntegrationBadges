@@ -10,6 +10,7 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
     const {setTask, getTasks, getTask} = useTasks();
 
     const [taskData, setTaskData] = useState({
+        "task_id": null,
         "name": "",
         "technical_summary": "",
         "implementor_roles": "",
@@ -25,6 +26,7 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
     });
 
     const resetTaskData = () => setTaskData({
+        "task_id": null,
         "name": "",
         "technical_summary": "",
         "implementor_roles": "",
@@ -40,20 +42,23 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
 
     const saveTask = async () => {
         try {
-            const newTask = await setTask({taskData});
+            const newTask = await setTask({taskId: taskData.task_id, taskData});
             resetTaskData();
 
-            setBadgeData({
-                ...badgeData,
-                tasks: [
-                    ...badgeData.tasks,
-                    {
-                        task_id: newTask.task_id,
-                        required: false,
-                        sequence_no: badgeData.tasks.length
-                    }
-                ]
-            });
+            // Appending the task only if it's a new task
+            if (!taskData.task_id) {
+                setBadgeData({
+                    ...badgeData,
+                    tasks: [
+                        ...badgeData.tasks,
+                        {
+                            task_id: newTask.task_id,
+                            required: false,
+                            sequence_no: badgeData.tasks.length
+                        }
+                    ]
+                });
+            }
         } catch (error) {
             setShowErrorModal(true);
         }
@@ -82,6 +87,11 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
             allowEdit={true}
             enableOrdering={true}
             enableViewMoreDetails={true}
+            onEditClick={(item) => {
+                const task = getTask({taskId: item.id});
+
+                setTaskData(task);
+            }}
             getMoreDetailsComponent={(item) => {
                 const task = getTask({taskId: item.id});
 
@@ -117,7 +127,9 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
         <div className="w-100 border border-black border-1 rounded-2 p-3">
             <div className="w-100 d-flex flex-row p-3 border-bottom border-1">
                 <div className="flex-fill align-content-center p-3">
-                    NEW TASK for {badgeData.name}</div>
+                    {!!taskData.task_id ? "EDIT " : "NEW "}
+                    TASK for {badgeData.name}
+                </div>
                 <div>
                     <button className="btn btn-secondary ps-3 pe-3 m-1" onClick={resetTaskData}>
                         Cancel
