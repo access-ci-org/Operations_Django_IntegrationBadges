@@ -27,14 +27,14 @@ export default function ConciergeRoadmapEdit() {
         "infrastructure_types": "",
         "integration_coordinators": "",
         "status": "Draft",
+        "graphic": "",
         "badges": [
             // {
             //     "sequence_no": 0,
             //     "required": true,
             //     "badge_id": 1
             // }
-        ],
-        "graphic": ""
+        ]
     });
 
     const [showSavedModal, setShowSavedModal] = useState(false);

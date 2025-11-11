@@ -1,13 +1,25 @@
 import Form from "react-bootstrap/Form";
 import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
+import {useRef} from "react";
+import {fileToBase64} from "../../util/util.jsx";
 
 function getBadgeInputFields({badgeData, setBadgeData}) {
     const {getRoadmaps} = useRoadmaps();
+
+    const graphicInputRef = useRef(null);
 
     const roadmaps = getRoadmaps();
 
     const onInputValueChange = (fieldName) => (evt) => {
         setBadgeData({...badgeData, [fieldName]: evt.target.value});
+    };
+
+    const handleGraphicBrowseButtonClick = () => {
+        graphicInputRef.current.click();
+    };
+
+    const onGraphicInputValueChange = async (evt) => {
+        setBadgeData({...badgeData, graphic: await fileToBase64(evt.target.files[0])});
     };
 
     return {
@@ -19,9 +31,10 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
         resource_provider_summary: <Form.Control as="textarea" rows={6} value={badgeData.resource_provider_summary}
                                                  onChange={onInputValueChange("resource_provider_summary")}/>,
 
-        graphic: <button className="btn btn-gray-200">
+        graphic: <button className="btn btn-gray-200" onClick={handleGraphicBrowseButtonClick}>
             Browse Device
-            <input className="btn btn-gray-200 visually-hidden" type="file"/>
+            <input className="btn btn-gray-200 visually-hidden" type="file" ref={graphicInputRef}
+                   onChange={onGraphicInputValueChange}/>
         </button>,
 
         verification_method: <Form.Select aria-label="Default select example" value={badgeData.verification_method}
@@ -65,7 +78,14 @@ export function ConciergeBadgeEditDetailsV1({badgeData, setBadgeData}) {
         <div className="mb-3" style={{maxWidth: "500px"}}>
             <Form.Label>Badge Image</Form.Label>
             <div className="w-100 p-4 rounded border border-1 text-center">
-                <i className="bi bi-image fs-1"></i>
+                {/*<i className="bi bi-image fs-1"></i>*/}
+                <div className="overflow-hidden d-inline-block" style={{width: "44px", height: "44px"}}>
+                    {!badgeData.graphic || badgeData.graphic.length === 0 ?
+                        <i className="bi bi-image fs-1"></i> :
+                        <div className="w-100 h-100 border border-1 border-gray-200">
+                            <img className="w-100" src={badgeData.graphic} alt="Roadmap graphic preview"/>
+                        </div>}
+                </div>
                 <p className="w-100 text-center">
                     Drag and Drop to Upload Image <br/><br/>
                     or<br/>

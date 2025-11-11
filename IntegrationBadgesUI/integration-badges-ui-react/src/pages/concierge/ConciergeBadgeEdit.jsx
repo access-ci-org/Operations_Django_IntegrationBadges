@@ -33,6 +33,7 @@ export default function ConciergeBadgeEdit() {
         "verification_method": "Manual",
         "default_badge_access_url": "",
         "default_badge_access_url_label": "",
+        "graphic": "",
         "prerequisites": [
             // {
             //     "sequence_no": 0,
@@ -64,8 +65,7 @@ export default function ConciergeBadgeEdit() {
     useEffect(() => {
         setBadgeData({
             ...badgeData,
-            ...badge,
-            "graphic": ""
+            ...badge
         })
     }, [badgeId, !!badge]);
 

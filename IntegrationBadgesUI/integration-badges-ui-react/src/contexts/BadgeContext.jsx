@@ -99,7 +99,7 @@ export const BadgeProvider = ({children}) => {
                         "sequence_no": task.sequence_no
                     })),
                     "name": badgeData.name.trim(),
-                    // "graphic": badgeData.graphic,
+                    "graphic": badgeData.graphic,
                     "researcher_summary": badgeData.researcher_summary.trim(),
                     "resource_provider_summary": badgeData.resource_provider_summary.trim(),
                     "verification_summary": badgeData.verification_summary.trim(),

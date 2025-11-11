@@ -11,7 +11,7 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
         setRoadmapData({...roadmapData, [fieldName]: evt.target.value});
     };
 
-    const handleBrowseButtonClick = () => {
+    const handleGraphicBrowseButtonClick = () => {
         graphicInputRef.current.click();
     };
 
@@ -22,7 +22,7 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
     return {
         name: <Form.Control type="text" value={roadmapData.name} onChange={onInputValueChange("name")}/>,
 
-        graphic: <button className="btn btn-gray-200" onClick={handleBrowseButtonClick}>
+        graphic: <button className="btn btn-gray-200" onClick={handleGraphicBrowseButtonClick}>
             Browse Device
             <input className="btn btn-gray-200 visually-hidden" type="file" ref={graphicInputRef}
                    onChange={onGraphicInputValueChange}/>
