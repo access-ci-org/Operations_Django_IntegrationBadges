@@ -128,18 +128,22 @@ export default function ConciergeDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-link ms-3 me-1 fw-light" to="">
+                                <Link className="btn btn-link ms-3 me-1 fw-light" to={ConciergeRouteUrls.BADGE_STATUS}>
                                     View All</Link>
                             </div>
                         </div>
                         <ul className="p-0">
                             {visibleStatusList.map((status) => (
                                 <li key={status} className="d-flex flex-row pb-2">
-                                    <div className="flex-fill"><Translate>badgeWorkflowStatus.{status}</Translate></div>
-                                    {/*<Link to={`/concierge/badge-status/?badgeWorkflowStatus=${status}`}*/}
-                                    {/*      className="btn btn-sm btn-link text-center" style={{width: 60}}>*/}
-                                    {resourceRoadmapBadgeStatusSummary[status] ? resourceRoadmapBadgeStatusSummary[status] : 0}
-                                    {/*</Link>*/}
+                                    <div className="flex-fill">
+                                        <Link to={`/concierge/badge-status/?badgeWorkflowStatus=${status}`}
+                                              className="btn btn-sm btn-link text-center fw-normal">
+                                            <Translate>badgeWorkflowStatus.{status}</Translate>
+                                        </Link>
+                                    </div>
+                                    <div className="text-center" style={{width: 60}}>
+                                        {resourceRoadmapBadgeStatusSummary[status] ? resourceRoadmapBadgeStatusSummary[status] : 0}
+                                    </div>
                                 </li>))}
                         </ul>
                     </div>
