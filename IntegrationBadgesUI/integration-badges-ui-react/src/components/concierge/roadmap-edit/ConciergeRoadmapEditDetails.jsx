@@ -2,6 +2,7 @@ import Form from "react-bootstrap/Form";
 import {useParams} from "react-router-dom";
 import {fileToBase64} from "../../util/util.jsx";
 import {useRef} from "react";
+import Dropzone, {useDropzone} from 'react-dropzone'
 
 function getRoadmapInputFields({roadmapData, setRoadmapData}) {
 
@@ -15,18 +16,41 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
         graphicInputRef.current.click();
     };
 
-    const onGraphicInputValueChange = async (evt) => {
-        setRoadmapData({...roadmapData, graphic: await fileToBase64(evt.target.files[0])});
+    const onGraphicInputValueChange = async (files) => {
+        console.log("onGraphicInputValueChange", files);
+        if (files && files.length > 0) setRoadmapData({...roadmapData, graphic: await fileToBase64(files[0])});
     };
 
     return {
         name: <Form.Control type="text" value={roadmapData.name} onChange={onInputValueChange("name")}/>,
 
-        graphic: <button className="btn btn-gray-200" onClick={handleGraphicBrowseButtonClick}>
-            Browse Device
-            <input className="btn btn-gray-200 visually-hidden" type="file" ref={graphicInputRef}
-                   onChange={onGraphicInputValueChange}/>
-        </button>,
+        // graphic: <button className="btn btn-gray-200" onClick={handleGraphicBrowseButtonClick}>
+        //     Browse Device
+        //     <input className="btn btn-gray-200 visually-hidden" type="file" ref={graphicInputRef}
+        //            onChange={onGraphicInputValueChange}/>
+        // </button>,
+
+        graphic: (then) => {
+            const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB
+            const ALLOWED_MIME_TYPES = {
+                'image/jpeg': ['.jpeg', '.jpg'],
+                'image/png': ['.png'],
+                'image/svg+xml': ['.svg']
+            }
+
+            const {getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open} = useDropzone({
+                noClick: true,
+                onDrop: onGraphicInputValueChange,
+                accept: ALLOWED_MIME_TYPES,
+                maxSize: MAX_UPLOAD_SIZE,
+                multiple: false
+            });
+
+            return <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                {then(open, isDragAccept)}
+            </div>;
+        },
 
         executive_summary: <Form.Control as="textarea" rows={6} value={roadmapData.executive_summary}
                                          onChange={onInputValueChange("executive_summary")}/>,
@@ -66,7 +90,9 @@ export function ConciergeRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
         </div>
         <div className="mb-3">
             <Form.Label>Roadmap Image</Form.Label>
-            <div className="w-100 p-4 rounded border border-1 text-center">
+
+            {roadmapInputFields.graphic((open, isDragAccept) => <div
+                className={`w-100 border border-1 p-4 rounded text-center ${isDragAccept && "border-style-dashed bg-light"}`}>
                 <div className="overflow-hidden d-inline-block" style={{width: "44px", height: "44px"}}>
                     {!roadmapData.graphic || roadmapData.graphic.length === 0 ?
                         <i className="bi bi-image fs-1"></i> :
@@ -78,8 +104,10 @@ export function ConciergeRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
                     Drag and Drop to Upload Image <br/><br/>
                     or<br/>
                 </p>
-                {roadmapInputFields.graphic}
-            </div>
+                <button className="btn btn-gray-200">
+                    Browse Device
+                </button>
+            </div>)}
         </div>
         <div className="mb-3">
             <Form.Label>Executive Summary</Form.Label>
@@ -120,22 +148,27 @@ export function ConciergeRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
         <div className="mb-3 row">
             <Form.Label className="col-sm-5">Image</Form.Label>
             <div className="col-sm-7 d-flex flex-row">
-                <div className="align-content-start">
-                    <div className="overflow-hidden" style={{width: "100px", height: "100px"}}>
-                        {!roadmapData.graphic || roadmapData.graphic.length === 0 ?
-                            <i className="bi bi-image text-medium d-inline-flex" style={{fontSize: "90px"}}></i> :
-                            <div className="w-100 h-100 border border-1 border-gray-200">
-                                <img className="w-100" src={roadmapData.graphic} alt="Roadmap graphic preview"/>
-                            </div>}
+                {roadmapInputFields.graphic((open, isDragAccept) => <div
+                    className={`w-100 d-flex flex-row p-2 rounded-2 border border-1 border-style-dashed ${isDragAccept ? "bg-light" : "border-white"}`}>
+                    <div className="align-content-start pe-3">
+                        <div className="overflow-hidden" style={{width: "100px", height: "100px"}}>
+                            {!roadmapData.graphic || roadmapData.graphic.length === 0 ?
+                                <i className="bi bi-image text-medium d-inline-flex" style={{fontSize: "90px"}}></i> :
+                                <div className="w-100 h-100 border border-1 border-gray-200">
+                                    <img className="w-100" src={roadmapData.graphic} alt="Roadmap graphic preview"/>
+                                </div>}
+                        </div>
                     </div>
-                </div>
-                <div className="flex-fill text-center" style={{maxWidth: "250px"}}>
-                    <p className="w-100 text-center mb-0">
-                        Drag and Drop to Upload Image <br/>
-                        or
-                    </p>
-                    {roadmapInputFields.graphic}
-                </div>
+                    <div className="flex-fill text-center" style={{maxWidth: "250px"}}>
+                        <p className="w-100 text-center mb-0">
+                            Drag and Drop to Upload Image <br/>
+                            or
+                        </p>
+                        <button className="btn btn-gray-200 text-decoration-underline" onClick={open}>
+                            Browse Device
+                        </button>
+                    </div>
+                </div>)}
             </div>
         </div>
         <div className="mb-3 row">
