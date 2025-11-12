@@ -1,16 +1,24 @@
 # Changelog
 
-
 The general format of entries is:
 <tag> <yyyy>-<mm>-<dd> <author>
     <#> - [new/fix/bug-fix/draft] <description of the fix, feature or change>
         - <webapp path 1>
         - <webapp path 2>
 
-v1.0.62 2025-11-06 dinukadesilva
+v1.0.62 2025-11-12 dinukadesilva
     1 - [new] Graphic upload for roadmaps
         - /concierge/roadmaps/<roadmap_id>/edit
-    2 - [new] Dashboard badge status links
+    2 - [new] Graphic upload for badges
+        - /concierge/badges/<badge_id>/edit
+    3 - [new] Graphic upload drag and drop file feature
+        - /concierge/badges/<badge_id>/edit
+        - /concierge/roadmaps/<roadmap_id>/edit
+    4 - [new] Task edit
+        - /concierge/badges/<badge_id>/edit
+    5 - [new] About page
+        - /about
+    6 - [new] Dashboard badge status links
         - /concierge/badge-status
 
 v1.0.61 2025-11-06 dinukadesilva
