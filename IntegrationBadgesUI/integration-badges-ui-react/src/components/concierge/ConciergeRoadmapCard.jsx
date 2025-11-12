@@ -10,7 +10,7 @@ export function ConciergeRoadmapCard({roadmapId}) {
             <div className="w-100 h-100 rounded-4 p-2 d-flex flex-column bg-gray-200 border-black border border-1">
                 <Link to={ConciergeRouteUrls.ROADMAP_NEW}
                       className="btn btn-link w-100 h-100 text-center align-content-center fw-normal text-secondary">
-                        + Create New
+                    + Create New
                 </Link>
             </div>
         </div>
@@ -32,13 +32,19 @@ export function ConciergeRoadmapCard({roadmapId}) {
                     </div>
                 </div>
                 <div className="w-100 p-2 text-center">
+                    <div className="w-100 text-end" style={{height: "70px"}}>
+                        {roadmap.status === "Draft" &&
+                            <span className="bg-gray-300 p-1 rounded-1 fs-9 coming-soon-regular">Draft</span>}
+                    </div>
                     <h3 className="w-100 text-center text-black fs-6">{roadmapNameSegments[1]}</h3>
                     <strong className="w-100 text-center text-medium fs-6">
                         {roadmapNameSegments[2]}
                     </strong>
                 </div>
                 <div className="w-100 text-end p-1">
-                    <Link className="btn btn-link p-2" to={ConciergeRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmapId)}><i className="bi bi-pencil-fill"></i></Link>
+                    <Link className="btn btn-link p-2"
+                          to={ConciergeRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmapId)}><i
+                        className="bi bi-pencil-fill"></i></Link>
                     <Link className="btn btn-link p-2" to=""><i className="bi bi-trash-fill"></i></Link>
                 </div>
             </div>

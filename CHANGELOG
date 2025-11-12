@@ -20,6 +20,9 @@ v1.0.62 2025-11-12 dinukadesilva
         - /about
     6 - [new] Dashboard badge status links
         - /concierge/badge-status
+    7 - [new] Adding the roadmap "Draft" labels
+        - /concierge
+        - /concierge/roadmaps
 
 v1.0.61 2025-11-06 dinukadesilva
     1 - [fix] Resource roadmap badge summary context methods
