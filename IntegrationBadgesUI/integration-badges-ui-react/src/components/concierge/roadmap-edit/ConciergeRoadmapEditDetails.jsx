@@ -6,14 +6,8 @@ import Dropzone, {useDropzone} from 'react-dropzone'
 
 function getRoadmapInputFields({roadmapData, setRoadmapData}) {
 
-    const graphicInputRef = useRef(null);
-
     const onInputValueChange = (fieldName) => (evt) => {
         setRoadmapData({...roadmapData, [fieldName]: evt.target.value});
-    };
-
-    const handleGraphicBrowseButtonClick = () => {
-        graphicInputRef.current.click();
     };
 
     const onGraphicInputValueChange = async (files) => {
@@ -23,12 +17,6 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
 
     return {
         name: <Form.Control type="text" value={roadmapData.name} onChange={onInputValueChange("name")}/>,
-
-        // graphic: <button className="btn btn-gray-200" onClick={handleGraphicBrowseButtonClick}>
-        //     Browse Device
-        //     <input className="btn btn-gray-200 visually-hidden" type="file" ref={graphicInputRef}
-        //            onChange={onGraphicInputValueChange}/>
-        // </button>,
 
         graphic: (then) => {
             const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB

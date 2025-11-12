@@ -5,18 +5,9 @@ import {fileToBase64} from "../../util/util.jsx";
 import {useDropzone} from "react-dropzone";
 
 function getBadgeInputFields({badgeData, setBadgeData}) {
-    const {getRoadmaps} = useRoadmaps();
-
-    const graphicInputRef = useRef(null);
-
-    const roadmaps = getRoadmaps();
 
     const onInputValueChange = (fieldName) => (evt) => {
         setBadgeData({...badgeData, [fieldName]: evt.target.value});
-    };
-
-    const handleGraphicBrowseButtonClick = () => {
-        graphicInputRef.current.click();
     };
 
     const onGraphicInputValueChange = async (files) => {
@@ -32,12 +23,6 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
 
         resource_provider_summary: <Form.Control as="textarea" rows={6} value={badgeData.resource_provider_summary}
                                                  onChange={onInputValueChange("resource_provider_summary")}/>,
-
-        // graphic: <button className="btn btn-gray-200" onClick={handleGraphicBrowseButtonClick}>
-        //     Browse Device
-        //     <input className="btn btn-gray-200 visually-hidden" type="file" ref={graphicInputRef}
-        //            onChange={onGraphicInputValueChange}/>
-        // </button>,
 
         graphic: (then) => {
             const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB
