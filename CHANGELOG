@@ -2,7 +2,7 @@
 
 The general format of entries is:
 <tag> <yyyy>-<mm>-<dd> <author>
-    <#> - [new/fix/bug-fix/draft] <description of the fix, feature or change>
+    <#> - [new/fix/bug-fix/draft/dependency] <description of the fix, feature or change>
         - <webapp path 1>
         - <webapp path 2>
 
@@ -23,6 +23,7 @@ v1.0.62 2025-11-12 dinukadesilva
     7 - [new] Adding the roadmap "Draft" labels
         - /concierge
         - /concierge/roadmaps
+    8 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/72
 
 v1.0.61 2025-11-06 dinukadesilva
     1 - [fix] Resource roadmap badge summary context methods
@@ -31,6 +32,8 @@ v1.0.61 2025-11-06 dinukadesilva
         - /concierge/badge-status
     2 - [new] The new badge status page for staff and concierge
         - /concierge/badge-status
+    3 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/70
+        - v3.70.2
 
 v1.0.60 2025-11-04 dinukadesilva
     1 - [fix] Left list scroll bar of the multi list select component
