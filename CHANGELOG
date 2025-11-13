@@ -6,6 +6,14 @@ The general format of entries is:
         - <webapp path 1>
         - <webapp path 2>
 
+v1.1.0 2025-11-13 dinukadesilva
+    1 - [new] Adding the JSON option for configurations display in the about page
+        - /about
+    2 - [new] Style improvements in the about page. (Background color and tab view etc.)
+        - /about
+    3 - [fix] Fixed the breadcrumb in the organization badge review page
+        - /organizations/<organization_id>/badge-review/verification-failed
+
 v1.0.62 2025-11-12 dinukadesilva
     1 - [new] Graphic upload for roadmaps
         - /concierge/roadmaps/<roadmap_id>/edit
