@@ -32,17 +32,16 @@ function CustomizedBreadcrumb() {
         </Breadcrumb.Item>)
     }
 
-    if (pathSegments[1] === "concierge") {
-        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{...defaultLinkProps, to: ConciergeRouteUrls.INDEX}}>
-            Concierge Dashboard
-        </Breadcrumb.Item>);
+    if (pathSegments[1] === "about") {
+        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}
+                                              linkProps={{...defaultLinkProps, to: "/organizations"}}>
+            Dashboard
+        </Breadcrumb.Item>)
 
-
-        if (pathname === ConciergeRouteUrls.BADGE_STATUS) {
-            breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}  linkProps={{...defaultLinkProps, to: pathname}}>
-                Badge Status
-            </Breadcrumb.Item>);
-        }
+        breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link}
+                                              linkProps={{...defaultLinkProps, to: "/about"}}>
+            About
+        </Breadcrumb.Item>)
     }
 
     if (pathSegments[1] === "docs") {

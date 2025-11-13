@@ -31,7 +31,6 @@ const RouterLayout = () => {
     const pathname = location.pathname;
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
     const isConciergePage = !!(/^\/concierge/i.exec(pathname));
-    const isInternalPage = !!(/^\/about/i.exec(pathname));
 
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
@@ -61,11 +60,7 @@ const RouterLayout = () => {
         && (badges && badges.length > 0)
         && (tasks && tasks.length > 0);
 
-    if (isInternalPage) {
-        return <div className="w-100 pt-3 pb-5 bg-black">
-            {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
-        </div>;
-    } else if (isConciergePage) {
+    if (isConciergePage) {
         return <div className="w-100 pt-3 pb-5 bg-gray-200">
             <div className="container">
                 <ConciergeMainNavigation/>
