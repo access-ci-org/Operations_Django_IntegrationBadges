@@ -19,7 +19,7 @@ import {Nav} from "react-bootstrap";
 export default function About() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    let format = queryParams.get('format');
+    let format = queryParams.get('display-format');
 
     const [theme, setTheme] = useState("remedy");
 
@@ -30,7 +30,7 @@ export default function About() {
         format = "html";
     }
 
-    const activeTabKey = "/about" + (format ? `?format=${format}` : "")
+    const activeTabKey = "/about" + (format ? `?display-format=${format}` : "")
 
     const data = {
         "Settings Variables": window.SETTINGS,
@@ -38,8 +38,8 @@ export default function About() {
     }
 
     const tabs = [
-        {"title": "HTML", link: "/about?format=html"},
-        {"title": "JSON", link: "/about?format=json"},
+        {"title": "HTML", link: "/about?display-format=html"},
+        {"title": "JSON", link: "/about?display-format=json"},
     ]
 
     return <div className="container">

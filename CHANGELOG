@@ -6,6 +6,10 @@ The general format of entries is:
         - <webapp path 1>
         - <webapp path 2>
 
+v1.1.2 2025-11-13 dinukadesilva
+    1 - [bug-fix] Rename about page query string from `format` to `display-format`
+        - /about
+
 v1.1.1 2025-11-13 dinukadesilva
     1 - [bug-fix] Fixing the absolute links in tab views
         - /concierge/badge-status
