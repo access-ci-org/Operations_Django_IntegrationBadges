@@ -6,6 +6,9 @@ import LoadingBlock from "./util/LoadingBlock.jsx";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
 import {DocumentationRouteUrls} from "../pages/docs/DocumentationRoute.jsx";
 import {ConciergeRouteUrls} from "../pages/concierge/ConciergeRoute.jsx";
+import {BadgeTaskWorkflowStatus} from "../contexts/TaskContext.jsx";
+import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
+import Translate from "../locales/Translate.jsx";
 
 const defaultLinkProps = {className: "btn btn-link text-medium"}
 
@@ -74,6 +77,19 @@ function CustomizedBreadcrumb() {
             >
                 {organization ? organization.organization_name : <LoadingBlock processing={true}/>}
             </Breadcrumb.Item>)
+
+
+            if (pathSegments[3] === "badge-review" && pathSegments[4]) {
+                breadcrumbLinks.push(<Breadcrumb.Item
+                    key={key++} linkAs={Link}
+                    linkProps={{
+                        ...defaultLinkProps,
+                        to: `/organizations/${pathSegments[2]}/badge-review/${pathSegments[4]}`
+                    }}
+                >
+                    Review <Translate>badgeWorkflowVerificationStatus.{pathSegments[4]}</Translate> Badges
+                </Breadcrumb.Item>)
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import Translate from "../locales/Translate.jsx";
 import ResourceBadgeCardV2 from "../components/resource/resource-badge/ResourceBadgeCardV2.jsx";
+import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -12,7 +13,7 @@ import ResourceBadgeCardV2 from "../components/resource/resource-badge/ResourceB
  * Sort resources by organization name and group them by organization.
  */
 export default function OrganizationBadgeReview() {
-    const {organizationId, badgeWorkflowStatus, badgeStatus} = useParams();
+    let {organizationId, badgeWorkflowStatus, badgeStatus} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
     const {
         fetchResources, fetchResourceRoadmapBadges,
@@ -21,10 +22,15 @@ export default function OrganizationBadgeReview() {
 
     const organization = organizationMap[organizationId];
 
+    badgeWorkflowStatus = badgeWorkflowStatus.toLowerCase();
+    if (Object.values(BadgeWorkflowStatus).indexOf(badgeWorkflowStatus) < 0) {
+        badgeWorkflowStatus = null;
+    }
+
     useEffect(() => {
         fetchOrganization({organizationId});
         fetchResourceRoadmapBadges({organizationId, badgeWorkflowStatus});
-    }, [organizationId]);
+    }, [organizationId, badgeWorkflowStatus]);
 
     const resourceBadges = getResourceRoadmapBadges({organizationId, badgeWorkflowStatus});
 

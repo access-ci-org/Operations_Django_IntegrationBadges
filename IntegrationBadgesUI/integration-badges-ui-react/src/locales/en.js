@@ -10,8 +10,14 @@ export default {
         "deprecated": "Deprecated"
     },
     "badgeWorkflowVerificationStatus": {
+        "": "Not Started",
+        "undefined": "Not Started",
+        "not-planned": "Not Started",
+        "planned": "In Progress",
         "tasks-completed": "Pending Verifications",
-        "verification-failed": "RP Attention Required"
+        "verification-failed": "RP Attention Required",
+        "verified": "Available",
+        "deprecated": "Deprecated"
     },
     "badgePrerequisiteActionLabel": {
         "": "Not Planned",
