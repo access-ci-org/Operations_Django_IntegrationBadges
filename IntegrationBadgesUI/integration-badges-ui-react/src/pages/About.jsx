@@ -53,7 +53,7 @@ export default function About() {
                     <Nav variant="underline" activeKey={activeTabKey}
                          className="pe-3 border-bottom border-1 border-gray-200">
                         {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                            <Nav.Link eventKey={tab.link} href={tab.link}>
+                            <Nav.Link eventKey={tab.link} to={tab.link} as={Link}>
                                 {tab.title}
                             </Nav.Link>
                         </Nav.Item>)}

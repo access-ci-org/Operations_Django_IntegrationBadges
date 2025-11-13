@@ -6,6 +6,11 @@ The general format of entries is:
         - <webapp path 1>
         - <webapp path 2>
 
+v1.1.1 2025-11-13 dinukadesilva
+    1 - [bug-fix] Fixing the absolute links in tab views
+        - /concierge/badge-status
+        - /about
+
 v1.1.0 2025-11-13 dinukadesilva
     1 - [new] Adding the JSON option for configurations display in the about page
         - /about

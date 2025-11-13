@@ -77,11 +77,6 @@ export default function ResourceBadgeStatusListing() {
     let activeKey = ConciergeRouteUrls.BADGE_STATUS;
     if (!!badgeWorkflowStatus) activeKey += `?badgeWorkflowStatus=${badgeWorkflowStatus}`;
 
-    function handleTabSelect(link, e) {
-        navigate(link);
-        e.preventDefault();
-    }
-
     if (resourceRoadmapBadgeStatusSummary) {
         return <div className="container">
             <div className="row mt-2 p-3">
@@ -94,10 +89,9 @@ export default function ResourceBadgeStatusListing() {
                         <div className="w-100 d-flex flex-row">
                             <div className="flex-fill">
                                 <Nav variant="underline" activeKey={activeKey}
-                                     className="pe-3 border-bottom border-1 border-gray-200"
-                                     onSelect={handleTabSelect}>
+                                     className="pe-3 border-bottom border-1 border-gray-200">
                                     {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                                        <Nav.Link eventKey={tab.link} href={tab.link}>
+                                        <Nav.Link eventKey={tab.link} to={tab.link} as={Link}>
                                             {tab.title} ({tab.count()})
                                         </Nav.Link>
                                     </Nav.Item>)}
