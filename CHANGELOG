@@ -6,6 +6,17 @@ The general format of entries is:
         - <webapp path 1>
         - <webapp path 2>
 
+v1.2.0 2025-11-19 dinukadesilva
+    1 - [bug-fix] Fix the badge status page layout indicator
+        - /concierge/badge-status
+    2 - [fix] Improvements in RP dashboard (CTT-741)
+        - /organizations
+    2 - [fix] Improvements in organization page (CTT-784)
+        - /organizations/<organization_id>
+    4 - [new] Adding the new pages to see available roadmaps and badges (CTT-732)
+        - /docs/roadmaps
+        - /docs/badges
+
 v1.1.2 2025-11-13 dinukadesilva
     1 - [bug-fix] Rename about page query string from `format` to `display-format`
         - /about
