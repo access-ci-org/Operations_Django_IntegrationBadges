@@ -8,6 +8,7 @@ import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import OrgBadgeVerificationStatus from "../components/status/OrgBadgeVerificationStatus.jsx";
 import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
+import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -25,7 +26,11 @@ export default function Organization() {
     const [searchText, setSearchText] = useState("");
 
     const organization = organizationMap[organizationId];
-    const resources = getResources({organizationId, full: true});
+    let resources = getResources({organizationId, full: true});
+
+    if (!!resources) {
+        resources = sortJsonArrayAlphabetically(resources, "short_name");
+    }
 
     useEffect(() => {
         fetchOrganization({organizationId});
@@ -39,7 +44,7 @@ export default function Organization() {
             description: "Resources described in the CiDeR databased that haven't selected an integration roadmap or badges",
             showContinueSetup: true,
             condition: (resource, resourceRoadmaps) => resourceRoadmaps.length === 0,
-            resources: [null],
+            resources: [],
         },
         {
             title: "In-Progress Integrations",
@@ -83,6 +88,9 @@ export default function Organization() {
             }
         }
     }
+
+    // Add new resource card is enabled for "null"
+    sections[0].resources.push(null);
 
     sections = sections.filter(section => section.resources.length > 0);
 
