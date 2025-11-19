@@ -5,6 +5,7 @@ import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
+import {sortJsonArrayAlphabetically} from "../components/util/sort.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -12,7 +13,6 @@ import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
  * Sort resources by organization name and group them by organization.
  */
 export default function IntegrationDashboard() {
-    const {resourceOrgMap} = useResources();
     const {getOrganizations} = useOrganizations();
 
     const [searchText, setSearchText] = useState("");
@@ -22,11 +22,11 @@ export default function IntegrationDashboard() {
     let filteredOrganizations;
     if (organizations && organizations.length > 0) {
         filteredOrganizations = organizations.filter(organization => {
-            return true;
-            // return resourceOrgMap[organization.organization_name] &&
-            //     organization.organization_name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
+            return organization.organization_name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
         });
     }
+
+    filteredOrganizations = sortJsonArrayAlphabetically(filteredOrganizations, "organization_name")
 
     return (<div className="container">
         <div className="row">
@@ -62,7 +62,8 @@ export default function IntegrationDashboard() {
             <div className="row mt-2 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
                 {filteredOrganizations && filteredOrganizations.map((organization, organizationIndex) => {
                     return <div key={organizationIndex} className="col p-3">
-                        <div className="organization-card rounded-3 w-100 h-100">
+                        <Link className="organization-card rounded-3 w-100 h-100"
+                              to={"/organizations/" + organization.organization_id}>
                             <div className="w-100 p-3"></div>
                             <div className="w-100 p-5 bg-light" style={{
                                 backgroundImage: `url(${organization.other_attributes.organization_logo_url})`,
@@ -78,7 +79,7 @@ export default function IntegrationDashboard() {
                                     {organization.organization_name}
                                 </Link>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 })}
 
