@@ -1,109 +1,168 @@
-import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
-import {Link} from "react-router-dom";
-import {useResources} from "../../contexts/ResourcesContext.jsx";
-import {useEffect, useState} from "react";
-import {Collapse, Nav} from "react-bootstrap";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {ConciergeRouteUrls} from "../concierge/ConciergeRoute.jsx";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
+import {DocumentationRoute, DocumentationRouteUrls} from "./DocumentationRoute.jsx";
+import {useEffect, useState} from "react";
+import {scrollToTop} from "../../components/util/scroll.jsx";
+import {useTasks} from "../../contexts/TaskContext.jsx";
+import ResourceBadgePrerequisites from "../../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
+import ResourceBadgeTasks from "../../components/resource/resource-badge/ResourceBadgeTasks.jsx";
 
+/**
+ * The initial page that displays al resources.
+ * Get the full list of resources and badges from the contexts.
+ * Sort resources by organization name and group them by organization.
+ */
 export default function Badges() {
-    const {fetchResourceRoadmapBadges, getResourceRoadmapBadges} = useResources();
-    const {getResource} = useResources();
-    const {getRoadmap} = useRoadmaps();
-    const {getBadge} = useBadges();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    let badgeId = queryParams.get('badgeId');
 
-    const [activeTabIndex, setActiveTabIndex] = useState(2);
+    const {fetchRoadmaps, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
+    const {fetchBadges, getBadges, getBadge} = useBadges();
+    const {fetchTasks, getTasks} = useTasks();
+
+    const badges = getBadges();
+    const tasks = getTasks();
+    const selectedBadge = getBadge({badgeId});
 
     useEffect(() => {
-        fetchResourceRoadmapBadges();
+        fetchBadges();
+        fetchTasks();
     }, []);
 
-    const badges = getResourceRoadmapBadges();
+    useEffect(() => {
+        scrollToTop();
+    }, [badgeId]);
 
-    const tabs = [
-        BadgeWorkflowStatus.NOT_PLANNED,
-        BadgeWorkflowStatus.PLANNED,
-        BadgeWorkflowStatus.TASK_COMPLETED,
-        BadgeWorkflowStatus.VERIFIED,
-        BadgeWorkflowStatus.VERIFICATION_FAILED,
-        BadgeWorkflowStatus.DEPRECATED,
-    ]
-    const tabBadgesMap = {};
-    for (let tabIndex = 0; tabIndex < tabs.length; tabIndex++) {
-        tabBadgesMap[tabs[tabIndex]] = [];
-    }
-
-    for (let i = 0; i < badges.length; i++) {
-        if (!tabBadgesMap[badges[i].status]) {
-            tabBadgesMap[badges[i].status] = [];
+    useEffect(() => {
+        if (!badgeId && !!badges && badges.length > 0) {
+            navigate(DocumentationRouteUrls.BADGES + `?badgeId=${badges[0].badge_id}`);
         }
+    }, [badgeId, badges]);
 
-        tabBadgesMap[badges[i].status].push(badges[i]);
-    }
+    if (!!badges && !!tasks) {
 
-    return <div className="container">
-        <div className="row pt-5">
-            <h2>Badges Verification Status for Badge Owners and Concierge</h2>
-            <div className="w-100 pt-2 pb-5">
-                <Nav variant="underline" defaultActiveKey="2" className="ps-3" onSelect={setActiveTabIndex}>
-                    {tabs.map((tabBadgeStatus, tabIndex) => <Nav.Item key={tabIndex}>
-                        <Nav.Link eventKey={tabIndex}>
-                            {tabBadgeStatus} ({tabBadgesMap[tabBadgeStatus].length})
-                        </Nav.Link>
-                    </Nav.Item>)}
-                </Nav>
+        const tabs = badges.map((badge) => {
+            return {
+                title: badge.name,
+                link: DocumentationRouteUrls.BADGES + `?badgeId=${badge.badge_id}`
+            }
+        });
 
-                {tabs.map((tabBadgeStatus, tabIndex) => {
-                    const tabBadges = tabBadgesMap[tabBadgeStatus];
+        let activeKey = DocumentationRouteUrls.BADGES;
+        if (!!badgeId) activeKey += `?badgeId=${badgeId}`;
 
-                    return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
-                        <div className="w-100 pt-2 pb-5 row">
-                            {tabBadges && tabBadges.length !== 0 &&
-                                <table className="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Resource</th>
-                                        <th scope="col">Roadmap</th>
-                                        <th scope="col">Badge</th>
-                                        <th scope="col">Last Updated</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {tabBadges && tabBadges.map((resourceBadge, badgeIndex) => {
-                                        const resource = getResource({resourceId: resourceBadge.info_resourceid});
-                                        const roadmap = getRoadmap({roadmapId: resourceBadge.roadmap_id});
-                                        const badge = getBadge({badgeId: resourceBadge.badge_id});
-                                        const lastUpdatedAt = new Date(Date.parse(resourceBadge.status_updated_at));
-                                        const lastUpdatedBy = resourceBadge.status_updated_by;
+        return <div className="container">
+            <div className="row pt-4">
+                <h1>Available Badges</h1>
+            </div>
 
-                                        if (resource && roadmap && badge) {
-                                            return <tr key={badgeIndex}>
-                                                <th scope="row">{badgeIndex + 1}</th>
-                                                <td>{resource.resource_descriptive_name}</td>
-                                                <td>{roadmap.name}</td>
-                                                <td>{badge.name}</td>
-                                                <td>
-                                                    {lastUpdatedAt.toLocaleString()}
-                                                    {!lastUpdatedBy || lastUpdatedBy === "" ? "" : ` by ${lastUpdatedBy}`}
-                                                </td>
-                                                <td>
-                                                    <Link to={`/resources/${resource.info_resourceid}/roadmaps/${roadmap.roadmap_id}/badges/${badge.badge_id}`}>View more</Link>
-                                                </td>
-                                            </tr>
-                                        }
-                                    })}
-                                    </tbody>
-                                </table>}
-
-                            {tabBadges && tabBadges.length === 0 &&
-                                <div className="w-100 p-3 text-center lead">
-                                    No badges available
-                                </div>}
+            <div className="w-100 pt-4 d-flex flex-row">
+                <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3 border-end">
+                    <Nav variant="pills" activeKey={activeKey}
+                         className="d-flex flex-column">
+                        {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
+                            <Nav.Link eventKey={tab.link} to={tab.link} as={Link}
+                                      className="mb-3 border-4 border-medium border-start rounded-start-0">
+                                {tab.title}
+                            </Nav.Link>
+                        </Nav.Item>)}
+                    </Nav>
+                </div>
+                <div className="flex-fill ps-4">
+                    {selectedBadge && <div className="w-100">
+                        <div className="w-100 pb-5 d-flex flex-row">
+                            <div className="p-2">
+                                <div style={{width: "100px", height: "125px"}} className="overflow-hidden">
+                                    {!!selectedBadge.graphic ?
+                                        <img alt="Roadmap graphic" src={selectedBadge.graphic}
+                                             className="w-100"/> :
+                                        <div
+                                            className="w-100 h-100 p-2 text-secondary bg-gray-200 text-center align-content-center">
+                                            No Badge Graphic Available to Display</div>}
+                                </div>
+                            </div>
+                            <div className="flex-fill align-content-center ps-3">
+                                <h2>{selectedBadge.name}</h2>
+                            </div>
                         </div>
-                    </Collapse>
-                })}
+
+                        <div className="w-100 pb-5">
+                            <div className="row">
+                                <h4 className="col-sm-3 fs-6">Researcher Summary:</h4>
+                                <p className="col-sm-9">{selectedBadge.researcher_summary}</p>
+                            </div>
+                            <div className="w-100 d-flex flex-row">
+                                <h4 className="col-sm-3 fs-6">Resource Provider Summary:</h4>
+                                <p className="col-sm-9">{selectedBadge.resource_provider_summary}</p>
+                            </div>
+                            <div className="w-100 d-flex flex-row">
+                                <h4 className="col-sm-3 fs-6">Verification:</h4>
+                                <p className="colsm-9">
+                                    <strong>[{selectedBadge.verification_method}]&nbsp;</strong>
+                                    {selectedBadge.verification_summary}
+                                </p>
+                            </div>
+                            <div className="w-100 d-flex flex-row">
+                                <h4 className="fs-6 col-sm-3 align-content-center">Default Badge
+                                    Access:</h4>
+                                <p className="col-sm-9 align-content-center">
+                                    <Link to={selectedBadge.default_badge_access_url}
+                                          className="btn btn-outline-dark btn-sm">
+                                        {selectedBadge.default_badge_access_url_label}
+                                    </Link>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="row">
+
+                            <div className="w-100 text-start pb-2">
+                                <h3 className="d-inline me-4 text-black">Pre-Requisite Badges</h3>
+                                <OverlayTrigger placement="right" delayShow={300} delayHide={150}
+                                                overlay={<Tooltip id="tooltip-tasks">
+                                                    Prerequisite badges must be completed before submitting this badge
+                                                    for concierge
+                                                    verification. Click badge details to view and complete the required
+                                                    tasks.
+                                                </Tooltip>}>
+                                    <button className="btn btn-link text-yellow d-inline">
+                                        <i className="bi bi-question-square-fill"></i></button>
+                                </OverlayTrigger>
+                            </div>
+                            <ResourceBadgePrerequisites badgeId={badgeId}/>
+                        </div>
+
+                        <div className="row pt-4">
+                            <div className="w-100 text-start pb-2">
+                                <h3 className="d-inline me-4 text-black">Key Tasks & Tips</h3>
+                                <OverlayTrigger placement="right" delayShow={300} delayHide={150}
+                                                overlay={<Tooltip id="tooltip-tasks">
+                                                    Some tasks are informational, while others require action. Review
+                                                    them, return
+                                                    here, and mark each as Complete or N/A.
+                                                </Tooltip>}>
+                                    <button className="btn btn-link text-yellow d-inline">
+                                        <i className="bi bi-question-square-fill"></i></button>
+                                </OverlayTrigger>
+                            </div>
+
+                            <ResourceBadgeTasks badgeId={badgeId}/>
+
+                        </div>
+
+                    </div>}
+                </div>
             </div>
         </div>
-    </div>
+    } else {
+        return <div className="container">
+            <LoadingBlock processing={true}/>
+        </div>
+    }
 }

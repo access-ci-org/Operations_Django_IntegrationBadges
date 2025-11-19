@@ -1,6 +1,13 @@
-import {useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
+import {Nav} from "react-bootstrap";
+import {ConciergeRouteUrls} from "../concierge/ConciergeRoute.jsx";
+import {useBadges} from "../../contexts/BadgeContext.jsx";
+import {DocumentationRoute, DocumentationRouteUrls} from "./DocumentationRoute.jsx";
+import {useEffect} from "react";
+import {scrollToTop} from "../../components/util/scroll.jsx";
+import {BadgeCardRowWithRequiredLabel} from "../../components/resource-edit/resource-edit-page-cards.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -8,65 +15,116 @@ import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
  * Sort resources by organization name and group them by organization.
  */
 export default function Roadmaps() {
-
     const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    let roadmapId = queryParams.get('roadmapId');
 
-    const {getRoadmaps} = useRoadmaps();
+    const {fetchBadges, getBadges} = useBadges();
+    const {fetchRoadmaps, getRoadmaps, getRoadmap, getRoadmapBadges} = useRoadmaps();
 
-    let roadmaps = getRoadmaps();
+    const roadmaps = getRoadmaps();
+    const badges = getBadges();
 
-    if (roadmaps) {
+    const selectedRoadmap = getRoadmap({roadmapId});
+    const selectedRoadmapBadges = getRoadmapBadges({roadmapId});
+
+    useEffect(() => {
+        fetchRoadmaps();
+        fetchBadges();
+    }, []);
+
+    useEffect(() => {
+        scrollToTop();
+    }, [roadmapId]);
+
+    useEffect(() => {
+        if (!roadmapId && !!roadmaps && roadmaps.length > 0) {
+            navigate(DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmaps[0].roadmap_id}`);
+        }
+    }, [roadmapId, roadmaps]);
+
+    if (!!roadmaps && !!badges) {
+
+        const tabs = roadmaps.map((roadmap) => {
+            return {
+                title: roadmap.name,
+                link: DocumentationRouteUrls.ROADMAPS + `?roadmapId=${roadmap.roadmap_id}`
+            }
+        });
+
+        let activeKey = DocumentationRouteUrls.ROADMAPS;
+        if (!!roadmapId) activeKey += `?roadmapId=${roadmapId}`;
+
         return <div className="container">
             <div className="row pt-4">
-                <h1>Available Roadmaps.</h1>
+                <h1>Available Roadmaps</h1>
             </div>
-            <div className="row pt-5">
-                <h2 className="visually-hidden">Select the appropriate Roadmap</h2>
-                <div className="row pt-2 pb-5 row-cols-2">
-                    {roadmaps && roadmaps.map((roadmap) => {
-                        const roadmapId = roadmap.roadmap_id;
-                        return <div className="col pt-2" key={roadmapId}>
-                            <div className="w-100 h-100 p-4 pt-5">
-                                <div
-                                    className="w-100 h-100 d-flex flex-column rounded-3 border-gray-200 border border-1 position-relative roadmap-card">
-                                    <div className="w-100 position-absolute text-center roadmap-card-icon-row">
-                                        <div className="rounded-circle p-3 border d-inline-block bg-white">
-                                            <div className="background-image-center-no-repeat roadmap-card-icon"
-                                                 style={{backgroundImage: `url(${roadmap.graphic})`}}>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center">{roadmap.name}</h3>
-                                    <pre className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill">
-                                        {roadmap.executive_summary}
-                                    </pre>
+
+            <div className="w-100 pt-4 d-flex flex-row">
+                <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3 border-end">
+                    <Nav variant="pills" activeKey={activeKey}
+                         className="d-flex flex-column">
+                        {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
+                            <Nav.Link eventKey={tab.link} to={tab.link} as={Link}
+                                      className="mb-3 border-4 border-medium border-start rounded-start-0">
+                                {tab.title}
+                            </Nav.Link>
+                        </Nav.Item>)}
+                    </Nav>
+                </div>
+                <div className="flex-fill ps-4">
+                    {selectedRoadmap && <div className="w-100">
+                        <div className="w-100 d-flex flex-row">
+                            <div className="p-2">
+                                <div style={{width: "150px", height: "150px"}} className="overflow-hidden">
+                                    {!!selectedRoadmap.graphic ?
+                                        <img alt="Roadmap graphic" src={selectedRoadmap.graphic}
+                                             className="w-100"/> :
+                                        <div
+                                            className="w-100 h-100 p-2 text-secondary bg-gray-200 text-center align-content-center">
+                                            No Roadmap Graphic Available to Display</div>}
                                 </div>
                             </div>
+                            <div className="flex-fill align-content-center ps-3">
+                                <h2>{selectedRoadmap.name}</h2>
+                            </div>
                         </div>
-                    })}
-                    {roadmaps && roadmaps.length === 0 && <div className="w-100 p-3 text-center lead">
-                        No roadmaps available
+
+                        <div className="w-100 pb-5">
+                            <div className="row">
+                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Infrastructure Type(s):</h4>
+                                <p className="col-sm-9">{selectedRoadmap.infrastructure_types}</p>
+                            </div>
+                            <div className="row">
+                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap RP Summary:</h4>
+                                <p className="col-sm-9">{selectedRoadmap.executive_summary}</p>
+                            </div>
+                            <div className="row">
+                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Integration Concierge:</h4>
+                                <p className="col-sm-9">{selectedRoadmap.integration_coordinators}</p>
+                            </div>
+                            <div className="row">
+                                <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap Status:</h4>
+                                <p className="col-sm-9">{selectedRoadmap.status}</p>
+                            </div>
+                        </div>
+
+                        <div className="w-100">
+                            <h3 className="text-black">Badges</h3>
+                            <div className="w-100">
+                                {selectedRoadmapBadges && selectedRoadmapBadges.length === 0 &&
+                                    <div className="w-100 p-3 text-center lead">
+                                        No Badges Available to Display
+                                    </div>}
+                                {selectedRoadmapBadges.map((badge, badgeIndex) => {
+                                    return <BadgeCardRowWithRequiredLabel key={badgeIndex} badgeId={badge.badge_id}
+                                                                          required={badge.required}/>
+                                })}
+                            </div>
+                        </div>
                     </div>}
                 </div>
-            </div>
-            <div className="row pt-5">
-                <p>
-                    <strong>Explore the Future of Infrastructure Integration: </strong>
-                    Interested in contributing to the development of new
-                    infrastructure roadmaps? We invite you to explore the possibilities of integrating new and novel
-                    infrastructure types. Open an ACCESS Integration and Operation Support Request to start a
-                    conversation.
-                    Together, we can advance research and innovation in cyberinfrastructure.
-                </p>
-            </div>
-            <div className="row pt-5">
-                <h5>Integration Roadmaps Framework Participation</h5>
-                <p>
-                    ACCESS projects contribute to the Integration Roadmaps Framework by participating in the ACCESS
-                    Integration Roadmaps Working Group where they develop, document, review, and release tasks and
-                    emerging
-                    roadmaps.
-                </p>
             </div>
         </div>
     } else {

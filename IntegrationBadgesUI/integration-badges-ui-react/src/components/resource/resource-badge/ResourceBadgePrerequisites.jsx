@@ -32,22 +32,27 @@ export default function ResourceBadgePrerequisites({resourceId, roadmapId, badge
                     No Prerequisites
                 </div>}
             {prerequisiteBadges && prerequisiteBadges.map((prerequisiteBadge, taskIndex) => {
-                const actions = <Link
-                    to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${prerequisiteBadge.badge_id}`}
-                    className="w-100 btn btn-outline-dark btn-sm rounded-3 d-flex flex-row">
-                    <span className="flex-fill text-start">
-                        <i className={`bi ${badgePrerequisiteActionIconClass[prerequisiteBadge.status]}`}></i>
-                        <span className="ps-3 pe-3">
-                            <Translate>badgePrerequisiteActionLabel.{prerequisiteBadge.status}</Translate>
-                        </span>
-                    </span>
-                    <span className="">
-                        <i className="bi bi-chevron-right"></i>
-                    </span>
-                </Link>
+                let actions = null;
 
-                return <BadgeCardRow  key={taskIndex} resourceId={resourceId} roadmapId={roadmapId} badgeId={prerequisiteBadge.badge_id}
-                                      toggleComponent={toggleComponent} actions={actions}/>
+                if (!!resourceId && !!roadmapId) {
+                    actions = <Link
+                        to={`/resources/${resourceId}/roadmaps/${roadmapId}/badges/${prerequisiteBadge.badge_id}`}
+                        className="w-100 btn btn-outline-dark btn-sm rounded-3 d-flex flex-row">
+                        <span className="flex-fill text-start">
+                            <i className={`bi ${badgePrerequisiteActionIconClass[prerequisiteBadge.status]}`}></i>
+                            <span className="ps-3 pe-3">
+                                <Translate>badgePrerequisiteActionLabel.{prerequisiteBadge.status}</Translate>
+                            </span>
+                        </span>
+                        <span className="">
+                            <i className="bi bi-chevron-right"></i>
+                        </span>
+                    </Link>
+                }
+
+                return <BadgeCardRow key={taskIndex} resourceId={resourceId} roadmapId={roadmapId}
+                                     badgeId={prerequisiteBadge.badge_id}
+                                     toggleComponent={toggleComponent} actions={actions}/>
 
             })}
         </div>
