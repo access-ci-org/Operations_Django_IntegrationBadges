@@ -52,7 +52,9 @@ function CustomizedBreadcrumb() {
             [DocumentationRouteUrls.INDEX]: "Integration Process is Simple and Intuitive",
             [DocumentationRouteUrls.WHY_BECOME_AN_RP]: "How & Why Become an RP",
             [DocumentationRouteUrls.HOW_TO_INTEGRATE_RESOURCE]: "How Do I Integrate My Resource into ACCESS",
-            [DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP]: "What is an Integration Roadmap and How do I Choose the Right One"
+            [DocumentationRouteUrls.HOW_TO_CHOOSE_ROADMAP]: "What is an Integration Roadmap and How do I Choose the Right One",
+            [DocumentationRouteUrls.ROADMAPS]: "Available Roadmaps for Integration",
+            [DocumentationRouteUrls.BADGES]: "Available Badges for Integration",
         }
 
         breadcrumbLinks.push(<Breadcrumb.Item key={key++} linkAs={Link} linkProps={{...defaultLinkProps, to: pathname}}>
