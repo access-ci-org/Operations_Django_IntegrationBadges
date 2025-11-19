@@ -97,7 +97,7 @@ export default function ResourceBadgeStatusListing() {
                                     </Nav.Item>)}
                                 </Nav>
                             </div>
-                            <GridAndListSwitch/>
+                            <GridAndListSwitch state="list"/>
                         </div>
                         <div className="w-100 pt-4">
                             <table className="table">
