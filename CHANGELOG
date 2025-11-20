@@ -5,6 +5,11 @@ The general format of entries is:
     <#> - [new/fix/bug-fix/draft/dependency] <description of the fix, feature or change>
         - <webapp path 1>
         - <webapp path 2>
+        - *
+
+v1.2.1 2025-11-20 dinukadesilva
+    1 - [fix] Fix the auto scrolling to stop at the app root
+        - *
 
 v1.2.0 2025-11-19 dinukadesilva
     1 - [bug-fix] Fix the badge status page layout indicator
