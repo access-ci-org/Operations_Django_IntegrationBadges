@@ -3,11 +3,16 @@ import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
 import {useRef} from "react";
 import {fileToBase64} from "../../util/util.jsx";
 import {useDropzone} from "react-dropzone";
+import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
 function getBadgeInputFields({badgeData, setBadgeData}) {
 
     const onInputValueChange = (fieldName) => (evt) => {
         setBadgeData({...badgeData, [fieldName]: evt.target.value});
+    };
+
+    const onFormattedTextInputValueChange = (fieldName) => (data) => {
+        setBadgeData({...badgeData, [fieldName]: data});
     };
 
     const onGraphicInputValueChange = async (files) => {
@@ -18,11 +23,19 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
     return {
         name: <Form.Control type="text" value={badgeData.name} onChange={onInputValueChange("name")}/>,
 
-        researcher_summary: <Form.Control as="textarea" rows={6} value={badgeData.researcher_summary}
-                                          onChange={onInputValueChange("researcher_summary")}/>,
 
-        resource_provider_summary: <Form.Control as="textarea" rows={6} value={badgeData.resource_provider_summary}
-                                                 onChange={onInputValueChange("resource_provider_summary")}/>,
+        researcher_summary: <BasicFormattedTextEditor data={badgeData.researcher_summary}
+            onChange={onFormattedTextInputValueChange("researcher_summary")}/>,
+
+
+        resource_provider_summary: <BasicFormattedTextEditor data={badgeData.resource_provider_summary}
+            onChange={onFormattedTextInputValueChange("resource_provider_summary")}/>,
+
+        // researcher_summary: <Form.Control as="textarea" rows={6} value={badgeData.researcher_summary}
+        //                                   onChange={onInputValueChange("researcher_summary")}/>,
+        //
+        // resource_provider_summary: <Form.Control as="textarea" rows={6} value={badgeData.resource_provider_summary}
+        //                                          onChange={onInputValueChange("resource_provider_summary")}/>,
 
         graphic: (then) => {
             const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB
