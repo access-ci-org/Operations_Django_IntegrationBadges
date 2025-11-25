@@ -46,7 +46,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
     const isCurrentEventKey = activeEventKey.indexOf(eventKey) >= 0;
 
     return <div className={`row border-gray-200 border border-1 ${isCurrentEventKey ? 'rounded-top-3' : 'rounded-3'}`}>
-        <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
+        <div className="col ps-0 d-flex flex-row align-items-center">
             <div
                 className="p-4 ps-3 pe-3 h-100 bg-gray-100 rounded-start-3 border-gray-200 border-end border-1 align-content-center text-center"
                 role="button" onClick={decoratedOnClick}>
@@ -56,7 +56,7 @@ function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, event
             <h4 className="flex-fill p-2 ps-3 m-0 fs-6">{task.name}</h4>
         </div>
 
-        <div className="col align-content-center text-center">
+        <div className="col-sm-3 align-content-center text-center">
             {task.required ? <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-dark-subtle text-black">
                     Required</small> :
                 <small className="ps-2 pe-2 pt-1 pb-1 rounded-1 text-nowrap bg-secondary-subtle text-white">

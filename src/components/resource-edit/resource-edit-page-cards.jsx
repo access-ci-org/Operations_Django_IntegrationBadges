@@ -74,7 +74,7 @@ export function BadgeCardRow({
     if (badge) {
         return <div className="w-100 p-1">
             <div className="row rounded-3 border-gray-200 border border-1 badge-card-row">
-                <div className="col-sm-4 ps-0 d-flex flex-row align-items-center">
+                <div className="col ps-0 d-flex flex-row align-items-center">
                     {toggleComponent && toggleComponent}
                     <div className="pt-3 pb-3 ps-2 pe-2">
                         <ResourceBadgeIcon badgeId={badgeId}/>
@@ -83,11 +83,15 @@ export function BadgeCardRow({
                         <h4 className="m-0 align-content-center fs-6">{badge.name}</h4>
                     </div>
                 </div>
-                <div className="col-sm-5 pt-2 pb-2 badge-card-row-description align-content-center">
-                    {!!body ? body : <p className="m-0 align-content-center">
-                        <HtmlToText>{badge.resource_provider_summary}</HtmlToText>
-                    </p>}
-                </div>
+
+                {!!body ?
+                    <div className="col-sm-3 pt-2 pb-2 badge-card-row-description align-content-center">{body}</div> :
+                    <div className="col pt-2 pb-2 badge-card-row-description align-content-center">
+                        <p className="m-0 align-content-center">
+                            <HtmlToText>{badge.resource_provider_summary}</HtmlToText>
+                        </p>
+                    </div>}
+
                 <div className="col-sm-3 pt-2 pb-2 align-content-center">
                     {!!actions ? actions :
                         <Link
