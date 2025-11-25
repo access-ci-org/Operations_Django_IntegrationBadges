@@ -9,9 +9,8 @@ export default defineConfig({
         assetsInlineLimit: 100000000,
         rollupOptions: {
             output: {
-                dir: '../static/integration-badges-ui-react',
+                dir: './build',
                 // Disable code splitting and create a single entry file
-
 
                 manualChunks: false,
                 inlineDynamicImports: true,

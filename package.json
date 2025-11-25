@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf ../static/integration-badges-ui-react && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "preversion": "mkdir -p .git",
-    "version": "npm run build && git add -A ../static",
+    "version": "npm run build && git add -A ./build",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
