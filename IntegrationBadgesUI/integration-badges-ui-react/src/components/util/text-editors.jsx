@@ -1,6 +1,8 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import React from "react";
+import parseHtmlToReact from 'html-react-parser';
+import {htmlToText} from 'html-to-text';
 
 export function BasicFormattedTextEditor({onChange, data}) {
     return <CKEditor
@@ -22,4 +24,16 @@ export function BasicFormattedTextEditor({onChange, data}) {
             onChange && onChange(data);
         }}
     />
+}
+
+export function HtmlToReact({children}) {
+    if (!children || typeof children !== "string") children = "";
+
+    return parseHtmlToReact(children)
+}
+
+export function HtmlToText({children}) {
+    if (!children || typeof children !== "string") children = "";
+
+    return htmlToText(children);
 }

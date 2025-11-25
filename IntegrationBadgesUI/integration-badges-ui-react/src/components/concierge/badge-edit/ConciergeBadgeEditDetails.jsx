@@ -59,8 +59,8 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
             <option value="Manual">Manual</option>
         </Form.Select>,
 
-        verification_summary: <Form.Control as="textarea" rows={6} value={badgeData.verification_summary}
-                                            onChange={onInputValueChange("verification_summary")}/>,
+        verification_summary: <BasicFormattedTextEditor data={badgeData.verification_summary}
+            onChange={onFormattedTextInputValueChange("verification_summary")}/>,
 
         default_badge_access_url_label: <Form.Control type="text" value={badgeData.default_badge_access_url_label}
                                                       onChange={onInputValueChange("default_badge_access_url_label")}/>,

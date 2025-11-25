@@ -8,7 +8,7 @@ import {DocumentationRoute, DocumentationRouteUrls} from "./DocumentationRoute.j
 import {useEffect} from "react";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import {BadgeCardRowWithRequiredLabel} from "../../components/resource-edit/resource-edit-page-cards.jsx";
-import parse from 'html-react-parser';
+import {HtmlToReact} from "../../components/util/text-editors.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -93,21 +93,21 @@ export default function Roadmaps() {
                         </div>
 
                         <div className="w-100 pb-5">
-                            <div className="row">
+                            <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Infrastructure Type(s):</h4>
-                                <p className="col-sm-9">{selectedRoadmap.infrastructure_types}</p>
+                                <div className="col-sm-9">{selectedRoadmap.infrastructure_types}</div>
                             </div>
-                            <div className="row">
+                            <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap RP Summary:</h4>
-                                <p className="col-sm-9">{parse(selectedRoadmap.executive_summary)}</p>
+                                <div className="col-sm-9"><HtmlToReact>{selectedRoadmap.executive_summary}</HtmlToReact></div>
                             </div>
-                            <div className="row">
+                            <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Integration Concierge:</h4>
-                                <p className="col-sm-9">{selectedRoadmap.integration_coordinators}</p>
+                                <div className="col-sm-9">{selectedRoadmap.integration_coordinators}</div>
                             </div>
-                            <div className="row">
+                            <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6" style={{minWidth: "200px"}}>Roadmap Status:</h4>
-                                <p className="col-sm-9">{selectedRoadmap.status}</p>
+                                <div className="col-sm-9">{selectedRoadmap.status}</div>
                             </div>
                         </div>
 

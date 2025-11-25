@@ -2,7 +2,7 @@ import ResourceCard from "../resource/ResourceCard.jsx";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import LoadingBlock from "../util/LoadingBlock.jsx";
-import parse from 'html-react-parser';
+import {HtmlToReact} from "../util/text-editors.jsx";
 
 export default function RoadmapSelectionConfirmation({resourceId, roadmapId, prev, next}) {
     const {getResource, getResourceOrganization} = useResources();
@@ -17,7 +17,7 @@ export default function RoadmapSelectionConfirmation({resourceId, roadmapId, pre
             <div className="row pt-4">
                 <div className="col-lg-8 d-flex flex-column pe-5">
                     <h1>{roadmap.name}</h1>
-                    <p className="flex-fill pre-wrap-text">{parse(roadmap.executive_summary)}</p>
+                    <div className="flex-fill"><HtmlToReact>{roadmap.executive_summary}</HtmlToReact></div>
                     <div>
                         <button className="btn btn-dark rounded-1" onClick={next}>Select Your Resource-Specific Badges</button>
                     </div>

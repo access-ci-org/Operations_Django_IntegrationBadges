@@ -10,7 +10,7 @@ import {scrollToTop} from "../../components/util/scroll.jsx";
 import {useTasks} from "../../contexts/TaskContext.jsx";
 import ResourceBadgePrerequisites from "../../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
 import ResourceBadgeTasks from "../../components/resource/resource-badge/ResourceBadgeTasks.jsx";
-import parse from 'html-react-parser';
+import {HtmlToReact} from "../../components/util/text-editors.jsx";
 
 /**
  * The initial page that displays al resources.
@@ -94,30 +94,30 @@ export default function Badges() {
                         </div>
 
                         <div className="w-100 pb-5">
-                            <div className="row">
+                            <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Researcher Summary:</h4>
-                                <p className="col-sm-9">{parse(selectedBadge.researcher_summary)}</p>
+                                <div className="col-sm-9"><HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact></div>
                             </div>
-                            <div className="w-100 d-flex flex-row">
+                            <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Resource Provider Summary:</h4>
-                                <p className="col-sm-9">{parse(selectedBadge.resource_provider_summary)}</p>
+                                <div className="col-sm-9"><HtmlToReact>{selectedBadge.resource_provider_summary}</HtmlToReact></div>
                             </div>
-                            <div className="w-100 d-flex flex-row">
+                            <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Verification:</h4>
-                                <p className="colsm-9">
-                                    <strong>[{selectedBadge.verification_method}]&nbsp;</strong>
-                                    {selectedBadge.verification_summary}
-                                </p>
+                                <div className="col-sm-9">
+                                    <div><strong>[{selectedBadge.verification_method}]&nbsp;</strong></div>
+                                    <HtmlToReact>{selectedBadge.verification_summary}</HtmlToReact>
+                                </div>
                             </div>
-                            <div className="w-100 d-flex flex-row">
+                            <div className="row pb-3">
                                 <h4 className="fs-6 col-sm-3 align-content-center">Default Badge
                                     Access:</h4>
-                                <p className="col-sm-9 align-content-center">
+                                <div className="col-sm-9 align-content-center">
                                     <Link to={selectedBadge.default_badge_access_url}
                                           className="btn btn-outline-dark btn-sm">
                                         {selectedBadge.default_badge_access_url_label}
                                     </Link>
-                                </p>
+                                </div>
                             </div>
                         </div>
 

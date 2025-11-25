@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
 import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
+import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
 function getTaskInputFields({taskData, setTaskData}) {
 
@@ -7,11 +8,20 @@ function getTaskInputFields({taskData, setTaskData}) {
         setTaskData({...taskData, [fieldName]: evt.target.value});
     };
 
+    const onFormattedTextInputValueChange = (fieldName) => (data) => {
+        console.log("onFormattedTextInputValueChange", {taskData, data});
+        setTaskData({...taskData, [fieldName]: data});
+    };
+
     return {
         name: <Form.Control type="text" value={taskData.name} onChange={onInputValueChange("name")}/>,
 
         technical_summary: <Form.Control as="textarea" rows={3} value={taskData.technical_summary}
                                           onChange={onInputValueChange("technical_summary")}/>,
+
+        // technical_summary: <BasicFormattedTextEditor data={taskData.technical_summary}
+        //     onChange={onFormattedTextInputValueChange("technical_summary")}/>,
+
 
         task_experts: <Form.Control type="text" value={taskData.task_experts}
                                                       onChange={onInputValueChange("task_experts")}/>,

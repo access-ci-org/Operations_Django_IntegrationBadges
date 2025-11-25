@@ -6,6 +6,7 @@ import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeIcon from "../resource/resource-badge/ResourceBadgeIcon.jsx";
 import {DocumentationRouteUrls} from "../../pages/docs/DocumentationRoute.jsx";
+import {HtmlToText} from "../util/text-editors.jsx";
 
 export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
     const {getResource} = useResources();
@@ -26,8 +27,8 @@ export function RoadmapCard({resourceId, roadmapId, selected, toggle}) {
                     </div>
                 </div>
                 <h3 className="w-100 ps-5 pe-5 pt-2 pb-2 text-center">{roadmap.name}</h3>
-                <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill pre-wrap-text">
-                    {roadmap.executive_summary}
+                <p className="col-sm-12 ps-5 pe-5 pt-2 pb-4 flex-fill pre-wrap-text text-break">
+                    <HtmlToText>{roadmap.executive_summary}</HtmlToText>
                 </p>
 
                 {selected &&
@@ -84,7 +85,7 @@ export function BadgeCardRow({
                 </div>
                 <div className="col-sm-5 pt-2 pb-2 badge-card-row-description align-content-center">
                     {!!body ? body : <p className="m-0 align-content-center">
-                        {badge.resource_provider_summary}
+                        <HtmlToText>{badge.resource_provider_summary}</HtmlToText>
                     </p>}
                 </div>
                 <div className="col-sm-3 pt-2 pb-2 align-content-center">

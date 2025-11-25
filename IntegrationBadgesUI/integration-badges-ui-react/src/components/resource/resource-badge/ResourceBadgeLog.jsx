@@ -30,7 +30,7 @@ export default function ResourceBadgeLog({resourceId, roadmapId, badgeId}) {
             return <div className="row border-bottom" key={logIndex}>
                 <div className="col">{logId}</div>
                 <div className="col">{status}</div>
-                <div className="col pre-wrap-text">{comment}</div>
+                <div className="col pre-wrap-text text-break">{comment}</div>
                 <div className="col">{lastUpdatedAt.toLocaleString()} by {lastUpdatedBy}</div>
             </div>
         })}

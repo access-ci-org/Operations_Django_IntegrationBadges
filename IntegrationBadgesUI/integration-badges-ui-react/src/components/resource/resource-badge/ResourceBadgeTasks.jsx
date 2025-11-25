@@ -6,6 +6,7 @@ import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Concierge from "../../concierge/Concierge.jsx";
+import {HtmlToReact, HtmlToText} from "../../util/text-editors.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {
     const {activeEventKey} = useContext(AccordionContext);
@@ -171,10 +172,10 @@ export default function  ResourceBadgeTasks({resourceId, roadmapId, badgeId}) {
                                              eventKey={taskIndex} badge={badge}
                                              task={task}>{task.name}</TaskAccordionHeader>
                         <Accordion.Collapse eventKey={taskIndex} bsPrefix="row">
-                            <p className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1">
-                                {task.technical_summary}
+                            <div className="p-3 rounded-bottom-3 border-gray-200 border-start border-end border-bottom border-1">
+                                <HtmlToReact>{task.technical_summary}</HtmlToReact>
                                 <a className="btn btn-link" href={task.detailed_instructions_url} target="_blank">View Details</a>
-                            </p>
+                            </div>
                         </Accordion.Collapse>
                     </div>
                 })}
