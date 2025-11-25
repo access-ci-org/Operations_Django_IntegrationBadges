@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "preversion": "mkdir -p .git",
-    "version": "npm run build && git add -A ./build",
+    "version": "npm run build && git add -A ./build -f",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
