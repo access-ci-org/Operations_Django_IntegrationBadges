@@ -7,10 +7,9 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
-
 v1.4.0 2025-11-25 dinukadesilva
-    1 - Rename all paths and references of "concierge" to "staff" (CTT-758)
-
+    1 - [new] Rename all paths and references of "concierge" to "staff" (CTT-758)
+    2 - [fix] Fix the ckeditor5 editor to include underline (CTT-785)
 
 v1.3.0 2025-11-24 dinukadesilva
     1 - [new] Adding a formatted editor for Roadmap Executive Summary Badge Research Summary, Resource Provider Summary, and Verification Summary (CTT-785)
