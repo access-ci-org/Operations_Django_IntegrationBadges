@@ -3,11 +3,16 @@ import {useParams} from "react-router-dom";
 import {fileToBase64} from "../../util/util.jsx";
 import {useRef} from "react";
 import Dropzone, {useDropzone} from 'react-dropzone'
+import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
 function getRoadmapInputFields({roadmapData, setRoadmapData}) {
 
     const onInputValueChange = (fieldName) => (evt) => {
         setRoadmapData({...roadmapData, [fieldName]: evt.target.value});
+    };
+
+    const onFormattedTextInputValueChange = (fieldName) => (data) => {
+        setRoadmapData({...roadmapData, [fieldName]: data});
     };
 
     const onGraphicInputValueChange = async (files) => {
@@ -40,8 +45,8 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
             </div>;
         },
 
-        executive_summary: <Form.Control as="textarea" rows={6} value={roadmapData.executive_summary}
-                                         onChange={onInputValueChange("executive_summary")}/>,
+        executive_summary: <BasicFormattedTextEditor data={roadmapData.executive_summary}
+            onChange={onFormattedTextInputValueChange("executive_summary")}/>,
 
         infrastructure_types: <Form.Select aria-label="Default select example" value={roadmapData.infrastructure_types}
                                            onChange={onInputValueChange("infrastructure_types")}>

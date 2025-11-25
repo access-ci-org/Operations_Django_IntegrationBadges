@@ -12,7 +12,8 @@ const ResourcesContext = createContext({
     fetchResource: ({resourceId}) => {
     },
     fetchResourceRoadmapBadges: ({
-                                     resourceIds = [null],
+                                     organizationId = null,
+                                     resourceId = null,
                                      roadmapId = null,
                                      badgeId = null,
                                      badgeWorkflowStatus = null

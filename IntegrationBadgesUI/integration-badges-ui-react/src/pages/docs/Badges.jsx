@@ -10,6 +10,7 @@ import {scrollToTop} from "../../components/util/scroll.jsx";
 import {useTasks} from "../../contexts/TaskContext.jsx";
 import ResourceBadgePrerequisites from "../../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
 import ResourceBadgeTasks from "../../components/resource/resource-badge/ResourceBadgeTasks.jsx";
+import parse from 'html-react-parser';
 
 /**
  * The initial page that displays al resources.
@@ -95,11 +96,11 @@ export default function Badges() {
                         <div className="w-100 pb-5">
                             <div className="row">
                                 <h4 className="col-sm-3 fs-6">Researcher Summary:</h4>
-                                <p className="col-sm-9">{selectedBadge.researcher_summary}</p>
+                                <p className="col-sm-9">{parse(selectedBadge.researcher_summary)}</p>
                             </div>
                             <div className="w-100 d-flex flex-row">
                                 <h4 className="col-sm-3 fs-6">Resource Provider Summary:</h4>
-                                <p className="col-sm-9">{selectedBadge.resource_provider_summary}</p>
+                                <p className="col-sm-9">{parse(selectedBadge.resource_provider_summary)}</p>
                             </div>
                             <div className="w-100 d-flex flex-row">
                                 <h4 className="col-sm-3 fs-6">Verification:</h4>

@@ -27,15 +27,8 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
         researcher_summary: <BasicFormattedTextEditor data={badgeData.researcher_summary}
             onChange={onFormattedTextInputValueChange("researcher_summary")}/>,
 
-
         resource_provider_summary: <BasicFormattedTextEditor data={badgeData.resource_provider_summary}
             onChange={onFormattedTextInputValueChange("resource_provider_summary")}/>,
-
-        // researcher_summary: <Form.Control as="textarea" rows={6} value={badgeData.researcher_summary}
-        //                                   onChange={onInputValueChange("researcher_summary")}/>,
-        //
-        // resource_provider_summary: <Form.Control as="textarea" rows={6} value={badgeData.resource_provider_summary}
-        //                                          onChange={onInputValueChange("resource_provider_summary")}/>,
 
         graphic: (then) => {
             const MAX_UPLOAD_SIZE = 5 * 1024 * 1024  // 5 MB
