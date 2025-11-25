@@ -90,7 +90,7 @@ export function BadgeCardRow({
                 <div className="col-sm-3 pt-2 pb-2 align-content-center">
                     {!!actions ? actions :
                         <Link
-                            to={`${DocumentationRouteUrls.BADGES}?badgeId=${badgeId}`}
+                            to={`${DocumentationRouteUrls.BADGES}?badgeId=${badgeId}`} target="_blank"
                             className="w-100 btn btn-secondary rounded-1 btn-sm">
                             View Additional Badge Details
                         </Link>}
