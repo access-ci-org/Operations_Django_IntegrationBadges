@@ -1,10 +1,9 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
-import {Collapse, Fade, Nav} from "react-bootstrap";
+import {Collapse, Nav} from "react-bootstrap";
 import {BadgeWorkflowStatus} from "../contexts/BadgeContext";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
-
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceBadgeCard from "../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";

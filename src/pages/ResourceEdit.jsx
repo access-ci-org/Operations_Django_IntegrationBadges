@@ -2,7 +2,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {useEffect, useState} from "react";
 import {useRoadmaps} from "../contexts/RoadmapContext.jsx";
-
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import RoadmapSelection from "../components/resource-edit/RoadmapSelection.jsx";
 import BadgeSelection from "../components/resource-edit/BadgeSelection.jsx";
@@ -20,7 +19,7 @@ export default function ResourceEdit() {
         getResource, getResourceRoadmapBadges, getResourceOrganization,
         isResourceRoadmapSelected
     } = useResources();
-    const {fetchRoadmaps, fetchRoadmap, getRoadmapBadges} = useRoadmaps();
+    const {fetchRoadmap, getRoadmapBadges} = useRoadmaps();
 
     const [selectedBadgeIdMap, setSelectedBadgeIdMap] = useState({});
     const [wizardIndex, setWizardIndex] = useState(0);

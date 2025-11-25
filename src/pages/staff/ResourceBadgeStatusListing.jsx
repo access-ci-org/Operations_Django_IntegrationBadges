@@ -1,13 +1,12 @@
-import {act, useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useResources} from "../../contexts/ResourcesContext.jsx";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {Collapse, Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
 import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
-import ResourceBadgeCard from "../../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import Translate from "../../locales/Translate.jsx";
 import {StaffRouteUrls} from "./StaffRoute.jsx";
 

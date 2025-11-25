@@ -1,8 +1,7 @@
 import Form from "react-bootstrap/Form";
 import {useParams} from "react-router-dom";
 import {fileToBase64} from "../../util/util.jsx";
-import {useRef} from "react";
-import Dropzone, {useDropzone} from 'react-dropzone'
+import {useDropzone} from 'react-dropzone'
 import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
 function getRoadmapInputFields({roadmapData, setRoadmapData}) {

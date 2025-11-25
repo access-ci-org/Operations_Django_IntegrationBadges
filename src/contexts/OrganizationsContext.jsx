@@ -4,9 +4,6 @@ import {organizationsAxiosInstance} from "./auth/OrganizationsAuthenticator.js";
 import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const OrganizationsContext = createContext({
-    // organizationIds: [],
-    // organizationMap: {},
-    // organizationMapByName: {},
     fetchOrganizations: () => {
     },
     fetchOrganization: ({organizationId}) => {

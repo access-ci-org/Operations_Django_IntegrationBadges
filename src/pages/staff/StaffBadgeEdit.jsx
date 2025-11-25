@@ -13,7 +13,6 @@ import {Modal} from "react-bootstrap";
 import {scrollToTop} from "../../components/util/scroll.jsx";
 import StaffBadgeEditAssociateTasks
     from "../../components/staff/badge-edit/StaffBadgeEditAssociateTasks.jsx";
-import {useTasks} from "../../contexts/TaskContext.jsx";
 
 export default function StaffBadgeEdit() {
     const {badgeId} = useParams();

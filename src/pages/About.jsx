@@ -1,11 +1,5 @@
-import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useResources} from "../contexts/ResourcesContext";
-import LoadingBlock from "../components/util/LoadingBlock.jsx";
-import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
-import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";
-
 import JSONGrid from '@redheadphone/react-json-grid'
 import pkg from '../../package.json';
 import {Nav} from "react-bootstrap";

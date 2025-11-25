@@ -2,7 +2,7 @@ import {Link, useParams} from "react-router-dom";
 import {useResources} from "../contexts/ResourcesContext";
 import {BadgeWorkflowStatus, useBadges} from "../contexts/BadgeContext";
 import {useEffect, useState} from "react";
-import {BadgeTaskWorkflowStatus, useTasks} from "../contexts/TaskContext";
+import {BadgeTaskWorkflowStatus} from "../contexts/TaskContext";
 import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import ResourceBadgeStatus from "../components/status/ResourceBadgeStatus.jsx";
 import ResourceBadgePrerequisites from "../components/resource/resource-badge/ResourceBadgePrerequisites.jsx";
@@ -332,7 +332,6 @@ export default function ResourceBadge() {
         </div>
     }
 }
-
 
 function getImplementorRoles(tasks) {
     let implementorRoles = [];

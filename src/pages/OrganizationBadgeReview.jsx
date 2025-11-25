@@ -13,12 +13,9 @@ import {BadgeWorkflowStatus} from "../contexts/BadgeContext.jsx";
  * Sort resources by organization name and group them by organization.
  */
 export default function OrganizationBadgeReview() {
-    let {organizationId, badgeWorkflowStatus, badgeStatus} = useParams();
+    let {organizationId, badgeWorkflowStatus} = useParams();
     const {organizationMap, fetchOrganization} = useOrganizations();
-    const {
-        fetchResources, fetchResourceRoadmapBadges,
-        getResources, getResourceRoadmapBadges
-    } = useResources();
+    const {fetchResourceRoadmapBadges, getResourceRoadmapBadges} = useResources();
 
     const organization = organizationMap[organizationId];
 
@@ -52,7 +49,8 @@ export default function OrganizationBadgeReview() {
                 </div>
             </div>
             <div className="row">
-                {resourceBadges.map((resourceBadge, resourceBadgeIndex) => <div key={resourceBadgeIndex} className="w-100 p-3">
+                {resourceBadges.map((resourceBadge, resourceBadgeIndex) => <div key={resourceBadgeIndex}
+                                                                                className="w-100 p-3">
                     <ResourceBadgeCardV2 resourceId={resourceBadge.info_resourceid}
                                          roadmapId={resourceBadge.roadmap_id} badgeId={resourceBadge.badge_id}/>
                 </div>)}

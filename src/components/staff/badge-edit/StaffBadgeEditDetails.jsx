@@ -1,6 +1,4 @@
 import Form from "react-bootstrap/Form";
-import {useRoadmaps} from "../../../contexts/RoadmapContext.jsx";
-import {useRef} from "react";
 import {fileToBase64} from "../../util/util.jsx";
 import {useDropzone} from "react-dropzone";
 import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";

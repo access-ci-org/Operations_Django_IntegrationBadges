@@ -1,7 +1,6 @@
 import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useState} from "react";
 import {Link} from "react-router-dom";
-import {useResources} from "../contexts/ResourcesContext";
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import {DocumentationRouteUrls} from "./docs/DocumentationRoute.jsx";
 import GridAndListSwitch from "../components/util/GridAndListSwitch.jsx";

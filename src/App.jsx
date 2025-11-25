@@ -2,7 +2,7 @@ import './App.scss';
 import './styles/style.scss';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {Outlet, Route, Routes, BrowserRouter, useParams, Navigate, useLocation, Link} from 'react-router-dom';
+import {Outlet, Route, Routes, BrowserRouter, Navigate, useLocation} from 'react-router-dom';
 import {BadgeProvider, useBadges} from "./contexts/BadgeContext";
 import {ResourcesProvider, useResources} from "./contexts/ResourcesContext";
 import NewResource from "./pages/NewResource";

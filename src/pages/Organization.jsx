@@ -2,7 +2,6 @@ import {useOrganizations} from "../contexts/OrganizationsContext";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {ResourceStatus, useResources} from "../contexts/ResourcesContext";
-
 import LoadingBlock from "../components/util/LoadingBlock.jsx";
 import ResourceCard from "../components/resource/ResourceCard.jsx";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";

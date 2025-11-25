@@ -4,8 +4,6 @@ import {useBadges} from "./BadgeContext.jsx";
 import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const RoadmapContext = createContext({
-    // roadmapIds: [],
-    // roadmapMap: {},
     fetchRoadmaps: () => {
     },
     fetchRoadmap: ({roadmapId}) => {
