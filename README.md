@@ -20,17 +20,10 @@ http://localhost:5173/
 
 This would build the react code and put them to the static folder of the Django app.
 
-`cd ./IntegrationBadgesUI/integration-badges-ui-react`
-
 `npm install`
 
 `npm run build`
 
-## Run the Django App
-
-`./runserver.sh`
-
-http://127.0.0.1:8081/IntegrationBadgesUI/
 
 ## Webapp CDN Integration 
 
@@ -66,8 +59,8 @@ http://127.0.0.1:8081/IntegrationBadgesUI/
     };
 </script>
 <script type="module" crossorigin
-        src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.0.47/IntegrationBadgesUI/static/integration-badges-ui-react/index.js"></script>
+        src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.3.0/build/index.js"></script>
 <link rel="stylesheet" crossorigin
-      href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.0.47/IntegrationBadgesUI/static/integration-badges-ui-react/index.css"/>
+        href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.3.0/build/index.css"/>
 <div id="Operations_WebApp_IntegrationBadges"></div>
 ```
