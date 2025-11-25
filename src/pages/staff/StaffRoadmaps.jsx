@@ -5,12 +5,12 @@ import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link} from "react-router-dom";
 import Translate from "../../locales/Translate.jsx";
-import {ConciergeRoadmapCard} from "../../components/concierge/ConciergeRoadmapCard.jsx";
+import {StaffRoadmapCard} from "../../components/staff/StaffRoadmapCard.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {Fade} from "react-bootstrap";
 import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
 
-export default function ConciergeRoadmaps() {
+export default function StaffRoadmaps() {
     const {getRoadmaps} = useRoadmaps();
 
     const roadmaps = getRoadmaps();
@@ -18,7 +18,7 @@ export default function ConciergeRoadmaps() {
     if (roadmaps) {
         return <div className="container">
             <div className="row visually-hidden">
-                <h1>Concierge Dashboard - Roadmaps</h1>
+                <h1>Staff Dashboard - Roadmaps</h1>
             </div>
 
             <div className="row mt-2 p-3">
@@ -39,11 +39,11 @@ export default function ConciergeRoadmaps() {
                         </div>
                         <div className="row">
                             <div className="col-lg-3 col-md-4 col-sm-6 p-2">
-                                <ConciergeRoadmapCard roadmapId={null}/>
+                                <StaffRoadmapCard roadmapId={null}/>
                             </div>
                             {roadmaps && roadmaps.map((roadmap, roadmapIndex) => {
                                 return <div key={roadmapIndex} className={`col-lg-3 col-md-4 col-sm-6 p-2`}>
-                                    <ConciergeRoadmapCard roadmapId={roadmap.roadmap_id}/>
+                                    <StaffRoadmapCard roadmapId={roadmap.roadmap_id}/>
                                 </div>
                             })}
                         </div>

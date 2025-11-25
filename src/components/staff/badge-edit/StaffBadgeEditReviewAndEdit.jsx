@@ -1,9 +1,9 @@
-import {ConciergeBadgeEditDetailsV2} from "./ConciergeBadgeEditDetails.jsx";
+import {StaffBadgeEditDetailsV2} from "./StaffBadgeEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import {useTasks} from "../../../contexts/TaskContext.jsx";
 import InlineWarningMessage from "../../util/InlineWarningMessage.jsx";
 
-export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData, onClickEditTasks, onClickEditPrerequisiteBadges}) {
+export default function StaffBadgeEditReviewAndEdit({badgeData, setBadgeData, onClickEditTasks, onClickEditPrerequisiteBadges}) {
     const {getBadge} = useBadges();
     const {getTask} = useTasks();
 
@@ -29,7 +29,7 @@ export default function ConciergeBadgeEditReviewAndEdit({badgeData, setBadgeData
     return <div className="w-100 d-inline-block text-start">
         <h3 className="text-black pb-4 fw-medium">Badge Description</h3>
 
-        <ConciergeBadgeEditDetailsV2 badgeData={badgeData} setBadgeData={setBadgeData}/>
+        <StaffBadgeEditDetailsV2 badgeData={badgeData} setBadgeData={setBadgeData}/>
 
 
         <div className="d-flex flex-row pb-4 pt-5">

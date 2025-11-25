@@ -5,12 +5,12 @@ import {BadgeWorkflowStatus, useBadges} from "../../contexts/BadgeContext.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link} from "react-router-dom";
 import Translate from "../../locales/Translate.jsx";
-import {ConciergeRoadmapCard} from "../../components/concierge/ConciergeRoadmapCard.jsx";
+import {StaffRoadmapCard} from "../../components/staff/StaffRoadmapCard.jsx";
 import BadgeIcon from "../../components/badge/BadgeIcon.jsx";
 import {Fade} from "react-bootstrap";
-import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
+import {StaffRouteUrls} from "./StaffRoute.jsx";
 
-export default function ConciergeDashboard() {
+export default function StaffDashboard() {
     const {
         fetchResourceRoadmapBadgeStatusSummary,
         getResourceRoadmapBadgeStatusSummary
@@ -45,7 +45,7 @@ export default function ConciergeDashboard() {
 
         return <div className="container">
             <div className="row visually-hidden">
-                <h1>Concierge Dashboard</h1>
+                <h1>Staff Dashboard</h1>
             </div>
 
             <div className="row mt-2 p-3">
@@ -58,9 +58,9 @@ export default function ConciergeDashboard() {
                             </div>
                             <div>
                                 <Link className="btn btn-sm btn-dark rounded-2"
-                                      to={ConciergeRouteUrls.ROADMAP_NEW}>Create New</Link>
+                                      to={StaffRouteUrls.ROADMAP_NEW}>Create New</Link>
                                 <Link className="btn btn-link ms-3 me-3 fw-light"
-                                      to={ConciergeRouteUrls.ROADMAPS}>View All</Link>
+                                      to={StaffRouteUrls.ROADMAPS}>View All</Link>
                                 <div className="btn-group">
                                     <button className="btn btn-sm btn-outline-gray-500 rounded-start"
                                             onClick={setRoadmapPaginationIndex.bind(null, prevRoadmapPaginationIndex)}
@@ -81,7 +81,7 @@ export default function ConciergeDashboard() {
 
                                 return <Fade in={show} timeout="2000" key={roadmapIndex}>
                                     <div className={`col-lg-3 col-md-4 col-sm-6 p-2 ${show ? "" : "visually-hidden"}`}>
-                                        <ConciergeRoadmapCard roadmapId={roadmap.roadmap_id}/>
+                                        <StaffRoadmapCard roadmapId={roadmap.roadmap_id}/>
                                     </div>
                                 </Fade>
                             })}
@@ -96,9 +96,9 @@ export default function ConciergeDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-sm btn-dark rounded-2" to={ConciergeRouteUrls.BADGE_NEW}>
+                                <Link className="btn btn-sm btn-dark rounded-2" to={StaffRouteUrls.BADGE_NEW}>
                                     Create New</Link>
-                                <Link className="btn btn-link ms-3 me-3 fw-light" to={ConciergeRouteUrls.BADGES}>
+                                <Link className="btn btn-link ms-3 me-3 fw-light" to={StaffRouteUrls.BADGES}>
                                     View All</Link>
                             </div>
                         </div>
@@ -110,7 +110,7 @@ export default function ConciergeDashboard() {
                                     </div>
                                     <div className="flex-fill ps-4 align-content-center">{badge.name}</div>
                                     <div className="align-content-center">
-                                        <Link to={ConciergeRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
+                                        <Link to={StaffRouteUrls.BADGE_EDIT.replace(":badgeId", badge.badge_id)}
                                               className="btn btn-sm btn-link text-center" style={{width: 80}}>
                                             <i className="bi bi-pencil-square pe-2"></i>
                                             Edit
@@ -128,7 +128,7 @@ export default function ConciergeDashboard() {
                             <div className="flex-fill border-dark border-bottom border-1 ms-3 me-3 mb-4">
                             </div>
                             <div>
-                                <Link className="btn btn-link ms-3 me-1 fw-light" to={ConciergeRouteUrls.BADGE_STATUS}>
+                                <Link className="btn btn-link ms-3 me-1 fw-light" to={StaffRouteUrls.BADGE_STATUS}>
                                     View All</Link>
                             </div>
                         </div>
@@ -136,7 +136,7 @@ export default function ConciergeDashboard() {
                             {visibleStatusList.map((status) => (
                                 <li key={status} className="d-flex flex-row pb-2">
                                     <div className="flex-fill">
-                                        <Link to={`/concierge/badge-status/?badgeWorkflowStatus=${status}`}
+                                        <Link to={`/staff/badge-status/?badgeWorkflowStatus=${status}`}
                                               className="btn btn-sm btn-link text-center fw-normal">
                                             <Translate>badgeWorkflowStatus.{status}</Translate>
                                         </Link>

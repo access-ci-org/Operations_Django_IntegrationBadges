@@ -5,7 +5,7 @@ import {useResources} from "../../../contexts/ResourcesContext.jsx";
 import Translate from "../../../locales/Translate.jsx";
 import {useContext, useState} from "react";
 import Accordion from "react-bootstrap/Accordion";
-import Concierge from "../../concierge/Concierge.jsx";
+import Concierge from "../../staff/Concierge.jsx";
 import {HtmlToReact, HtmlToText} from "../../util/text-editors.jsx";
 
 function TaskAccordionHeader({resourceId, roadmapId, badgeId, badge, task, eventKey}) {

@@ -1,7 +1,7 @@
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import MultiSelectControlTwoLists from "../../util/MultiSelectControlTwoLists.jsx";
 
-export default function ConciergeRoadmapEditAssociateBadges({roadmapData, setRoadmapData}) {
+export default function StaffRoadmapEditAssociateBadges({roadmapData, setRoadmapData}) {
     const {getBadges} = useBadges();
 
     const items = getBadges().map(badge => ({id: badge.badge_id, label: badge.name}));

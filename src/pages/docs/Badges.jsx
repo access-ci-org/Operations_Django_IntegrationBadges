@@ -2,7 +2,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
-import {ConciergeRouteUrls} from "../concierge/ConciergeRoute.jsx";
+import {StaffRouteUrls} from "../staff/StaffRoute.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {DocumentationRoute, DocumentationRouteUrls} from "./DocumentationRoute.jsx";
 import {useEffect, useState} from "react";

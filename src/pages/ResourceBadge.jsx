@@ -10,7 +10,7 @@ import ResourceBadgeTasks from "../components/resource/resource-badge/ResourceBa
 import ResourceBadgeIcon from "../components/resource/resource-badge/ResourceBadgeIcon.jsx";
 import Form from "react-bootstrap/Form";
 import ResourceBadgeLog from "../components/resource/resource-badge/ResourceBadgeLog.jsx";
-import Concierge, {ConciergeSwitch} from "../components/concierge/Concierge.jsx";
+import Concierge, {ConciergeSwitch} from "../components/staff/Concierge.jsx";
 import {HtmlToReact} from "../components/util/text-editors.jsx";
 
 export default function ResourceBadge() {

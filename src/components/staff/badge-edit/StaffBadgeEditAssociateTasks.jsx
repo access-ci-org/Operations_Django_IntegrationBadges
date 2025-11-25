@@ -3,10 +3,10 @@ import MultiSelectControlTwoLists from "../../util/MultiSelectControlTwoLists.js
 import {useTasks} from "../../../contexts/TaskContext.jsx";
 import taskAddIcon from "../../../assets/tdesign_task-add.png"
 import React, {useState} from "react";
-import ConciergeTaskEditDetails from "../task-edit/ConciergeTaskEditDetails.jsx";
+import StaffTaskEditDetails from "../task-edit/StaffTaskEditDetails.jsx";
 import {Modal} from "react-bootstrap";
 
-export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeData}) {
+export default function StaffBadgeEditAssociateTasks({badgeData, setBadgeData}) {
     const {setTask, getTasks, getTask} = useTasks();
 
     const [taskData, setTaskData] = useState({
@@ -140,7 +140,7 @@ export default function ConciergeBadgeEditAssociateTasks({badgeData, setBadgeDat
                 </div>
             </div>
             <div className="w-100 p-3">
-                <ConciergeTaskEditDetails taskData={taskData} setTaskData={setTaskData}/>
+                <StaffTaskEditDetails taskData={taskData} setTaskData={setTaskData}/>
             </div>
         </div>
 

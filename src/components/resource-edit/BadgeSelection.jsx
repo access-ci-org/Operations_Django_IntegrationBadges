@@ -29,7 +29,7 @@ export default function BadgeSelection({resourceId, roadmapId, selected, toggle,
                         <p>
                             Use the form below to review and update your existing resource integration. You can view
                             your current roadmap and badges, make adjustments, and save your changes. Any modifications
-                            you make will be reviewed by the concierge team as part of the validation process.
+                            you make will be reviewed by the staff team as part of the validation process.
                         </p>
                     </>}
             </div>

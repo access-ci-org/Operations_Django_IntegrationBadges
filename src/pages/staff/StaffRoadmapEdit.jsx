@@ -1,18 +1,18 @@
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
+import {StaffRouteUrls} from "./StaffRoute.jsx";
 import {useEffect, useState} from "react";
-import ConciergeRoadmapEditDetails from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditDetails.jsx";
-import ConciergeRoadmapEditAssociateBadges
-    from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditAssociateBadges.jsx";
-import ConciergeRoadmapEditReviewAndEdit
-    from "../../components/concierge/roadmap-edit/ConciergeRoadmapEditReviewAndEdit.jsx";
+import StaffRoadmapEditDetails from "../../components/staff/roadmap-edit/StaffRoadmapEditDetails.jsx";
+import StaffRoadmapEditAssociateBadges
+    from "../../components/staff/roadmap-edit/StaffRoadmapEditAssociateBadges.jsx";
+import StaffRoadmapEditReviewAndEdit
+    from "../../components/staff/roadmap-edit/StaffRoadmapEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
 import {scrollToTop} from "../../components/util/scroll.jsx";
-import EditProgressMarker from "../../components/concierge/EditProgressMarker.jsx";
+import EditProgressMarker from "../../components/staff/EditProgressMarker.jsx";
 
-export default function ConciergeRoadmapEdit() {
+export default function StaffRoadmapEdit() {
     const {roadmapId} = useParams();
 
     const navigate = useNavigate();
@@ -65,15 +65,15 @@ export default function ConciergeRoadmapEdit() {
     const sections = [
         {
             title: "Let’s Describe the New Roadmap",
-            component: <ConciergeRoadmapEditDetails roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+            component: <StaffRoadmapEditDetails roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
         },
         {
             title: "Associate Badges",
-            component: <ConciergeRoadmapEditAssociateBadges roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+            component: <StaffRoadmapEditAssociateBadges roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
         },
         {
             title: "Review & Edit",
-            component: <ConciergeRoadmapEditReviewAndEdit roadmapData={roadmapData} setRoadmapData={setRoadmapData}
+            component: <StaffRoadmapEditReviewAndEdit roadmapData={roadmapData} setRoadmapData={setRoadmapData}
                                                           onClickEditBadges={seActiveSectionIndex.bind(this, 1)}/>
         },
     ];
@@ -83,7 +83,7 @@ export default function ConciergeRoadmapEdit() {
     const publishRoadmap = async () => {
         try {
             await setRoadmap({roadmapId, roadmapData});
-            // navigate(ConciergeRouteUrls.ROADMAPS);
+            // navigate(StaffRouteUrls.ROADMAPS);
             setShowSavedModal(true);
         } catch (error) {
             setShowErrorModal(true);
@@ -100,7 +100,7 @@ export default function ConciergeRoadmapEdit() {
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
                             <EditProgressMarker steps={sections} current={activeSectionIndex}/>
                         </div>
-                        <Link to={ConciergeRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
+                        <Link to={StaffRouteUrls.ROADMAPS} className="btn btn-outline-secondary position-absolute"
                               style={{right: 0}}>Cancel/Discard
                         </Link>
                     </div>
@@ -113,7 +113,7 @@ export default function ConciergeRoadmapEdit() {
 
                     <div className="w-100 text-end pt-5 pb-5">
                         {activeSectionIndex === 0 ?
-                            <Link className="btn btn-outline-dark ps-3 pe-3 m-1" to={ConciergeRouteUrls.ROADMAPS}>
+                            <Link className="btn btn-outline-dark ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
                                 Back
                             </Link> :
                             <button className="btn btn-outline-dark ps-3 pe-3 m-1"
@@ -148,10 +148,10 @@ export default function ConciergeRoadmapEdit() {
                     The Roadmap “{roadmapData.name}” is Successfully Published.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link className="btn btn-outline-dark rounded-1" to={ConciergeRouteUrls.INDEX}>
+                    <Link className="btn btn-outline-dark rounded-1" to={StaffRouteUrls.INDEX}>
                         Go to Home Page
                     </Link>
-                    <Link className="btn btn-dark rounded-1" to={ConciergeRouteUrls.ROADMAPS}>
+                    <Link className="btn btn-dark rounded-1" to={StaffRouteUrls.ROADMAPS}>
                         Go to Roadmaps
                     </Link>
                 </Modal.Footer>

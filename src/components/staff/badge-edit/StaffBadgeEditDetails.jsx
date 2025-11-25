@@ -70,11 +70,11 @@ function getBadgeInputFields({badgeData, setBadgeData}) {
     };
 }
 
-export default function ConciergeBadgeEditDetails({badgeData, setBadgeData}) {
-    return <ConciergeBadgeEditDetailsV1 badgeData={badgeData} setBadgeData={setBadgeData}/>
+export default function StaffBadgeEditDetails({badgeData, setBadgeData}) {
+    return <StaffBadgeEditDetailsV1 badgeData={badgeData} setBadgeData={setBadgeData}/>
 }
 
-export function ConciergeBadgeEditDetailsV1({badgeData, setBadgeData}) {
+export function StaffBadgeEditDetailsV1({badgeData, setBadgeData}) {
     const badgeInputFields = getBadgeInputFields({badgeData, setBadgeData});
 
     return <div className="w-100 d-inline-block text-start">
@@ -130,7 +130,7 @@ export function ConciergeBadgeEditDetailsV1({badgeData, setBadgeData}) {
 }
 
 
-export function ConciergeBadgeEditDetailsV2({badgeData, setBadgeData}) {
+export function StaffBadgeEditDetailsV2({badgeData, setBadgeData}) {
     const badgeInputFields = getBadgeInputFields({badgeData, setBadgeData});
 
     return <div className="w-100 d-inline-block text-start">

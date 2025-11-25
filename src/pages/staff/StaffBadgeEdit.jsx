@@ -1,21 +1,21 @@
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useBadges} from "../../contexts/BadgeContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
-import EditProgressMarker from "../../components/concierge/EditProgressMarker.jsx";
+import {StaffRouteUrls} from "./StaffRoute.jsx";
+import EditProgressMarker from "../../components/staff/EditProgressMarker.jsx";
 import {useEffect, useState} from "react";
-import ConciergeBadgeEditDetails from "../../components/concierge/badge-edit/ConciergeBadgeEditDetails.jsx";
-import ConciergeBadgeEditAssociatePrerequisiteBadges
-    from "../../components/concierge/badge-edit/ConciergeBadgeEditAssociatePrerequisiteBadges.jsx";
-import ConciergeBadgeEditReviewAndEdit
-    from "../../components/concierge/badge-edit/ConciergeBadgeEditReviewAndEdit.jsx";
+import StaffBadgeEditDetails from "../../components/staff/badge-edit/StaffBadgeEditDetails.jsx";
+import StaffBadgeEditAssociatePrerequisiteBadges
+    from "../../components/staff/badge-edit/StaffBadgeEditAssociatePrerequisiteBadges.jsx";
+import StaffBadgeEditReviewAndEdit
+    from "../../components/staff/badge-edit/StaffBadgeEditReviewAndEdit.jsx";
 import {Modal} from "react-bootstrap";
 import {scrollToTop} from "../../components/util/scroll.jsx";
-import ConciergeBadgeEditAssociateTasks
-    from "../../components/concierge/badge-edit/ConciergeBadgeEditAssociateTasks.jsx";
+import StaffBadgeEditAssociateTasks
+    from "../../components/staff/badge-edit/StaffBadgeEditAssociateTasks.jsx";
 import {useTasks} from "../../contexts/TaskContext.jsx";
 
-export default function ConciergeBadgeEdit() {
+export default function StaffBadgeEdit() {
     const {badgeId} = useParams();
 
     const navigate = useNavigate();
@@ -76,20 +76,20 @@ export default function ConciergeBadgeEdit() {
     const sections = [
         {
             title: "Describe A New Badge",
-            component: <ConciergeBadgeEditDetails badgeData={badgeData} setBadgeData={setBadgeData}/>
+            component: <StaffBadgeEditDetails badgeData={badgeData} setBadgeData={setBadgeData}/>
         },
         {
             title: "Associate Tasks",
-            component: <ConciergeBadgeEditAssociateTasks badgeData={badgeData} setBadgeData={setBadgeData}/>
+            component: <StaffBadgeEditAssociateTasks badgeData={badgeData} setBadgeData={setBadgeData}/>
         },
         {
             title: "Select Prerequisite Badges",
-            component: <ConciergeBadgeEditAssociatePrerequisiteBadges badgeData={badgeData}
+            component: <StaffBadgeEditAssociatePrerequisiteBadges badgeData={badgeData}
                                                                       setBadgeData={setBadgeData}/>
         },
         {
             title: "Review & Edit",
-            component: <ConciergeBadgeEditReviewAndEdit
+            component: <StaffBadgeEditReviewAndEdit
                 badgeData={badgeData} setBadgeData={setBadgeData}
                 onClickEditTasks={seActiveSectionIndex.bind(this, 1)}
                 onClickEditPrerequisiteBadges={seActiveSectionIndex.bind(this, 2)}/>
@@ -101,7 +101,7 @@ export default function ConciergeBadgeEdit() {
     const publishBadge = async () => {
         try {
             await setBadge({badgeId, badgeData});
-            // navigate(ConciergeRouteUrls.BADGES);
+            // navigate(StaffRouteUrls.BADGES);
             setShowSavedModal(true);
         } catch (error) {
             setShowErrorModal(true);
@@ -118,7 +118,7 @@ export default function ConciergeBadgeEdit() {
                         <div className="d-inline-block w-100" style={{maxWidth: 500, minWidth: 300}}>
                             <EditProgressMarker steps={sections} current={activeSectionIndex}/>
                         </div>
-                        <Link to={ConciergeRouteUrls.BADGES} className="btn btn-outline-secondary position-absolute"
+                        <Link to={StaffRouteUrls.BADGES} className="btn btn-outline-secondary position-absolute"
                               style={{right: 0}}>Cancel/Discard
                         </Link>
                     </div>
@@ -131,7 +131,7 @@ export default function ConciergeBadgeEdit() {
 
                     <div className="w-100 text-end pt-5 pb-5">
                         {activeSectionIndex === 0 ?
-                            <Link className="btn btn-outline-dark ps-3 pe-3 m-1" to={ConciergeRouteUrls.ROADMAPS}>
+                            <Link className="btn btn-outline-dark ps-3 pe-3 m-1" to={StaffRouteUrls.ROADMAPS}>
                                 Back
                             </Link> :
                             <button className="btn btn-outline-dark ps-3 pe-3 m-1"
@@ -166,10 +166,10 @@ export default function ConciergeBadgeEdit() {
                     The Badge “{badgeData.name}” is Successfully Published.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link className="btn btn-outline-dark rounded-1" to={ConciergeRouteUrls.INDEX}>
+                    <Link className="btn btn-outline-dark rounded-1" to={StaffRouteUrls.INDEX}>
                         Go to Home Page
                     </Link>
-                    <Link className="btn btn-dark rounded-1" to={ConciergeRouteUrls.BADGES}>
+                    <Link className="btn btn-dark rounded-1" to={StaffRouteUrls.BADGES}>
                         Go to Badges
                     </Link>
                 </Modal.Footer>

@@ -69,11 +69,11 @@ function getRoadmapInputFields({roadmapData, setRoadmapData}) {
     };
 }
 
-export default function ConciergeRoadmapEditDetails({roadmapData, setRoadmapData}) {
-    return <ConciergeRoadmapEditDetailsV1 roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+export default function StaffRoadmapEditDetails({roadmapData, setRoadmapData}) {
+    return <StaffRoadmapEditDetailsV1 roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
 }
 
-export function ConciergeRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
+export function StaffRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
     const roadmapInputFields = getRoadmapInputFields({roadmapData, setRoadmapData});
 
     return <div className="w-100 d-inline-block text-start">
@@ -122,7 +122,7 @@ export function ConciergeRoadmapEditDetailsV1({roadmapData, setRoadmapData}) {
 }
 
 
-export function ConciergeRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
+export function StaffRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
     const {roadmapId} = useParams();
 
     const roadmapInputFields = getRoadmapInputFields({roadmapData, setRoadmapData});

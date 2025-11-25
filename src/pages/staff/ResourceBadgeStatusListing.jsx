@@ -9,7 +9,7 @@ import BadgeStatus from "../../components/status/BadgeStatus.jsx";
 import GridAndListSwitch from "../../components/util/GridAndListSwitch.jsx";
 import ResourceBadgeCard from "../../components/resource/resource-badge/ResourceBadgeCard.jsx";
 import Translate from "../../locales/Translate.jsx";
-import {ConciergeRouteUrls} from "./ConciergeRoute.jsx";
+import {StaffRouteUrls} from "./StaffRoute.jsx";
 
 export default function ResourceBadgeStatusListing() {
     const navigate = useNavigate();
@@ -45,36 +45,36 @@ export default function ResourceBadgeStatusListing() {
         {
             title: "RP Attention Needed",
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED],
-            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFICATION_FAILED}`
+            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFICATION_FAILED}`
         },
         {
             title: "Pending Verification",
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.TASK_COMPLETED],
-            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.TASK_COMPLETED}`
+            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.TASK_COMPLETED}`
         },
         {
             title: "In Progress",
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.PLANNED],
-            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.PLANNED}`
+            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.PLANNED}`
         },
         {
             title: "Deprecated",
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.DEPRECATED],
-            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.DEPRECATED}`
+            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.DEPRECATED}`
         },
         {
             title: "Available",
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFIED],
-            link: ConciergeRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFIED}`
+            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFIED}`
         },
         {
             title: "View All",
             count: () => resourceRoadmapBadgeStatusSummary["total"],
-            link: ConciergeRouteUrls.BADGE_STATUS
+            link: StaffRouteUrls.BADGE_STATUS
         }
     ];
 
-    let activeKey = ConciergeRouteUrls.BADGE_STATUS;
+    let activeKey = StaffRouteUrls.BADGE_STATUS;
     if (!!badgeWorkflowStatus) activeKey += `?badgeWorkflowStatus=${badgeWorkflowStatus}`;
 
     if (resourceRoadmapBadgeStatusSummary) {

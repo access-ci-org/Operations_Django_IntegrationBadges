@@ -21,8 +21,8 @@ import ResourceEdit from "./pages/ResourceEdit.jsx";
 import {RoadmapProvider, useRoadmaps} from "./contexts/RoadmapContext.jsx";
 import {DocumentationRoute} from "./pages/docs/DocumentationRoute.jsx";
 import OrganizationBadgeReview from "./pages/OrganizationBadgeReview.jsx";
-import {ConciergeRoute} from "./pages/concierge/ConciergeRoute.jsx";
-import {ConciergeMainNavigation} from "./components/concierge/ConciergeMainNavigation.jsx";
+import {StaffRoute} from "./pages/staff/StaffRoute.jsx";
+import {StaffMainNavigation} from "./components/staff/StaffMainNavigation.jsx";
 import {AlwaysScrollToTop} from "./components/util/scroll.jsx";
 import About from "./pages/About.jsx";
 
@@ -30,7 +30,7 @@ const RouterLayout = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const initialFetchesAreRequired = !(/^\/(docs|about)/i.exec(pathname));
-    const isConciergePage = !!(/^\/concierge/i.exec(pathname));
+    const isStaffPage = !!(/^\/staff/i.exec(pathname));
 
     const {fetchOrganizations, getOrganizations} = useOrganizations();
     const {fetchResources, getResources} = useResources();
@@ -60,10 +60,10 @@ const RouterLayout = () => {
         && (badges && badges.length > 0)
         && (tasks && tasks.length > 0);
 
-    if (isConciergePage) {
+    if (isStaffPage) {
         return <div className="w-100 pt-3 pb-5 bg-gray-200">
             <div className="container">
-                <ConciergeMainNavigation/>
+                <StaffMainNavigation/>
             </div>
             {!initialFetchesAreRequired || isDataReady ? <Outlet/> : <LoadingBlock processing={true}/>}
         </div>;
@@ -118,7 +118,7 @@ function App() {
                                                         element={<ResourceBadge/>}/>
 
                                                     {DocumentationRoute}
-                                                    {ConciergeRoute}
+                                                    {StaffRoute}
 
                                                     <Route path="/*?"
                                                            element={<Navigate to="/organizations" replace={true}/>}/>

@@ -1,8 +1,8 @@
-import {ConciergeRoadmapEditDetailsV2} from "./ConciergeRoadmapEditDetails.jsx";
+import {StaffRoadmapEditDetailsV2} from "./StaffRoadmapEditDetails.jsx";
 import {useBadges} from "../../../contexts/BadgeContext.jsx";
 import InlineWarningMessage from "../../util/InlineWarningMessage.jsx";
 
-export default function ConciergeRoadmapEditReviewAndEdit({roadmapData, setRoadmapData, onClickEditBadges}) {
+export default function StaffRoadmapEditReviewAndEdit({roadmapData, setRoadmapData, onClickEditBadges}) {
     const {getBadge} = useBadges();
 
     const requiredBadges = [];
@@ -17,7 +17,7 @@ export default function ConciergeRoadmapEditReviewAndEdit({roadmapData, setRoadm
     return <div className="w-100 d-inline-block text-start">
         <h3 className="text-black pb-4 fw-medium">Roadmap Description</h3>
 
-        <ConciergeRoadmapEditDetailsV2 roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
+        <StaffRoadmapEditDetailsV2 roadmapData={roadmapData} setRoadmapData={setRoadmapData}/>
 
         <div className="d-flex flex-row pb-4 pt-5">
             <h3 className="text-black fw-medium flex-fill">Associated Badges</h3>

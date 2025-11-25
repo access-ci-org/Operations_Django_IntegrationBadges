@@ -1,17 +1,17 @@
 import {Link, NavLink, useLocation} from "react-router-dom";
-import {ConciergeRouteUrls} from "../../pages/concierge/ConciergeRoute.jsx";
+import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
 
-export function ConciergeMainNavigation() {
+export function StaffMainNavigation() {
 
     const location = useLocation();
 
     const pathname = location.pathname;
 
-    const conciergeMenus = [
-        {"name": "Home", "link": ConciergeRouteUrls.INDEX},
-        {"name": "Roadmaps", "link": ConciergeRouteUrls.ROADMAPS},
-        {"name": "Badges", "link": ConciergeRouteUrls.BADGES},
-        {"name": "Badge Status", "link": ConciergeRouteUrls.BADGE_STATUS},
+    const staffMenus = [
+        {"name": "Home", "link": StaffRouteUrls.INDEX},
+        {"name": "Roadmaps", "link": StaffRouteUrls.ROADMAPS},
+        {"name": "Badges", "link": StaffRouteUrls.BADGES},
+        {"name": "Badge Status", "link": StaffRouteUrls.BADGE_STATUS},
     ];
 
     const getLinkClassname = (props) => {
@@ -25,7 +25,7 @@ export function ConciergeMainNavigation() {
 
     return <div className="w-100">
         <ul className="list-unstyled list-inline m-0 w-100 bg-white border-3 rounded-2 p-1 ps-5 pe-5">
-            {conciergeMenus.map((menu, menuIndex) => {
+            {staffMenus.map((menu, menuIndex) => {
                 return <li className="list-inline-item p-3" key={menuIndex}>
                     <NavLink to={menu.link} className={getLinkClassname} end={false}>{menu.name}</NavLink>
                 </li>

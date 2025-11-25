@@ -34,11 +34,11 @@ function getTaskInputFields({taskData, setTaskData}) {
     };
 }
 
-export default function ConciergeTaskEditDetails({taskData, setTaskData}) {
-    return <ConciergeTaskEditDetailsV1 taskData={taskData} setTaskData={setTaskData}/>
+export default function StaffTaskEditDetails({taskData, setTaskData}) {
+    return <StaffTaskEditDetailsV1 taskData={taskData} setTaskData={setTaskData}/>
 }
 
-export function ConciergeTaskEditDetailsV1({taskData, setTaskData}) {
+export function StaffTaskEditDetailsV1({taskData, setTaskData}) {
     const taskInputFields = getTaskInputFields({taskData, setTaskData});
 
     return <div className="w-100 row">

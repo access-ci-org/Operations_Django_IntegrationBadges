@@ -1,14 +1,14 @@
 import {Link} from "react-router-dom";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
-import {ConciergeRouteUrls} from "../../pages/concierge/ConciergeRoute.jsx";
+import {StaffRouteUrls} from "../../pages/staff/StaffRoute.jsx";
 
-export function ConciergeRoadmapCard({roadmapId}) {
+export function StaffRoadmapCard({roadmapId}) {
     const {getRoadmap} = useRoadmaps();
 
     if (roadmapId === null) {
         return <div className="w-100 h-100 p-2 pt-4">
             <div className="w-100 h-100 rounded-4 p-2 d-flex flex-column bg-gray-200 border-black border border-1">
-                <Link to={ConciergeRouteUrls.ROADMAP_NEW}
+                <Link to={StaffRouteUrls.ROADMAP_NEW}
                       className="btn btn-link w-100 h-100 text-center align-content-center fw-normal text-secondary">
                     + Create New
                 </Link>
@@ -23,7 +23,7 @@ export function ConciergeRoadmapCard({roadmapId}) {
     if (roadmap) {
         return <div className="w-100 h-100 p-2 pt-4">
             <div
-                className="w-100 h-100 d-flex flex-column rounded-3 border-black border border-1 position-relative concierge-roadmap-card bg-white">
+                className="w-100 h-100 d-flex flex-column rounded-3 border-black border border-1 position-relative staff-roadmap-card bg-white">
                 <div className="w-100 position-absolute text-center roadmap-card-icon-row">
                     <div className="rounded-circle p-3 border d-inline-block bg-white">
                         <div className="background-image-center-no-repeat roadmap-card-icon"
@@ -43,7 +43,7 @@ export function ConciergeRoadmapCard({roadmapId}) {
                 </div>
                 <div className="w-100 text-end p-1">
                     <Link className="btn btn-link p-2"
-                          to={ConciergeRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmapId)}><i
+                          to={StaffRouteUrls.ROADMAP_EDIT.replace(":roadmapId", roadmapId)}><i
                         className="bi bi-pencil-fill"></i></Link>
                     <Link className="btn btn-link p-2" to=""><i className="bi bi-trash-fill"></i></Link>
                 </div>
