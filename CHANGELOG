@@ -7,6 +7,12 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.3.0 2025-11-25 dinukadesilva
+    1 - [new] Adding a formatted editor for Roadmap Executive Summary Badge Research Summary, Resource Provider Summary, and Verification Summary (CTT-785)
+    2 - [new] Enabling the badge and task links to open on new tabs (CTT-732)
+    3 - [new] Restructure the project source code repository (CTT-781)
+
 v1.2.1 2025-11-20 dinukadesilva
     1 - [fix] Fix the auto scrolling to stop at the app root
         - *
