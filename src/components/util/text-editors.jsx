@@ -21,6 +21,11 @@ export function BasicFormattedTextEditor({onChange, data}) {
         data={data}
         onReady={editor => {
             // console.log('Editor is ready to use!', editor);
+
+            // Access the editor instance and set the height
+            editor.editing.view.change(writer => {
+                writer.setStyle('height', '200px', editor.editing.view.document.getRoot());
+            });
         }}
         onChange={(event, editor) => {
             const data = editor.getData();
