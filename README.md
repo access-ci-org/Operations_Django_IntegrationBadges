@@ -32,12 +32,12 @@ This would build the react code and put them to the static folder of the Django 
 <-- ########### favicon ########### -->
 <!-- IE -->
 <link rel="shortcut icon" type="image/x-icon"
-      href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.0.47/IntegrationBadgesUI/static/integration-badges-ui-react/favicon.ico"/>
+      href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.3.0/favicon.ico"/>
 <!-- other browsers -->
 <link rel="icon" type="image/x-icon"
-      href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.0.47/IntegrationBadgesUI/static/integration-badges-ui-react/favicon.ico"/>
+      href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.3.0/favicon.ico"/>
 <link rel="icon" type="image/vnd.microsoft.icon"
-      href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.0.47/IntegrationBadgesUI/static/integration-badges-ui-react/favicon.ico"/>
+      href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_IntegrationBadges@1.3.0/favicon.ico"/>
 
 <-- ########### fonts ########### -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
