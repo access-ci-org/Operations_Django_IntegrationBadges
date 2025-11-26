@@ -3,11 +3,12 @@ import {
 } from 'ckeditor5';
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import 'ckeditor5/ckeditor5.css';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import parseHtmlToReact from 'html-react-parser';
 import {htmlToText} from 'html-to-text';
 
 export function BasicFormattedTextEditor({onChange, data}) {
+
     return <CKEditor
         editor={ClassicEditor}
         config={{
@@ -29,9 +30,10 @@ export function BasicFormattedTextEditor({onChange, data}) {
         }}
         onChange={(event, editor) => {
             const data = editor.getData();
-            // console.log({event, editor, data});
 
-            onChange && onChange(data);
+            // console.log("editor onChange", {event, editor, data});
+
+            !!onChange && onChange(data);
         }}
     />
 }

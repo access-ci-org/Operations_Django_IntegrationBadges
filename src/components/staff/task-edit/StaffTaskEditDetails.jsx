@@ -1,4 +1,5 @@
 import Form from "react-bootstrap/Form";
+import {BasicFormattedTextEditor} from "../../util/text-editors.jsx";
 
 function getTaskInputFields({taskData, setTaskData}) {
 
@@ -7,28 +8,24 @@ function getTaskInputFields({taskData, setTaskData}) {
     };
 
     const onFormattedTextInputValueChange = (fieldName) => (data) => {
-        console.log("onFormattedTextInputValueChange", {taskData, data});
-        setTaskData({...taskData, [fieldName]: data});
+        setTaskData((taskData) => ({...taskData, [fieldName]: data}));
     };
 
     return {
         name: <Form.Control type="text" value={taskData.name} onChange={onInputValueChange("name")}/>,
 
-        technical_summary: <Form.Control as="textarea" rows={3} value={taskData.technical_summary}
-                                          onChange={onInputValueChange("technical_summary")}/>,
-
-        // technical_summary: <BasicFormattedTextEditor data={taskData.technical_summary}
-        //     onChange={onFormattedTextInputValueChange("technical_summary")}/>,
+        technical_summary: <BasicFormattedTextEditor data={taskData.technical_summary}
+            onChange={onFormattedTextInputValueChange("technical_summary")}/>,
 
 
         task_experts: <Form.Control type="text" value={taskData.task_experts}
-                                                      onChange={onInputValueChange("task_experts")}/>,
+                                    onChange={onInputValueChange("task_experts")}/>,
 
         implementor_roles: <Form.Control type="text" value={taskData.implementor_roles}
-                                                      onChange={onInputValueChange("implementor_roles")}/>,
+                                         onChange={onInputValueChange("implementor_roles")}/>,
 
         detailed_instructions_url: <Form.Control type="text" value={taskData.detailed_instructions_url}
-                                                onChange={onInputValueChange("detailed_instructions_url")}/>,
+                                                 onChange={onInputValueChange("detailed_instructions_url")}/>,
     };
 }
 
