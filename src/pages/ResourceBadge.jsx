@@ -22,6 +22,7 @@ export default function ResourceBadge() {
         fetchResource,
         fetchResourceRoadmapBadges,
         fetchResourceRoadmapBadgeTasks,
+        fetchResourceRoadmapBadgeLogs,
         getResource,
         getResourceRoadmapBadge,
         getResourceRoadmapBadgePrerequisites,
@@ -55,6 +56,7 @@ export default function ResourceBadge() {
         setBadgeActionStatusProcessing(true);
         try {
             await setResourceRoadmapBadgeWorkflowStatus({resourceId, roadmapId, badgeId, status, comment})
+            await fetchResourceRoadmapBadgeLogs({resourceId, roadmapId, badgeId});
             setComment("");
 
             if (status === BadgeWorkflowStatus.TASK_COMPLETED) setShowSavedModal(true);
