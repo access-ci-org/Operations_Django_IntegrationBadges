@@ -7,11 +7,13 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
-v1.4.1 2025-11-25 dinukadesilva
+v1.4.1 2025-12-01 dinukadesilva
     1 - [new] Enabling the formatted editor for "Task Technical Summary" (CTT-785)
         - /staff/badges/<badge_id>/edit
     2 - [bug-fix] Fix the concierge log to be refreshed when a status changed occurs (CTT-788)
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
+    3 - [bug-fix] Fix the "RP Attention Needed" count displayed in the organisation page (CTT-814)
+        - /organizations/<organization_id>
 
 v1.4.0 2025-11-25 dinukadesilva
     1 - [new] Rename all paths and references of "concierge" to "staff" (CTT-758)
