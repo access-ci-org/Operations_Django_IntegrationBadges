@@ -146,7 +146,6 @@ export default function Resource() {
                 </div>
 
                 {tabs.map((tab, tabIndex) => {
-                    console.log("##### tabIndex == activeTabIndex ", [tabIndex, activeTabIndex, tabIndex == activeTabIndex])
                     return <Collapse in={tabIndex == activeTabIndex} key={tabIndex}>
                         <div className="w-100 pt-2 pb-5 row row-cols-lg-3 row-cols-md-2 row-cols-1">
                             {tab.badges && tab.badges.map((badge) => {

@@ -231,7 +231,7 @@ export const ResourcesProvider = ({children}) => {
     ) => {
         let url = "/resource_roadmap_badge_summary/?";
 
-        if (organizationId) url += `organizationId=${organizationId}`;
+        if (organizationId) url += `organization_id=${organizationId}`;
         if (resourceId) url += `info_resourceid=${resourceId}`;
         if (roadmapId) url += `roadmap_id=${roadmapId}`;
         if (badgeId) url += `badge_id=${badgeId}`;
