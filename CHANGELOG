@@ -7,7 +7,7 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
-v1.4.1 2025-12-01 dinukadesilva
+v1.5.0 2025-12-01 dinukadesilva
     1 - [new] Enabling the formatted editor for "Task Technical Summary" (CTT-785)
         - /staff/badges/<badge_id>/edit
     2 - [bug-fix] Fix the concierge log to be refreshed when a status changed occurs (CTT-788)
@@ -16,6 +16,7 @@ v1.4.1 2025-12-01 dinukadesilva
         - /organizations/<organization_id>
     4 - [new] Rearrange the badge status page tabs and default tab (CTT-779)
         - /staff/badge-status
+    5 - [dependency] https://github.com/access-ci-org/Operations_Warehouse_Django/pull/73
 
 v1.4.0 2025-11-25 dinukadesilva
     1 - [new] Rename all paths and references of "concierge" to "staff" (CTT-758)
