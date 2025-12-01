@@ -14,6 +14,8 @@ v1.4.1 2025-12-01 dinukadesilva
         - /resources/<resource_id>/roadmaps/<roadmap_id>/badges/<badge_id>
     3 - [bug-fix] Fix the "RP Attention Needed" count displayed in the organisation page (CTT-814)
         - /organizations/<organization_id>
+    4 - [new] Rearrange the badge status page tabs and default tab (CTT-779)
+        - /staff/badge-status
 
 v1.4.0 2025-11-25 dinukadesilva
     1 - [new] Rename all paths and references of "concierge" to "staff" (CTT-758)

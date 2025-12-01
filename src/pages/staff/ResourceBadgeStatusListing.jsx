@@ -24,16 +24,22 @@ export default function ResourceBadgeStatusListing() {
     const {getRoadmap} = useRoadmaps();
 
     if ([BadgeWorkflowStatus.PLANNED, BadgeWorkflowStatus.TASK_COMPLETED, BadgeWorkflowStatus.VERIFICATION_FAILED,
-        BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED].indexOf(badgeWorkflowStatus) < 0) {
+        BadgeWorkflowStatus.VERIFIED, BadgeWorkflowStatus.DEPRECATED, "*"].indexOf(badgeWorkflowStatus) < 0) {
 
         badgeWorkflowStatus = null;
     }
 
-    const badges = getResourceRoadmapBadges({badgeWorkflowStatus});
+    const badges = getResourceRoadmapBadges({
+        badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null: badgeWorkflowStatus
+    });
     const resourceRoadmapBadgeStatusSummary = getResourceRoadmapBadgeStatusSummary();
 
     useEffect(() => {
-        fetchResourceRoadmapBadges({badgeWorkflowStatus});
+        if (!!badgeWorkflowStatus) {
+            fetchResourceRoadmapBadges({
+                badgeWorkflowStatus: badgeWorkflowStatus === "*" ? null: badgeWorkflowStatus
+            });
+        }
     }, [badgeWorkflowStatus]);
 
     useEffect(() => {
@@ -42,14 +48,14 @@ export default function ResourceBadgeStatusListing() {
 
     const tabs = [
         {
-            title: "RP Attention Needed",
-            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED],
-            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFICATION_FAILED}`
-        },
-        {
             title: "Pending Verification",
             count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.TASK_COMPLETED],
             link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.TASK_COMPLETED}`
+        },
+        {
+            title: "RP Attention Needed",
+            count: () => resourceRoadmapBadgeStatusSummary[BadgeWorkflowStatus.VERIFICATION_FAILED],
+            link: StaffRouteUrls.BADGE_STATUS + `?badgeWorkflowStatus=${BadgeWorkflowStatus.VERIFICATION_FAILED}`
         },
         {
             title: "In Progress",
@@ -69,7 +75,7 @@ export default function ResourceBadgeStatusListing() {
         {
             title: "View All",
             count: () => resourceRoadmapBadgeStatusSummary["total"],
-            link: StaffRouteUrls.BADGE_STATUS
+            link: StaffRouteUrls.BADGE_STATUS + "?badgeWorkflowStatus=*"
         }
     ];
 
@@ -77,6 +83,16 @@ export default function ResourceBadgeStatusListing() {
     if (!!badgeWorkflowStatus) activeKey += `?badgeWorkflowStatus=${badgeWorkflowStatus}`;
 
     if (resourceRoadmapBadgeStatusSummary) {
+
+        if (!badgeWorkflowStatus) {
+            for (let tab of tabs) {
+                console.log("tab", [tab.title, tab.count()]);
+                if (tab.count() > 0) {
+                    return navigate(tab.link);
+                }
+            }
+        }
+
         return <div className="container">
             <div className="row mt-2 p-3">
                 <div className="w-100 bg-white border-3 rounded-2 p-4 ps-5 pe-5">
