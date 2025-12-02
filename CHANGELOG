@@ -8,6 +8,10 @@ The general format of entries is:
         - *
 
 
+v1.6.2 2025-12-02 dinukadesilva
+    1 - [new] Removing the authorization header from the organizations, resources, roadmaps, badges and tasks get endpoints
+        - *
+
 v1.6.1 2025-12-02 dinukadesilva
     1 - [new] Adding the graphic preview and upload to badge edit and review page (CTT-780)
         - /staff/badges/<badge_id>/edit

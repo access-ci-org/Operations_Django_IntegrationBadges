@@ -4,7 +4,7 @@ import {BadgeWorkflowStatus, useBadges} from "./BadgeContext";
 import {useOrganizations} from "./OrganizationsContext";
 import {useTasks} from "./TaskContext";
 import {useRoadmaps} from "./RoadmapContext.jsx";
-import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {dashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const ResourcesContext = createContext({
     fetchResources: ({organizationId = null, resourceId = null, full = false} = {}) => {
@@ -271,7 +271,7 @@ export const ResourcesProvider = ({children}) => {
         try {
             let url = getResourcesEndpointUrl({organizationId, resourceId, full});
 
-            const response = await dashboardAxiosInstance.get(url);
+            const response = await unauthorizedDashboardAxiosInstance.get(url);
             const _resources = response.data.results;
             const _resourceIds = [];
             const _resourceMap = {...resourceMap};

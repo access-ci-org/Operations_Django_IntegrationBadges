@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react';
 import DefaultReducer from "./reducers/DefaultReducer";
 import {organizationsAxiosInstance} from "./auth/OrganizationsAuthenticator.js";
-import {dashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
+import {dashboardAxiosInstance, unauthorizedDashboardAxiosInstance} from "./auth/DashboardAuthenticator.js";
 
 const OrganizationsContext = createContext({
     fetchOrganizations: () => {
@@ -27,7 +27,7 @@ export const OrganizationsProvider = ({children}) => {
 
     const fetchOrganization = async ({organizationId}) => {
         try {
-            const response = await organizationsAxiosInstance.get(`/organizations/organization_id/${organizationId}`);
+            const response = await unauthorizedDashboardAxiosInstance.get(`/organizations/organization_id/${organizationId}`);
             const organization = response.data.results;
             setOrganizationMap({
                 ...organizationMap, [organizationId]: organization
@@ -51,7 +51,7 @@ export const OrganizationsProvider = ({children}) => {
     };
     const fetchOrganizations = async () => {
         try {
-            const response = await dashboardAxiosInstance.get(`/organizations/`);
+            const response = await unauthorizedDashboardAxiosInstance.get(`/organizations/`);
             const _organizations = response.data.results;
 
             const _organizationIds = [];
