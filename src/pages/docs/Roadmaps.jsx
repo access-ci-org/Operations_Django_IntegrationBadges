@@ -1,4 +1,4 @@
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Nav} from "react-bootstrap";
@@ -62,14 +62,24 @@ export default function Roadmaps() {
             </div>
 
             <div className="w-100 pt-4 d-flex flex-row">
-                <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3 border-end">
+                <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3">
                     <Nav variant="pills" activeKey={activeKey}
                          className="d-flex flex-column">
                         {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                            <Nav.Link eventKey={tab.link} to={tab.link} as={Link}
-                                      className="mb-3 border-4 border-medium border-start rounded-start-0">
+                            <NavLink eventKey={tab.link} to={tab.link} as={Link}
+                                      className={() => {
+                                          let className = "mb-2 p-2 d-block border-4 border-start rounded-start-0 text-decoration-none";
+
+                                          if (activeKey === tab.link) {
+                                              className += " bg-light text-dark border-medium";
+                                          } else {
+                                              className += " bg-gray-100 text-secondary border-gray-300";
+                                          }
+
+                                          return className;
+                                      }}>
                                 {tab.title}
-                            </Nav.Link>
+                            </NavLink>
                         </Nav.Item>)}
                     </Nav>
                 </div>

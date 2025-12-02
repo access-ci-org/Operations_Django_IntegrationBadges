@@ -1,4 +1,4 @@
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import LoadingBlock from "../../components/util/LoadingBlock.jsx";
 import {useRoadmaps} from "../../contexts/RoadmapContext.jsx";
 import {Nav, OverlayTrigger, Tooltip} from "react-bootstrap";
@@ -63,14 +63,24 @@ export default function Badges() {
             </div>
 
             <div className="w-100 pt-4 d-flex flex-row">
-                <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3 border-end">
+                <div style={{minWidth: "250px", maxWidth: "250px"}} className="pe-3">
                     <Nav variant="pills" activeKey={activeKey}
                          className="d-flex flex-column">
                         {tabs.map((tab, tabIndex) => <Nav.Item key={tabIndex}>
-                            <Nav.Link eventKey={tab.link} to={tab.link} as={Link}
-                                      className="mb-3 border-4 border-medium border-start rounded-start-0">
+                            <NavLink eventKey={tab.link} to={tab.link} as={Link}
+                                     className={() => {
+                                         let className = "mb-2 p-2 d-block border-4 border-start rounded-start-0 text-decoration-none";
+
+                                         if (activeKey === tab.link) {
+                                             className += " bg-light text-dark border-medium";
+                                         } else {
+                                             className += " bg-gray-100 text-secondary border-gray-300";
+                                         }
+
+                                         return className;
+                                     }}>
                                 {tab.title}
-                            </Nav.Link>
+                            </NavLink>
                         </Nav.Item>)}
                     </Nav>
                 </div>
@@ -95,11 +105,13 @@ export default function Badges() {
                         <div className="w-100 pb-5">
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Researcher Summary:</h4>
-                                <div className="col-sm-9"><HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact></div>
+                                <div className="col-sm-9"><HtmlToReact>{selectedBadge.researcher_summary}</HtmlToReact>
+                                </div>
                             </div>
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Resource Provider Summary:</h4>
-                                <div className="col-sm-9"><HtmlToReact>{selectedBadge.resource_provider_summary}</HtmlToReact></div>
+                                <div className="col-sm-9">
+                                    <HtmlToReact>{selectedBadge.resource_provider_summary}</HtmlToReact></div>
                             </div>
                             <div className="row pb-3">
                                 <h4 className="col-sm-3 fs-6">Verification:</h4>
