@@ -7,6 +7,11 @@ The general format of entries is:
         - <webapp path 2>
         - *
 
+
+v1.6.0 2025-12-02 dinukadesilva
+    1 - [new] Enabling a common design for new resource roadmap integration and edit (CTT-783)
+        - /resources/<resource_id>/roadmaps/<roadmap_id>/edit
+
 v1.5.0 2025-12-01 dinukadesilva
     1 - [new] Enabling the formatted editor for "Task Technical Summary" (CTT-785)
         - /staff/badges/<badge_id>/edit
