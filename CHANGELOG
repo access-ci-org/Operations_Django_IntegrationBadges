@@ -8,6 +8,11 @@ The general format of entries is:
         - *
 
 
+v1.6.3 2025-12-02 dinukadesilva
+    1 - [new] Style improvements
+        - /docs/roadmaps
+        - /docs/badges
+
 v1.6.2 2025-12-02 dinukadesilva
     1 - [new] Removing the authorization header from the organizations, resources, roadmaps, badges and tasks get endpoints
         - *
