@@ -39,31 +39,36 @@ export default function BadgeSelectionHeader({resourceId, roadmapId}) {
                     <label className="text-secondary">Latest Status</label>
                     <div>{resource.latest_status}</div>
                 </div>
-                {isRoadmapNew ? <div className="col p-2">
-                    <label className="text-secondary">Roadmap</label>
-                    <div>{roadmap.name}</div>
-                </div> : null}
+                {/*{isRoadmapNew ? <div className="col p-2">*/}
+                {/*    <label className="text-secondary">Roadmap</label>*/}
+                {/*    <div>{roadmap.name}</div>*/}
+                {/*</div> : null}*/}
             </div>
         </div>
-        {!isRoadmapNew ?
-            <div className="w-100 pt-5">
-                <h2>Selected Roadmap:</h2>
-                <p>
-                    If you’d like to change your selection or associate your resource with a different roadmap, please
-                    visit the Roadmaps page and update it there. For any other questions or assistance, feel free to
-                    contact the concierge team.
-                </p>
 
-                {!!resourceRoadmaps ?
-                    <DropdownButton size="lg" title={roadmap.name}
-                                    bsPrefix="w-100 text-start btn btn-lg btn-outline-dark rounded-2 p-4"
-                                    onSelect={handleResourceRoadmapSelect}>
-                        {resourceRoadmaps.map(resourceRoadmap => <Dropdown.Item key={resourceRoadmap.roadmap_id}
-                                                                                eventKey={resourceRoadmap.roadmap_id}>
-                            {resourceRoadmap.name}
-                        </Dropdown.Item>)}
-                    </DropdownButton> :
-                    <LoadingBlock/>}
-            </div> : null}
+        <div className="w-100 pt-5">
+            <h2>Selected Roadmap:</h2>
+            <p>
+                If you’d like to change your selection or associate your resource with a different roadmap, please
+                visit the Roadmaps page and update it there. For any other questions or assistance, feel free to
+                contact the concierge team.
+            </p>
+
+            {!!resourceRoadmaps ?
+                <DropdownButton size="lg" title={roadmap.name}
+                                bsPrefix="w-100 text-start btn btn-lg btn-outline-dark rounded-2 p-4"
+                                onSelect={handleResourceRoadmapSelect}>
+                    {resourceRoadmaps.map(resourceRoadmap => <Dropdown.Item key={resourceRoadmap.roadmap_id}
+                                                                            eventKey={resourceRoadmap.roadmap_id}>
+                        {resourceRoadmap.name}
+                    </Dropdown.Item>)}
+
+                    {!!isRoadmapNew && <Dropdown.Item key={roadmap.roadmap_id} eventKey={roadmap.roadmap_id}>
+                        {roadmap.name}
+                    </Dropdown.Item>}
+                </DropdownButton> :
+                <LoadingBlock/>}
+        </div>
+
     </>
 }

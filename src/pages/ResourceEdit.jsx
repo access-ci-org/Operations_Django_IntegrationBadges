@@ -101,7 +101,7 @@ export default function ResourceEdit() {
         }
     };
     const handleNext = async () => {
-        if (wizardIndex === 3) {
+        if (wizardIndex === 2) {
             await handleSave();
         } else {
             setWizardIndex(wizardIndex + 1);
@@ -119,13 +119,13 @@ export default function ResourceEdit() {
                 <RoadmapSelectionConfirmation resourceId={resourceId}
                                               roadmapId={roadmapId} prev={handlePrev} next={handleNext}/>}
 
-            {wizardIndex === 2 &&
-                <BadgeSelection resourceId={resourceId} roadmapId={roadmapId}
-                                selected={(badgeId) => selectedBadgeIdMap[badgeId]}
-                                toggle={(badgeId) => toggleBadgeSelection({badgeId})}
-                                prev={handlePrev} next={handleNext}/>}
+            {/*{wizardIndex === 2 &&*/}
+            {/*    <BadgeSelection resourceId={resourceId} roadmapId={roadmapId}*/}
+            {/*                    selected={(badgeId) => selectedBadgeIdMap[badgeId]}*/}
+            {/*                    toggle={(badgeId) => toggleBadgeSelection({badgeId})}*/}
+            {/*                    prev={handlePrev} next={handleNext}/>}*/}
 
-            {wizardIndex === 3 &&
+            {wizardIndex === 2 &&
                 <BadgeSelectionConfirmation resourceId={resourceId}
                                             roadmapId={roadmapId}
                                             selected={(badgeId) => selectedBadgeIdMap[badgeId]}
