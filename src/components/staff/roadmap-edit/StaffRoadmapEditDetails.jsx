@@ -138,6 +138,10 @@ export function StaffRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
             <div className="col-sm-7">{roadmapInputFields.name}</div>
         </div>
         <div className="mb-3 row">
+            <Form.Label className="col-sm-5">Executive Summary</Form.Label>
+            <div className="col-sm-7">{roadmapInputFields.executive_summary}</div>
+        </div>
+        <div className="mb-3 row">
             <Form.Label className="col-sm-5">Image</Form.Label>
             <div className="col-sm-7 d-flex flex-row">
                 {roadmapInputFields.graphic((open, isDragAccept) => <div
@@ -162,10 +166,6 @@ export function StaffRoadmapEditDetailsV2({roadmapData, setRoadmapData}) {
                     </div>
                 </div>)}
             </div>
-        </div>
-        <div className="mb-3 row">
-            <Form.Label className="col-sm-5">Executive Summary</Form.Label>
-            <div className="col-sm-7">{roadmapInputFields.executive_summary}</div>
         </div>
         <div className="mb-3 row">
             <Form.Label className="col-sm-5">Infrastructure Type</Form.Label>

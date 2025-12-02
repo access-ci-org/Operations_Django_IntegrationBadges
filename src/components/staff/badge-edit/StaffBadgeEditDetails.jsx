@@ -147,6 +147,34 @@ export function StaffBadgeEditDetailsV2({badgeData, setBadgeData}) {
             <div className="col-sm-7">{badgeInputFields.resource_provider_summary}</div>
         </div>
 
+
+        <div className="mb-3 row">
+            <Form.Label className="col-sm-5">Image</Form.Label>
+            <div className="col-sm-7 d-flex flex-row">
+                {badgeInputFields.graphic((open, isDragAccept) => <div
+                    className={`w-100 d-flex flex-row p-2 rounded-2 border border-1 border-style-dashed ${isDragAccept ? "bg-light" : "border-white"}`}>
+                    <div className="align-content-start pe-3">
+                        <div className="overflow-hidden" style={{width: "100px", height: "100px"}}>
+                            {!badgeData.graphic || badgeData.graphic.length === 0 ?
+                                <i className="bi bi-image text-medium d-inline-flex" style={{fontSize: "90px"}}></i> :
+                                <div className="w-100 h-100 border border-1 border-gray-200">
+                                    <img className="w-100" src={badgeData.graphic} alt="Roadmap graphic preview"/>
+                                </div>}
+                        </div>
+                    </div>
+                    <div className="flex-fill text-center" style={{maxWidth: "250px"}}>
+                        <p className="w-100 text-center mb-0">
+                            Drag and Drop to Upload Image <br/>
+                            or
+                        </p>
+                        <button className="btn btn-gray-200 text-decoration-underline" onClick={open}>
+                            Browse Device
+                        </button>
+                    </div>
+                </div>)}
+            </div>
+        </div>
+
         <div className="mb-3 row">
             <Form.Label className="col-sm-5">Verification Method</Form.Label>
             <div className="col-sm-7">{badgeInputFields.verification_method}</div>
